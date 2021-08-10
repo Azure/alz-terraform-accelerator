@@ -2,10 +2,11 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = ">= 2.41.0"
+      version = ">= 2.66.0"
       configuration_aliases = [
         azurerm.core,
         azurerm.management,
+        azurerm.connectivity,
       ]
     }
     time = {

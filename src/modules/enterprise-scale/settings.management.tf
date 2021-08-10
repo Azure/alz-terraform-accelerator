@@ -39,9 +39,7 @@ locals {
     }
 
     location = local.management_resources_location
-    tags = {
-      deployedBy = "terraform/azure/caf-enterprise-scale"
-    }
+    tags     = null
     advanced = null
   }
 }

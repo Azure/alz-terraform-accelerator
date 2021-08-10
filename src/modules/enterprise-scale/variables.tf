@@ -27,6 +27,24 @@ variable "deploy_demo_landing_zones" {
   description = "If set to true, will deploy the demo landing zones in addition to any core and custom landing zones."
 }
 
+variable "deploy_corp_landing_zones" {
+  type        = bool
+  default     = false
+  description = "If set to true, will deploy the \"Corp\" landing zones in addition to any core and custom landing zones."
+}
+
+variable "deploy_online_landing_zones" {
+  type        = bool
+  default     = false
+  description = "If set to true, will deploy the \"Online\" landing zones in addition to any core and custom landing zones."
+}
+
+variable "deploy_sap_landing_zones" {
+  type        = bool
+  default     = false
+  description = "If set to true, will deploy the \"SAP\" landing zones in addition to any core and custom landing zones."
+}
+
 variable "deploy_management_resources" {
   type        = bool
   default     = false
@@ -37,6 +55,18 @@ variable "management_resources_location" {
   type        = string
   default     = "eastus"
   description = "Sets the location to use for management resources."
+}
+
+variable "deploy_connectivity_resources" {
+  type        = bool
+  default     = false
+  description = "If set to true, will deploy the connectivity resources in the Subscription assigned as the Connectivity landing zone."
+}
+
+variable "connectivity_resources_location" {
+  type        = string
+  default     = "eastus"
+  description = "Sets the location to use for connectivity resources."
 }
 
 variable "security_contact_email_address" {

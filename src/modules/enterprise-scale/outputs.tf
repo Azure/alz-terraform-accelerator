@@ -5,16 +5,14 @@
 
 output "resource_ids" {
   value = {
-    core = {
-      for key, value in module.es_core :
-      key => {
-        enterprise_scale = keys(value.enterprise_scale)
-      }
-    }
-    management = {
-      for key, value in module.es_mgmt :
-      key => {
-        enterprise_scale = keys(value.enterprise_scale)
+    for module_name, module_output in {
+      es = module.es
+    } :
+    module_name => {
+      for resource_type, resource_instances in module_output :
+      resource_type => {
+        for resource_name, resource_configs in resource_instances :
+        resource_name => keys(resource_configs)
       }
     }
   }

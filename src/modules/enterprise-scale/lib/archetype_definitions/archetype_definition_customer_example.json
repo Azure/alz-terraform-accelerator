@@ -1,5 +1,5 @@
 {
-    "customer_online": {
+    "customer_example": {
         "policy_assignments": [
             "Deny-Resource-Locations",
             "Deny-RSG-Locations"
