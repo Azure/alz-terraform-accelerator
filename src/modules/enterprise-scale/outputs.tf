@@ -6,7 +6,7 @@
 output "resource_ids" {
   value = {
     for module_name, module_output in {
-      es = module.es
+      enterprise_scale = module.enterprise_scale
     } :
     module_name => {
       for resource_type, resource_instances in module_output :
