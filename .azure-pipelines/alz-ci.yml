@@ -20,12 +20,12 @@ trigger:
 
 stages:
 - stage: prod
-  displayName: PoC
+  displayName: Prod
   variables:
   - template: ../environments/prod/variables.yml
   pool: alztf
   jobs:
   - job: plan
-    displayName: Prod - Terraform plan
+    displayName: Prod plan & validate
     steps:
       - template: templates/tf-common-plan-steps.yml

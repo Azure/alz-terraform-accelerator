@@ -20,15 +20,15 @@ variables:
   TF_IN_AUTOMATION: 1
 
 stages:
-- stage: poc
+- stage: prod
   displayName: PoC
   pool: alztf
   variables:
-  - group: alz_environment_poc
+  - template: ../environments/prod/variables.yml
   jobs:
   - deployment: deploy
-    displayName: PoC Deployment
-    environment: poc
+    displayName: Prod deployment
+    environment: prod
     workspace:
       clean: all
     strategy:
