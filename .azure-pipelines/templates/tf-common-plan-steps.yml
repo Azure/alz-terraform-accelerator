@@ -1,0 +1,87 @@
+steps:
+- checkout: self
+  persistCredentials: true
+
+- bash: env | sort
+  displayName: Display env vars
+
+- bash: |
+    terraform init -no-color -input=false -backend-config=backend.hcl
+  displayName: Terraform init
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+- bash: |
+    terraform validate -no-color
+  displayName: Terraform validate
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+- bash: |
+    terraform fmt -check -no-color
+  displayName: Terraform fmt check
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+- bash: |
+    tflint --init --no-color
+  displayName: Tflint init
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+- bash: |
+    tflint
+  displayName: Tflint
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+- bash: |
+    terraform plan \
+      -var-file $(Build.SourcesDirectory)/environments/$(environment)/variables.tfvars \
+      -no-color \
+      -input=false \
+      -out='tfplan' \
+      -detailed-exitcode
+
+    # Store the exist code of the previous command as an output variable
+    echo "##vso[task.setvariable variable=planCode;isOutput=true]$?"
+
+    # If we've created a plan, then convert it to JSON for use in commenting the PR
+    if [ -f ./tfplan ]; then
+      terraform show -json tfplan > tfplan.json
+    fi
+  displayName: Terraform plan
+  name: plan
+  workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+  continueOnError: true # required due to -detailed-exitcode
+
+- bash: |
+    echo "Terraform plan exit code was '1' - review previous step"
+    exit 1
+  displayName: Quit if plan error
+  condition: and(always(), eq(variables['plan.planCode'], '1'))
+
+# Publish the tfplan and Terraform config for the apply stage if we are on a deployment branch
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: $(Build.SourcesDirectory)
+    ArtifactName: tfplan
+  displayName: Publish plan
+  condition: |
+    and(
+      always(),
+      in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI', 'Manual'),
+      in(variables['Build.SourceBranchName'], 'main'),
+      eq(variables['plan.planCode'], '2')
+    )
+
+# If this pipeline is running due to a PR, comment on the PR with planned Terraform changes
+- task: PowerShell@2
+  displayName: 'Comment PR with Terraform Plan'
+  condition: |
+    and(
+      succeeded(),
+      eq(variables['Build.Reason'], 'PullRequest'),
+      in(variables['plan.planCode'], '2', '0')
+    )
+  inputs:
+    filePath: $(Build.SourcesDirectory)/scripts/TerraformAnnotate.ps1
+    arguments: -JsonPlanPath ./tfplan.json
+    workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)

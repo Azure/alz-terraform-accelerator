@@ -1,0 +1,29 @@
+# Manual trigger pipeline to force unlock a Terraform backend
+#
+# Make sure to supply the queue time variable 'LOCK_ID' set to the UUID of the lock to remove
+
+name: tf-force-unlock
+
+trigger: none
+
+variables:
+  ARM_USE_MSI: 1
+  skipComponentGovernanceDetection: true
+  TF_IN_AUTOMATION: 1
+
+jobs:
+- job: forceunlock
+  displayName: Force unlock
+  pool: alztf
+  steps:
+  - checkout: self
+
+  - bash: |
+      terraform init -no-color -input=false -backend-config=backend.hcl
+    displayName: Terraform init
+    workingDirectory: $(Build.SourcesDirectory)/modules/alz_root
+
+  - script: |
+      terraform force-unlock -force $LOCK_ID
+    displayName: Terraform force unlock
+    workingDirectory: $(Build.SourcesDirectory)/modules/alz_root

@@ -1,0 +1,13 @@
+steps:
+- bash: env | sort
+  displayName: Display env vars
+
+- bash: |
+    find . -not -iname *.json -type f | xargs chmod ug+x
+  displayName: Set exec bit on plugins
+  workingDirectory: $(Agent.BuildDirectory)/artifact/$(artifactName)/modules/alz_root/.terraform/providers
+
+- bash: |
+    terraform apply -no-color -input=false 'tfplan'
+  displayName: Terraform apply
+  workingDirectory: $(Agent.BuildDirectory)/artifact/$(artifactName)/modules/alz_root

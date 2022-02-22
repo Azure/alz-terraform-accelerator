@@ -1,0 +1,9 @@
+container_name         = "alztf"
+key                    = "alztf.prod.tfstate"
+resource_group_name    = "rg-alztf-289371"
+storage_account_name   = "stgalztf289371"
+subscription_id        = "b94d816d-8d05-4a25-a43b-921723a0225e"
+tenant_id              = "a122f387-1ac6-4ed4-82c6-ab588f05a546"
+use_azuread_auth       = true
+use_microsoft_graph    = true
+use_msi                = true
