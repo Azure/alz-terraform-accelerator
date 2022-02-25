@@ -24,15 +24,15 @@ jobs:
       AZURE_TENANT_ID: 00000000-0000-0000-0000-000000000000
     environment: prod
     steps:
-      - name: Azure login
-        uses: azure/login@v1
-        with:
-          client-id: ${{ env.AZURE_CLIENT_ID }}
-          tenant-id: ${{ env.AZURE_TENANT_ID }}
-          allow-no-subscriptions: true
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ env.AZURE_CLIENT_ID }}
+        tenant-id: ${{ env.AZURE_TENANT_ID }}
+        allow-no-subscriptions: true
 
-      - name: Terraform plan composite action
-        uses: ./.github/actions/tf-common-plan.yml
-        with:
-          tf-root-dir: /modules/alz_root
-          tf-version: 1.1.6
+    - name: Terraform plan composite action
+      uses: ./.github/actions/tf-common-plan.yml
+      with:
+        tf-root-dir: /modules/alz_root
+        tf-version: 1.1.6
