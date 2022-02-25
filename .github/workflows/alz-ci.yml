@@ -1,0 +1,37 @@
+name: alz-ci
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+env:
+  TF_IN_AUTOMATION: 1
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  prod:
+    runs-on: ubuntu-20.04
+    env:
+      AZURE_CLIENT_ID: 00000000-0000-0000-0000-000000000000
+      AZURE_TENANT_ID: 00000000-0000-0000-0000-000000000000
+    environment: prod
+    steps:
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          client-id: 00000000-0000-0000-0000-000000000000
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      - name: Terraform plan composite action
+        uses: ./.github/actions/tf-common-plan.yml
+        with:
+          tf-root-dir: /modules/alz_root
+          tf-version: 1.1.6

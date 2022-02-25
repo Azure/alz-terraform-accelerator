@@ -1,0 +1,105 @@
+name: Terraform Plan
+description: Common steps for Terraform validation and plan
+inputs:
+  environment:
+    description: Environment
+    required: true
+  tf-root-dir:  # id of input
+    description: 'Terraform root directory'
+    required: true
+    default: /
+  tf-version:
+    description: Terraform version
+    required: true
+  tflint-version:
+    description: TFLint version
+    required: false
+    default: latest
+outputs:
+  random-number:
+    description: "Random number"
+    value: ${{ steps.random-number-generator.outputs.random-id }}
+runs:
+  using: composite
+  steps:
+  - uses: actions/checkout@v2
+
+  - uses: hashicorp/setup-terraform@v1
+    with:
+      terraform_version: ${{ inputs.tf-version}}
+
+  - uses: terraform-linters/setup-tflint@v1
+    with:
+      tflint_version: ${{ inputs.tflint-version }}
+
+  - name: Display environment variables
+    run: env | sort
+
+  - name: Terraform init
+    run: |
+      terraform init -no-color -input=false -backend-config=backend.hcl
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Terraform validate
+    run: |
+      terraform validate -no-color
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Terraform fmt check
+    run: |
+      terraform fmt -check -no-color
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Terraform fmt check
+    run: |
+      tflint --init --no-color
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: TFLint init
+    run: |
+      tflint --init --no-color
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: TFLint
+    run: |
+      tflint
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Terraform plan
+    id: plan
+    run: |
+      terraform plan \
+        -var-file environments/${{ inputs.environment }}/variables.tfvars \
+        -no-color \
+        -input=false \
+        -out=tfplan \
+        -detailed-exitcode
+    continue-on-error: true
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Check for plan error
+    run: |
+      echo "Terraform plan exit code was '1' - review previous step"
+      exit 1
+    if: always() && steps.plan.outputs.exitcode == '1'
+
+  - name: Terraform show
+    run: |
+      terraform show -json tfplan > tfplan.json
+    if: steps.plan.outputs.exitcode == '2'
+    working-directory: ${{ inputs.tf-root-dir }}
+
+  - name: Upload artifact
+    uses: actions/upload-artifact@v2
+    with:
+      name: tfplan
+      path: |
+        ${{ github.workspace }}
+        !${{ github.workspace }}/.git/**
+    if: steps.plan.outputs.exitcode == '2'
+
+  - name: Comment PR with plan summary
+    run: |
+      ${{ github.workspace}}/scripts/TerraformAnnotate.ps1 -JsonPlanPath ./tfplan.json
+    shell: pwsh
+    working-directory: ${{ inputs.tf-root-dir }}
