@@ -27,7 +27,7 @@ jobs:
       - name: Azure login
         uses: azure/login@v1
         with:
-          client-id: 00000000-0000-0000-0000-000000000000
+          client-id: ${{ env.AZURE_CLIENT_ID }}
           tenant-id: ${{ env.AZURE_TENANT_ID }}
           allow-no-subscriptions: true
 
