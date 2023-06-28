@@ -1,0 +1,92 @@
+name: ci-cd
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types: ['opened', 'reopened', 'synchronize', 'labeled']
+    branches:
+      - main
+
+env:
+  TF_IN_AUTOMATION: 1
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  ci:
+    runs-on: ubuntu-22.04
+    environment: prod
+    outputs:
+      plan-exitcode: ${{ steps.plan.outputs.plan-exitcode }}
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        allow-no-subscriptions: true
+
+    # Checkout default branch for all event bar pull_request_target
+    - uses: actions/checkout@v3
+      if: github.event_name != 'pull_request_target'
+
+    # Checkout PR head for pull_request_target
+    - uses: actions/checkout@v3
+      if: github.event_name == 'pull_request_target'
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        persist-credentials: false
+
+    # This is a terrible hack but this is due to the fact that AZURE_TENANT_ID is required,
+    # it allows MSI to be tried for authentication. As GitHub actions runners are in Azure, this fails.
+    # This only works on Linux based runners
+    - name: iptables block MSI endpoint
+      run: sudo iptables -I OUTPUT --destination 169.254.169.254 -j REJECT
+
+    - name: Terraform plan composite action
+      id: plan
+      uses: ./.github/actions/tf-plan
+      with:
+        arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        tf-root-dir: ${{ github.workspace }}
+        tf-version: ~1.4.0
+
+  cd:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request_target' && needs.ci.outputs.plan-exitcode == '2'
+    needs: ci
+    runs-on: ubuntu-22.04
+    environment: prod-approval
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        allow-no-subscriptions: true
+
+      # This is a terrible hack but this is due to the fact that AZURE_TENANT_ID is required,
+      # it allows MSI to be tried for authentication. As GitHub actions runners are in Azure, this fails.
+      # This only works on Linux based runners
+    - name: iptables block MSI endpoint
+      run: sudo iptables -I OUTPUT --destination 169.254.169.254 -j REJECT
+
+    - uses: actions/checkout@v3
+
+    - name: Terraform apply composite action
+      uses: ./.github/actions/tf-apply
+      with:
+        arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        tf-root-dir: ${{ github.workspace }}
+        tf-version: ~1.4.0
