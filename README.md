@@ -4,6 +4,10 @@ This repository provides an opinionated implementation of the Azure Landing Zone
 
 It is designed to be used as a template to enable you to get started quickly deploying ALZ with Terraform.
 
+## Overview
+
+![Accelerator Process Diagram](.images/Terraform%20ALZ%20Accelerator%20Plan.png)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
