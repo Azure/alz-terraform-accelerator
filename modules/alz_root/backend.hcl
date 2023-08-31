@@ -1,9 +1,0 @@
-container_name         = "alztf"
-key                    = "alztf.tfstate"
-resource_group_name    = "myrg"
-storage_account_name   = "mystgacct"
-subscription_id        = "00000000-0000-0000-0000-000000000000"
-tenant_id              = "00000000-0000-0000-0000-000000000000"
-use_azuread_auth       = true
-use_microsoft_graph    = true
-use_msi                = true
