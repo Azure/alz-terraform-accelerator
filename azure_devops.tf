@@ -5,10 +5,6 @@ locals {
   mi_environments   = local.is_mi ? { for env in var.environments : env => env } : {}
 }
 
-resource "random_pet" "example" {
-
-}
-
 data "azuredevops_project" "example" {
   name = var.azure_devops_project_target
 }

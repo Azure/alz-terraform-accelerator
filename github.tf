@@ -1,7 +1,3 @@
-resource "random_pet" "example" {
-
-}
-
 resource "github_repository" "example" {
   name        = "${var.prefix}-${random_pet.example.id}"
   description = "Example repository ${random_pet.example.id}"
