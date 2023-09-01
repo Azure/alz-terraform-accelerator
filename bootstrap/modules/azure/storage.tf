@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "alz" {
-  name                     = local.resource_names.storage_account
+  name                     = var.storage_account_name
   resource_group_name      = azurerm_resource_group.state.name
   location                 = var.azure_location
   account_tier             = "Standard"
@@ -7,7 +7,7 @@ resource "azurerm_storage_account" "alz" {
 }
 
 resource "azurerm_storage_container" "alz" {
-  name                  = var.environment_name
+  name                  = var.storage_container_name
   storage_account_name  = azurerm_storage_account.alz.name
   container_access_type = "private"
 }

@@ -1,11 +1,22 @@
 data "azurerm_client_config" "current" {}
 data "azurerm_subscription" "current" {}
 
+module "resource_names" {
+  source = "./../modules/resource_names"
+  azure_location = var.azure_location
+  environment_name = var.environment_name
+  service_name = var.service_name
+  postfix_number = var.postfix_number
+  resource_names = var.resource_names
+}
+
+module "azure" {
+  source = "./../modules/azure"
+  create_federated_credential = local.is_github || local.is_azure_devops && local.is_authentication_scheme_workload_identity_federation
+}
+
 module "azure_devops" {
-  source = "./modules/azure_devops"
-  providers = {
-    azuredevops = azuredevops
-  }
+  source = "./../modules/azure_devops"
   count = local.is_azure_devops ? 1 : 0
   access_token = var.version_control_system_access_token
   organization_url = local.azure_devops_url
@@ -22,7 +33,3 @@ module "azure_devops" {
   azure_subscription_name = data.azurerm_subscription.current.display_name
 }
 
-module "github" {
-  source = "./modules/github"
-  count = local.is_github ? 1 : 0
-}

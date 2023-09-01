@@ -1,0 +1,3 @@
+locals {
+    audience = "api://AzureADTokenExchange"
+}

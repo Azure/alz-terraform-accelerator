@@ -45,7 +45,6 @@ variable "resource_names" {
     version_control_system_service_connection = "sc-{{service_name}}-{{environment_name}}"
     version_control_system_environment = "{{service_name}}-{{environment_name}}"
     version_control_system_variable_group = "{{service_name}}-{{environment_name}}"
-    
   }
 }
 
