@@ -21,6 +21,7 @@ variable "location" {
 variable "github_token" {
   type      = string
   sensitive = true
+  default = "random_string"
 }
 
 variable "github_organisation_target" {
@@ -31,6 +32,7 @@ variable "github_organisation_target" {
 variable "azure_devops_token" {
   type      = string
   sensitive = true
+  default = "random_string"
 }
 
 variable "azure_devops_organisation_prefix" {
@@ -40,8 +42,10 @@ variable "azure_devops_organisation_prefix" {
 
 variable "azure_devops_organisation_target" {
   type = string
+  default = "random_string"
 }
 
 variable "azure_devops_project_target" {
   type = string
+  default = "alz"
 }
