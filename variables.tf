@@ -16,34 +16,34 @@ variable "version_control_system_organization" {
   type = string
 }
 
-variable "version_control_system_repository_name" {
-  type = string
-}
-
 variable "azure_location" {
   type    = string
 }
 
-variable "azure_service_name" {
-  type    = string
-}
-
-variable "azure_environment_name" {
+variable "environment_name" {
   type   = string
 }
 
-variable "azure_postfix_number" {
+variable "service_name" {
+  type    = string
+}
+
+variable "postfix_number" {
   type = number
 }
 
-variable "azure_resource_names" {
+variable "resource_names" {
   type = map(string)
   default = {
-    "resource_group_state" = "rg-{{azure_service_name}}-{{azure_environment_name}}-state-{{azure_location}}-{{azure_postfix_number}}"
-    "resource_group_identity" = "rg-{{azure_service_name}}-{{azure_environment_name}}-identity-{{azure_location}}-{{azure_postfix_number}}"
-    "resource_group_agents" = "rg-{{azure_service_name}}-{{azure_environment_name}}-agents-{{azure_location}}-{{azure_postfix_number}}"
-    "user_assigned_managed_identity" = "id-{{azure_service_name}}-{{azure_environment_name}}-{{azure_location}}-{{azure_postfix_number}}"
-    "storage_account" = "sto{{azure_service_name}}{{azure_environment_name}}{{azure_location_short}}{{azure_postfix_number}}"
+    "resource_group_state" = "rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}"
+    "resource_group_identity" = "rg-{{service_name}}-{{environment_name}}-identity-{{azure_location}}-{{postfix_number}}"
+    "resource_group_agents" = "rg-{{service_name}}-{{environment_name}}-agents-{{azure_location}}-{{postfix_number}}"
+    "user_assigned_managed_identity" = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
+    "user_assigned_managed_identity_federated_credentials" = "Azure Landing Zone Federated Identity Credential" 
+    "storage_account" = "sto{{service_name}}{{environment_name}}{{azure_location_short}}{{postfix_number}}"
+    "version_control_system_repository" = "{{service_name}}-{{environment_name}}"
+    "version_control_system_service_connection" = "sc-{{service_name}}-{{environment_name}}"
+    "version_control_system_environment" = "{{service_name}}-{{environment_name}}"
   }
 }
 
