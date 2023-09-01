@@ -16,7 +16,7 @@ variable "version_control_system_organization" {
   type = string
 }
 
-variable "version_control_repository_name" {
+variable "version_control_system_repository_name" {
   type = string
 }
 
@@ -43,7 +43,7 @@ variable "azure_resource_names" {
     "resource_group_identity" = "rg-{{azure_service_name}}-{{azure_environment_name}}-identity-{{azure_location}}-{{azure_postfix_number}}"
     "resource_group_agents" = "rg-{{azure_service_name}}-{{azure_environment_name}}-agents-{{azure_location}}-{{azure_postfix_number}}"
     "user_assigned_managed_identity" = "id-{{azure_service_name}}-{{azure_environment_name}}-{{azure_location}}-{{azure_postfix_number}}"
-    "storage_account" = "kv-{{azure_service_name}}-{{azure_environment_name}}-{{azure_location}}-{{azure_postfix_number}}"
+    "storage_account" = "sto{{azure_service_name}}{{azure_environment_name}}{{azure_location_short}}{{azure_postfix_number}}"
   }
 }
 

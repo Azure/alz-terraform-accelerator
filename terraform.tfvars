@@ -2,7 +2,7 @@
 version_control_system = "github"
 version_control_system_access_token = "madeupstring"
 version_control_system_organization = "alz"
-version_control_repository_name = "value"
+version_control_system_repository_name = "value"
 
 # Azure Variables
 azure_location = "uksouth"
