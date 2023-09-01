@@ -30,10 +30,6 @@ provider "azurerm" {
 provider "azuread" {
 }
 
-locals {
-  azure_devops_url = var.azure_devops_use_organisation_legacy_url ? "https://dev.azure.com/${var.version_control_system_organization}" : "https://${var.version_control_system_organization}.visualstudio.com"
-}
-
 provider "azuredevops" {
   personal_access_token = var.version_control_system_access_token
   org_service_url       = local.azure_devops_url

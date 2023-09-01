@@ -6,6 +6,11 @@ locals {
   is_azure_devops = var.version_control_system == local.azure_devops
 }
 
+# Azure DevOps URL Settings
+locals {
+  azure_devops_url = var.azure_devops_use_organisation_legacy_url ? "https://dev.azure.com/${var.version_control_system_organization}" : "https://${var.version_control_system_organization}.visualstudio.com"
+}
+
 # Workload Identity Federation (OpenID Connect) Settings
 locals {
   github_issuer     = "https://token.actions.githubusercontent.com"
