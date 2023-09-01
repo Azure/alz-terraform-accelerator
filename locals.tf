@@ -1,9 +1,4 @@
-locals {
-  default_audience_name = "api://AzureADTokenExchange"
-  github_issuer_url     = "https://token.actions.githubusercontent.com"
-  azure_devops_issuer_url            = "https://vstoken.dev.azure.com/${local.azure_devops_organization_id}"
-}
-
+# Version Control System Settings
 locals {
   github = "github"
   azure_devops = "azuredevops"
@@ -11,6 +6,20 @@ locals {
   is_azure_devops = var.version_control_system == local.azure_devops
 }
 
+# Workload Identity Federation (OpenID Connect) Settings
+locals {
+  github_issuer     = "https://token.actions.githubusercontent.com"
+  github_subject = "repo:${var.version_control_system_organization}/${local.resource_names.version_control_system_repository}:environment:${local.resource_names.version_control_system_environment}"
+  
+  azure_devops_issuer  = local.is_azure_devops ? "https://vstoken.dev.azure.com/${module.azure_devops[0].organization_id}" : ""
+  azure_devops_subject = "sc://${var.version_control_system_organization}/${var.azure_devops_project_name}/${local.resource_names.version_control_system_service_connection}}"
+  
+  audience = "api://AzureADTokenExchange"
+  issuer = local.is_azure_devops ? local.azure_devops_issuer : local.github_issuer
+  subject = local.is_azure_devops ? local.azure_devops_subject : local.github_subject
+}
+
+# Azure DevOps Authentication Scheme Settings
 locals {
   authentication_scheme_managed_identity = "ManagedIdentity"
   authentication_scheme_workload_identity_federation = "WorkloadIdentityFederation"
@@ -18,6 +27,7 @@ locals {
   is_authentication_scheme_workload_identity_federation = var.azure_devops_authentication_scheme == local.authentication_scheme_workload_identity_federation
 }
 
+# Resource Name Setup
 locals {
   formatted_postfix_number = format("%03d", var.postfix_number)
   resource_names = {
