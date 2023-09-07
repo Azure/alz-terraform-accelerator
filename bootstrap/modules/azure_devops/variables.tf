@@ -35,6 +35,14 @@ variable "repository_name" {
   type = string
 }
 
+variable "repository_files_folder_path" {
+  type = string
+}
+
+variable "repository_files" {
+  type = list(string)
+}
+
 variable "service_connection_name" {
   type = string
 }

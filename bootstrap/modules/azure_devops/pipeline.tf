@@ -2,11 +2,11 @@ locals {
     pipelines = {
         ci = {
             name = "Azure Landing Zone Continuous Integration"
-            yml_path = "pipelines/ci.yml"
+            yml_path = ".azuredevops/ci.yml"
         }
         cd = {
             name = "Azure Landing Zone Continuous Delivery"
-            yml_path = "pipelines/cd.yml"
+            yml_path = ".azuredevops/cd.yml"
         }
     }
 }
@@ -45,6 +45,8 @@ resource "azuredevops_pipeline_authorization" "alz_service_connection" {
 }
 
 resource "azuredevops_branch_policy_build_validation" "alz" {
+  depends_on = [ azuredevops_git_repository_file.alz ]
+
   project_id = local.project_id
 
   enabled  = true

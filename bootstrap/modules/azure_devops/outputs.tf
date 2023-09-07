@@ -1,7 +1,7 @@
 output "subject" {
-    value = "sc://${var.organization_name}/${var.project_name}/${azuredevops_serviceendpoint_azurerm.alz.service_endpoint_name}"
+    value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz.workload_identity_federation_subject : ""
 }
 
 output "issuer" {
-    value = "https://vstoken.dev.azure.com/${local.azure_devops_organization_id}"
+    value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz.workload_identity_federation_issuer : ""
 }

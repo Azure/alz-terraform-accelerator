@@ -7,6 +7,10 @@ variable "version_control_system_organization" {
   type = string
 }
 
+variable "version_control_system_repository_template_path" {
+  type = string
+}
+
 variable "azure_location" {
   type    = string
 }
@@ -30,7 +34,7 @@ variable "resource_names" {
     resource_group_identity = "rg-{{service_name}}-{{environment_name}}-identity-{{azure_location}}-{{postfix_number}}"
     resource_group_agents = "rg-{{service_name}}-{{environment_name}}-agents-{{azure_location}}-{{postfix_number}}"
     user_assigned_managed_identity = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
-    user_assigned_managed_identity_federated_credentials = "Azure Landing Zone Federated Identity Credential" 
+    user_assigned_managed_identity_federated_credentials = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}" 
     storage_account = "sto{{service_name}}{{environment_name}}{{azure_location_short}}{{postfix_number}}"
     storage_container = "{{environment_name}}-tfstate"
     version_control_system_repository = "{{service_name}}-{{environment_name}}"

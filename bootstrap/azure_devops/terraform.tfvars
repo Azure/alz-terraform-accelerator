@@ -6,6 +6,7 @@ postfix_number = 1
 # Version Control System Variables
 version_control_system_access_token = "madeupstring"
 version_control_system_organization = "alz"
+version_control_system_repository_template_path = "../../repository_template"
 
 # Azure Variables
 azure_location = "uksouth"

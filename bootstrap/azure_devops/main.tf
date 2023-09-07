@@ -26,6 +26,20 @@ module "azure" {
   user_assigned_managed_identity_name = local.resource_names.user_assigned_managed_identity
 }
 
+locals {
+  template_folder_path = abspath("${path.module}/${var.version_control_system_repository_template_path}")
+}
+
+module "files" {
+  source = "./../modules/files"
+  folder_path = local.template_folder_path
+  exclusions = [ ".github" ]
+}
+
+output "files" {
+  value = module.files.files
+}
+
 module "azure_devops" {
   source = "./../modules/azure_devops"
   access_token = var.version_control_system_access_token
@@ -36,6 +50,8 @@ module "azure_devops" {
   project_name = var.azure_devops_project_name
   environment_name = local.resource_names.version_control_system_environment
   repository_name = local.resource_names.version_control_system_repository
+  repository_files = module.files.files
+  repository_files_folder_path = local.template_folder_path
   service_connection_name = local.resource_names.version_control_system_service_connection
   variable_group_name = local.resource_names.version_control_system_variable_group
   managed_identity_client_id = module.azure.user_assigned_managed_identity_client_id
