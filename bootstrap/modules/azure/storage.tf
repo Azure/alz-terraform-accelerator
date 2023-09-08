@@ -4,6 +4,7 @@ resource "azurerm_storage_account" "alz" {
   location                 = var.azure_location
   account_tier             = "Standard"
   account_replication_type = "GRS"
+  allow_nested_items_to_be_public = true
 }
 
 resource "azurerm_storage_container" "alz" {

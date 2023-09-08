@@ -11,8 +11,8 @@ variable "authentication_scheme" {
   }
 }
 
-variable "organization_url" {
-    type = string
+variable "use_legacy_organization_url" {
+    type = bool
 }
 
 variable "organization_name" {
@@ -55,9 +55,14 @@ variable "variable_group_name" {
   type = string
 }
 
+variable "agent_pool_name" {
+  type = string
+}
+
 variable "managed_identity_client_id" {
   type = string
 }
+
 variable "azure_tenant_id" {
   type = string
 }

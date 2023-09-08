@@ -12,6 +12,7 @@ starter_module = "basic"
 
 # Azure Variables
 azure_location = "uksouth"
+agent_container_image = "jaredfholgate/azure-devops-agent:0.0.3"
 
 # Azure DevOps Specific Variables
 azure_devops_use_organisation_legacy_url = false

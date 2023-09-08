@@ -44,6 +44,14 @@ resource "azuredevops_pipeline_authorization" "alz_service_connection" {
   pipeline_id = azuredevops_build_definition.alz[each.key].id
 }
 
+resource "azuredevops_pipeline_authorization" "alz" {
+  for_each    = local.pipelines
+  project_id  = local.project_id
+  resource_id = azuredevops_agent_queue.alz.id
+  type        = "queue"
+  pipeline_id = azuredevops_build_definition.alz[each.key].id
+}
+
 resource "azuredevops_branch_policy_build_validation" "alz" {
   project_id = local.project_id
 

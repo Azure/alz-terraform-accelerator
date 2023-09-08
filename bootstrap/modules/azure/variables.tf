@@ -45,3 +45,31 @@ variable "storage_account_name" {
 variable "storage_container_name" {
     type    = string
 }
+
+variable "create_agents" {
+    type    = bool
+}
+
+variable "agent_container_instances" {
+    type    = map(object({
+        container_instance_name = string
+        agent_name = string
+    }))
+}
+
+variable "agent_container_instance_image" {
+    type    = string
+}
+
+variable "agent_pool_name" {
+    type    = string
+}
+
+variable "agent_organization_url" {
+    type    = string
+}
+
+variable "agent_token" {    
+    type    = string
+    sensitive = true
+}
