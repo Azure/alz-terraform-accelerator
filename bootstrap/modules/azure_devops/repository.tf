@@ -2,6 +2,7 @@ resource "azuredevops_git_repository" "alz" {
   depends_on = [azuredevops_environment.alz_plan, azuredevops_environment.alz_apply]
   project_id = local.project_id
   name       = var.repository_name
+  default_branch = "refs/heads/main"
   initialization {
     init_type   = "Clean"
   }
