@@ -28,10 +28,18 @@ resource "azuredevops_build_definition" "alz" {
   }
 }
 
-resource "azuredevops_pipeline_authorization" "alz_environment" {
+resource "azuredevops_pipeline_authorization" "alz_environment_plan" {
   for_each    = local.pipelines
   project_id  = local.project_id
-  resource_id = azuredevops_environment.alz.id
+  resource_id = azuredevops_environment.alz_plan.id
+  type        = "environment"
+  pipeline_id = azuredevops_build_definition.alz[each.key].id
+}
+
+resource "azuredevops_pipeline_authorization" "alz_environment_apply" {
+  for_each    = local.pipelines
+  project_id  = local.project_id
+  resource_id = azuredevops_environment.alz_apply.id
   type        = "environment"
   pipeline_id = azuredevops_build_definition.alz[each.key].id
 }

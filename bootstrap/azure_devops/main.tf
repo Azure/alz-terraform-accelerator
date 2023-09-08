@@ -69,7 +69,8 @@ module "azure_devops" {
   authentication_scheme = var.azure_devops_authentication_scheme
   create_project = var.azure_devops_create_project
   project_name = var.azure_devops_project_name
-  environment_name = local.resource_names.version_control_system_environment
+  environment_name_plan = local.resource_names.version_control_system_environment_plan
+  environment_name_apply = local.resource_names.version_control_system_environment_apply
   repository_name = local.resource_names.version_control_system_repository
   repository_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
   service_connection_name = local.resource_names.version_control_system_service_connection
@@ -81,5 +82,8 @@ module "azure_devops" {
   pipeline_ci_file = ".azuredevops/ci.yaml"
   pipeline_cd_file = ".azuredevops/cd.yaml" 
   agent_pool_name = local.resource_names.version_control_system_agent_pool
+  backend_azure_resource_group_name = local.resource_names.resource_group_state
+  backend_azure_storage_account_name = local.resource_names.storage_account
+  backend_azure_storage_account_container_name = local.resource_names.storage_container
 }
 

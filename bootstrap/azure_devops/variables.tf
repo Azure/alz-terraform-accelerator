@@ -51,7 +51,8 @@ variable "resource_names" {
     agent_02 = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_one}}"
     version_control_system_repository = "{{service_name}}-{{environment_name}}"
     version_control_system_service_connection = "sc-{{service_name}}-{{environment_name}}"
-    version_control_system_environment = "{{service_name}}-{{environment_name}}"
+    version_control_system_environment_plan = "{{service_name}}-{{environment_name}}-plan"
+    version_control_system_environment_apply = "{{service_name}}-{{environment_name}}-apply"
     version_control_system_variable_group = "{{service_name}}-{{environment_name}}"
     version_control_system_agent_pool = "{{service_name}}-{{environment_name}}"
   }

@@ -27,7 +27,11 @@ variable "project_name" {
   type = string
 }
 
-variable "environment_name" {
+variable "environment_name_plan" {
+  type = string
+}
+
+variable "environment_name_apply" {
   type = string
 }
 
@@ -72,5 +76,17 @@ variable "azure_subscription_id" {
 }
 
 variable "azure_subscription_name" {
+  type = string
+}
+
+variable "backend_azure_resource_group_name" {
+  type = string
+}
+
+variable "backend_azure_storage_account_name" {
+  type = string
+}
+
+variable "backend_azure_storage_account_container_name" {
   type = string
 }
