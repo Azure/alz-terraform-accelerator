@@ -1,8 +1,12 @@
+locals {
+  default_branch = "refs/heads/main"
+}
+
 resource "azuredevops_git_repository" "alz" {
   depends_on = [azuredevops_environment.alz_plan, azuredevops_environment.alz_apply]
   project_id = local.project_id
   name       = var.repository_name
-  default_branch = "refs/heads/main"
+  default_branch = local.default_branch
   initialization {
     init_type   = "Clean"
   }
@@ -29,4 +33,5 @@ resource "azuredevops_git_repository_file" "alz" {
   repository_id       = azuredevops_git_repository.alz.id
   file                = each.key
   content             = each.value.content
+  branch = local.default_branch
 }
