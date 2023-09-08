@@ -9,7 +9,7 @@ version_control_system_organization = "alz"
 template_folder_path                = "../../templates"
 ci_cd_module                        = ".ci_cd"
 starter_module                      = "basic"
-apply_approvers = [ ]
+apply_approvers                     = []
 
 # Azure Variables
 azure_location        = "uksouth"

@@ -20,5 +20,5 @@ resource "azuredevops_check_exclusive_lock" "alz" {
   project_id           = local.project_id
   target_resource_id   = azuredevops_serviceendpoint_azurerm.alz.id
   target_resource_type = "endpoint"
-  timeout = 43200
+  timeout              = 43200
 }

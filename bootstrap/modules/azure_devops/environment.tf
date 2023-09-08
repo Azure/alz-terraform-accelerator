@@ -9,6 +9,7 @@ resource "azuredevops_environment" "alz_apply" {
 }
 
 resource "azuredevops_check_approval" "alz" {
+  count                = var.approvers == [] ? 0 : 1
   project_id           = local.project_id
   target_resource_id   = azuredevops_environment.alz_apply.id
   target_resource_type = "environment"
