@@ -1,3 +1,3 @@
 output "files" {
-    value = local.filtered_files
+    value = local.file_map
 }

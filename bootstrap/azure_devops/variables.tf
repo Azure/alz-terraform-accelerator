@@ -7,7 +7,15 @@ variable "version_control_system_organization" {
   type = string
 }
 
-variable "version_control_system_repository_template_path" {
+variable "template_folder_path" {
+  type = string
+}
+
+variable "starter_module" {
+  type = string
+}
+
+variable "ci_cd_module" {
   type = string
 }
 

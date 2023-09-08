@@ -8,8 +8,8 @@ resource "azuredevops_git_repository" "alz" {
 }
 
 resource "azuredevops_git_repository_file" "alz" {
-  for_each =          { for file in var.repository_files : file => file }
+  for_each =          var.repository_files
   repository_id       = azuredevops_git_repository.alz.id
   file                = each.key
-  content             = file("${var.repository_files_folder_path}/${each.key}")
+  content             = file(each.value)
 }

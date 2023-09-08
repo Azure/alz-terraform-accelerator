@@ -6,4 +6,5 @@ variable "folder_path" {
 variable "exclusions" {
     description = "List of files / partial file names to exclude"
     type        = list(string)
+    default = []
 }
