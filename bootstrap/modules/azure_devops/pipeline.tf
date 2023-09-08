@@ -1,18 +1,18 @@
 locals {
-    pipelines = {
-        ci = {
-            name = "Azure Landing Zone Continuous Integration"
-            file = azuredevops_git_repository_file.alz[var.pipeline_ci_file].file
-        }
-        cd = {
-            name = "Azure Landing Zone Continuous Delivery"
-            file = azuredevops_git_repository_file.alz[var.pipeline_cd_file].file
-        }
+  pipelines = {
+    ci = {
+      name = "Azure Landing Zone Continuous Integration"
+      file = azuredevops_git_repository_file.alz[var.pipeline_ci_file].file
     }
+    cd = {
+      name = "Azure Landing Zone Continuous Delivery"
+      file = azuredevops_git_repository_file.alz[var.pipeline_cd_file].file
+    }
+  }
 }
 
 resource "azuredevops_build_definition" "alz" {
-  for_each      = local.pipelines
+  for_each   = local.pipelines
   project_id = local.project_id
   name       = each.value.name
 

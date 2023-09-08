@@ -1,3 +1,3 @@
 locals {
-    audience = "api://AzureADTokenExchange"
+  audience = "api://AzureADTokenExchange"
 }

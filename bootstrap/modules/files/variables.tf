@@ -1,10 +1,10 @@
 variable "folder_path" {
-    description = "Template folder path"
-    type        = string
+  description = "Template folder path"
+  type        = string
 }
 
 variable "exclusions" {
-    description = "List of files / partial file names to exclude"
-    type        = list(string)
-    default = []
+  description = "List of files / partial file names to exclude"
+  type        = list(string)
+  default     = []
 }

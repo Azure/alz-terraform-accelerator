@@ -12,15 +12,15 @@ variable "authentication_scheme" {
 }
 
 variable "use_legacy_organization_url" {
-    type = bool
+  type = bool
 }
 
 variable "organization_name" {
-    type = string
+  type = string
 }
 
 variable "create_project" {
-  type    = bool
+  type = bool
 }
 
 variable "project_name" {

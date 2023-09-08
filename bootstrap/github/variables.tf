@@ -1,5 +1,5 @@
 variable "version_control_system" {
-  type    = string
+  type        = string
   description = "Whether to target github or azuredevops"
   validation {
     condition     = can(regex("^(github|azuredevops)$", var.version_control_system))
@@ -17,15 +17,15 @@ variable "version_control_system_organization" {
 }
 
 variable "azure_location" {
-  type    = string
+  type = string
 }
 
 variable "environment_name" {
-  type   = string
+  type = string
 }
 
 variable "service_name" {
-  type    = string
+  type = string
 }
 
 variable "postfix_number" {
@@ -35,25 +35,25 @@ variable "postfix_number" {
 variable "resource_names" {
   type = map(string)
   default = {
-    resource_group_state = "rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}"
-    resource_group_identity = "rg-{{service_name}}-{{environment_name}}-identity-{{azure_location}}-{{postfix_number}}"
-    resource_group_agents = "rg-{{service_name}}-{{environment_name}}-agents-{{azure_location}}-{{postfix_number}}"
-    user_assigned_managed_identity = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
-    user_assigned_managed_identity_federated_credentials = "Azure Landing Zone Federated Identity Credential" 
-    storage_account = "sto{{service_name}}{{environment_name}}{{azure_location_short}}{{postfix_number}}"
-    version_control_system_repository = "{{service_name}}-{{environment_name}}"
-    version_control_system_service_connection = "sc-{{service_name}}-{{environment_name}}"
-    version_control_system_environment = "{{service_name}}-{{environment_name}}"
-    version_control_system_variable_group = "{{service_name}}-{{environment_name}}"
+    resource_group_state                                 = "rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}"
+    resource_group_identity                              = "rg-{{service_name}}-{{environment_name}}-identity-{{azure_location}}-{{postfix_number}}"
+    resource_group_agents                                = "rg-{{service_name}}-{{environment_name}}-agents-{{azure_location}}-{{postfix_number}}"
+    user_assigned_managed_identity                       = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
+    user_assigned_managed_identity_federated_credentials = "Azure Landing Zone Federated Identity Credential"
+    storage_account                                      = "sto{{service_name}}{{environment_name}}{{azure_location_short}}{{postfix_number}}"
+    version_control_system_repository                    = "{{service_name}}-{{environment_name}}"
+    version_control_system_service_connection            = "sc-{{service_name}}-{{environment_name}}"
+    version_control_system_environment                   = "{{service_name}}-{{environment_name}}"
+    version_control_system_variable_group                = "{{service_name}}-{{environment_name}}"
   }
 }
 
 variable "azure_devops_use_organisation_legacy_url" {
-  type    = bool
+  type = bool
 }
 
 variable "azure_devops_create_project" {
-  type    = bool
+  type = bool
 }
 
 variable "azure_devops_project_name" {

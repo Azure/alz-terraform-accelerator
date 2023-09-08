@@ -1,13 +1,13 @@
 variable "azure_location" {
-  type    = string
+  type = string
 }
 
 variable "environment_name" {
-  type   = string
+  type = string
 }
 
 variable "service_name" {
-  type    = string
+  type = string
 }
 
 variable "postfix_number" {

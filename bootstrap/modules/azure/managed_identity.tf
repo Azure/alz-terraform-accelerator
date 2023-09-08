@@ -5,7 +5,7 @@ resource "azurerm_user_assigned_identity" "alz" {
 }
 
 resource "azurerm_federated_identity_credential" "alz" {
-  count = var.create_federated_credential ? 1 : 0
+  count               = var.create_federated_credential ? 1 : 0
   name                = var.federated_credential_name
   resource_group_name = azurerm_resource_group.identity.name
   audience            = [local.audience]

@@ -25,9 +25,9 @@ resource "azurerm_container_group" "alz" {
     }
 
     environment_variables = {
-      AZP_URL            = var.agent_organization_url
-      AZP_POOL           = var.agent_pool_name
-      AZP_AGENT_NAME     = each.value.agent_name
+      AZP_URL        = var.agent_organization_url
+      AZP_POOL       = var.agent_pool_name
+      AZP_AGENT_NAME = each.value.agent_name
     }
 
     secure_environment_variables = {
