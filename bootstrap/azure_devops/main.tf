@@ -58,5 +58,7 @@ module "azure_devops" {
   azure_tenant_id = data.azurerm_client_config.current.tenant_id
   azure_subscription_id = data.azurerm_client_config.current.subscription_id
   azure_subscription_name = data.azurerm_subscription.current.display_name
+  pipeline_ci_file = ".azuredevops/ci.yaml"
+  pipeline_cd_file = ".azuredevops/cd.yaml" 
 }
 

@@ -43,6 +43,14 @@ variable "repository_files" {
   type = list(string)
 }
 
+variable "pipeline_ci_file" {
+  type = string
+}
+
+variable "pipeline_cd_file" {
+  type = string
+}
+
 variable "service_connection_name" {
   type = string
 }
