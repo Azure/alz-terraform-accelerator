@@ -4,11 +4,11 @@ trigger:
 lockBehavior: sequential
 stages:  
 - stage: plan
-  displayName: Plan and Apply
+  displayName: Plan
   variables:
     - group: ${variable_group_name}
   jobs:
-    - deployment: planandapply
+    - deployment: plan
       displayName: Plan with Terraform
       pool: 
         ${agent_pool_configuration}
@@ -44,8 +44,13 @@ stages:
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
                 ARM_USE_AZUREAD: true
+- stage: apply
+  displayName: Apply
+  dependsOn: plan
+  variables:
+    - group: ${variable_group_name}
+  jobs:
     - deployment: apply
-      dependsOn: plan
       displayName: Apply with Terraform
       pool: 
         ${agent_pool_configuration}
