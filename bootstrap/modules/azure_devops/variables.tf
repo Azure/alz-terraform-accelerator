@@ -90,3 +90,7 @@ variable "backend_azure_storage_account_name" {
 variable "backend_azure_storage_account_container_name" {
   type = string
 }
+
+variable "approvers" {
+  type = list(string)
+}

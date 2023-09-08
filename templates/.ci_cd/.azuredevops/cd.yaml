@@ -1,6 +1,7 @@
 trigger: 
 - main
 
+lockBehavior: sequential
 stages:  
 - stage: plan
   displayName: Plan and Apply
@@ -26,7 +27,7 @@ stages:
               displayName: Terraform Init
               inputs:
                 provider: 'azurerm'
-                command: 'plan'
+                command: 'init'
                 backendServiceArm: '${service_connection_name}'
                 backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
                 backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
@@ -44,6 +45,7 @@ stages:
               env:
                 ARM_USE_AZUREAD: true
     - deployment: apply
+      dependsOn: plan
       displayName: Apply with Terraform
       pool: 
         ${agent_pool_configuration}

@@ -85,5 +85,6 @@ module "azure_devops" {
   backend_azure_resource_group_name            = local.resource_names.resource_group_state
   backend_azure_storage_account_name           = local.resource_names.storage_account
   backend_azure_storage_account_container_name = local.resource_names.storage_container
+  approvers = var.apply_approvers
 }
 

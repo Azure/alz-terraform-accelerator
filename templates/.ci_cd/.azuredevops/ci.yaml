@@ -1,13 +1,14 @@
 trigger: 
 - none
 
+lockBehavior: sequential
 stages:
 - stage: validate
   displayName: Validation Terraform
   variables:
     - group: ${variable_group_name}
   jobs:
-    - job: 
+    - job: validate
       displayName: Validate Terraform
       pool:
         vmImage: ubuntu-latest
@@ -20,10 +21,10 @@ stages:
         displayName: Terraform Format Check
       - pwsh: terraform init -backend=false
         displayName: Terraform Init
-
       - pwsh: terraform validate
         displayName: Terraform Validate
     - deployment: plan
+      dependsOn: validate
       displayName: Validate Terraform Plan
       pool: 
         ${agent_pool_configuration}
@@ -51,7 +52,7 @@ stages:
               env:
                 ARM_USE_AZUREAD: true
             - task: TerraformTaskV4@4
-              displayName: Terraform Phan
+              displayName: Terraform Plan
               inputs:
                 provider: 'azurerm'
                 command: 'plan'

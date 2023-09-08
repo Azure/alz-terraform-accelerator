@@ -19,6 +19,10 @@ variable "ci_cd_module" {
   type = string
 }
 
+variable "starter_module_variables" {
+  type = string
+}
+
 variable "azure_location" {
   type = string
 }
@@ -80,4 +84,8 @@ variable "azure_devops_authentication_scheme" {
 
 variable "agent_container_image" {
   type = string
+}
+
+variable "apply_approvers" {
+  type = list(string)
 }
