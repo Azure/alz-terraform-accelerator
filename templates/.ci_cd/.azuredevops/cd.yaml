@@ -44,6 +44,11 @@ stages:
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
                 ARM_USE_AZUREAD: true
+            - task: PublishPipelineArtifact@1
+              inputs:
+                targetPath: '$(Build.SourcesDirectory)'
+                artifact: 'module'
+                publishLocation: 'pipeline'
 - stage: apply
   displayName: Apply
   dependsOn: plan
@@ -59,8 +64,12 @@ stages:
         runOnce:
           deploy:
             steps:
-            - checkout: self
-              displayName: Checkout Terraform Module
+            - download: none
+            - task: DownloadPipelineArtifact@2
+              inputs:
+                buildType: 'current'
+                artifactName: 'module'
+                targetPath: '$(Build.SourcesDirectory)'
             - task: TerraformInstaller@0
               displayName: Install Terraform
               inputs:
