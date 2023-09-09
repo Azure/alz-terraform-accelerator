@@ -44,9 +44,21 @@ stages:
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
                 ARM_USE_AZUREAD: true
-            - task: PublishPipelineArtifact@1
+            - task: CopyFiles@2
+              displayName: Create Module Artifact
               inputs:
-                targetPath: '$(Build.SourcesDirectory)'
+                SourceFolder: '$(Build.SourcesDirectory)'
+                Contents: |
+                  *.tf
+                  *.json
+                  tfplan
+                TargetFolder: '$(Build.ArtifactsStagingDirectory)'
+                CleanTargetFolder: true
+                OverWrite: true
+            - task: PublishPipelineArtifact@1
+              displayName: Publish Module Artifact
+              inputs:
+                targetPath: '$(Build.ArtifactsStagingDirectory)'
                 artifact: 'module'
                 publishLocation: 'pipeline'
 - stage: apply
@@ -66,6 +78,7 @@ stages:
             steps:
             - download: none
             - task: DownloadPipelineArtifact@2
+              displayName: Download Module Artifact
               inputs:
                 buildType: 'current'
                 artifactName: 'module'
@@ -91,7 +104,7 @@ stages:
               inputs:
                 provider: 'azurerm'
                 command: 'apply'
-                commandOptions: '-auto-approve'
+                commandOptions: '-auto-approve tfplan'
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
                 ARM_USE_AZUREAD: true
