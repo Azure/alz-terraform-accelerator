@@ -17,13 +17,13 @@ locals {
   repository_files = { for key, value in var.repository_files : key =>
     {
       path = value
-      content = templatefile(value, {
+      content = replace(templatefile(value, {
         agent_pool_configuration = local.agent_pool_configuration
         service_connection_name  = var.service_connection_name
         environment_name_plan    = var.environment_name_plan
         environment_name_apply   = var.environment_name_apply
         variable_group_name      = var.variable_group_name
-      })
+      }), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
     }
   }
 }
