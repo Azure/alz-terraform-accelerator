@@ -21,3 +21,17 @@ resource "azuredevops_check_approval" "alz" {
 
   timeout = 43200
 }
+
+resource "azuredevops_check_exclusive_lock" "alz_plan" {
+  project_id           = local.project_id
+  target_resource_id   = azuredevops_environment.alz_plan.id
+  target_resource_type = "environment"
+  timeout              = 43200
+}
+
+resource "azuredevops_check_exclusive_lock" "alz_apply" {
+  project_id           = local.project_id
+  target_resource_id   = azuredevops_environment.alz_apply.id
+  target_resource_type = "environment"
+  timeout              = 43200
+}

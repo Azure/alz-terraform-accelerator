@@ -15,10 +15,3 @@ resource "azuredevops_serviceendpoint_azurerm" "alz" {
   azurerm_subscription_id   = var.azure_subscription_id
   azurerm_subscription_name = var.azure_subscription_name
 }
-
-resource "azuredevops_check_exclusive_lock" "alz" {
-  project_id           = local.project_id
-  target_resource_id   = azuredevops_serviceendpoint_azurerm.alz.id
-  target_resource_type = "endpoint"
-  timeout              = 43200
-}

@@ -1,7 +1,7 @@
 variable "test_variable_01" {
-    type = string
+  type = string
 }
 
 variable "test_variable_02" {
-    type = number
+  type = number
 }
