@@ -29,9 +29,10 @@ locals {
 }
 
 resource "azuredevops_git_repository_file" "alz" {
-  for_each      = local.repository_files
-  repository_id = azuredevops_git_repository.alz.id
-  file          = each.key
-  content       = each.value.content
-  branch        = local.default_branch
+  for_each            = local.repository_files
+  repository_id       = azuredevops_git_repository.alz.id
+  file                = each.key
+  content             = each.value.content
+  branch              = local.default_branch
+  overwrite_on_create = true
 }
