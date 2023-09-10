@@ -1,4 +1,4 @@
-# Project
+# Terraform Azure Landing Zone Accelerator
 
 | :warning: WARNING          |
 |:---------------------------|
