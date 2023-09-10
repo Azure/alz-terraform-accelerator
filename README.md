@@ -1,5 +1,8 @@
 # Project
 
+[!WARNING]
+This repository is a work in progress. This notice will be removed once it is ready for pre-release. We have made this repository public to enable end to end testing as we develop,
+
 This repository provides an opinionated implementation of the Azure Landing Zones Terraform module, with Azure DevOps pipelines and GitHub actions workflows.
 
 It is designed to be used as a template to enable you to get started quickly deploying ALZ with Terraform.

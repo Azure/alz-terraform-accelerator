@@ -1,20 +1,20 @@
 variable "default_location" {
-  description = "value of the default location"
+  description = "The location for Azure resources. (e.g 'uksouth')"
   type        = string
 }
 
 variable "subscription_id_connectivity" {
-  description = "value of the subscription id for the Connectivity subscription"
+  description = "The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')"
   type        = string
 }
 
 variable "subscription_id_identity" {
-  description = "value of the subscription id for the Identity subscription"
+  description = "The identifier of the Identity Subscription. (e.g '00000000-0000-0000-0000-000000000000')"
   type        = string
 }
 
 variable "subscription_id_management" {
-  description = "value of the subscription id for the Management subscription"
+  description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)"
   type        = string
 }
 
