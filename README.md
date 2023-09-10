@@ -1,6 +1,6 @@
 # Terraform Azure Landing Zone Accelerator
 
-| :warning: WARNING          |
+| :warning: WARNING!          |
 |:---------------------------|
 | This repository is a work in progress, do not use it. This notice will be removed once it is ready for pre-release. We have made this repository public to enable end to end testing only. |
 
