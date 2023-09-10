@@ -1,4 +1,4 @@
-module "enterprise_scale" {
+module "enterprise-scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
@@ -17,5 +17,19 @@ module "enterprise_scale" {
     azurerm              = azurerm
     azurerm.connectivity = azurerm.connectivity
     azurerm.management   = azurerm.management
+  }
+}
+
+module "alz-management" {
+  source  = "Azure/alz-management/azurerm"
+  version = "0.1.4"
+
+  automation_account_name      = "aa-management-${var.default_location}"
+  location                     = var.default_location
+  log_analytics_workspace_name = "log-management-${var.default_location}"
+  resource_group_name          = "rg-management-${var.default_location}"
+
+  providers = {
+    azurerm = azurerm.management
   }
 }
