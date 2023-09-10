@@ -19,10 +19,6 @@ variable "ci_cd_module" {
   type = string
 }
 
-variable "starter_module_variables" {
-  type = string
-}
-
 variable "azure_location" {
   type = string
 }
