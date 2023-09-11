@@ -40,7 +40,10 @@ variable "repository_name" {
 }
 
 variable "repository_files" {
-  type = map(string)
+  type = map(object({
+    path    = string
+    flag = string
+  }))
 }
 
 variable "pipeline_ci_file" {

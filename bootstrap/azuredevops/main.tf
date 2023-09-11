@@ -49,16 +49,14 @@ locals {
 module "starter_module_files" {
   source      = "./../modules/files"
   folder_path = local.starter_module_path
+  flag= "module"
 }
 
 module "ci_cd_module_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
   exclusions  = [".github"]
-}
-
-output "test" {
-  value = module.azure_devops.agent_pool_name
+  flag = "cicd"
 }
 
 module "azure_devops" {

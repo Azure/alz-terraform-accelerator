@@ -8,3 +8,9 @@ variable "exclusions" {
   type        = list(string)
   default     = []
 }
+
+variable "flag" {
+  description = "A flag to add to each file object"
+  type = string
+  default = ""
+}

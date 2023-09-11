@@ -14,18 +14,23 @@ resource "azuredevops_git_repository" "alz" {
 
 locals {
   agent_pool_configuration = local.is_authentication_scheme_managed_identity ? "name: ${var.agent_pool_name}" : "vmImage: ubuntu-latest"
-  repository_files = { for key, value in var.repository_files : key =>
+  cicd_file = { for key, value in var.repository_files : key =>
     {
-      path = value
-      content = replace(templatefile(value, {
+      content = templatefile(value.path, {
         agent_pool_configuration = local.agent_pool_configuration
         service_connection_name  = var.service_connection_name
         environment_name_plan    = var.environment_name_plan
         environment_name_apply   = var.environment_name_apply
         variable_group_name      = var.variable_group_name
-      }), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
-    }
+      })
+    } if value.flag == "cicd"
   }
+  module_files = { for key, value in var.repository_files : key =>
+    {
+      content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
+    } if value.flag == "module"
+  }
+  repository_files = merge(local.cicd_file, local.module_files)
 }
 
 resource "azuredevops_git_repository_file" "alz" {

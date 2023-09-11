@@ -6,5 +6,9 @@ locals {
       strcontains(f, e) ? [] : [f]
     ]
   ]))
-  file_map = { for file in local.filtered_files : file => "${var.folder_path}/${file}" }
+  file_map = { for file in local.filtered_files : file => {
+      path = "${var.folder_path}/${file}"
+      flag = var.flag
+    } 
+  }
 }
