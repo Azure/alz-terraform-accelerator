@@ -42,26 +42,18 @@ module "ci_cd_module_files" {
 }
 
 module "github" {
-  source                                       = "./../modules/azure_devops"
+  source                                       = "./../modules/github"
   access_token                                 = var.version_control_system_access_token
-  use_legacy_organization_url                  = var.azure_devops_use_organisation_legacy_url
   organization_name                            = var.version_control_system_organization
-  authentication_scheme                        = var.azure_devops_authentication_scheme
-  create_project                               = var.azure_devops_create_project
-  project_name                                 = var.azure_devops_project_name
   environment_name_plan                        = local.resource_names.version_control_system_environment_plan
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply
   repository_name                              = local.resource_names.version_control_system_repository
   repository_files                             = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
-  service_connection_name                      = local.resource_names.version_control_system_service_connection
-  variable_group_name                          = local.resource_names.version_control_system_variable_group
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
-  azure_subscription_name                      = data.azurerm_subscription.current.display_name
   pipeline_ci_file                             = ".azuredevops/ci.yaml"
   pipeline_cd_file                             = ".azuredevops/cd.yaml"
-  agent_pool_name                              = local.resource_names.version_control_system_agent_pool
   backend_azure_resource_group_name            = local.resource_names.resource_group_state
   backend_azure_storage_account_name           = local.resource_names.storage_account
   backend_azure_storage_account_container_name = local.resource_names.storage_container
