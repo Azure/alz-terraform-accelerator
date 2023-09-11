@@ -91,7 +91,7 @@
             "Description": "Used to build up the defaul resource names (e.g. rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}",
             "Value": "",
             "DefaultValue": "1",
-            "Valid": "^[0-9]$",
+            "Valid": "^(0|[1-9][0-9]*)$",
             "DataType": "number"
         },
         "version_control_system_access_token": {
@@ -235,6 +235,10 @@
                     "false"
                 ]
             }
+        },
+        "number" : {
+            "Type": "Valid",
+            "Valid": "^(0|[1-9][0-9]*)$"
         }
     }
 }
