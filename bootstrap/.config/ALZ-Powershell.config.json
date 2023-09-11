@@ -1,0 +1,240 @@
+{
+    "parameters": {
+        "starter_module": {
+            "Type": "UserInput",
+            "Description": "The starter module to use for the deployment. (e.g. 'basic')",
+            "Value": "",
+            "DefaultValue": "basic",
+            "AllowedValues": {
+                "Display": true,
+                "Values": [
+                    ".test",
+                    "basic"
+                ]
+            }
+        },
+        "environment_name": {
+            "Type": "UserInput",
+            "Description": "Used to build up the default resource names (e.g. rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}",
+            "Value": "",
+            "DefaultValue": "mgmt",
+            "Valid": "^[a-zA-Z0-9]{2,10}(-[a-zA-Z0-9]{2,10})?$"
+        },
+        "service_name": {
+            "Type": "UserInput",
+            "Description": "Used to build up the default resource names (e.g. rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}",
+            "Value": "",
+            "DefaultValue": "alz",
+            "Valid": "^[a-zA-Z0-9]{2,10}(-[a-zA-Z0-9]{2,10})?$"
+        },
+        "azure_location": {
+            "Type": "UserInput",
+            "Description": "Azure Deployment location for the landing zone management resources (e.g. state file storage account)  (e.g. 'uksouth')",
+            "Value": "",
+            "AllowedValues": {
+                "Display": false,
+                "Values": [
+                    "australiacentral",
+                    "australiacentral2",
+                    "australiaeast",
+                    "australiasoutheast",
+                    "brazilsouth",
+                    "brazilsoutheast",
+                    "canadacentral",
+                    "canadaeast",
+                    "centralindia",
+                    "centralus",
+                    "centraluseuap",
+                    "eastasia",
+                    "eastus",
+                    "eastus2",
+                    "eastus2euap",
+                    "eastusstg",
+                    "francecentral",
+                    "francesouth",
+                    "germanynorth",
+                    "germanywestcentral",
+                    "japaneast",
+                    "japanwest",
+                    "jioindiacentral",
+                    "jioindiawest",
+                    "koreacentral",
+                    "koreasouth",
+                    "northcentralus",
+                    "northeurope",
+                    "norwayeast",
+                    "norwaywest",
+                    "qatarcentral",
+                    "southafricanorth",
+                    "southafricawest",
+                    "southcentralus",
+                    "southeastasia",
+                    "southindia",
+                    "swedencentral",
+                    "switzerlandnorth",
+                    "switzerlandwest",
+                    "uaecentral",
+                    "uaenorth",
+                    "uksouth",
+                    "ukwest",
+                    "westcentralus",
+                    "westeurope",
+                    "westindia",
+                    "westus",
+                    "westus2",
+                    "westus3"
+                ]
+            }
+        },
+        "postfix_number": {
+            "Type": "UserInput",
+            "Description": "Used to build up the defaul resource names (e.g. rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}",
+            "Value": "",
+            "DefaultValue": "1",
+            "Valid": "^[0-9]$",
+            "DataType": "number"
+        },
+        "version_control_system_access_token": {
+            "Type": "UserInput",
+            "Description": "The personal access token for the version control system to use for the deployment.",
+            "Value": "",
+            "Secure": true
+        },
+        "version_control_system_organization": {
+            "Type": "UserInput",
+            "Description": "The organization for the version control system to use for the deployment.",
+            "Value": ""
+        },
+        "apply_approvers" : {
+            "Type": "UserInput",
+            "Description": "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)",
+            "Value": "",
+            "DefaultValue": "",
+            "DataType": "list(string)"
+        },
+        "azure_devops_use_organisation_legacy_url" : {
+            "Type": "UserInput",
+            "Description": "Use the legacy Azure DevOps URL ({{organisation}}.visualstudio.com) instead of the new URL (dev.azure.com/{{organization}}).",
+            "Value": "",
+            "DefaultValue": "false",
+            "AllowedValues": {
+                "Display": true,
+                "Values": [
+                    "true",
+                    "false"
+                ]
+            },
+            "DataType": "bool"
+        },
+        "azure_devops_create_project" : {
+            "Type": "UserInput",
+            "Description": "Create the Azure DevOps project if it does not exist.",
+            "Value": "",
+            "DefaultValue": "false",
+            "AllowedValues": {
+                "Display": true,
+                "Values": [
+                    "true",
+                    "false"
+                ]
+            },
+            "DataType": "bool"
+        },
+        "azure_devops_project_name" : {
+            "Type": "UserInput",
+            "Description": "The name of the Azure DevOps project to use or create for the deployment.",
+            "Value": ""
+        },
+        "azure_devops_authentication_scheme" : {
+            "Type": "UserInput",
+            "Description": "The authentication scheme to use for the Azure DevOps Pipelines.",
+            "Value": "",
+            "DefaultValue": "WorkloadIdentityFederation",
+            "AllowedValues": {
+                "Display": true,
+                "Values": [
+                    "WorkloadIdentityFederation",
+                    "ManagedServiceIdentity"
+                ]
+            }
+        }
+
+    },
+    "validators": {
+        "azure_location" : {
+            "Type": "AllowedValues",
+            "AllowedValues": {
+                "Display": false,
+                "Values": [
+                    "australiacentral",
+                    "australiacentral2",
+                    "australiaeast",
+                    "australiasoutheast",
+                    "brazilsouth",
+                    "brazilsoutheast",
+                    "canadacentral",
+                    "canadaeast",
+                    "centralindia",
+                    "centralus",
+                    "centraluseuap",
+                    "eastasia",
+                    "eastus",
+                    "eastus2",
+                    "eastus2euap",
+                    "eastusstg",
+                    "francecentral",
+                    "francesouth",
+                    "germanynorth",
+                    "germanywestcentral",
+                    "japaneast",
+                    "japanwest",
+                    "jioindiacentral",
+                    "jioindiawest",
+                    "koreacentral",
+                    "koreasouth",
+                    "northcentralus",
+                    "northeurope",
+                    "norwayeast",
+                    "norwaywest",
+                    "qatarcentral",
+                    "southafricanorth",
+                    "southafricawest",
+                    "southcentralus",
+                    "southeastasia",
+                    "southindia",
+                    "swedencentral",
+                    "switzerlandnorth",
+                    "switzerlandwest",
+                    "uaecentral",
+                    "uaenorth",
+                    "uksouth",
+                    "ukwest",
+                    "westcentralus",
+                    "westeurope",
+                    "westindia",
+                    "westus",
+                    "westus2",
+                    "westus3"
+                ]
+            }
+        },
+        "azure_name" : {
+            "Type": "Valid",
+            "Valid": "^[a-zA-Z0-9]{2,10}(-[a-zA-Z0-9]{2,10})?$"
+        },
+        "guid" : {
+            "Type": "Valid",
+            "Valid": "^( {){0,1}[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}(}){0,1}$"
+        },
+        "bool" : {
+            "Type": "AllowedValues",
+            "AllowedValues": {
+                "Display": true,
+                "Values": [
+                    "true",
+                    "false"
+                ]
+            }
+        }
+    }
+}
