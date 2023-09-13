@@ -4,9 +4,9 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.61.0"
     }
-    azuredevops = {
-      source  = "microsoft/azuredevops"
-      version = ">=0.9.0"
+    github = {
+      source  = "integrations/github"
+      version = "~> 5.36"
     }
   }
 }
@@ -19,8 +19,7 @@ provider "azurerm" {
   }
 }
 
-provider "azuredevops" {
-  personal_access_token = var.version_control_system_access_token
-  org_service_url       = module.azure_devops.organization_url
+provider "github" {
+  token = var.version_control_system_access_token
+  owner       = var.version_control_system_organization
 }
-

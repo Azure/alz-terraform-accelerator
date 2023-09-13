@@ -31,3 +31,4 @@ override.tf.json
 jared.tfvars
 luke.auto.tfvars
 bootstrap/azure_devops/.terraform.lock.hcl
+bootstrap/github/terraform.log

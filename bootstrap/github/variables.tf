@@ -58,30 +58,6 @@ variable "resource_names" {
   }
 }
 
-variable "azure_devops_use_organisation_legacy_url" {
-  type = bool
-}
-
-variable "azure_devops_create_project" {
-  type = bool
-}
-
-variable "azure_devops_project_name" {
-  type = string
-}
-
-variable "azure_devops_authentication_scheme" {
-  type = string
-  validation {
-    condition     = can(regex("^(ManagedServiceIdentity|WorkloadIdentityFederation)$", var.azure_devops_authentication_scheme))
-    error_message = "azure_devops_authentication_scheme must be either ManagedServiceIdentity or WorkloadIdentityFederation"
-  }
-}
-
-variable "agent_container_image" {
-  type = string
-}
-
 variable "apply_approvers" {
   type = list(string)
 }
