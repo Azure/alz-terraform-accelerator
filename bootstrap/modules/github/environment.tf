@@ -4,6 +4,7 @@ resource "github_repository_environment" "alz_plan" {
 }
 
 resource "github_repository_environment" "alz_apply" {
+  depends_on = [ github_team_repository.alz ]
   environment = var.environment_name_apply
   repository  = github_repository.alz.name
   reviewers {
