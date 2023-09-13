@@ -3,11 +3,11 @@ output "organization_url" {
 }
 
 output "subject" {
-  value = "TBC"
+  value = "repo:${var.organization_name}/${var.repository_name}:ref:refs/heads/main"
 }
 
 output "issuer" {
-  value = "TBC"
+  value = "https://token.actions.githubusercontent.com"
 }
 
 output "organization_users" {

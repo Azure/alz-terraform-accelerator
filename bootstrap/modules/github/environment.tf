@@ -6,5 +6,14 @@ resource "github_repository_environment" "alz_plan" {
 resource "github_repository_environment" "alz_apply" {
   environment = var.environment_name_apply
   repository  = github_repository.alz.name
+  reviewers {
+    teams = [
+       github_team.alz.id
+    ]
+  }
+  deployment_branch_policy {
+    protected_branches = true
+    custom_branch_policies = false
+  }
 }
 

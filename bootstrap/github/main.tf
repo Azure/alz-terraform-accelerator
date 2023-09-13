@@ -47,6 +47,7 @@ module "github" {
   environment_name_plan                        = local.resource_names.version_control_system_environment_plan
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply
   repository_name                              = local.resource_names.version_control_system_repository
+  repository_visibility = var.repository_visibility
   repository_files                             = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id

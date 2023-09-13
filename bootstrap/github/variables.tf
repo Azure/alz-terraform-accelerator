@@ -61,3 +61,7 @@ variable "resource_names" {
 variable "apply_approvers" {
   type = list(string)
 }
+
+variable "repository_visibility" {
+  type = string
+} 

@@ -19,6 +19,10 @@ variable "repository_name" {
   type = string
 }
 
+variable "repository_visibility" {
+  type = string
+}
+
 variable "repository_files" {
   type = map(object({
     path    = string

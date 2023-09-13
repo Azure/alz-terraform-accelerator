@@ -2,7 +2,10 @@ resource "github_repository" "alz" {
   name        = var.repository_name
   description = var.repository_name
   auto_init   = true
-  visibility = "private"
+  visibility = var.repository_visibility
+  allow_update_branch = true
+  allow_merge_commit = false
+  allow_rebase_merge = false
 }
 
 locals {
@@ -30,4 +33,18 @@ resource "github_repository_file" "alz" {
   commit_author       = "Azure Landing Zone"
   commit_email        = "alz@microsoft.com"
   overwrite_on_create = true
+}
+
+resource "github_branch_protection" "alz" {
+  repository_id = github_repository.alz.name
+  pattern          = "main"
+  enforce_admins   = true
+  required_linear_history = true
+  require_conversation_resolution = true
+
+  required_pull_request_reviews {
+    dismiss_stale_reviews  = true
+    restrict_dismissals    = true
+    required_approving_review_count = 1
+  }
 }
