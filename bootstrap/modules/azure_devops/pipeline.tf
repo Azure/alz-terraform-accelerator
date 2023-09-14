@@ -59,27 +59,3 @@ resource "azuredevops_pipeline_authorization" "alz" {
   type        = "queue"
   pipeline_id = azuredevops_build_definition.alz[each.key].id
 }
-
-resource "azuredevops_branch_policy_build_validation" "alz" {
-  project_id = local.project_id
-
-  enabled  = true
-  blocking = true
-
-  settings {
-    display_name        = "Terraform validation policy with OpenID Connect"
-    build_definition_id = azuredevops_build_definition.alz["ci"].id
-    valid_duration      = 720
-
-    scope {
-      repository_id  = azuredevops_git_repository.alz.id
-      repository_ref = azuredevops_git_repository.alz.default_branch
-      match_type     = "Exact"
-    }
-
-    scope {
-      match_type = "DefaultBranch"
-    }
-  }
-}
-

@@ -41,3 +41,66 @@ resource "azuredevops_git_repository_file" "alz" {
   branch              = local.default_branch
   overwrite_on_create = true
 }
+
+resource "azuredevops_branch_policy_min_reviewers" "alz" {
+  depends_on = [ azuredevops_git_repository_file.alz ]
+  project_id = local.project_id
+
+  enabled  = true
+  blocking = true
+
+  settings {
+    reviewer_count                         = 1
+    submitter_can_vote                     = false
+    last_pusher_cannot_approve             = true
+    allow_completion_with_rejects_or_waits = false
+    on_push_reset_approved_votes           = true
+
+    scope {
+      repository_id  = azuredevops_git_repository.alz.id
+      repository_ref = azuredevops_git_repository.alz.default_branch
+      match_type     = "Exact"
+    }
+  }
+}
+
+resource "azuredevops_branch_policy_merge_types" "alz" {
+  depends_on = [ azuredevops_git_repository_file.alz ]
+  project_id = local.project_id
+
+  enabled  = true
+  blocking = true
+
+  settings {
+    allow_squash                  = true
+    allow_rebase_and_fast_forward = false
+    allow_basic_no_fast_forward   = false
+    allow_rebase_with_merge       = false
+
+    scope {
+      repository_id  = azuredevops_git_repository.alz.id
+      repository_ref = azuredevops_git_repository.alz.default_branch
+      match_type     = "Exact"
+    }
+  }
+}
+
+resource "azuredevops_branch_policy_build_validation" "alz" {
+  depends_on = [ azuredevops_git_repository_file.alz ]
+  project_id = local.project_id
+
+  enabled  = true
+  blocking = true
+
+  settings {
+    display_name        = "Terraform validation policy with OpenID Connect"
+    build_definition_id = azuredevops_build_definition.alz["ci"].id
+    valid_duration      = 720
+
+    scope {
+      repository_id  = azuredevops_git_repository.alz.id
+      repository_ref = azuredevops_git_repository.alz.default_branch
+      match_type     = "Exact"
+    }
+  }
+}
