@@ -68,6 +68,7 @@ variable "azure_devops_authentication_scheme" {
 variable "apply_approvers" {
   description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)"
   type        = list(string)
+  default     = []
 }
 
 variable "agent_container_image" {
