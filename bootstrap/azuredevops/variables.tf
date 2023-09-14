@@ -77,7 +77,7 @@ variable "agent_container_image" {
 }
 
 variable "target_subscriptions" {
-  description = "The target subscriptions to apply onwer permissions to|hidden"
+  description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
   type        = list(string)
 }
 
