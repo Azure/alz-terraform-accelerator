@@ -44,10 +44,10 @@ variable "apply_approvers" {
   default     = []
 }
 
-variable "agent_container_image" {
-  description = "The container image to use for Azure DevOps Agents|hidden"
-  type        = string
-}
+variable "repository_visibility" {
+  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|9|repo_visibility"
+  type = string
+} 
 
 variable "target_subscriptions" {
   description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
