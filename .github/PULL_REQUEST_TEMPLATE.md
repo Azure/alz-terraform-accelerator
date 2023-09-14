@@ -20,8 +20,8 @@ Please provide any testing evidence to show that your Pull Request works/fixes a
 
 ## As part of this Pull Request I have
 
-- [ ] Checked for duplicate [Pull Requests](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale-accelerator/pulls)
-- [ ] Associated it with relevant [issues](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale-accelerator/issues), for tracking and closure.
-- [ ] Ensured my code/branch is up-to-date with the latest changes in the `main` [branch](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale-accelerator/tree/main)
+- [ ] Checked for duplicate [Pull Requests](https://github.com/Azure/alz-terraform-accelerator/pulls)
+- [ ] Associated it with relevant [issues](https://github.com/Azure/alz-terraform-accelerator/issues), for tracking and closure.
+- [ ] Ensured my code/branch is up-to-date with the latest changes in the `main` [branch](https://github.com/Azure/alz-terraform-accelerator/tree/main)
 - [ ] Performed testing and provided evidence.
 - [ ] Updated relevant and associated documentation.
