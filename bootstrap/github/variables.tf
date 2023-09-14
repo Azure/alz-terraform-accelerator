@@ -1,51 +1,45 @@
 variable "starter_module" {
-  description = "The starter module to use for the deployment. (e.g. 'basic')|starter_module"
+  description = "The starter module to use for the deployment. (e.g. 'basic')|1|starter_module"
   type        = string
   default     = "basic"
 }
 
 variable "version_control_system_access_token" {
-  description = "The personal access token for the version control system to use for the deployment|azure_name"
+  description = "The personal access token for the version control system to use for the deployment|2|azure_name"
   type        = string
   sensitive   = true
 }
 
 variable "version_control_system_organization" {
-  description = "The organization for the version control system to use for the deployment|azure_name"
+  description = "The organization for the version control system to use for the deployment|3|azure_name"
   type        = string
-}
-
-variable "repository_visibility" {
-  description = "The visibility of the repository, must be 'public' if your organization is not licensed|repo_visibility"
-  type        = string
-  default     = "private"
 }
 
 variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|azure_location"
-  type           = string
+  description = "Azure Deployment location for the landing zone management resources|4|azure_location"
+  type        = string
 }
 
 variable "service_name" {
-  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|5|azure_name_section"
   type        = string
   default     = "alz"
 }
 
 variable "environment_name" {
-  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|6|azure_name_section"
   type        = string
   default     = "mgmt"
 }
 
 variable "postfix_number" {
-  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|number"
+  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|7|number"
   type        = number
   default     = 1
 }
 
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|8"
   type        = list(string)
   default     = []
 }
@@ -56,7 +50,7 @@ variable "agent_container_image" {
 }
 
 variable "target_subscriptions" {
-  description = "The target subscriptions to apply onwer permissions to|hidden"
+  description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
   type        = list(string)
 }
 
