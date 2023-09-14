@@ -4,14 +4,18 @@ resource "azurerm_user_assigned_identity" "alz" {
   resource_group_name = azurerm_resource_group.identity.name
 }
 
+locals {
+  federated_credentials = var.create_federated_credential ? var.federated_credential_subjects : {}
+}
+
 resource "azurerm_federated_identity_credential" "alz" {
-  count               = var.create_federated_credential ? 1 : 0
-  name                = var.federated_credential_name
+  for_each            = local.federated_credentials
+  name                = "${var.federated_credential_name}-${each.key}"
   resource_group_name = azurerm_resource_group.identity.name
   audience            = [local.audience]
   issuer              = var.federated_credential_issuer
   parent_id           = azurerm_user_assigned_identity.alz.id
-  subject             = var.federated_credential_subject
+  subject             = each.value
 }
 
 data "azurerm_subscription" "alz" {

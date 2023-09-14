@@ -43,7 +43,7 @@ resource "azuredevops_git_repository_file" "alz" {
 }
 
 resource "azuredevops_branch_policy_min_reviewers" "alz" {
-  depends_on = [ azuredevops_git_repository_file.alz ]
+  depends_on = [azuredevops_git_repository_file.alz]
   project_id = local.project_id
 
   enabled  = true
@@ -65,7 +65,7 @@ resource "azuredevops_branch_policy_min_reviewers" "alz" {
 }
 
 resource "azuredevops_branch_policy_merge_types" "alz" {
-  depends_on = [ azuredevops_git_repository_file.alz ]
+  depends_on = [azuredevops_git_repository_file.alz]
   project_id = local.project_id
 
   enabled  = true
@@ -86,7 +86,7 @@ resource "azuredevops_branch_policy_merge_types" "alz" {
 }
 
 resource "azuredevops_branch_policy_build_validation" "alz" {
-  depends_on = [ azuredevops_git_repository_file.alz ]
+  depends_on = [azuredevops_git_repository_file.alz]
   project_id = local.project_id
 
   enabled  = true

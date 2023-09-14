@@ -34,14 +34,14 @@ jobs:
         -backend-config="key=terraform.tfstate"
       
     - name: Terraform Plan
-      run: terraform plan -out tfplan
+      run: terraform plan -out tfplan -input=false
 
     - name: Create Module Artifact
       run: |
         New-Item -Path . -Name "staging" -ItemType "directory"
         Copy-Item -Path "./*.tf" -Destination "./staging"
-        Copy-Item -Path "./*.json" -Destination "./staging"
-        Copy-Item -Path "./*.tfplan" -Destination "./staging"
+        Copy-Item -Path "./*.tfvars" -Destination "./staging"
+        Copy-Item -Path "./tfplan" -Destination "./staging"
       shell: pwsh
 
     - name: Publish Module Artifact
@@ -80,4 +80,4 @@ jobs:
         -backend-config="key=terraform.tfstate"
       
     - name: Terraform Apply
-      run: terraform apply -auto-approve tfplan
+      run: terraform apply -input=false -auto-approve tfplan

@@ -11,10 +11,10 @@ module "resource_names" {
 
 module "azure" {
   source                              = "./../modules/azure"
-  federated_credential_subject        = module.github.subject
+  federated_credential_subjects       = module.github.subjects
   federated_credential_issuer         = module.github.issuer
   federated_credential_name           = local.resource_names.user_assigned_managed_identity_federated_credentials
-  resource_group_identity_name        = local.resource_names.user_assigned_managed_identity
+  resource_group_identity_name        = local.resource_names.resource_group_identity
   resource_group_state_name           = local.resource_names.resource_group_state
   storage_account_name                = local.resource_names.storage_account
   storage_container_name              = local.resource_names.storage_container

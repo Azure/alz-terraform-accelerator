@@ -11,8 +11,8 @@ variable "create_federated_credential" {
   default = true
 }
 
-variable "federated_credential_subject" {
-  type = string
+variable "federated_credential_subjects" {
+  type = map(string)
 }
 
 variable "federated_credential_issuer" {

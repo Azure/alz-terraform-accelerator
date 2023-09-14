@@ -13,11 +13,11 @@ module "resource_names" {
 module "azure" {
   source                              = "./../modules/azure"
   create_federated_credential         = module.azure_devops.is_authentication_scheme_workload_identity_federation
-  federated_credential_subject        = module.azure_devops.subject
+  federated_credential_subjects       = { sc = module.azure_devops.subject }
   federated_credential_issuer         = module.azure_devops.issuer
   federated_credential_name           = local.resource_names.user_assigned_managed_identity_federated_credentials
   create_agents_resource_group        = module.azure_devops.is_authentication_scheme_managed_identity
-  resource_group_identity_name        = local.resource_names.user_assigned_managed_identity
+  resource_group_identity_name        = local.resource_names.resource_group_identity
   resource_group_agents_name          = local.resource_names.resource_group_agents
   resource_group_state_name           = local.resource_names.resource_group_state
   storage_account_name                = local.resource_names.storage_account

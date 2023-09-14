@@ -2,8 +2,11 @@ output "organization_url" {
   value = local.organization_url
 }
 
-output "subject" {
-  value = "repo:${var.organization_name}/${var.repository_name}:ref:refs/heads/main"
+output "subjects" {
+  value = {
+    plan  = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environment_name_plan}"
+    apply = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environment_name_apply}"
+  }
 }
 
 output "issuer" {
