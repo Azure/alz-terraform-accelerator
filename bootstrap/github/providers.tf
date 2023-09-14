@@ -21,5 +21,5 @@ provider "azurerm" {
 
 provider "github" {
   token = var.version_control_system_access_token
-  owner       = var.version_control_system_organization
+  owner = var.version_control_system_organization
 }

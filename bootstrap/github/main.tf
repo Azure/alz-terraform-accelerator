@@ -20,7 +20,7 @@ module "azure" {
   storage_container_name              = local.resource_names.storage_container
   azure_location                      = var.azure_location
   user_assigned_managed_identity_name = local.resource_names.user_assigned_managed_identity
-  target_subscriptions = var.target_subscriptions
+  target_subscriptions                = var.target_subscriptions
 }
 
 locals {
@@ -31,14 +31,14 @@ locals {
 module "starter_module_files" {
   source      = "./../modules/files"
   folder_path = local.starter_module_path
-  flag= "module"
+  flag        = "module"
 }
 
 module "ci_cd_module_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
   exclusions  = [".azuredevops"]
-  flag = "cicd"
+  flag        = "cicd"
 }
 
 module "github" {
@@ -48,7 +48,7 @@ module "github" {
   environment_name_plan                        = local.resource_names.version_control_system_environment_plan
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply
   repository_name                              = local.resource_names.version_control_system_repository
-  repository_visibility = var.repository_visibility
+  repository_visibility                        = var.repository_visibility
   repository_files                             = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
@@ -63,5 +63,5 @@ module "github" {
 
 output "organization_users" {
   value = module.github.organization_users
-  
+
 }

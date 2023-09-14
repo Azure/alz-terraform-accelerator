@@ -25,7 +25,7 @@ variable "repository_visibility" {
 
 variable "repository_files" {
   type = map(object({
-    path    = string
+    path = string
     flag = string
   }))
 }

@@ -41,7 +41,7 @@ variable "repository_name" {
 
 variable "repository_files" {
   type = map(object({
-    path    = string
+    path = string
     flag = string
   }))
 }

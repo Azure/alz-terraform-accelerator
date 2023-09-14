@@ -7,7 +7,7 @@ variable "user_assigned_managed_identity_name" {
 }
 
 variable "create_federated_credential" {
-  type = bool
+  type    = bool
   default = true
 }
 
@@ -24,7 +24,7 @@ variable "federated_credential_name" {
 }
 
 variable "create_agents_resource_group" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -33,7 +33,7 @@ variable "resource_group_identity_name" {
 }
 
 variable "resource_group_agents_name" {
-  type = string
+  type    = string
   default = ""
 }
 
@@ -50,7 +50,7 @@ variable "storage_container_name" {
 }
 
 variable "create_agents" {
-  type = bool
+  type    = bool
   default = false
 }
 
@@ -59,28 +59,28 @@ variable "agent_container_instances" {
     container_instance_name = string
     agent_name              = string
   }))
-  default = { }
+  default = {}
 }
 
 variable "agent_container_instance_image" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "agent_pool_name" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "agent_organization_url" {
-  type = string
+  type    = string
   default = ""
 }
 
 variable "agent_token" {
   type      = string
   sensitive = true
-  default = ""
+  default   = ""
 }
 
 variable "target_subscriptions" {

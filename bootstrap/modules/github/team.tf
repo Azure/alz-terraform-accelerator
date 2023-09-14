@@ -2,13 +2,13 @@ data "github_organization" "alz" {
   name = var.organization_name
 }
 
-locals{
-    approvers = [ for user in data.github_organization.alz.users : user.login if contains(var.approvers, user.email) ]
+locals {
+  approvers = [for user in data.github_organization.alz.users : user.login if contains(var.approvers, user.email)]
 }
 
 resource "github_team" "alz" {
-  name = "Landing Zone Approvers"
-  description  = "Approvers for the Landing Zone Terraform Apply"
+  name        = "Landing Zone Approvers"
+  description = "Approvers for the Landing Zone Terraform Apply"
   privacy     = "closed"
 }
 

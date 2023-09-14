@@ -1,19 +1,19 @@
 resource "github_repository" "alz" {
-  name        = var.repository_name
-  description = var.repository_name
-  auto_init   = true
-  visibility = var.repository_visibility
+  name                = var.repository_name
+  description         = var.repository_name
+  auto_init           = true
+  visibility          = var.repository_visibility
   allow_update_branch = true
-  allow_merge_commit = false
-  allow_rebase_merge = false
+  allow_merge_commit  = false
+  allow_rebase_merge  = false
 }
 
 locals {
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        environment_name_plan    = var.environment_name_plan
-        environment_name_apply   = var.environment_name_apply
+        environment_name_plan  = var.environment_name_plan
+        environment_name_apply = var.environment_name_apply
       })
     } if value.flag == "cicd"
   }
@@ -36,15 +36,15 @@ resource "github_repository_file" "alz" {
 }
 
 resource "github_branch_protection" "alz" {
-  repository_id = github_repository.alz.name
-  pattern          = "main"
-  enforce_admins   = true
-  required_linear_history = true
+  repository_id                   = github_repository.alz.name
+  pattern                         = "main"
+  enforce_admins                  = true
+  required_linear_history         = true
   require_conversation_resolution = true
 
   required_pull_request_reviews {
-    dismiss_stale_reviews  = true
-    restrict_dismissals    = true
+    dismiss_stale_reviews           = true
+    restrict_dismissals             = true
     required_approving_review_count = 1
   }
 }

@@ -7,8 +7,8 @@ locals {
     ]
   ]))
   file_map = { for file in local.filtered_files : file => {
-      path = "${var.folder_path}/${file}"
-      flag = var.flag
-    } 
+    path = "${var.folder_path}/${file}"
+    flag = var.flag
+    }
   }
 }

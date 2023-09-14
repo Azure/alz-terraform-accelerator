@@ -39,7 +39,7 @@ module "azure" {
   agent_pool_name                = module.azure_devops.agent_pool_name
   agent_organization_url         = module.azure_devops.organization_url
   agent_token                    = var.version_control_system_access_token
-  target_subscriptions = var.target_subscriptions
+  target_subscriptions           = var.target_subscriptions
 }
 
 locals {
@@ -50,14 +50,14 @@ locals {
 module "starter_module_files" {
   source      = "./../modules/files"
   folder_path = local.starter_module_path
-  flag= "module"
+  flag        = "module"
 }
 
 module "ci_cd_module_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
   exclusions  = [".github"]
-  flag = "cicd"
+  flag        = "cicd"
 }
 
 module "azure_devops" {
