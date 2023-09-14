@@ -1,7 +1,7 @@
 <!-- markdownlint-disable first-line-h1 -->
 ## Table of Contents
 
-Please refer to the following to learn about the module:
+Please refer to the following to learn about the accelerator:
 
 - [Getting Started][wiki_getting_started]
 - [Module Permissions][wiki_module_permissions]
