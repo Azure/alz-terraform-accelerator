@@ -10,7 +10,7 @@ It is designed to be used as a template to enable you to get started quickly dep
 
 ## Overview
 
-![Accelerator Process Diagram](.images/Terraform%20ALZ%20Accelerator%20Plan.png)
+Please refer to our [wiki](https://github.com/Azure/alz-terraform-accelerator/wiki) for detailed usage instructions.
 
 ## Contributing
 
