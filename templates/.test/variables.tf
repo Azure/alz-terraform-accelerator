@@ -1,32 +1,32 @@
 variable "test_variable_01" {
-  type = string
+  type        = string
   description = "This is the first test variable|4|azure_name"
 }
 
 variable "test_variable_02" {
-  type = number
+  type        = number
   description = "This is the second test variable|5|number"
 }
 
 variable "test_variable_03" {
-  type = bool
+  type        = bool
   description = "This is the third test variable|6|bool"
 }
 
 variable "test_variable_04" {
-  type = string
+  type        = string
   description = "This is the fourth test variable|7|azure_location"
 }
 
 variable "test_variable_05" {
-  type = string
+  type        = string
   description = "This is the fifth test variable|8|guid"
 }
 
 variable "test_variable_06" {
-  type = string
+  type        = string
   description = "This is the sixth test variable.|9|azure_name"
-  default = "testing-123"
+  default     = "testing-123"
 }
 
 variable "subscription_id_connectivity" {
