@@ -27,7 +27,7 @@ resource "azurerm_role_assignment" "alz_subscriptions" {
 }
 
 data "azurerm_management_group" "alz" {
-  display_name = "Tenant Root Group"
+  display_name = var.root_management_group_display_name
 }
 
 resource "azurerm_role_assignment" "alz_management_group" {

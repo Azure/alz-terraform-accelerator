@@ -21,6 +21,7 @@ module "azure" {
   azure_location                      = var.azure_location
   user_assigned_managed_identity_name = local.resource_names.user_assigned_managed_identity
   target_subscriptions                = var.target_subscriptions
+  root_management_group_display_name  = var.root_management_group_display_name
 }
 
 locals {

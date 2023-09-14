@@ -35,11 +35,12 @@ module "azure" {
       agent_name              = local.resource_names.agent_02
     }
   }
-  agent_container_instance_image = var.agent_container_image
-  agent_pool_name                = module.azure_devops.agent_pool_name
-  agent_organization_url         = module.azure_devops.organization_url
-  agent_token                    = var.version_control_system_access_token
-  target_subscriptions           = var.target_subscriptions
+  agent_container_instance_image     = var.agent_container_image
+  agent_pool_name                    = module.azure_devops.agent_pool_name
+  agent_organization_url             = module.azure_devops.organization_url
+  agent_token                        = var.version_control_system_access_token
+  target_subscriptions               = var.target_subscriptions
+  root_management_group_display_name = var.root_management_group_display_name
 }
 
 locals {

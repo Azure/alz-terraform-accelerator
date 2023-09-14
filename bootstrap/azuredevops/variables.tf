@@ -71,6 +71,12 @@ variable "apply_approvers" {
   default     = []
 }
 
+variable "root_management_group_display_name" {
+  description = "The root management group display name|13|azure_name"
+  type        = string
+  default     = "Tenant Root Group"
+}
+
 variable "agent_container_image" {
   description = "The container image to use for Azure DevOps Agents|hidden"
   type        = string

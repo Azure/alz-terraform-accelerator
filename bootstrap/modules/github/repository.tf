@@ -36,6 +36,7 @@ resource "github_repository_file" "alz" {
 }
 
 resource "github_branch_protection" "alz" {
+  depends_on                      = [github_repository_file.alz]
   repository_id                   = github_repository.alz.name
   pattern                         = "main"
   enforce_admins                  = true

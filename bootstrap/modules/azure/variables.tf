@@ -86,3 +86,8 @@ variable "agent_token" {
 variable "target_subscriptions" {
   type = list(string)
 }
+
+variable "root_management_group_display_name" {
+  description = "The root management group display name"
+  type        = string
+}

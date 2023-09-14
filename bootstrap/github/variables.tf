@@ -46,8 +46,14 @@ variable "apply_approvers" {
 
 variable "repository_visibility" {
   description = "The visibility of the repository. Must be 'public' if your organization is not licensed|9|repo_visibility"
-  type = string
-} 
+  type        = string
+}
+
+variable "root_management_group_display_name" {
+  description = "The root management group display name|10|azure_name"
+  type        = string
+  default     = "Tenant Root Group"
+}
 
 variable "target_subscriptions" {
   description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
