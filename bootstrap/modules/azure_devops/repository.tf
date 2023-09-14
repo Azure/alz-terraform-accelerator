@@ -93,7 +93,7 @@ resource "azuredevops_branch_policy_build_validation" "alz" {
   blocking = true
 
   settings {
-    display_name        = "Terraform validation policy with OpenID Connect"
+    display_name        = "Terraform Validation"
     build_definition_id = azuredevops_build_definition.alz["ci"].id
     valid_duration      = 720
 
