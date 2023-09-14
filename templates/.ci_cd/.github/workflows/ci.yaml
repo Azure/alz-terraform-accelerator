@@ -41,6 +41,7 @@ jobs:
         ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
         ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
         ARM_USE_AZUREAD: true 
+        ARM_USE_OIDC: true
     steps:
     - name: Checkout Code
       uses: actions/checkout@v2.5.0
