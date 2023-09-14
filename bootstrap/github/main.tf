@@ -20,6 +20,7 @@ module "azure" {
   storage_container_name              = local.resource_names.storage_container
   azure_location                      = var.azure_location
   user_assigned_managed_identity_name = local.resource_names.user_assigned_managed_identity
+  target_subscriptions = var.target_subscriptions
 }
 
 locals {

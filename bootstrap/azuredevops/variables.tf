@@ -85,3 +85,7 @@ variable "agent_container_image" {
 variable "apply_approvers" {
   type = list(string)
 }
+
+variable "target_subscriptions" {
+  type = list(string)
+}

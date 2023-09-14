@@ -39,6 +39,7 @@ module "azure" {
   agent_pool_name                = module.azure_devops.agent_pool_name
   agent_organization_url         = module.azure_devops.organization_url
   agent_token                    = var.version_control_system_access_token
+  target_subscriptions = var.target_subscriptions
 }
 
 locals {

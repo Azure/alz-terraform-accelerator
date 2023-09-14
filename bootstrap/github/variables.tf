@@ -65,3 +65,7 @@ variable "apply_approvers" {
 variable "repository_visibility" {
   type = string
 } 
+
+variable "target_subscriptions" {
+  type = list(string)
+}

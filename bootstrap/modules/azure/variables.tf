@@ -82,3 +82,7 @@ variable "agent_token" {
   sensitive = true
   default = ""
 }
+
+variable "target_subscriptions" {
+  type = list(string)
+}
