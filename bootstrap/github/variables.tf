@@ -5,13 +5,13 @@ variable "starter_module" {
 }
 
 variable "version_control_system_access_token" {
-  description = "The personal access token for the version control system to use for the deployment|2|azure_name"
+  description = "The personal access token for the version control system to use for the deployment|2"
   type        = string
   sensitive   = true
 }
 
 variable "version_control_system_organization" {
-  description = "The organization for the version control system to use for the deployment|3|azure_name"
+  description = "The organization for the version control system to use for the deployment|3"
   type        = string
 }
 
@@ -50,7 +50,7 @@ variable "repository_visibility" {
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|10|azure_name"
+  description = "The root management group display name|10"
   type        = string
   default     = "Tenant Root Group"
 }
