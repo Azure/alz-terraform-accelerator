@@ -7,7 +7,7 @@ This accelerator provides an opinionated approach for configuring and securing t
 
 ## Accelerator features
 
-The accelerator bootstraps a continuous delivery environment for you. It supports both the Azure DevOps and GitHub version control system (VCS). It uses the PowerShell module [ALZ](https://www.powershellgallery.com/packages/ALZ) to gather required user input, which is used to apply Terraform modules to configure the bootstrap environment.
+The accelerator bootstraps a continuous delivery environment for you. It supports both the Azure DevOps and GitHub version control system (VCS). It uses the PowerShell module [ALZ](https://www.powershellgallery.com/packages/ALZ) to gather required user input and apply a Terraform module to configure the bootstrap environment.
 
 The accelerator follows a 3 phase approach:
 
@@ -17,7 +17,7 @@ The accelerator follows a 3 phase approach:
 
 ![Azure landing zone accelerator process][alz_accelerator_overview]
 
-The components of the environment are similar, but differ depending on your choice of VCS:
+The components of the environment are similar, but differ depending on your choice of VCS and authentication:
 
 ### GitHub
 
