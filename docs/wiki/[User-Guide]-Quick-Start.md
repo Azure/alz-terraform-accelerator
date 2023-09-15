@@ -12,7 +12,8 @@ You'll need to install the following tools before getting started.
 - Azure CLI: [Follow the instructions for your operating system](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli)
 - Git: [Follow the instructions for your operating system](https://git-scm.com/downloads)
 
--> Important: In all cases, ensure that the tools are available from a PowerShell core (pwsh) terminal. You may need to add them to your environment path if they are not.
+[!NOTE]
+In all cases, ensure that the tools are available from a PowerShell core (pwsh) terminal. You may need to add them to your environment path if they are not.
 
 ## Azure Subscriptions
 
@@ -120,7 +121,8 @@ Follow these steps to login as a User or user Service Princiapl credentials:
 1. Find the subscription id of the manangement subscription you made a note of earlier.
 1. Type `$env:ARM_SUBSCRIPTION_ID="<subscription id>"` and hit enter.
 
--> NOTE: If you close your PowerShell prompt prior to running the bootstrap, you need to re-enter these environment variables.
+[!NOTE]
+If you close your PowerShell prompt prior to running the bootstrap, you need to re-enter these environment variables.
 
 ## Version Control System Personal Access Token (PAT)
 
