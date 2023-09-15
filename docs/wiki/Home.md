@@ -105,7 +105,7 @@ The following diagram and links detail the Azure landing zone, but you can learn
  [//]: # (INSERT IMAGE REFERENCES BELOW)
  [//]: # (*****************************)
 
-[alz_accelerator_overview]: media/alz-terraform-acclerator.png "A process flow shwing the areas covered by the Azure landing zones Terraform accelerator."
+[alz_accelerator_overview]: media/alz-terraform-acclerator.png "A process flow showing the areas covered by the Azure landing zones Terraform accelerator."
 
 [alz_tf_overview]: media/alz-tf-module-overview.png "A conceptual architecture diagram highlighting the design areas covered by the Azure landing zones Terraform module."
 

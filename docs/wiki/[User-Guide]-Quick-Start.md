@@ -13,6 +13,12 @@ The accelerator follows a 3 phase approach:
 
 ![Azure landing zone accelerator process][alz_accelerator_overview]
 
+ [//]: # (*****************************)
+ [//]: # (INSERT IMAGE REFERENCES BELOW)
+ [//]: # (*****************************)
+
+[alz_accelerator_overview]: media/alz-terraform-acclerator.png "A process flow showing the areas covered by the Azure landing zones Terraform accelerator."
+
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
  [//]: # (************************)
