@@ -3,9 +3,7 @@
 
 The quick start guide takes you through the steps to prepare your pre-requisites and then run the PowerShell module.
 
-## Pre-requisites
-
-### Tools
+## Tools
 
 You'll need to install the following tools before getting started.
 
@@ -16,7 +14,7 @@ You'll need to install the following tools before getting started.
 
 -> Important: In all cases, ensure that the tools are available from a PowerShell core (pwsh) terminal. You may need to add them to your environment path if they are not.
 
-### Azure Subscriptions
+## Azure Subscriptions
 
 We recommend setting up 3 subscriptions for Azure landing zones. These are management, identity and networking. You can read more about this in the [Landing Zone docs](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/deploy-landing-zones-with-terraform).
 
@@ -33,7 +31,7 @@ Once you have the access required, create three subscriptions following your des
 
 Take note of the subscription id of each subscription as we'll need them later.
 
-### Azure Credentials
+## Azure Credentials
 
 You need an Azure User or Service Principal with the following permissions to run the bootstrap:
 
@@ -42,13 +40,13 @@ You need an Azure User or Service Principal with the following permissions to ru
 
 For simplicity we recommend using a User account since this is a one off proceess that you are unlikely to repeat.
 
-#### Azure Permissions
+### Azure Permissions
 
 It is likely that if you were able to create the subscriptions you already have the level of access required for a user account, however you should follow these steps to validate them.
 
 If your preference is to run the bootstrap in the context of a Service Principal, follow these steps to create one:
 
-##### Create Service Principal (Skip this if using a User account)
+#### Create Service Principal (Skip this if using a User account)
 
 1. Navigate to the [Azure Portal](https://portal.azure.com) and sign in to your tenant.
 1. Search for `Azure Active Directory` and open it.
@@ -69,7 +67,7 @@ If your preference is to run the bootstrap in the context of a Service Principal
 1. Click `Add`.
 1. Copy the `Value` field save it somewhere safe, making a note that it is the `ARM_CLIENT_SECRET`.
 
-##### Create Permissions
+#### Create Permissions
 
 1. The service principal name (SPN) is the username of the User account or the name of the app registration you c reated.
 1. Search for `Subscriptions` and click to navigate to the subscription view.
@@ -97,11 +95,11 @@ If your preference is to run the bootstrap in the context of a Service Principal
 1. Click `Review + assign`, then click `Review + assign` again when the warning appears.
 1. Wait for the role to be assinged and you are done with this part.
 
-### Login / Set Credentials
+## Login / Set Credentials
 
 Follow these steps to login as a User or user Service Princiapl credentials:
 
-#### User Login
+### User Login
 
 1. Open a new PowerShell Core (pwsh) terminal.
 1. Run `az login`.
@@ -110,7 +108,7 @@ Follow these steps to login as a User or user Service Princiapl credentials:
 1. Type `az account set --subscription "<subscription id of your management subscription>"` and hit enter.
 1. Type `az account show` and verify that you are connected to the management subscription.
 
-#### Service Principal Credentials
+### Service Principal Credentials
 
 1. Open a new PowerShell Core (pwsh) terminal.
 1. Find the `ARM_TENANT_ID` you made a note of earlier.
@@ -124,21 +122,21 @@ Follow these steps to login as a User or user Service Princiapl credentials:
 
 -> NOTE: If you close your PowerShell prompt prior to running the bootstrap, you need to re-enter these environment variables.
 
-### Version Control System Personal Access Token (PAT)
+## Version Control System Personal Access Token (PAT)
 
 You'll need to decide whether you are using GitHub or Azure DevOps and follow the instructions below to generate a PAT:
 
-#### Azure DevOps
+### Azure DevOps
 
-#### GitHub
+### GitHub
 
 
-### Install the ALZ PowerShell module
+## Install the ALZ PowerShell module
 
 1. In you PowerShell Core (pwsh) terminal type `Install-Module -Name ALZ`.
 1. The module should download and install the latest version.
 
-### Run the Bootstrap
+## Run the Bootstrap
 
 Before running the 
 
