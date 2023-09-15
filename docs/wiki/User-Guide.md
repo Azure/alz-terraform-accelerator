@@ -5,10 +5,10 @@ Please refer to the following to learn about the accelerator:
 
 - [Getting Started][wiki_getting_started]
 - [Quick Start][wiki_quick_start]
-- [Module Permissions][wiki_module_permissions]
-- [Module Variables][wiki_module_variables]
-- [Module Releases][wiki_module_releases]
-- [Provider Configuration][wiki_provider_configuration]
+    - [Quick Start Phase 1][wiki_quick_start_phase_1]
+    - [Quick Start Phase 2][wiki_quick_start_phase_2]
+    - [Quick Start Phase 3][wiki_quick_start_phase_3]
+
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
@@ -16,7 +16,6 @@ Please refer to the following to learn about the accelerator:
 
 [wiki_getting_started]:               %5BUser-Guide%5D-Getting-Started "Wiki - Getting Started"
 [wiki_quick_start]:                   %5BUser-Guide%5D-Quick-Start "Wiki - Quick Start"
-[wiki_module_permissions]:            %5BUser-Guide%5D-Module-Permissions "Wiki - Module Permissions"
-[wiki_module_variables]:              %5BUser-Guide%5D-Module-Variables "Wiki - Module Variables"
-[wiki_module_releases]:               %5BUser-Guide%5D-Module-Releases "Wiki - Module Releases"
-[wiki_provider_configuration]:        %5BUser-Guide%5D-Provider-Configuration "Wiki - Provider Configuration"
+[wiki_quick_start_phase_1]:           %5BUser-Guide%5D-Quick-Start-Phase-1 "Wiki - Quick Start - Phase 1"
+[wiki_quick_start_phase_2]:           %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
+[wiki_quick_start_phase_3]:           %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"

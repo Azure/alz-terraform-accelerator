@@ -7,11 +7,9 @@
 - [User guide][wiki_user_guide]
   - [Getting started][wiki_getting_started]
   - [Quick Start][wiki_quick_start]
-  - [Module permissions][wiki_module_permissions]
-  - [Module variables][wiki_module_variables]
-  - [Module releases][wiki_module_releases]
-  - [Module upgrade guidance][wiki_module_upgrade_guidance]
-  - [Provider configuration][wiki_provider_configuration]
+    - [Quick Start Phase 1][wiki_quick_start_phase_1]
+    - [Quick Start Phase 2][wiki_quick_start_phase_2]
+    - [Quick Start Phase 3][wiki_quick_start_phase_3]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
 - [Troubleshooting][wiki_troubleshooting]
 - [Contributing][wiki_contributing]
@@ -28,11 +26,9 @@
 [wiki_user_guide]:                                                   User-Guide "Wiki - User guide"
 [wiki_getting_started]:                                              %5BUser-Guide%5D-Getting-Started "Wiki - Getting started"
 [wiki_quick_start]:                                                  %5BUser-Guide%5D-Quick-Start "Wiki - Quick start"
-[wiki_module_permissions]:                                           %5BUser-Guide%5D-Module-Permissions "Wiki - Module permissions"
-[wiki_module_variables]:                                             %5BUser-Guide%5D-Module-Variables "Wiki - Module variables"
-[wiki_module_releases]:                                              %5BUser-Guide%5D-Module-Releases "Wiki - Module releases"
-[wiki_module_upgrade_guidance]:                                      %5BUser-Guide%5D-Module-upgrade-guidance "Wiki - Module upgrade guidance"
-[wiki_provider_configuration]:                                       %5BUser-Guide%5D-Provider-Configuration "Wiki - Provider configuration"
+[wiki_quick_start_phase_1]:                                          %5BUser-Guide%5D-Quick-Start-Phase-1 "Wiki - Quick Start - Phase 1"
+[wiki_quick_start_phase_2]:                                          %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
+[wiki_quick_start_phase_3]:                                          %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"
 [wiki_frequently_asked_questions]:                                   Frequently-Asked-Questions "Wiki - Frequently Asked Questions"
 [wiki_troubleshooting]:                                              Troubleshooting "Wiki - Troubleshooting"
 [wiki_contributing]:                                                 Contributing "Wiki - Contributing"
