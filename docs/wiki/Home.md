@@ -7,13 +7,21 @@ This accelerator provides an opinionated approach for configuring and securing t
 
 ## Accelerator features
 
-The accelerator bootstraps a continuous delivery environment for you. It supports both Azure DevOps and GitHub version control systems (VCS). It uses a PowerShell module to gather required user input, which in turn applies Terraform modules to configure the bootstrap environment.
+The accelerator bootstraps a continuous delivery environment for you. It supports both the Azure DevOps and GitHub version control system (VCS). It uses the PowerShell module [ALZ](https://www.powershellgallery.com/packages/ALZ) to gather required user input, which is used to apply Terraform modules to configure the bootstrap environment.
 
-The components of the environment are similar, but differ depending on your choice of VCS.
+The accelerator follows a 3 phase approach:
+
+1. Pre-requisites: Instructions to configure credentials and subscriptions.
+2. Bootstrap: Run the PowerShell script to generate the continuous delivery environment.
+3. Run: Update the module (if needed) to suit the needs of your organisation and deploy via continuous delivery.
+
+![Azure landing zone accelerator process][alz_accelerator_overview]
+
+The components of the environment are similar, but differ depending on your choice of VCS:
 
 ### GitHub
 
-We only support federated credentials for GitHub as it is best practice.
+We only support federated credentials for GitHub as a best practice.
 
 - Azure:
   - Resource Group for State
@@ -82,8 +90,6 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Service Connection with Managed identity for Plan / Apply
   - Group and Members for Apply Approval
   - Agent Pool
-
-![Azure landing zone accelerator process][alz_accelerator_overview]
 
 ## Next steps
 
