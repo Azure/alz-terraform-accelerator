@@ -61,8 +61,3 @@ module "github" {
   backend_azure_storage_account_container_name = local.resource_names.storage_container
   approvers                                    = var.apply_approvers
 }
-
-output "organization_users" {
-  value = module.github.organization_users
-
-}
