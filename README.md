@@ -4,11 +4,15 @@
 |:---------------------------|
 | This repository is a work in progress, do not use it. This notice will be removed once it is ready for pre-release. We have made this repository public to enable end to end testing only. |
 
+[![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+
+![Logo](./docs/wiki/media/ALZLogo.png)
+
+## Introduction
+
 This repository provides an opinionated implementation of the Azure Landing Zones Terraform module, with Azure DevOps pipelines and GitHub actions workflows.
 
 It is designed to be used as a template to enable you to get started quickly deploying ALZ with Terraform.
-
-## Overview
 
 Please refer to our [wiki](https://github.com/Azure/alz-terraform-accelerator/wiki) for detailed usage instructions.
 
