@@ -37,3 +37,16 @@ After the Terraform apply has been complete there is an opportunity to remove th
 1. Terraform will destroy all the resoources it created in the boostrap.
 
 You'll not be able to delete the `./v#.#.#` folder and run the `New-ALZEnvironment` command again.
+
+## Multiple landing zone deployments
+
+### I want to deploy multiple landing zones, but the PowerShell command keeps trying to overrwrite my existing environment.
+
+After bootstrapping, the PowerShell leaves the folder structure intact, including the Terraform state file. This is by design, so you have an opportunity to amend or destroy the environment. 
+
+If you want to deploy to a separate environment, the simplest approach is to specify a separate folder for each deployment using thr `-Output` parameter. For example:
+
+- Deployment 1: `New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Output "./deployment1"`
+- Deployment 2: `New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Output "./deployment2"`
+
+You can then deploy as many times as you like without interferring with a previous deployment.
