@@ -19,16 +19,16 @@ resource "azurerm_federated_identity_credential" "alz" {
 }
 
 locals {
-  distinct_subscription_ids = distinct(var.target_subscriptions)
+  subscription_ids = { for subscription_id in distinct(var.target_subscriptions) : subscription_id => subscription_id }
 }
 
 data "azurerm_subscription" "alz" {
-  for_each        = { for subscription in var.distinct_subscription_ids : subscription => subscription }
+  for_each        = local.subscription_ids
   subscription_id = each.key
 }
 
 resource "azurerm_role_assignment" "alz_subscriptions" {
-  for_each             = { for subscription in var.distinct_subscription_ids : subscription => subscription }
+  for_each             = local.subscription_ids
   scope                = data.azurerm_subscription.alz[each.key].id
   role_definition_name = "Owner"
   principal_id         = azurerm_user_assigned_identity.alz.principal_id
