@@ -9,6 +9,7 @@ permissions:
 jobs: 
   plan:
     name: Plan with Terraform
+    concurrency: ${environment_name_plan}
     environment: ${environment_name_plan}
     runs-on: ubuntu-latest
     env:
@@ -53,6 +54,7 @@ jobs:
   apply:
     needs: plan
     name: Apply with Terraform
+    concurrency: ${environment_name_apply}
     environment: ${environment_name_apply}
     runs-on: ubuntu-latest
     env:

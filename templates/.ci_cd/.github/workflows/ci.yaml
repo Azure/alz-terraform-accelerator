@@ -35,6 +35,7 @@ jobs:
     name: Validate Terraform Plan
     needs: validate
     runs-on: ubuntu-latest
+    concurrency: ${environment_name_plan}
     environment: ${environment_name_plan}
     env:
         ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
