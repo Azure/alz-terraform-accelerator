@@ -6,7 +6,7 @@ These are called starter modules because the expectation is you'll update these 
 
 Each starter module expects different inputs and the following pages detail those inputs. You'll be prompted for these inputs when you run the ALZ PowerShell module.
 
-- [Basic Starter Module][wiki_starter_module_basic1]: Management groups and policies.
+- [Basic Starter Module][wiki_starter_module_basic]: Management groups and policies.
 - [Hub Networking Starter Module][wiki_starter_module_hubnetworking]: Management groups, policies and hub networking.
 
  [//]: # (************************)
