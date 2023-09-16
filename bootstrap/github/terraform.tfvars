@@ -13,4 +13,5 @@ resource_names = {
   version_control_system_repository                    = "{{service_name}}-{{environment_name}}"
   version_control_system_environment_plan              = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply             = "{{service_name}}-{{environment_name}}-apply"
+  version_control_system_team                          = "{{service_name}}-{{environment_name}}-approvers"
 }

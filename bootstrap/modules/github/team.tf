@@ -7,7 +7,7 @@ locals {
 }
 
 resource "github_team" "alz" {
-  name        = "Landing Zone Approvers"
+  name        = var.team_name
   description = "Approvers for the Landing Zone Terraform Apply"
   privacy     = "closed"
 }

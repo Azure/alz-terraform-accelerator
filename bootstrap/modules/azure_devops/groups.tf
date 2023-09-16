@@ -1,6 +1,6 @@
 resource "azuredevops_group" "alz_approvers" {
   scope        = local.project_id
-  display_name = "Landing Zone Approvers"
+  display_name = var.group_name
   description  = "Approvers for the Landing Zone Terraform Apply"
 }
 

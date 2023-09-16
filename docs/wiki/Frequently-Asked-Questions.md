@@ -22,3 +22,18 @@ Follow these steps to customise the resource names:
 1. Continue with the user input as normal.
 
 You'll now get the names you specified instead of the default ones.
+
+## Questions about boostrap clean up
+
+### I was just testing or I made a mistake, how do I remove the boostrap environment and start again?
+
+After the Terraform apply has been complete there is an opportunity to remove the environment it just created. Follow these steps to run a `terraform destroy`.
+
+1. Open a terminal and navigate to the relevant bootstrap folder:
+    1. Azure DevOps: `cd ./v#.#.#/bootstrap/azuredevops`
+    1. GitHub: `cd ./v#.#.#/bootstrap/github`
+1. Run a this command `terraform destroy -var-file override.tfvars`.
+1. Terraform will show a plan and prompt you to continue by typing `yes` and hitting enter.
+1. Terraform will destroy all the resoources it created in the boostrap.
+
+You'll not be able to delete the `./v#.#.#` folder and run the `New-ALZEnvironment` command again.

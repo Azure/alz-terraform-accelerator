@@ -98,3 +98,6 @@ variable "approvers" {
   type = list(string)
 }
 
+variable "group_name" {
+  type = string
+}
