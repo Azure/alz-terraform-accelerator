@@ -14,7 +14,7 @@
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
   <img width="50%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
 </picture>
-
+<br/>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
