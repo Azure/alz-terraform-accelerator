@@ -8,7 +8,9 @@ Phase 2 of the accelerator is to run the boostrap. Follow the steps below to do 
 
 ## 2.2 Run the Bootstrap
 
-You are now ready to run the boostrap and setup your environment. The inputs differ depending on the VCS you have chosen:
+You are now ready to run the boostrap and setup your environment. If you want to use custom names for your resources, please refer to our FAQs section.
+
+The inputs differ depending on the VCS you have chosen:
 
 ### 2.2.1 Azure DevOps
 
