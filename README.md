@@ -1,4 +1,4 @@
-# Terraform Azure Landing Zone Accelerator
+# Azure Landing Zone Terraform Accelerator
 
 | :warning: WARNING!          |
 |:---------------------------|
