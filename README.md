@@ -12,14 +12,14 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-  <img width="75%" style="width:75%;" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+  <img width="75%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
 </picture>
 
-<picture>
+<div style="padding-left:4%;"><picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
-  <img width="50%" padding="4%" style="width:50%;padding-left:4%;" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-</picture>
+  <img width="50%" padding="4%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+</picture></div>
 
 ## Introduction
 
