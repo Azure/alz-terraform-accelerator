@@ -15,11 +15,11 @@
   <img width="75%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
 </picture>
 
-<div style="padding-left:4%;"><picture>
+<picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
   <img width="50%" padding="4%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-</picture></div>
+</picture>
 
 ## Introduction
 
