@@ -38,7 +38,7 @@ The inputs differ depending on the VCS you have chosen:
 
 ### 2.2.2 GitHub
 
-1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops"`.
+1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -IaC "terraform" -Cicd "github"`.
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
     1. `starter_module`: This is the choice of [Starter Module](), which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
