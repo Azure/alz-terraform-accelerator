@@ -5,8 +5,21 @@
 | This repository is a work in progress, do not use it. This notice will be removed once it is ready for pre-release. We have made this repository public to enable end to end testing only. |
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Percentage of issues still open")
 
-![Logo](./docs/wiki/media/ALZLogo.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+  <img alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
+  <img alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+</picture>
 
 ## Introduction
 
