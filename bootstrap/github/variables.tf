@@ -47,6 +47,7 @@ variable "apply_approvers" {
 variable "repository_visibility" {
   description = "The visibility of the repository. Must be 'public' if your organization is not licensed|9|repo_visibility"
   type        = string
+  default     = "private"
 }
 
 variable "root_management_group_display_name" {
