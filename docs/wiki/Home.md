@@ -75,6 +75,7 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Resource Group for Identity
   - User Assigned Managed Identity (UAMI)
   - Permissions for the UAMI on state storage container, subscriptions and management groups
+  - Resource Group for Agents
   - 2 Container Instances with UAMI hosting Azure DevOps Agents
 
 - Azure DevOps
