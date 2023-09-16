@@ -10,6 +10,9 @@
     - [Quick Start Phase 1][wiki_quick_start_phase_1]
     - [Quick Start Phase 2][wiki_quick_start_phase_2]
     - [Quick Start Phase 3][wiki_quick_start_phase_3]
+  - [Starter Modules][wiki_starter_modules]
+    - [Starter Module Basic][wiki_starter_module_basic]
+    - [Starter Module Hub Networking][wiki_starter_module_hubnetworking]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
 - [Troubleshooting][wiki_troubleshooting]
 - [Contributing][wiki_contributing]
@@ -29,6 +32,9 @@
 [wiki_quick_start_phase_1]:                                          %5BUser-Guide%5D-Quick-Start-Phase-1 "Wiki - Quick Start - Phase 1"
 [wiki_quick_start_phase_2]:                                          %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
 [wiki_quick_start_phase_3]:                                          %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"
+[wiki_starter_modules]:                                              %5BUser-Guide%5D-Starter-Modules "Wiki - Starter Modules"
+[wiki_starter_module_basic]:                                         %5BUser-Guide%5D-Starter-Module-Basic "Wiki - Starter Modules - Basic"
+[wiki_starter_module_hubnetworking]:                                 %5BUser-Guide%5D-Starter-Module-HubNetworking "Wiki - Start Modules - Hub Networking"
 [wiki_frequently_asked_questions]:                                   Frequently-Asked-Questions "Wiki - Frequently Asked Questions"
 [wiki_troubleshooting]:                                              Troubleshooting "Wiki - Troubleshooting"
 [wiki_contributing]:                                                 Contributing "Wiki - Contributing"

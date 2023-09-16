@@ -19,13 +19,13 @@ variable "subscription_id_management" {
 }
 
 variable "root_id" {
-  description = "value of the root id|5|azure_name"
+  description = "The root id is the identity for the root managment group and a prefix applied to all management group identities|5|azure_name"
   type        = string
   default     = "es"
 }
 
 variable "root_name" {
-  description = "value of the root name|6|azure_name"
+  description = "The display name for the root management group|6|azure_name"
   type        = string
   default     = "Enterprise-Scale"
 }

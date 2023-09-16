@@ -19,37 +19,37 @@ variable "subscription_id_management" {
 }
 
 variable "root_id" {
-  description = "value of the root id|5|azure_name"
+  description = "The root id is the identity for the root managment group and a prefix applied to all management group identities|5|azure_name"
   type        = string
   default     = "es"
 }
 
 variable "root_name" {
-  description = "value of the root name|6|azure_name"
+  description = "The display name for the root management group|6|azure_name"
   type        = string
   default     = "Enterprise-Scale"
 }
 
 variable "hub_virtual_network_address_prefix" {
-  description = "value of the hub virtual network address prefix|7|azure_address_prefix"
+  description = "The IP address range for the hub network in CIDR format|7|cidr_range"
   type        = string
   default     = ""
 }
 
 variable "firewall_subnet_address_prefix" {
-  description = "value of the firewall subnet address prefix|8|azure_address_prefix"
+  description = "The IP address range foe the firewall subnet in CIDR format|8|cidr_range"
   type        = string
   default     = ""
 }
 
 variable "gateway_subnet_address_prefix" {
-  description = "value of the gateway subnet address prefix|9|azure_address_prefix"
+  description = "The IP address range foe the gatway subnet in CIDR format|9|cidr_range"
   type        = string
   default     = ""
 }
 
 variable "virtual_network_gateway_creation_enabled" {
-  description = "value of the virtual network gateway creation enabled|10|bool"
+  description = "Whether the virtual network gateway is created|10|bool"
   type        = bool
   default     = false
 }
