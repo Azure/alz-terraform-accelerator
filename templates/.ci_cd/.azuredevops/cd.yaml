@@ -1,6 +1,15 @@
 trigger: 
 - none
 
+parameters:
+- name: terraform_action
+  displayName: Terraform Action to perform
+  type: string
+  default: 'apply'
+  values:
+  - 'apply'
+  - 'destroy'
+
 lockBehavior: sequential
 stages:  
 - stage: plan
@@ -36,11 +45,14 @@ stages:
               env:
                 ARM_USE_AZUREAD: true
             - task: TerraformTaskV4@4
-              displayName: Terraform Plan
+              displayName: Terraform Plan for $${{ parameters.terraform_action }}
               inputs:
                 provider: 'azurerm'
                 command: 'plan'
-                commandOptions: '-out tfplan'
+                $${{ if eq(parameters.terraform_action, 'apply') }}:
+                  commandOptions: '-out=tfplan -input=false'
+                $${{ if eq(parameters.terraform_action, 'destroy') }}:
+                  commandOptions: "-out=tfplan -input=false -destroy"
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
                 ARM_USE_AZUREAD: true
@@ -61,6 +73,8 @@ stages:
                 targetPath: '$(Build.ArtifactsStagingDirectory)'
                 artifact: 'module'
                 publishLocation: 'pipeline'
+            - pwsh: terraform show tfplan 
+              displayName: Show the Plan for Review
 - stage: apply
   displayName: Apply
   dependsOn: plan
@@ -100,7 +114,7 @@ stages:
               env:
                 ARM_USE_AZUREAD: true
             - task: TerraformTaskV4@4
-              displayName: Terraform Apply
+              displayName: Terraform $${{ parameters.terraform_action }}
               inputs:
                 provider: 'azurerm'
                 command: 'apply'
