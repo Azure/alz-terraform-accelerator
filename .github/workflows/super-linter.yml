@@ -1,0 +1,48 @@
+---
+name: Linting
+on:
+  pull_request:
+    types: ['opened', 'synchronize']
+  merge_group:
+
+concurrency:
+  group: linting-${{ github.event.pull_request.head.repo.full_name }}/${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  superlinter:
+    name: super linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: latest
+          terraform_wrapper: false
+      - name: Run github/super-linter/slim
+        uses: github/super-linter/slim@v5
+        env:
+          # Lint all code
+          VALIDATE_ALL_CODEBASE: true
+          FILTER_REGEX_EXCLUDE: '.*tests/vendor/.*'
+          # Need to define main branch as default
+          # is set to master in super-linter
+          DEFAULT_BRANCH: main
+          # Enable setting the status of each individual linter
+          # run in the Checks section of a pull request
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The following linter types will be enabled:
+          VALIDATE_BASH: true
+          VALIDATE_BASH_EXEC: true
+          VALIDATE_GITHUB_ACTIONS: true
+          VALIDATE_JSON: true
+          VALIDATE_MARKDOWN: true
+          # VALIDATE_TERRAFORM_TERRASCAN: true # disabled for now as does not support TF 1.3 optional(type, default)
+          VALIDATE_TERRAFORM_TFLINT: true
+          VALIDATE_YAML: true
+          # VALIDATE_GO: true # Disabled because it down not work :(
+          # Additional settings:
+          # If a shell script is not executable, the bash-exec
+          # linter will report an error when set to true
+          ERROR_ON_MISSING_EXEC_BIT: true
