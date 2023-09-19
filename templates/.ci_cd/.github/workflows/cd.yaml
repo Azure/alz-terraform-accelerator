@@ -1,6 +1,15 @@
 name: Azure Landing Zone Continuous Delivery
 on: 
   workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'Terraform Action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - 'apply'
+          - 'destroy'
 
 permissions:
       id-token: write
@@ -34,8 +43,8 @@ jobs:
         -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
         -backend-config="key=terraform.tfstate"
       
-    - name: Terraform Plan
-      run: terraform plan -out tfplan -input=false
+    - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
+      run: terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
 
     - name: Create Module Artifact
       run: |
@@ -50,6 +59,9 @@ jobs:
       with:
         name: module
         path: ./staging/
+
+    - name: Show the Plan for Review
+      run: terraform show tfplan
 
   apply:
     needs: plan
@@ -81,5 +93,5 @@ jobs:
         -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
         -backend-config="key=terraform.tfstate"
       
-    - name: Terraform Apply
+    - name: Terraform $${{ github.event.inputs.terraform_action }}
       run: terraform apply -input=false -auto-approve tfplan
