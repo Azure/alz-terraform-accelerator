@@ -49,9 +49,9 @@ stages:
               inputs:
                 provider: 'azurerm'
                 command: 'plan'
-                $${{ if(eq(parameters.terraform_action, 'apply')) }}:
+                $${{ if eq(parameters.terraform_action, 'apply') }}:
                   commandOptions: '-out=tfplan -input=false'
-                $${{ if(eq(parameters.terraform_action, 'destroy')) }}:
+                $${{ if eq(parameters.terraform_action, 'destroy') }}:
                   commandOptions: "-out=tfplan -input=false -destroy"
                 environmentServiceNameAzureRM: '${service_connection_name}'
               env:
