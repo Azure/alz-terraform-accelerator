@@ -4,6 +4,7 @@ on:
   pull_request:
     types: ['opened', 'synchronize']
   merge_group:
+  workflow_dispatch:
 
 concurrency:
   group: linting-${{ github.event.pull_request.head.repo.full_name }}/${{ github.head_ref || github.run_id }}
