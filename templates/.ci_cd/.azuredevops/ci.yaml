@@ -60,3 +60,4 @@
                   environmentServiceNameAzureRM: '${service_connection_name}'
                 env:
                   ARM_USE_AZUREAD: true
+                  

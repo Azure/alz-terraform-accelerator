@@ -45,6 +45,7 @@
           -backend-config="key=terraform.tfstate"
         
       - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
+        # shellcheck disable=SC2086
         run: terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
 
       - name: Create Module Artifact
@@ -96,3 +97,4 @@
         
       - name: Terraform $${{ github.event.inputs.terraform_action }}
         run: terraform apply -input=false -auto-approve tfplan
+        
