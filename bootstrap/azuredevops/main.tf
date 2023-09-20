@@ -63,7 +63,6 @@ module "ci_cd_module_files" {
 
 module "azure_devops" {
   source                                       = "./../modules/azure_devops"
-  access_token                                 = var.version_control_system_access_token
   use_legacy_organization_url                  = var.azure_devops_use_organisation_legacy_url
   organization_name                            = var.version_control_system_organization
   authentication_scheme                        = var.azure_devops_authentication_scheme

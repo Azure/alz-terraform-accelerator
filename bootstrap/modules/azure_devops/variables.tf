@@ -1,8 +1,3 @@
-variable "access_token" {
-  type      = string
-  sensitive = true
-}
-
 variable "authentication_scheme" {
   type = string
   validation {
