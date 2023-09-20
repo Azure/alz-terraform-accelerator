@@ -9,7 +9,6 @@ Please refer to the following to learn about the accelerator:
   - [Quick Start Phase 2][wiki_quick_start_phase_2]
   - [Quick Start Phase 3][wiki_quick_start_phase_3]
 
-
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
  [//]: # (************************)

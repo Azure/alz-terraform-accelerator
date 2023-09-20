@@ -19,7 +19,7 @@ variable "subscription_id_management" {
 }
 
 variable "root_id" {
-  description = "The root id is the identity for the root managment group and a prefix applied to all management group identities|5|azure_name"
+  description = "The root id is the identity for the root management group and a prefix applied to all management group identities|5|azure_name"
   type        = string
   default     = "es"
 }
@@ -43,7 +43,7 @@ variable "firewall_subnet_address_prefix" {
 }
 
 variable "gateway_subnet_address_prefix" {
-  description = "The IP address range foe the gatway subnet in CIDR format|9|cidr_range"
+  description = "The IP address range foe the gateway subnet in CIDR format|9|cidr_range"
   type        = string
   default     = ""
 }
