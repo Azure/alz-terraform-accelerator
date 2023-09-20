@@ -1,35 +1,35 @@
 ---
-  name: Azure Landing Zone Continuous Delivery
-  on: 
-    workflow_dispatch:
-      inputs:
-        terraform_action:
-          description: 'Terraform Action to perform'
-          required: true
-          default: 'apply'
-          type: choice
-          options:
-            - 'apply'
-            - 'destroy'
+name: Azure Landing Zone Continuous Delivery
+on: 
+  workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'Terraform Action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - 'apply'
+          - 'destroy'
 
-  permissions:
-        id-token: write
-        contents: read
-        
-  jobs: 
-    plan:
-      name: Plan with Terraform
-      concurrency: ${environment_name_plan}
-      environment: ${environment_name_plan}
-      runs-on: ubuntu-latest
-      env:
-        ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
-        ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
-        ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
-        ARM_USE_AZUREAD: true
-        ARM_USE_OIDC: true
+permissions:
+  id-token: write
+  contents: read
+      
+jobs: 
+  plan:
+    name: Plan with Terraform
+    concurrency: ${environment_name_plan}
+    environment: ${environment_name_plan}
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
+      ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
+      ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
 
-      steps:
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v2.5.0
 
@@ -65,20 +65,20 @@
       - name: Show the Plan for Review
         run: terraform show tfplan
 
-    apply:
-      needs: plan
-      name: Apply with Terraform
-      concurrency: ${environment_name_apply}
-      environment: ${environment_name_apply}
-      runs-on: ubuntu-latest
-      env:
-        ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
-        ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
-        ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
-        ARM_USE_AZUREAD: true
-        ARM_USE_OIDC: true
+  apply:
+    needs: plan
+    name: Apply with Terraform
+    concurrency: ${environment_name_apply}
+    environment: ${environment_name_apply}
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
+      ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
+      ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
 
-      steps:
+    steps:
       - name: Download a Build Artifact
         uses: actions/download-artifact@v2.1.1
         with:

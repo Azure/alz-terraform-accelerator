@@ -1,22 +1,22 @@
 ---
-  name: Azure Landing Zone Continuous Integration
-  on: 
-    pull_request:
-      branches:
+name: Azure Landing Zone Continuous Integration
+on: 
+  pull_request:
+    branches:
       - main
-    workflow_dispatch:
+  workflow_dispatch:
 
-  permissions:
-        id-token: write
-        contents: read
-        pull-requests: write
-        
-  jobs: 
-    validate:
-      name: Validate Terraform
-      runs-on: ubuntu-latest
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+      
+jobs: 
+  validate:
+    name: Validate Terraform
+    runs-on: ubuntu-latest
 
-      steps:
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v2.5.0
 
@@ -32,19 +32,19 @@
       - name: Terraform Validate
         run: terraform validate
 
-    plan:
-      name: Validate Terraform Plan
-      needs: validate
-      runs-on: ubuntu-latest
-      concurrency: ${environment_name_plan}
-      environment: ${environment_name_plan}
-      env:
-          ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
-          ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
-          ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
-          ARM_USE_AZUREAD: true 
-          ARM_USE_OIDC: true
-      steps:
+  plan:
+    name: Validate Terraform Plan
+    needs: validate
+    runs-on: ubuntu-latest
+    concurrency: ${environment_name_plan}
+    environment: ${environment_name_plan}
+    env:
+        ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
+        ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
+        ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
+        ARM_USE_AZUREAD: true 
+        ARM_USE_OIDC: true
+    steps:
       - name: Checkout Code
         uses: actions/checkout@v2.5.0
     
