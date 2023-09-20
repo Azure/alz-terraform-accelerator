@@ -45,7 +45,7 @@ jobs:
           -backend-config="key=terraform.tfstate"
 
       - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
-        # shellcheck disable rule=SC2086
+        # shellcheck disable=SC2086
         run: terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
 
       - name: Create Module Artifact
