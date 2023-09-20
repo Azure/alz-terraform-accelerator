@@ -6,6 +6,7 @@ module "enterprise-scale" {
   root_parent_id   = data.azurerm_client_config.core.tenant_id
 
   deploy_corp_landing_zones    = true
+  deploy_management_resources  = true
   deploy_online_landing_zones  = true
   root_id                      = var.root_id
   root_name                    = var.root_name
@@ -17,19 +18,5 @@ module "enterprise-scale" {
     azurerm              = azurerm
     azurerm.connectivity = azurerm.connectivity
     azurerm.management   = azurerm.management
-  }
-}
-
-module "alz-management" {
-  source  = "Azure/alz-management/azurerm"
-  version = "0.1.4"
-
-  automation_account_name      = "aa-management-${var.default_location}"
-  location                     = var.default_location
-  log_analytics_workspace_name = "log-management-${var.default_location}"
-  resource_group_name          = "rg-management-${var.default_location}"
-
-  providers = {
-    azurerm = azurerm.management
   }
 }
