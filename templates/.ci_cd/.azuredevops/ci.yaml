@@ -1,61 +1,62 @@
-trigger: 
-- none
+---
+  trigger: 
+  - none
 
-lockBehavior: sequential
-stages:
-- stage: validate
-  displayName: Validation Terraform
-  variables:
-    - group: ${variable_group_name}
-  jobs:
-    - job: validate
-      displayName: Validate Terraform
-      pool:
-        vmImage: ubuntu-latest
-      steps:
-      - task: TerraformInstaller@0
-        displayName: Install Terraform
-        inputs:
-          terraformVersion: 'latest'
-      - pwsh: terraform fmt -check
-        displayName: Terraform Format Check
-      - pwsh: terraform init -backend=false
-        displayName: Terraform Init
-      - pwsh: terraform validate
-        displayName: Terraform Validate
-    - deployment: plan
-      dependsOn: validate
-      displayName: Validate Terraform Plan
-      pool: 
-        ${agent_pool_configuration}
-      environment: ${environment_name_plan}
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-              displayName: Checkout Terraform Module
-            - task: TerraformInstaller@0
-              displayName: Install Terraform
-              inputs:
-                terraformVersion: 'latest'
-            - task: TerraformTaskV4@4
-              displayName: Terraform Init
-              inputs:
-                provider: 'azurerm'
-                command: 'init'
-                backendServiceArm: '${service_connection_name}'
-                backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
-                backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
-                backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
-                backendAzureRmKey: 'terraform.tfstate'
-              env:
-                ARM_USE_AZUREAD: true
-            - task: TerraformTaskV4@4
-              displayName: Terraform Plan
-              inputs:
-                provider: 'azurerm'
-                command: 'plan'
-                environmentServiceNameAzureRM: '${service_connection_name}'
-              env:
-                ARM_USE_AZUREAD: true
+  lockBehavior: sequential
+  stages:
+  - stage: validate
+    displayName: Validation Terraform
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - job: validate
+        displayName: Validate Terraform
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+        - task: TerraformInstaller@0
+          displayName: Install Terraform
+          inputs:
+            terraformVersion: 'latest'
+        - pwsh: terraform fmt -check
+          displayName: Terraform Format Check
+        - pwsh: terraform init -backend=false
+          displayName: Terraform Init
+        - pwsh: terraform validate
+          displayName: Terraform Validate
+      - deployment: plan
+        dependsOn: validate
+        displayName: Validate Terraform Plan
+        pool: 
+          ${agent_pool_configuration}
+        environment: ${environment_name_plan}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+              - checkout: self
+                displayName: Checkout Terraform Module
+              - task: TerraformInstaller@0
+                displayName: Install Terraform
+                inputs:
+                  terraformVersion: 'latest'
+              - task: TerraformTaskV4@4
+                displayName: Terraform Init
+                inputs:
+                  provider: 'azurerm'
+                  command: 'init'
+                  backendServiceArm: '${service_connection_name}'
+                  backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
+                  backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
+                  backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
+                  backendAzureRmKey: 'terraform.tfstate'
+                env:
+                  ARM_USE_AZUREAD: true
+              - task: TerraformTaskV4@4
+                displayName: Terraform Plan
+                inputs:
+                  provider: 'azurerm'
+                  command: 'plan'
+                  environmentServiceNameAzureRM: '${service_connection_name}'
+                env:
+                  ARM_USE_AZUREAD: true

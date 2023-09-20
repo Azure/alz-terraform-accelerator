@@ -1,95 +1,96 @@
-name: Azure Landing Zone Continuous Integration
-on: 
-  pull_request:
-    branches:
-     - main
-  workflow_dispatch:
+---
+  name: Azure Landing Zone Continuous Integration
+  on: 
+    pull_request:
+      branches:
+      - main
+    workflow_dispatch:
 
-permissions:
-      id-token: write
-      contents: read
-      pull-requests: write
-      
-jobs: 
-  validate:
-    name: Validate Terraform
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2.5.0
-
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
-
-    - name: Terraform Format Check
-      run: terraform fmt -check
-
-    - name: Terraform Init
-      run: terraform init -backend=false
+  permissions:
+        id-token: write
+        contents: read
+        pull-requests: write
         
-    - name: Terraform Validate
-      run: terraform validate
+  jobs: 
+    validate:
+      name: Validate Terraform
+      runs-on: ubuntu-latest
 
-  plan:
-    name: Validate Terraform Plan
-    needs: validate
-    runs-on: ubuntu-latest
-    concurrency: ${environment_name_plan}
-    environment: ${environment_name_plan}
-    env:
-        ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
-        ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
-        ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
-        ARM_USE_AZUREAD: true 
-        ARM_USE_OIDC: true
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2.5.0
-  
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
-  
-    - name: Terraform Init
-      run: |
-       terraform init \
-       -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
-       -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
-       -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
-       -backend-config="key=terraform.tfstate"
+      steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2.5.0
 
-    - name: Terraform Plan
-      id: plan
-      run: terraform plan -no-color -input=false
-      continue-on-error: true
-      
-    - name: Update Pull Request
-      if: github.event_name == 'pull_request'
-      uses: actions/github-script@v6
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+
+      - name: Terraform Format Check
+        run: terraform fmt -check
+
+      - name: Terraform Init
+        run: terraform init -backend=false
+          
+      - name: Terraform Validate
+        run: terraform validate
+
+    plan:
+      name: Validate Terraform Plan
+      needs: validate
+      runs-on: ubuntu-latest
+      concurrency: ${environment_name_plan}
+      environment: ${environment_name_plan}
       env:
-        PLAN: "terraform\n$${{ steps.plan.outputs.stdout }}"
-      with:
-        github-token: $${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const output = `#### Terraform Plan 📖\`$${{ steps.plan.outcome }}\`
+          ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
+          ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
+          ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
+          ARM_USE_AZUREAD: true 
+          ARM_USE_OIDC: true
+      steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2.5.0
+    
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2.0.3
+    
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+          -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+          -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
+          -backend-config="key=terraform.tfstate"
 
-          <details><summary>Show Plan</summary>
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color -input=false
+        continue-on-error: true
+        
+      - name: Update Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        env:
+          PLAN: "terraform\n$${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: $${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Plan 📖\`$${{ steps.plan.outcome }}\`
 
-          \`\`\`\n
-          $${process.env.PLAN}
-          \`\`\`
+            <details><summary>Show Plan</summary>
 
-          </details>
+            \`\`\`\n
+            $${process.env.PLAN}
+            \`\`\`
 
-          *Pushed by: @$${{ github.actor }}, Action: \`$${{ github.event_name }}\`*`;
+            </details>
 
-          github.rest.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: output
-          })
+            *Pushed by: @$${{ github.actor }}, Action: \`$${{ github.event_name }}\`*`;
 
-    - name: Terraform Plan Status
-      if: steps.plan.outcome == 'failure'
-      run: exit 1
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1

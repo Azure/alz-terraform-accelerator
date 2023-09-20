@@ -41,7 +41,7 @@ The inputs differ depending on the VCS you have chosen:
 1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -IaC "terraform" -Cicd "github"`.
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
-    1. `starter_module`: This is the choice of [Starter Module](), which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
+    1. `starter_module`: This is the choice of [Starter Module][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
     1. `version_control_system_access_token`: Enter the GitHub PAT you generated in a previous step.
     1. `version_control_system_organization`: Enter the name of your GitHub organization.
     1. `azure_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.

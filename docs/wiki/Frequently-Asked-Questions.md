@@ -38,9 +38,9 @@ You'll now be able to delete the `./v#.#.#` folder and run the `New-ALZEnvironme
 
 ## Multiple landing zone deployments
 
-### I want to deploy multiple landing zones, but the PowerShell command keeps trying to overrwrite my existing environment.
+### I want to deploy multiple landing zones, but the PowerShell command keeps trying to overrwrite my existing environment
 
-After bootstrapping, the PowerShell leaves the folder structure intact, including the Terraform state file. This is by design, so you have an opportunity to amend or destroy the environment. 
+After bootstrapping, the PowerShell leaves the folder structure intact, including the Terraform state file. This is by design, so you have an opportunity to amend or destroy the environment.
 
 If you want to deploy to a separate environment, the simplest approach is to specify a separate folder for each deployment using the `-Output` parameter. For example:
 

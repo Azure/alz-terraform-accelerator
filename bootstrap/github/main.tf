@@ -54,8 +54,6 @@ module "github" {
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
-  pipeline_ci_file                             = ".github/workflows/ci.yaml"
-  pipeline_cd_file                             = ".github/workflows/cd.yaml"
   backend_azure_resource_group_name            = local.resource_names.resource_group_state
   backend_azure_storage_account_name           = local.resource_names.storage_account
   backend_azure_storage_account_container_name = local.resource_names.storage_container
