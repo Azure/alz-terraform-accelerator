@@ -1,12 +1,22 @@
+---
 name: Azure Landing Zone Continuous Delivery
-on: 
+on:
   workflow_dispatch:
+    inputs:
+      terraform_action:
+        description: 'Terraform Action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - 'apply'
+          - 'destroy'
 
 permissions:
-      id-token: write
-      contents: read
-      
-jobs: 
+  id-token: write
+  contents: read
+
+jobs:
   plan:
     name: Plan with Terraform
     concurrency: ${environment_name_plan}
@@ -20,36 +30,41 @@ jobs:
       ARM_USE_OIDC: true
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v2.5.0
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - name: Terraform Init
-      run: |
-        terraform init \
-        -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
-        -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
-        -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
-        -backend-config="key=terraform.tfstate"
-      
-    - name: Terraform Plan
-      run: terraform plan -out tfplan -input=false
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+          -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+          -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
+          -backend-config="key=terraform.tfstate"
 
-    - name: Create Module Artifact
-      run: |
-        New-Item -Path . -Name "staging" -ItemType "directory"
-        Copy-Item -Path "./*.tf" -Destination "./staging"
-        Copy-Item -Path "./*.tfvars" -Destination "./staging"
-        Copy-Item -Path "./tfplan" -Destination "./staging"
-      shell: pwsh
+      - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
+        run: |
+          # shellcheck disable=SC2086
+          terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
 
-    - name: Publish Module Artifact
-      uses: actions/upload-artifact@v3.1.3
-      with:
-        name: module
-        path: ./staging/
+      - name: Create Module Artifact
+        run: |
+          New-Item -Path . -Name "staging" -ItemType "directory"
+          Copy-Item -Path "./*.tf" -Destination "./staging"
+          Copy-Item -Path "./*.tfvars" -Destination "./staging"
+          Copy-Item -Path "./tfplan" -Destination "./staging"
+        shell: pwsh
+
+      - name: Publish Module Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: module
+          path: ./staging/
+
+      - name: Show the Plan for Review
+        run: terraform show tfplan
 
   apply:
     needs: plan
@@ -65,21 +80,21 @@ jobs:
       ARM_USE_OIDC: true
 
     steps:
-    - name: Download a Build Artifact
-      uses: actions/download-artifact@v2.1.1
-      with:
-        name: module
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: module
 
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2.0.3
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
 
-    - name: Terraform Init
-      run: |
-        terraform init \
-        -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
-        -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
-        -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
-        -backend-config="key=terraform.tfstate"
-      
-    - name: Terraform Apply
-      run: terraform apply -input=false -auto-approve tfplan
+      - name: Terraform Init
+        run: |
+          terraform init \
+          -backend-config="resource_group_name=$${{vars.BACKEND_AZURE_RESOURCE_GROUP_NAME}}" \
+          -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
+          -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
+          -backend-config="key=terraform.tfstate"
+
+      - name: Terraform $${{ github.event.inputs.terraform_action }}
+        run: terraform apply -input=false -auto-approve tfplan

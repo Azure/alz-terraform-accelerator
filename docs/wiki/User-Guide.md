@@ -5,9 +5,9 @@ Please refer to the following to learn about the accelerator:
 
 - [Getting Started][wiki_getting_started]
 - [Quick Start][wiki_quick_start]
-    - [Quick Start Phase 1][wiki_quick_start_phase_1]
-    - [Quick Start Phase 2][wiki_quick_start_phase_2]
-    - [Quick Start Phase 3][wiki_quick_start_phase_3]
+  - [Quick Start Phase 1][wiki_quick_start_phase_1]
+  - [Quick Start Phase 2][wiki_quick_start_phase_2]
+  - [Quick Start Phase 3][wiki_quick_start_phase_3]
 
 
  [//]: # (************************)
