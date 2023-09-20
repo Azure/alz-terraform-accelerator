@@ -1,6 +1,6 @@
 ---
 name: Azure Landing Zone Continuous Delivery
-on: 
+on:
   workflow_dispatch:
     inputs:
       terraform_action:
@@ -15,8 +15,8 @@ on:
 permissions:
   id-token: write
   contents: read
-      
-jobs: 
+
+jobs:
   plan:
     name: Plan with Terraform
     concurrency: ${environment_name_plan}
@@ -43,10 +43,9 @@ jobs:
           -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
           -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
           -backend-config="key=terraform.tfstate"
-        
+
       - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
-# shellcheck disable=SC2086
-        run: terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
+        run: "terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}"
 
       - name: Create Module Artifact
         run: |
@@ -94,6 +93,6 @@ jobs:
           -backend-config="storage_account_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_NAME}}" \
           -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
           -backend-config="key=terraform.tfstate"
-        
+
       - name: Terraform $${{ github.event.inputs.terraform_action }}
         run: terraform apply -input=false -auto-approve tfplan

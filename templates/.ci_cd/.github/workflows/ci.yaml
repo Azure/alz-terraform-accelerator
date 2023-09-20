@@ -1,6 +1,6 @@
 ---
 name: Azure Landing Zone Continuous Integration
-on: 
+on:
   pull_request:
     branches:
       - main
@@ -10,8 +10,8 @@ permissions:
   id-token: write
   contents: read
   pull-requests: write
-      
-jobs: 
+
+jobs:
   validate:
     name: Validate Terraform
     runs-on: ubuntu-latest
@@ -28,7 +28,7 @@ jobs:
 
       - name: Terraform Init
         run: terraform init -backend=false
-          
+
       - name: Terraform Validate
         run: terraform validate
 
@@ -39,18 +39,18 @@ jobs:
     concurrency: ${environment_name_plan}
     environment: ${environment_name_plan}
     env:
-        ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
-        ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
-        ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
-        ARM_USE_AZUREAD: true 
-        ARM_USE_OIDC: true
+      ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
+      ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
+      ARM_TENANT_ID: "$${{ vars.AZURE_TENANT_ID }}"
+      ARM_USE_AZUREAD: true
+      ARM_USE_OIDC: true
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2.5.0
-    
+
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2.0.3
-    
+
       - name: Terraform Init
         run: |
           terraform init \
@@ -63,7 +63,7 @@ jobs:
         id: plan
         run: terraform plan -no-color -input=false
         continue-on-error: true
-        
+
       - name: Update Pull Request
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v6
