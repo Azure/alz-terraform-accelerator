@@ -57,7 +57,6 @@ The inputs differ depending on the VCS you have chosen:
 1. If you are happy with the plan, then type `yes` and hit enter.
 1. The Terraform will `apply` and your environment will be bootstrapped.
 
-
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
  [//]: # (************************)
