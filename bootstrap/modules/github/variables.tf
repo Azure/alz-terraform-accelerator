@@ -1,8 +1,3 @@
-variable "access_token" {
-  type      = string
-  sensitive = true
-}
-
 variable "organization_name" {
   type = string
 }
@@ -28,14 +23,6 @@ variable "repository_files" {
     path = string
     flag = string
   }))
-}
-
-variable "pipeline_ci_file" {
-  type = string
-}
-
-variable "pipeline_cd_file" {
-  type = string
 }
 
 variable "managed_identity_client_id" {
