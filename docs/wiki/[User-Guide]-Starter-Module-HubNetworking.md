@@ -1,5 +1,5 @@
 <!-- markdownlint-disable first-line-h1 -->
-
+# Starter Module - Hub Networking
 The `hubnetworking` starter module builds off the `basic` starter module ([Basic Starter Module][wiki_starter_module_basic]) and additional configures hub networking resources such as the virtual network, firewall and virtual network gateway.
 
 ## High Level Design
