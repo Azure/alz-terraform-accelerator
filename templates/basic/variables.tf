@@ -19,7 +19,7 @@ variable "subscription_id_management" {
 }
 
 variable "root_id" {
-  description = "The root id is the identity for the root managment group and a prefix applied to all management group identities|5|azure_name"
+  description = "The root id is the identity for the root management group and a prefix applied to all management group identities|5|azure_name"
   type        = string
   default     = "es"
 }

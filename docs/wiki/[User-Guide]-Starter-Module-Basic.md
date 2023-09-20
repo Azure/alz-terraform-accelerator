@@ -1,6 +1,6 @@
 <!-- markdownlint-disable first-line-h1 -->
 # Starter Module - Basic
-The `basic` starter module creates a management group hieracrhy with polciy assignments, and deploys management resources such as the log analytics workspace and automation account.
+The `basic` starter module creates a management group hierarchy with policy assignments, and deploys management resources such as the Log Analytics Workspace and Automation Account.
 
 ## High Level Design 
 
@@ -15,5 +15,5 @@ The `caf-enterprise-scale` module is solely used for this basic starter module, 
 - `subscription_id_connectivity`: The identifier of the Connectivity Subscription.
 - `subscription_id_identity`: The identifier of the Identity Subscription.
 - `subscription_id_management`: The identifier of the Management Subscription.
-- `root_id`: The root id is the identity for the root managment group and a prefix applied to all management group identities.
+- `root_id`: The root id is the identity for the root management group and a prefix applied to all management group identities.
 - `root_name`: The display name for the root management group.
