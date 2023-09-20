@@ -44,7 +44,6 @@ module "ci_cd_module_files" {
 
 module "github" {
   source                                       = "./../modules/github"
-  access_token                                 = var.version_control_system_access_token
   organization_name                            = var.version_control_system_organization
   environment_name_plan                        = local.resource_names.version_control_system_environment_plan
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply

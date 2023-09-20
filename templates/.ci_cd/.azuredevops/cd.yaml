@@ -3,13 +3,13 @@ trigger:
   - none
 
 parameters:
-- name: terraform_action
-  displayName: Terraform Action to perform
-  type: string
-  default: 'apply'
-  values:
-    - 'apply'
-    - 'destroy'
+  - name: terraform_action
+    displayName: Terraform Action to perform
+    type: string
+    default: 'apply'
+    values:
+      - 'apply'
+      - 'destroy'
 
 lockBehavior: sequential
 stages:

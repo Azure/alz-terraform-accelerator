@@ -6,3 +6,6 @@ rules:
   line-length:
     max: 200
     level: warning
+  truthy:
+    check-keys: false
+    level: warning
