@@ -18,10 +18,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.5.0
+        uses: actions/checkout@v4
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2.0.3
+        uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Format Check
         run: terraform fmt -check
@@ -46,10 +46,10 @@ jobs:
       ARM_USE_OIDC: true
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2.5.0
+        uses: actions/checkout@v4
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2.0.3
+        uses: hashicorp/setup-terraform@v2
 
       - name: Terraform Init
         run: |
