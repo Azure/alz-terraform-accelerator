@@ -40,4 +40,3 @@ jobs:
             echo "Run 'make fmt && make docs' locally and commit the changes to fix."
             exit 1
           fi
-          
