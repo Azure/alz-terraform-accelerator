@@ -1,6 +1,4 @@
 <!-- markdownlint-disable first-line-h1 -->
-# Starter Module - Basic
-
 The `basic` starter module creates a management group hierarchy with policy assignments, and deploys management resources such as the Log Analytics Workspace and Automation Account.
 
 ## High Level Design
