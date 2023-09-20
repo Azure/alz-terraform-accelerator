@@ -1,110 +1,125 @@
-trigger: 
-- none
+---
+trigger:
+  - none
+
+parameters:
+  - name: terraform_action
+    displayName: Terraform Action to perform
+    type: string
+    default: 'apply'
+    values:
+      - 'apply'
+      - 'destroy'
 
 lockBehavior: sequential
-stages:  
-- stage: plan
-  displayName: Plan
-  variables:
-    - group: ${variable_group_name}
-  jobs:
-    - deployment: plan
-      displayName: Plan with Terraform
-      pool: 
-        ${agent_pool_configuration}
-      environment: ${environment_name_plan}
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - checkout: self
-              displayName: Checkout Terraform Module
-            - task: TerraformInstaller@0
-              displayName: Install Terraform
-              inputs:
-                terraformVersion: 'latest'
-            - task: TerraformTaskV4@4
-              displayName: Terraform Init
-              inputs:
-                provider: 'azurerm'
-                command: 'init'
-                backendServiceArm: '${service_connection_name}'
-                backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
-                backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
-                backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
-                backendAzureRmKey: 'terraform.tfstate'
-              env:
-                ARM_USE_AZUREAD: true
-            - task: TerraformTaskV4@4
-              displayName: Terraform Plan
-              inputs:
-                provider: 'azurerm'
-                command: 'plan'
-                commandOptions: '-out tfplan'
-                environmentServiceNameAzureRM: '${service_connection_name}'
-              env:
-                ARM_USE_AZUREAD: true
-            - task: CopyFiles@2
-              displayName: Create Module Artifact
-              inputs:
-                SourceFolder: '$(Build.SourcesDirectory)'
-                Contents: |
-                  *.tf
-                  *.tfvars
-                  tfplan
-                TargetFolder: '$(Build.ArtifactsStagingDirectory)'
-                CleanTargetFolder: true
-                OverWrite: true
-            - task: PublishPipelineArtifact@1
-              displayName: Publish Module Artifact
-              inputs:
-                targetPath: '$(Build.ArtifactsStagingDirectory)'
-                artifact: 'module'
-                publishLocation: 'pipeline'
-- stage: apply
-  displayName: Apply
-  dependsOn: plan
-  variables:
-    - group: ${variable_group_name}
-  jobs:
-    - deployment: apply
-      displayName: Apply with Terraform
-      pool: 
-        ${agent_pool_configuration}
-      environment: ${environment_name_apply}
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - download: none
-            - task: DownloadPipelineArtifact@2
-              displayName: Download Module Artifact
-              inputs:
-                buildType: 'current'
-                artifactName: 'module'
-                targetPath: '$(Build.SourcesDirectory)'
-            - task: TerraformInstaller@0
-              displayName: Install Terraform
-              inputs:
-                terraformVersion: 'latest'
-            - task: TerraformTaskV4@4
-              displayName: Terraform Init
-              inputs:
-                provider: 'azurerm'
-                command: 'init'
-                backendServiceArm: '${service_connection_name}'
-                backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
-                backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
-                backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
-                backendAzureRmKey: 'terraform.tfstate'
-              env:
-                ARM_USE_AZUREAD: true
-            - task: TerraformTaskV4@4
-              displayName: Terraform Apply
-              inputs:
-                provider: 'azurerm'
-                command: 'apply'
-                commandOptions: '-auto-approve tfplan'
-                environmentServiceNameAzureRM: '${service_connection_name}'
-              env:
-                ARM_USE_AZUREAD: true
+stages:
+  - stage: plan
+    displayName: Plan
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - deployment: plan
+        displayName: Plan with Terraform
+        pool:
+          ${agent_pool_configuration}
+        environment: ${environment_name_plan}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  displayName: Checkout Terraform Module
+                - task: TerraformInstaller@0
+                  displayName: Install Terraform
+                  inputs:
+                    terraformVersion: 'latest'
+                - task: TerraformTaskV4@4
+                  displayName: Terraform Init
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'init'
+                    backendServiceArm: '${service_connection_name}'
+                    backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
+                    backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
+                    backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
+                    backendAzureRmKey: 'terraform.tfstate'
+                  env:
+                    ARM_USE_AZUREAD: true
+                - task: TerraformTaskV4@4
+                  displayName: Terraform Plan for $${{ parameters.terraform_action }}
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'plan'
+                    $${{ if eq(parameters.terraform_action, 'apply') }}:
+                      commandOptions: '-out=tfplan -input=false'
+                    $${{ if eq(parameters.terraform_action, 'destroy') }}:
+                      commandOptions: "-out=tfplan -input=false -destroy"
+                    environmentServiceNameAzureRM: '${service_connection_name}'
+                  env:
+                    ARM_USE_AZUREAD: true
+                - task: CopyFiles@2
+                  displayName: Create Module Artifact
+                  inputs:
+                    SourceFolder: '$(Build.SourcesDirectory)'
+                    Contents: |
+                      *.tf
+                      *.tfvars
+                      tfplan
+                    TargetFolder: '$(Build.ArtifactsStagingDirectory)'
+                    CleanTargetFolder: true
+                    OverWrite: true
+                - task: PublishPipelineArtifact@1
+                  displayName: Publish Module Artifact
+                  inputs:
+                    targetPath: '$(Build.ArtifactsStagingDirectory)'
+                    artifact: 'module'
+                    publishLocation: 'pipeline'
+                - pwsh: terraform show tfplan
+                  displayName: Show the Plan for Review
+  - stage: apply
+    displayName: Apply
+    dependsOn: plan
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - deployment: apply
+        displayName: Apply with Terraform
+        pool:
+          ${agent_pool_configuration}
+        environment: ${environment_name_apply}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - task: DownloadPipelineArtifact@2
+                  displayName: Download Module Artifact
+                  inputs:
+                    buildType: 'current'
+                    artifactName: 'module'
+                    targetPath: '$(Build.SourcesDirectory)'
+                - task: TerraformInstaller@0
+                  displayName: Install Terraform
+                  inputs:
+                    terraformVersion: 'latest'
+                - task: TerraformTaskV4@4
+                  displayName: Terraform Init
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'init'
+                    backendServiceArm: '${service_connection_name}'
+                    backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
+                    backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
+                    backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
+                    backendAzureRmKey: 'terraform.tfstate'
+                  env:
+                    ARM_USE_AZUREAD: true
+                - task: TerraformTaskV4@4
+                  displayName: Terraform $${{ parameters.terraform_action }}
+                  inputs:
+                    provider: 'azurerm'
+                    command: 'apply'
+                    commandOptions: '-auto-approve tfplan'
+                    environmentServiceNameAzureRM: '${service_connection_name}'
+                  env:
+                    ARM_USE_AZUREAD: true
