@@ -6,8 +6,10 @@
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)
+![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Azure/alz-terraform-accelerator)
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Average time to resolve an issue")
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Percentage of issues still open")
+![GitHub contributors](https://img.shields.io/github/contributors/Azure/alz-terraform-accelerator)
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
