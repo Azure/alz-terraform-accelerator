@@ -2,7 +2,7 @@
 
 | :warning: WARNING!          |
 |:---------------------------|
-| This repository is a work in progress, do not use it. This notice will be removed once it is ready for pre-release. We have made this repository public to enable end to end testing only. |
+| This repository is a work in progress, use it at your own risk. This notice will be removed once it is ready for public preview. |
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)
