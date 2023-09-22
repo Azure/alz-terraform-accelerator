@@ -77,6 +77,12 @@ variable "root_management_group_display_name" {
   default     = "Tenant Root Group"
 }
 
+variable "additional_files" {
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|14"
+  type        = list(string)
+  default     = []
+}
+
 variable "agent_container_image" {
   description = "The container image to use for Azure DevOps Agents|hidden"
   type        = string

@@ -42,6 +42,16 @@ module "ci_cd_module_files" {
   flag        = "cicd"
 }
 
+locals {
+  starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
+  additional_repo_files     = { for file in var.additional_files : basename(file) => {
+      path = file
+      flag = "additional"
+    }
+  }
+  all_repo_files            = merge(local.starter_module_repo_files, local.additional_repo_files)
+}
+
 module "github" {
   source                                       = "./../modules/github"
   organization_name                            = var.version_control_system_organization
@@ -49,7 +59,7 @@ module "github" {
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply
   repository_name                              = local.resource_names.version_control_system_repository
   repository_visibility                        = var.repository_visibility
-  repository_files                             = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
+  repository_files                             = local.all_repo_files
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id

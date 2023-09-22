@@ -61,6 +61,16 @@ module "ci_cd_module_files" {
   flag        = "cicd"
 }
 
+locals {
+  starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
+  additional_repo_files     = { for file in var.additional_files : basename(file) => {
+      path = file
+      flag = "additional"
+    }
+  }
+  all_repo_files            = merge(local.starter_module_repo_files, local.additional_repo_files)
+}
+
 module "azure_devops" {
   source                                       = "./../modules/azure_devops"
   use_legacy_organization_url                  = var.azure_devops_use_organisation_legacy_url
@@ -71,7 +81,7 @@ module "azure_devops" {
   environment_name_plan                        = local.resource_names.version_control_system_environment_plan
   environment_name_apply                       = local.resource_names.version_control_system_environment_apply
   repository_name                              = local.resource_names.version_control_system_repository
-  repository_files                             = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
+  repository_files                             = local.all_repo_files
   service_connection_name                      = local.resource_names.version_control_system_service_connection
   variable_group_name                          = local.resource_names.version_control_system_variable_group
   managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
