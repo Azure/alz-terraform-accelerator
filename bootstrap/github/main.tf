@@ -44,12 +44,12 @@ module "ci_cd_module_files" {
 
 locals {
   starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
-  additional_repo_files     = { for file in var.additional_files : basename(file) => {
-      path = file
-      flag = "additional"
+  additional_repo_files = { for file in var.additional_files : basename(file) => {
+    path = file
+    flag = "additional"
     }
   }
-  all_repo_files            = merge(local.starter_module_repo_files, local.additional_repo_files)
+  all_repo_files = merge(local.starter_module_repo_files, local.additional_repo_files)
 }
 
 module "github" {
