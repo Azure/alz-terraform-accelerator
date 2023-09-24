@@ -20,7 +20,7 @@ locals {
   module_files = { for key, value in var.repository_files : key =>
     {
       content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
-    } if value.flag == "module"
+    } if value.flag == "module" || value.flag == "additional"
   }
   repository_files = merge(local.cicd_file, local.module_files)
 }

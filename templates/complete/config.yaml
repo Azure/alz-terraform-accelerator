@@ -1,0 +1,44 @@
+archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
+  root_name: es
+  root_id: Enterprise-Scale
+  deploy_corp_landing_zones: true
+  deploy_online_landing_zones: true
+  default_location: uksouth
+  deploy_management_resources: true
+  configure_management_resources:
+    location: uksouth
+    settings:
+      security_center:
+        config:
+          email_security_contact: "security_contact@replace_me"
+    advanced:
+      asc_export_resource_group_name: rg-asc-export
+      custom_settings_by_resource_type:
+        azurerm_resource_group:
+          management:
+            name: rg-management
+        azurerm_log_analytics_workspace:
+          management:
+            name: log-management
+        azurerm_automation_account:
+          management:
+            name: aa-management
+connectivity:
+  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+    hub_virtual_networks:
+      primary:
+        name: vnet-hub
+        resource_group_name: rg-connectivity
+        location: uksouth
+        address_space:
+          - 10.0.0.0/16
+        firewall:
+          name: fw-hub
+          sku_name: AZFW_VNet
+          sku_tier: Standard
+          subnet_address_prefix: 10.0.1.0/24
+        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+          name: vgw-hub
+          sku: VpnGw1
+          type: Vpn
+          subnet_address_prefix: 10.0.2.0/24
