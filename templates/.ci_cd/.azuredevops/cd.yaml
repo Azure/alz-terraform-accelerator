@@ -1,6 +1,8 @@
 ---
 trigger:
-  - none
+  branches:
+    include:
+      - main
 
 parameters:
   - name: terraform_action
@@ -46,13 +48,13 @@ stages:
                   env:
                     ARM_USE_AZUREAD: true
                 - task: TerraformTaskV4@4
-                  displayName: Terraform Plan for $${{ parameters.terraform_action }}
+                  displayName: Terraform Plan for $${{ coalesce(parameters.terraform_action, 'Apply') }}
                   inputs:
                     provider: 'azurerm'
                     command: 'plan'
-                    $${{ if eq(parameters.terraform_action, 'apply') }}:
+                    $${{ if eq(coalesce(parameters.terraform_action, 'apply'), 'apply') }}:
                       commandOptions: '-out=tfplan -input=false'
-                    $${{ if eq(parameters.terraform_action, 'destroy') }}:
+                    $${{ if eq(coalesce(parameters.terraform_action, 'apply'), 'destroy') }}:
                       commandOptions: "-out=tfplan -input=false -destroy"
                     environmentServiceNameAzureRM: '${service_connection_name}'
                   env:
@@ -115,7 +117,7 @@ stages:
                   env:
                     ARM_USE_AZUREAD: true
                 - task: TerraformTaskV4@4
-                  displayName: Terraform $${{ parameters.terraform_action }}
+                  displayName: Terraform $${{ coalesce(parameters.terraform_action, 'Apply') }}
                   inputs:
                     provider: 'azurerm'
                     command: 'apply'
