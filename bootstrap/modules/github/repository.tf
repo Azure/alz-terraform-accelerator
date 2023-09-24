@@ -32,6 +32,7 @@ resource "github_repository_file" "alz" {
   content             = each.value.content
   commit_author       = "Azure Landing Zone"
   commit_email        = "alz@microsoft.com"
+  commit_message      = "Add ${each.key} [skip ci]"
   overwrite_on_create = true
 }
 

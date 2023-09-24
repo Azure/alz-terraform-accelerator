@@ -1,6 +1,9 @@
 ---
 name: Azure Landing Zone Continuous Delivery
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       terraform_action:
@@ -44,7 +47,7 @@ jobs:
           -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
           -backend-config="key=terraform.tfstate"
 
-      - name: Terraform Plan for $${{ github.event.inputs.terraform_action }}
+      - name: Terraform Plan for $${{ github.event.inputs.terraform_action == 'destroy' && 'Destroy' || 'Apply' }}
         run: |
           # shellcheck disable=SC2086
           terraform plan -out=tfplan -input=false $${{ github.event.inputs.terraform_action == 'destroy' && '-destroy' || '' }}
@@ -96,5 +99,5 @@ jobs:
           -backend-config="container_name=$${{vars.BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME}}" \
           -backend-config="key=terraform.tfstate"
 
-      - name: Terraform $${{ github.event.inputs.terraform_action }}
+      - name: Terraform $${{ github.event.inputs.terraform_action == 'destroy' && 'Destroy' || 'Apply' }}
         run: terraform apply -input=false -auto-approve tfplan
