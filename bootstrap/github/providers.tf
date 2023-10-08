@@ -16,6 +16,7 @@ terraform {
 }
 
 provider "azurerm" {
+  subscription_id = coalesce(var.azure_subscription_id, data.azurerm_client_config.current.subscription_id)
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false

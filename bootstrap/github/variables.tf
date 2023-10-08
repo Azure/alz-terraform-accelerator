@@ -20,44 +20,50 @@ variable "azure_location" {
   type        = string
 }
 
+variable "azure_subscription_id" {
+  description = "Azure Subscription ID for the landing zone management resources|5|azure_subscription_id"
+  type        = string
+  default     = ""
+}
+
 variable "service_name" {
-  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|5|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|6|azure_name_section"
   type        = string
   default     = "alz"
 }
 
 variable "environment_name" {
-  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|6|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|7|azure_name_section"
   type        = string
   default     = "mgmt"
 }
 
 variable "postfix_number" {
-  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|7|number"
+  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|8|number"
   type        = number
   default     = 1
 }
 
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|8"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|9"
   type        = list(string)
   default     = []
 }
 
 variable "repository_visibility" {
-  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|9|repo_visibility"
+  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|10|repo_visibility"
   type        = string
   default     = "private"
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|10"
+  description = "The root management group display name|11"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|11"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|12"
   type        = list(string)
   default     = []
 }
