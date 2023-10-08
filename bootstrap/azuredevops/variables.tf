@@ -21,7 +21,7 @@ variable "azure_location" {
 }
 
 variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources|5|azure_subscription_id"
+  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|5|azure_subscription_id"
   type        = string
   default     = ""
 }
