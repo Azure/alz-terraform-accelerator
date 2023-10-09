@@ -81,6 +81,16 @@ jobs:
           $Inputs["root_management_group_display_name"] = "Tenant Root Group"
           $Inputs["additional_files"] = ""
 
+          $Inputs["test_variable_01"] = "testing123"
+          $Inputs["test_variable_02"] = "123"
+          $Inputs["test_variable_03"] = "true"
+          $Inputs["test_variable_04"] = "uksouth"
+          $Inputs["test_variable_05"] = "12345678-1234-1234-1234-123456789012"
+          $Inputs["test_variable_06"] = "testing456"
+          $Inputs["subscription_id_connectivity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          $Inputs["subscription_id_identity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          $Inputs["subscription_id_management"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+
           $json = $Inputs | ConvertTo-Json -Depth 100 | Out-File -FilePath inputs.json -Encoding utf8 -Force
 
         shell: pwsh
