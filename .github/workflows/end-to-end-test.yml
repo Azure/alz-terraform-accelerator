@@ -21,6 +21,10 @@ jobs:
         terraform_version: ['latest', '1.3.0']
         versionControlSystem: ['github', 'azuredevops']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
+        exclude:
+          - versionControlSystem: github
+            authScheme: ManagedServiceIdentity
+
     runs-on: ${{ matrix.operatingSystem }}
     steps:
       - name: Show env
@@ -43,11 +47,6 @@ jobs:
           $authScheme = "${{ matrix.authScheme }}"
           $operatingSystem = "${{ matrix.operatingSystem }}"
           $terraformVersion = "${{ matrix.terraform_version }}"
-
-          # If we are running on GitHub and using ManagedServiceIdentity, then we can skip the test and report success
-          if($versionControlSystem -eq "github" -and $authScheme -eq "ManagedServiceIdentity") {
-            exit 0
-          }
 
           # Get Hash Of Inputs
           $hashInput = "$versionControlSystem$authScheme$operatingSystem$terraformVersion"
@@ -91,12 +90,6 @@ jobs:
 
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
-          $authScheme = "${{ matrix.authScheme }}"
-
-          # If we are running on GitHub and using ManagedServiceIdentity, then we can skip the test and report success
-          if($versionControlSystem -eq "github" -and $authScheme -eq "ManagedServiceIdentity") {
-            exit 0
-          }
 
           # Install the Module
           Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
