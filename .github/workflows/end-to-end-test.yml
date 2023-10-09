@@ -103,7 +103,7 @@ jobs:
           Write-Host "ARM_SUBSCRIPTION_ID: $env:ARM_SUBSCRIPTION_ID"
           Write-Host "ARM_CLIENT_ID: $env:ARM_CLIENT_ID"
           Write-Host "ARM_USE_OIDC: $env:ARM_USE_OIDC"
-          $env:TF_LOG="TRACE"
+          $env:TF_LOG="DEBUG"
 
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
