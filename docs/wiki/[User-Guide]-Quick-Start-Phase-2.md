@@ -21,6 +21,7 @@ The inputs differ depending on the VCS you have chosen:
     1. `version_control_system_access_token`: Enter the Azure DevOps PAT you generated in a previous step.
     1. `version_control_system_organization`: Enter the name of your Azure DevOps organization.
     1. `azure_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.
+    1. `azure_subscription_id`: Enter the id of the subscription in which you would like to deploy the storage account and identity for your continuous delivery pipeline. If left blank, the subscription you are connected to via `az login` will be used.
     1. `service_name`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-<service_name>-mgmt-uksouth-001`. We recommend using `alz` for this.
     1. `environment_name`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-alz-<environment_name>-uksouth-001`. We recommend using `mgmt` for this.
     1. `postfix_number`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.
@@ -46,6 +47,7 @@ The inputs differ depending on the VCS you have chosen:
     1. `version_control_system_access_token`: Enter the GitHub PAT you generated in a previous step.
     1. `version_control_system_organization`: Enter the name of your GitHub organization.
     1. `azure_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.
+    1. `azure_subscription_id`: Enter the id of the subscription in which you would like to deploy the storage account and identity for your continuous delivery pipeline. If left blank, the subscription you are connected to via `az login` will be used.
     1. `service_name`: This is used to build up the names of your Azure and GitHub resources, for example `rg-<service_name>-mgmt-uksouth-001`. We recommend using `alz` for this.
     1. `environment_name`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-<environment_name>-uksouth-001`. We recommend using `mgmt` for this.
     1. `postfix_number`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.
