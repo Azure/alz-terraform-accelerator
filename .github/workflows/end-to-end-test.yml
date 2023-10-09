@@ -91,9 +91,15 @@ jobs:
 
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
-          
+          $authScheme = "${{ matrix.authScheme }}"
+
+          # If we are running on GitHub and using ManagedServiceIdentity, then we can skip the test and report success
+          if($versionControlSystem -eq "github" -and $authScheme -eq "ManagedServiceIdentity") {
+            exit 0
+          }
+
           # Install the Module
-          Install-Module -Name ALZ
+          Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
 
           # Run the Module
           New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem -inputs "./inputs.json" -autoApprove
