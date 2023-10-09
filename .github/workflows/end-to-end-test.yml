@@ -1,0 +1,128 @@
+---
+name: End to End Tests
+
+on:
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize', 'labeled']
+  workflow_dispatch:
+
+jobs:
+  e2e-test:
+    name: End to End test on ${{ matrix.operatingSystem }} with Terraform ${{ matrix.terraform_version }}
+    environment: CSUTF
+    concurrency: CSUTF-${{ matrix.operatingSystem }}-${{ matrix.terraform_version }}-${{ matrix.versionControlSystem }}-${{ matrix.authScheme }}
+    if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test :test_tube:') || github.event_name == 'workflow_dispatch') }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
+        terraform_version: ['latest', '1.3.0']
+        versionControlSystem: ['github', 'azuredevops']
+        authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
+    runs-on: ${{ matrix.operatingSystem }}
+    steps:
+      - name: Show env
+        run: env | sort
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+            terraform_version: ${{ matrix.terraform_version }}
+            terraform_wrapper: false
+
+      - name: Setup ALZ Module Inputs
+        run: |
+
+          # Get Inputs
+          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          $authScheme = "${{ matrix.authScheme }}"
+          $operatingSystem = "${{ matrix.operatingSystem }}"
+          $terraformVersion = "${{ matrix.terraform_version }}"
+
+          # If we are running on GitHub and using ManagedServiceIdentity, then we can skip the test and report success
+          if($versionControlSystem -eq "github" -and $authScheme -eq "ManagedServiceIdentity") {
+            exit 0
+          }
+
+          # Get Hash Of Inputs
+          $hashInput = "$versionControlSystem$authScheme$operatingSystem$terraformVersion"
+          $stringAsStream = [System.IO.MemoryStream]::new()
+          $writer = [System.IO.StreamWriter]::new($stringAsStream)
+          $writer.write($hashInput)
+          $writer.Flush()
+          $stringAsStream.Position = 0
+          $hashOutput = Get-FileHash -InputStream $stringAsStream | Select-Object Hash
+          $shortHash = $hashOutput.Hash.Substring(0, 7)
+
+          $Inputs = @{}
+          $Inputs["starter_module"] = ".test"
+          $Inputs["version_control_system_access_token"] = $versionControlSystem == "github" ? "${{ secrets.VCS_TOKEN_GITHUB }}" : "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
+          $Inputs["version_control_system_organization"] = "${{ vars.VCS_ORGANIZATION }}"
+          $Inputs["azure_location"] = "uksouth"
+          $Inputs["azure_subscription_id"] = ""
+          $Inputs["service_name"] = "alz"
+          $Inputs["environment_name"] = $shortHash
+          $Inputs["postfix_number"] = "1"
+
+          if($versionControlSystem -eq "github") {
+            $Inputs["repository_visibility"] = "private"
+          } else {
+            $Inputs["azure_devops_use_organisation_legacy_url"] = "false"
+            $Inputs["azure_devops_create_project"] = "true"
+            $Inputs["azure_devops_project_name"] = "alz-$shortHash"
+            $Inputs["azure_devops_authentication_scheme"] = $authScheme
+          }
+                    
+          $Inputs["apply_approvers"] = ""
+          $Inputs["root_management_group_display_name"] = "Tenant Root Group"
+          $Inputs["additional_files"] = ""
+
+          $json = $Inputs | ConvertTo-Json -Depth 100 | Out-File -FilePath inputs.json -Encoding utf8 -Force
+
+        shell: pwsh
+
+      - name: Run ALZ PowerShell
+        run: |
+
+          # Get Inputs
+          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          
+          # Install the Module
+          Install-Module -Name ALZ
+
+          # Run the Module
+          New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem -inputs "./inputs.json" -autoApprove
+
+        shell: pwsh
+        env:
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+
+      - name: Run Terraform Destroy to Clean Up
+        run: |
+          $directories = Get-ChildItem -Directory
+
+          $directoryName = ""
+
+          foreach($directory in $directories) {
+            if($directory.Name -like "v*") {
+              $directoryName = $directory.Name
+              break
+            }
+          }
+
+          $bootstrapDirectoryPath = "$directoryName/bootstrap/$versionControlSystem"
+
+          terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve
+
+        shell: pwsh
+        env:
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+
+
