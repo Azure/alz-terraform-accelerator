@@ -45,7 +45,7 @@ variable "postfix_number" {
 }
 
 variable "azure_devops_use_organisation_legacy_url" {
-  description = "Use the legacy Azure DevOps URL (<organisation>.visualstudio.com) instead of the new URL (dev.azure.com/<organization>). This is ignored if an fqdn is supplied for version_control_system_organization|8|bool"
+  description = "Use the legacy Azure DevOps URL (<organisation>.visualstudio.com) instead of the new URL (dev.azure.com/<organization>). This is ignored if an fqdn is supplied for version_control_system_organization|9|bool"
   type        = bool
   default     = false
 }
