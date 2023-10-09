@@ -11,7 +11,7 @@ jobs:
     name: End to End test on ${{ matrix.operatingSystem }} with Terraform ${{ matrix.terraform_version }}
     environment: CSUTF
     concurrency: CSUTF-${{ matrix.operatingSystem }}-${{ matrix.terraform_version }}-${{ matrix.versionControlSystem }}-${{ matrix.authScheme }}
-    if: "${{ (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test :test_tube:') || github.event_name == 'workflow_dispatch') }}"
+    if: "${{ github.repository == 'Azure/alz-terraform-accelerator'  }}"
     strategy:
       fail-fast: false
       matrix:
