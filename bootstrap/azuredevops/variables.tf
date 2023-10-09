@@ -20,20 +20,26 @@ variable "azure_location" {
   type        = string
 }
 
+variable "azure_subscription_id" {
+  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|5|azure_subscription_id"
+  type        = string
+  default     = ""
+}
+
 variable "service_name" {
-  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|5|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001)|6|azure_name_section"
   type        = string
   default     = "alz"
 }
 
 variable "environment_name" {
-  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|6|azure_name_section"
+  description = "Used to build up the default resource names (e.g. rg-alz-<environment_name>-uksouth-001)|7|azure_name_section"
   type        = string
   default     = "mgmt"
 }
 
 variable "postfix_number" {
-  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|7|number"
+  description = "Used to build up the default resource names (e.g. rg-alz-mgmt-uksouth-<postfix_number>)|8|number"
   type        = number
   default     = 1
 }
@@ -45,19 +51,19 @@ variable "azure_devops_use_organisation_legacy_url" {
 }
 
 variable "azure_devops_create_project" {
-  description = "Create the Azure DevOps project if it does not exist|9|bool"
+  description = "Create the Azure DevOps project if it does not exist|10|bool"
   type        = bool
   default     = true
 }
 
 variable "azure_devops_project_name" {
-  description = "The name of the Azure DevOps project to use or create for the deployment|10"
+  description = "The name of the Azure DevOps project to use or create for the deployment|11"
   type        = string
 }
 
 variable "azure_devops_authentication_scheme" {
   type        = string
-  description = "The authentication scheme to use for the Azure DevOps Pipelines|11|auth_scheme"
+  description = "The authentication scheme to use for the Azure DevOps Pipelines|12|auth_scheme"
   validation {
     condition     = can(regex("^(ManagedServiceIdentity|WorkloadIdentityFederation)$", var.azure_devops_authentication_scheme))
     error_message = "azure_devops_authentication_scheme must be either ManagedServiceIdentity or WorkloadIdentityFederation"
@@ -66,19 +72,19 @@ variable "azure_devops_authentication_scheme" {
 }
 
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|12"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|13"
   type        = list(string)
   default     = []
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|13"
+  description = "The root management group display name|14"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|14"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|15"
   type        = list(string)
   default     = []
 }
@@ -89,7 +95,7 @@ variable "agent_container_image" {
 }
 
 variable "target_subscriptions" {
-  description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
+  description = "The target subscriptions to apply owner permissions to|hidden_azure_subscription_ids"
   type        = list(string)
 }
 
