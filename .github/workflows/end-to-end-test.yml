@@ -98,13 +98,12 @@ jobs:
       - name: Run ALZ PowerShell
         run: |
 
-          Write-Host $PSVersionTable
-
           # Test Env vars
           Write-Host "ARM_TENANT_ID: $env:ARM_TENANT_ID"
           Write-Host "ARM_SUBSCRIPTION_ID: $env:ARM_SUBSCRIPTION_ID"
           Write-Host "ARM_CLIENT_ID: $env:ARM_CLIENT_ID"
           Write-Host "ARM_USE_OIDC: $env:ARM_USE_OIDC"
+          $env:TF_LOG="TRACE"
 
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
