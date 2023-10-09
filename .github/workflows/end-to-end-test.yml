@@ -98,6 +98,12 @@ jobs:
       - name: Run ALZ PowerShell
         run: |
 
+          # Test Env vars
+          Write-Host "ARM_TENANT_ID: $env:ARM_TENANT_ID"
+          Write-Host "ARM_SUBSCRIPTION_ID: $env:ARM_SUBSCRIPTION_ID"
+          Write-Host "ARM_CLIENT_ID: $env:ARM_CLIENT_ID"
+          Write-Host "ARM_USE_OIDC: $env:ARM_USE_OIDC"
+
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
@@ -136,3 +142,4 @@ jobs:
           ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_USE_OIDC: true
