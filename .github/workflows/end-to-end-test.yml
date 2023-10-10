@@ -128,7 +128,7 @@ jobs:
             $retryCount++
             try {
               Write-Host "Getting the latest release version"
-              $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
+              $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly -ErrorAction Stop
               $release = $($releaseObject.name)
               $success = $true
             } catch {
@@ -155,7 +155,7 @@ jobs:
             $retryCount++
             try {
               Write-Host "Running the ALZ Module"
-              New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
+              New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove -ErrorAction Stop
               if ($LastExitCode -eq 0) {
                 $success = $true
               } else {
