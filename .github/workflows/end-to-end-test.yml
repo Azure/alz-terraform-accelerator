@@ -84,7 +84,7 @@ jobs:
           } else {
             $Inputs["azure_devops_use_organisation_legacy_url"] = "false"
             $Inputs["azure_devops_create_project"] = "true"
-            $Inputs["azure_devops_project_name"] = "alz-$uniqueId"
+            $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
           }
                     
