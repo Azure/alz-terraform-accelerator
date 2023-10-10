@@ -109,11 +109,6 @@ jobs:
       - name: Run ALZ PowerShell
         run: |
 
-          $maximumRetries = 10
-          $retryCount = 0
-          $retryDelay = 10000
-          $success = $false
-
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
@@ -122,33 +117,19 @@ jobs:
           Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
 
           # Get the latest release version
-          $terraformModuleUrl = "https://github.com/Azure/alz-terraform-accelerator"
-          $release = ""
-          do {
-            $retryCount++
-            try {
-              Write-Host "Getting the latest release version"
-              $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly -ErrorAction Stop
-              $release = $($releaseObject.name)
-              $success = $true
-            } catch {
-              Write-Host "Failed to get the release version."
-              Start-Sleep -Milliseconds $retryDelay
-            }
-          } while ($success -eq $false -and $retryCount -lt $maximumRetries)
-
-          if ($success -eq $false) {
-            throw "Failed to get the release version after $maximumRetries attempts."
-          }
+          $release = ./tests/scripts/get-release.ps1
 
           # Copy the Module into the Release Folder to ensure we are using the code in our branch
           Write-Host "Copying the ALZ Module into the release Folder"
-          New-Item -Path "./$release" -ItemType Directory
+          $folder = New-Item -Path "./$release" -ItemType Directory
           Copy-Item -Path "./bootstrap" -Destination "./$release/bootstrap" -Recurse
           Copy-Item -Path "./templates" -Destination "./$release/templates" -Recurse
+          Write-Host "ALZ Module copied into the release folder $($folder.name)"
 
           # Run the Module in a retry loop
           $retryCount = 0
+          $maximumRetries = 10
+          $retryDelay = 10000
           $success = $false
 
           do {
@@ -162,8 +143,8 @@ jobs:
                 throw "Failed to apply the bootstrap environment."
               }
             } catch {
-              Write-Host "Failed to apply the bootstrap environment."
-              Start-Sleep -Milliseconds $retryDelay
+              Write-Host "Failed to apply the bootstrap environment. Destroy and retry..."
+              ./tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
 
@@ -185,52 +166,8 @@ jobs:
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
-          $directories = Get-ChildItem -Directory
-
-          $directoryName = ""
-
-          foreach($directory in $directories) {
-            if($directory.Name -like "v*") {
-              $directoryName = $directory.Name
-              break
-            }
-          }
-
-          $bootstrapDirectoryPath = "./$directoryName/bootstrap/$versionControlSystem"
-          Write-Host "Bootstrap Directory Path: $bootstrapDirectoryPath"
-
-          if(Test-Path -Path "$bootstrapDirectoryPath/override.tfvars") {
-            Write-Host "Bootstrap tfvars Exists"
-          } else {
-            Write-Host "Bootstrap tfvars does not exist, so there is nothing to clean up. Exiting now."
-            exit 0
-          }
-
-          # Run destroy in a retry loop
-          $maximumRetries = 10
-          $retryCount = 0
-          $retryDelay = 10000
-          $success = $false
-
-          do {
-            $retryCount++
-            try {
-              Write-Host "Running Terraform Destroy"
-              terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
-              if ($LastExitCode -eq 0) {
-                $success = $true
-              } else {
-                throw "Failed to destroy the bootstrap environment."
-              }
-            } catch {
-              Write-Host "Failed to destroy the bootstrap environment."
-              Start-Sleep -Milliseconds $retryDelay
-            }
-          } while ($success -eq $false -and $retryCount -lt $maximumRetries)
-
-          if ($success -eq $false) {
-            throw "Failed to destroy the bootstrap environment after $maximumRetries attempts."
-          }
+          # Run destroy
+          ./tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
 
         shell: pwsh
         env:
