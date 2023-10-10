@@ -135,8 +135,8 @@ jobs:
               $release = $($releaseObject.name)
             } catch {
               if($_) {
-                $error = $_ | ConvertTo-Json -Depth 100
-                Write-Host $error
+                $errorMessage = $_ | ConvertTo-Json -Depth 100
+                Write-Host $errorMessage
               }
               Start-Sleep -Milliseconds $retryDelay
             }
@@ -165,8 +165,8 @@ jobs:
               }
             } catch {
               if($_) {
-                $error = $_ | ConvertTo-Json -Depth 100
-                Write-Host $error
+                $errorMessage = $_ | ConvertTo-Json -Depth 100
+                Write-Host $errorMessage
               }
               Start-Sleep -Milliseconds $retryDelay
             }
@@ -222,8 +222,8 @@ jobs:
               $success = $true
             } catch {
               if($_) {
-                $error = $_ | ConvertTo-Json -Depth 100
-                Write-Host $error
+                $errorMessage = $_ | ConvertTo-Json -Depth 100
+                Write-Host $errorMessage
               }
               Start-Sleep -Milliseconds $retryDelay
             }
