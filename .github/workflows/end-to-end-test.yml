@@ -127,11 +127,7 @@ jobs:
             $retryCount++
             try {
               $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
-              if ($LastExitCode -eq 0) {
-                $success = $true
-              } else {
-                throw "Failed to apply the bootstrap environment."
-              }
+              $success = $true
               $release = $($releaseObject.name)
             } catch {
               if($_) {
@@ -217,7 +213,7 @@ jobs:
               if ($LastExitCode -eq 0) {
                 $success = $true
               } else {
-                throw "Failed to apply the bootstrap environment."
+                throw "Failed to destroy the bootstrap environment."
               }
               $success = $true
             } catch {
