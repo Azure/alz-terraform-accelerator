@@ -167,7 +167,7 @@ jobs:
             $retryCount++
             try {
                 terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
-                $boolSuccess = $true
+                $success = $true
             } catch {
                 Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
                 Start-Sleep -Milliseconds $retryDelay
