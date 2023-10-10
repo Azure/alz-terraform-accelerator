@@ -121,8 +121,9 @@ jobs:
           $release = $($releaseObject.name)
           
           # Copy the Module into the Release Folder to ensure we are using the code in our branch
-          New-Item -Path "./$release" -ItemType Directory -Force
-          Copy-Item -Path "./" -Destination "./$release" -Recurse -Force
+          New-Item -Path "./$release" -ItemType Directory
+          Copy-Item -Path "./bootstrap" -Destination "./$release/bootstrap" -Recurse
+          Copy-Item -Path "./templates" -Destination "./$release/templates" -Recurse
 
           # Run the Module
           New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
