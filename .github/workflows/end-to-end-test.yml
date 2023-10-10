@@ -118,6 +118,7 @@ jobs:
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
           # Install the Module
+          Write-Host "Installing the ALZ Module"
           Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
 
           # Get the latest release version
@@ -126,6 +127,7 @@ jobs:
           do {
             $retryCount++
             try {
+              Write-Host "Getting the latest release version"
               $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
               $success = $true
               $release = $($releaseObject.name)
@@ -143,6 +145,7 @@ jobs:
           }
 
           # Copy the Module into the Release Folder to ensure we are using the code in our branch
+          Write-Host "Copying the ALZ Module into the release Folder"
           New-Item -Path "./$release" -ItemType Directory
           Copy-Item -Path "./bootstrap" -Destination "./$release/bootstrap" -Recurse
           Copy-Item -Path "./templates" -Destination "./$release/templates" -Recurse
@@ -154,6 +157,7 @@ jobs:
           do {
             $retryCount++
             try {
+              Write-Host "Running the ALZ Module"
               New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
               if ($LastExitCode -eq 0) {
                 $success = $true
@@ -201,6 +205,13 @@ jobs:
           $bootstrapDirectoryPath = "./$directoryName/bootstrap/$versionControlSystem"
           Write-Host "Bootstrap Directory Path: $bootstrapDirectoryPath"
 
+          if(Test-Path -Path "$bootstrapDirectoryPath/override.tfvars") {
+            Write-Host "Bootstrap tfvars Exists"
+          } else {
+            Write-Host "Bootstrap tfvars does not exist, so there is nothing to clean up. Exiting now."
+            exit 0
+          }
+
           # Run destroy in a retry loop
           $maximumRetries = 10
           $retryCount = 0
@@ -210,6 +221,7 @@ jobs:
           do {
             $retryCount++
             try {
+              Write-Host "Running Terraform Destroy"
               terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
               if ($LastExitCode -eq 0) {
                 $success = $true
