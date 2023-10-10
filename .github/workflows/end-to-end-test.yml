@@ -48,15 +48,14 @@ jobs:
           $operatingSystem = "${{ matrix.operatingSystem }}"
           $terraformVersion = "${{ matrix.terraform_version }}"
 
-          # Get Hash Of Inputs
-          $hashInput = "$versionControlSystem$authScheme$operatingSystem$terraformVersion"
-          $stringAsStream = [System.IO.MemoryStream]::new()
-          $writer = [System.IO.StreamWriter]::new($stringAsStream)
-          $writer.write($hashInput)
-          $writer.Flush()
-          $stringAsStream.Position = 0
-          $hashOutput = Get-FileHash -InputStream $stringAsStream | Select-Object Hash
-          $shortHash = $hashOutput.Hash.Substring(0, 7)
+          # Get Unique ID
+          $versionControlSystemShort = $versionControlSystem.Substring(0, 1)
+          $authSchemeShort = $authScheme.Substring(0, 1)
+          $operationSystemShort = $operatingSystem.Substring(0, 1)
+          $terraformVersionShort = if ($terraformVersion -eq "latest") { "l" } else { "o" }
+          $uniqueId = "$operationSystemShort$terraformVersionShort$authSchemeShort$terraformVersionShort${{ github.run_number }}".ToLower()
+
+          Write-Host "Short Hash: $uniqueId"
 
           $Inputs = @{}
           $Inputs["starter_module"] = ".test"
@@ -65,15 +64,15 @@ jobs:
           $Inputs["azure_location"] = "uksouth"
           $Inputs["azure_subscription_id"] = ""
           $Inputs["service_name"] = "alz"
-          $Inputs["environment_name"] = $shortHash
+          $Inputs["environment_name"] = $uniqueId
           $Inputs["postfix_number"] = "1"
 
           if($versionControlSystem -eq "github") {
-            $Inputs["repository_visibility"] = "private"
+            $Inputs["repository_visibility"] = "public"
           } else {
             $Inputs["azure_devops_use_organisation_legacy_url"] = "false"
             $Inputs["azure_devops_create_project"] = "true"
-            $Inputs["azure_devops_project_name"] = "alz-$shortHash"
+            $Inputs["azure_devops_project_name"] = "alz-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
           }
                     
@@ -98,13 +97,6 @@ jobs:
       - name: Run ALZ PowerShell
         run: |
 
-          # Test Env vars
-          Write-Host "ARM_TENANT_ID: $env:ARM_TENANT_ID"
-          Write-Host "ARM_SUBSCRIPTION_ID: $env:ARM_SUBSCRIPTION_ID"
-          Write-Host "ARM_CLIENT_ID: $env:ARM_CLIENT_ID"
-          Write-Host "ARM_USE_OIDC: $env:ARM_USE_OIDC"
-          $env:TF_LOG="DEBUG"
-
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
@@ -122,6 +114,7 @@ jobs:
           ARM_USE_OIDC: true
 
       - name: Run Terraform Destroy to Clean Up
+        if: always()
         run: |
           $directories = Get-ChildItem -Directory
 
