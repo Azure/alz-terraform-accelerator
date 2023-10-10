@@ -26,6 +26,8 @@ if(Test-Path -Path "$bootstrapDirectoryPath/override.tfvars") {
     exit 0
 }
 
+$success = $false
+
 do {
     $retryCount++
     try {
