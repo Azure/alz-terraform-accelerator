@@ -129,13 +129,10 @@ jobs:
             try {
               Write-Host "Getting the latest release version"
               $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
-              $success = $true
               $release = $($releaseObject.name)
+              $success = $true
             } catch {
-              if($_) {
-                $errorMessage = $_ | ConvertTo-Json -Depth 100
-                Write-Host $errorMessage
-              }
+              Write-Host "Failed to get the release version."
               Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
@@ -165,10 +162,7 @@ jobs:
                 throw "Failed to apply the bootstrap environment."
               }
             } catch {
-              if($_) {
-                $errorMessage = $_ | ConvertTo-Json -Depth 100
-                Write-Host $errorMessage
-              }
+              Write-Host "Failed to apply the bootstrap environment."
               Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
@@ -229,10 +223,7 @@ jobs:
                 throw "Failed to destroy the bootstrap environment."
               }
             } catch {
-              if($_) {
-                $errorMessage = $_ | ConvertTo-Json -Depth 100
-                Write-Host $errorMessage
-              }
+              Write-Host "Failed to destroy the bootstrap environment."
               Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
