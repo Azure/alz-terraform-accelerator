@@ -20,7 +20,6 @@ jobs:
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch') }}"
     strategy:
       fail-fast: false
-      max-parallel: 6
       matrix:
         operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         terraform_version: ['latest', '1.5.0']
@@ -127,12 +126,15 @@ jobs:
           do {
             $retryCount++
             try {
-                $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
-                $release = $($releaseObject.name)
-                $success = $true
+              $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
+              $release = $($releaseObject.name)
+              $success = $true
             } catch {
-                Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
-                Start-Sleep -Milliseconds $retryDelay
+              if($_) {
+                $error = $_ | ConvertTo-Json -Depth 100
+                Write-Host $error
+              }
+              Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
 
@@ -151,11 +153,14 @@ jobs:
           do {
             $retryCount++
             try {
-                New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
-                $success = $true
+              New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
+              $success = $true
             } catch {
-                Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
-                Start-Sleep -Milliseconds $retryDelay
+              if($_) {
+                $error = $_ | ConvertTo-Json -Depth 100
+                Write-Host $error
+              }
+              Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
 
@@ -200,11 +205,14 @@ jobs:
           do {
             $retryCount++
             try {
-                terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
-                $success = $true
+              terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
+              $success = $true
             } catch {
-                Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
-                Start-Sleep -Milliseconds $retryDelay
+              if($_) {
+                $error = $_ | ConvertTo-Json -Depth 100
+                Write-Host $error
+              }
+              Start-Sleep -Milliseconds $retryDelay
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
 
