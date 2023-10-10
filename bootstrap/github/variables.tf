@@ -11,7 +11,7 @@ variable "version_control_system_access_token" {
 }
 
 variable "version_control_system_organization" {
-  description = "The organization for the version control system to use for the deployment|3"
+  description = "The organization for the version control system to use for the deployment (supply a fqdn e.g. https://vcs.company.com/my-org to use a self-hosted GitHub Enterprise Server)|3"
   type        = string
 }
 
