@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   e2e-test:
-    name: "OS: ${{ matrix.operatingSystem }}, VCS: ${{ matrix.versionControlSystem }}, Auth: ${{ matrix.authScheme }}, Terraform: ${{ matrix.terraform_version }}""
+    name: "OS: ${{ matrix.operatingSystem }}, VCS: ${{ matrix.versionControlSystem }}, Auth: ${{ matrix.authScheme }}, Terraform: ${{ matrix.terraform_version }}"
     environment: CSUTF
     concurrency: CSUTF-${{ matrix.operatingSystem }}-${{ matrix.terraform_version }}-${{ matrix.versionControlSystem }}-${{ matrix.authScheme }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch') }}"
