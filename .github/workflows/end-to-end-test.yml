@@ -157,7 +157,26 @@ jobs:
           $bootstrapDirectoryPath = "./$directoryName/bootstrap/$versionControlSystem"
           Write-Host "Bootstrap Directory Path: $bootstrapDirectoryPath"
 
-          terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
+          # Run destroy in a retry loop
+          $maximumRetries = 10
+          $retryCount = 0
+          $retryDelay = 10000
+          $success = $false
+
+          do {
+            $retryCount++
+            try {
+                terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
+                $boolSuccess = $true
+            } catch {
+                Write-Error $_.Exception.InnerException.Message -ErrorAction Continue
+                Start-Sleep -Milliseconds $retryDelay
+            }
+          } while ($success -eq $false -and $retryCount -lt $maximumRetries)
+
+          if ($success -eq $false) {
+            throw "Failed to destroy the bootstrap environment after $maximumRetries attempts."
+          }
 
         shell: pwsh
         env:
