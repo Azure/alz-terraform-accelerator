@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   e2e-test:
-    name: OS ${{ matrix.operatingSystem }}, VCS ${{ matrix.versionControlSystem }}, Auth ${{ matrix.authScheme }} and Terraform ${{ matrix.terraform_version }}
+    name: "OS: ${{ matrix.operatingSystem }}, VCS: ${{ matrix.versionControlSystem }}, Auth: ${{ matrix.authScheme }}, Terraform: ${{ matrix.terraform_version }}""
     environment: CSUTF
     concurrency: CSUTF-${{ matrix.operatingSystem }}-${{ matrix.terraform_version }}-${{ matrix.versionControlSystem }}-${{ matrix.authScheme }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch') }}"
@@ -56,8 +56,16 @@ jobs:
           $versionControlSystemShort = $versionControlSystem.Substring(0, 1)
           $authSchemeShort = $authScheme.Substring(0, 1)
           $operationSystemShort = $operatingSystem.Substring(0, 1)
-          $terraformVersionShort = if ($terraformVersion -eq "latest") { "l" } else { "o" }
-          $uniqueId = "$operationSystemShort$terraformVersionShort$authSchemeShort$terraformVersionShort${{ github.run_number }}".ToLower()
+          $terraformVersionShort = if ($terraformVersion -eq "latest") { "l" } else { "m" }
+          $runNumber = "${{ github.run_number }}"
+
+          Write-Host "Version Control System: $versionControlSystem ($versionControlSystemShort)"
+          Write-Host "Auth Scheme: $authScheme ($authSchemeShort)"
+          Write-Host "Operating System: $operatingSystem ($operationSystemShort)"
+          Write-Host "Terraform Version: $terraformVersion ($terraformVersionShort)"
+          Write-Host "Run Number: $runNumber"
+
+          $uniqueId = "$operationSystemShort$terraformVersionShort$authSchemeShort$terraformVersionShort$runNumber".ToLower()
 
           Write-Host "Short Hash: $uniqueId"
 
@@ -131,7 +139,8 @@ jobs:
             }
           }
 
-          $bootstrapDirectoryPath = "$directoryName/bootstrap/$versionControlSystem"
+          $bootstrapDirectoryPath = "./$directoryName/bootstrap/$versionControlSystem"
+          Write-Host "Bootstrap Directory Path: $bootstrapDirectoryPath"
 
           terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve
 
