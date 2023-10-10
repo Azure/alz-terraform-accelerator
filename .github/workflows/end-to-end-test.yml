@@ -149,6 +149,7 @@ jobs:
 
           # Run the Module in a retry loop
           $retryCount = 0
+          $success = $false
 
           do {
             $retryCount++
@@ -215,7 +216,6 @@ jobs:
               } else {
                 throw "Failed to destroy the bootstrap environment."
               }
-              $success = $true
             } catch {
               if($_) {
                 $errorMessage = $_ | ConvertTo-Json -Depth 100
