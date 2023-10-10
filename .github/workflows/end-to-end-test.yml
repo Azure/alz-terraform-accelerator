@@ -40,8 +40,8 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-            terraform_version: ${{ matrix.terraform_version }}
-            terraform_wrapper: false
+          terraform_version: ${{ matrix.terraform_version }}
+          terraform_wrapper: false
 
       - name: Setup ALZ Module Inputs
         run: |
@@ -87,7 +87,7 @@ jobs:
             $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
           }
-                    
+
           $Inputs["apply_approvers"] = ""
           $Inputs["root_management_group_display_name"] = "Tenant Root Group"
           $Inputs["additional_files"] = ""
@@ -115,8 +115,17 @@ jobs:
           # Install the Module
           Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
 
+          # Get the latest release version
+          $terraformModuleUrl = "https://github.com/Azure/alz-terraform-accelerator"
+          $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
+          $release = $($releaseObject.name)
+          
+          # Copy the Module into the Release Folder to ensure we are using the code in our branch
+          New-Item -Path "./$release" -ItemType Directory -Force
+          Copy-Item -Path "./" -Destination "./$release" -Recurse -Force
+
           # Run the Module
-          New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem -inputs "./inputs.json" -autoApprove
+          New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
 
         shell: pwsh
         env:
