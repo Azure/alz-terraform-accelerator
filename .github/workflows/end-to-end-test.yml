@@ -127,8 +127,12 @@ jobs:
             $retryCount++
             try {
               $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly
+              if ($?) {
+                $success = $true
+              } else {
+                throw "Failed to apply the bootstrap environment."
+              }
               $release = $($releaseObject.name)
-              $success = $true
             } catch {
               if($_) {
                 $error = $_ | ConvertTo-Json -Depth 100
@@ -154,7 +158,11 @@ jobs:
             $retryCount++
             try {
               New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove
-              $success = $true
+              if ($?) {
+                $success = $true
+              } else {
+                throw "Failed to apply the bootstrap environment."
+              }
             } catch {
               if($_) {
                 $error = $_ | ConvertTo-Json -Depth 100
@@ -206,6 +214,11 @@ jobs:
             $retryCount++
             try {
               terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
+              if ($?) {
+                $success = $true
+              } else {
+                throw "Failed to apply the bootstrap environment."
+              }
               $success = $true
             } catch {
               if($_) {
