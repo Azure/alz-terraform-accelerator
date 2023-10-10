@@ -146,7 +146,7 @@ jobs:
           $bootstrapDirectoryPath = "./$directoryName/bootstrap/$versionControlSystem"
           Write-Host "Bootstrap Directory Path: $bootstrapDirectoryPath"
 
-          terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve
+          terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
 
         shell: pwsh
         env:
