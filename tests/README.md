@@ -25,10 +25,10 @@ The test follow this process:
 The tests use a set of environemnts to managed by the ALZ team. These are:
 
 - Azure:
-    - Tenant: CSU TF
-    - Subscription: csu-tf-devops
-    - User Assigned Managed Identity: alz-terraform-accelerator-cd-tests-identity (this has federated credentials)
+  - Tenant: CSU TF
+  - Subscription: csu-tf-devops
+  - User Assigned Managed Identity: alz-terraform-accelerator-cd-tests-identity (this has federated credentials)
 - Azure DevOps
-    - Organisation: microsoft-azure-landing-zones-cd-tests
+  - Organisation: microsoft-azure-landing-zones-cd-tests
 - GiHub
-    - Organisation: microsoft-azure-landingzones-cd-tests
+  - Organisation: microsoft-azure-landingzones-cd-tests
