@@ -8,6 +8,10 @@ on:
     types: ['opened', 'reopened', 'synchronize', 'labeled']
   workflow_dispatch:
 
+permissions: 
+   id-token: write 
+   contents: read
+
 jobs:
   e2e-test:
     name: OS ${{ matrix.operatingSystem }}, VCS ${{ matrix.versionControlSystem }}, Auth ${{ matrix.authScheme }} and Terraform ${{ matrix.terraform_version }}
