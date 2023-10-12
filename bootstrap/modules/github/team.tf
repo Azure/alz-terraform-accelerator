@@ -1,7 +1,3 @@
-data "github_organization" "alz" {
-  name = var.organization_name
-}
-
 locals {
   approvers = [for user in data.github_organization.alz.users : user.login if contains(var.approvers, user.email)]
 }

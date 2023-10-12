@@ -33,19 +33,16 @@ variable "root_name" {
 variable "hub_virtual_network_address_prefix" {
   description = "The IP address range for the hub network in CIDR format|7|cidr_range"
   type        = string
-  default     = ""
 }
 
 variable "firewall_subnet_address_prefix" {
   description = "The IP address range foe the firewall subnet in CIDR format|8|cidr_range"
   type        = string
-  default     = ""
 }
 
 variable "gateway_subnet_address_prefix" {
   description = "The IP address range foe the gateway subnet in CIDR format|9|cidr_range"
   type        = string
-  default     = ""
 }
 
 variable "virtual_network_gateway_creation_enabled" {

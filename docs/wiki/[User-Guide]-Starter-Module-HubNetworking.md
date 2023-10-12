@@ -29,9 +29,9 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 - `subscription_id_management`: The identifier of the Management Subscription.
 - `root_id`: The root id is the identity for the root management group and a prefix applied to all management group identities.
 - `root_name`: The display name for the root management group.
-- `hub_virtual_network_address_prefix`: The IP address range for the hub network in CIDR format.
-- `firewall_subnet_address_prefix`: The IP address range foe the firewall subnet in CIDR format.
-- `gateway_subnet_address_prefix`: The IP address range foe the gateway subnet in CIDR format.
+- `hub_virtual_network_address_prefix`: The IP address range for the hub network in CIDR format (e.g 10.0.0.0/16).
+- `firewall_subnet_address_prefix`: The IP address range for the firewall subnet in CIDR format (e.g. 10.0.0.0/24).
+- `gateway_subnet_address_prefix`: The IP address range for the gateway subnet in CIDR format (e.g. 10.0.1.0/24).
 - `virtual_network_gateway_creation_enabled`: Whether the virtual network gateway is created.
 
  [//]: # (************************)
