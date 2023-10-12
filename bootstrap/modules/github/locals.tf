@@ -3,6 +3,6 @@ locals {
 }
 
 locals {
-  primary_approver      = length(var.approvers) > 0 ? var.approvers[0] : ""
-  default_commit_email  = coalesce(local.primary_approver, "demo@microsoft.com")
+  primary_approver     = length(var.approvers) > 0 ? var.approvers[0] : ""
+  default_commit_email = coalesce(local.primary_approver, "demo@microsoft.com")
 }
