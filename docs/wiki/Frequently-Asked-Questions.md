@@ -63,11 +63,13 @@ To call the module, you then specify the `-inputs` parameter with the path to th
 New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json"
 ```
 
+yaml example:
 ```yaml
 starter_module: "basic"
 azure_location: "uksouth"
 ```
 
+json example:
 ```json
 {
   "starter_module": "basic",
@@ -77,7 +79,7 @@ azure_location: "uksouth"
 
 > NOTE: These examples show a partial set of variables. In this scenario, the module will prompt for the remaining variables. You can find the full list of variables in the quick start phase 2 and starter module documentation.
 
-Full example for Azure DevOps with the hub networking starter module:
+Full yaml example for Azure DevOps with the hub networking starter module:
 
 ```yaml
 # Bootstrap Variables
