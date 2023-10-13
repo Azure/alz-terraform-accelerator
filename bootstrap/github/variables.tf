@@ -5,7 +5,7 @@ variable "starter_module" {
 }
 
 variable "version_control_system_access_token" {
-  description = "The personal access token for the version control system to use for the deployment|2"
+  description = "The personal access token for the version control system to use for the deployment|2|sensitive"
   type        = string
   sensitive   = true
 }
