@@ -11,7 +11,7 @@ do {
     $retryCount++
     try {
         Write-Host "Getting the latest release version"
-        $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly -ErrorAction Stop
+        $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -release "latest" -queryOnly -ErrorAction Stop
         $release = $($releaseObject.name)
         $success = $true
     } catch {
