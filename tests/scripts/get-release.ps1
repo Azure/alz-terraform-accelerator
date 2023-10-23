@@ -6,13 +6,12 @@ param (
 
 $success = $false
 $terraformModuleUrl = "https://github.com/Azure/alz-terraform-accelerator"
-$release = ""
+$releaseTag = ""
 do {
     $retryCount++
     try {
         Write-Host "Getting the latest release version"
-        $releaseObject = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -releases "latest" -queryOnly -ErrorAction Stop
-        $release = $($releaseObject.name)
+        $releaseTag = Get-ALZGithubRelease -directoryForReleases "." -githubRepoUrl $terraformModuleUrl -release "latest" -queryOnly -ErrorAction Stop
         $success = $true
     } catch {
         Write-Host "Failed to get the release version. Retrying after $retryDelay ms..."
@@ -23,4 +22,4 @@ do {
 if ($success -eq $false) {
     throw "Failed to get the release version after $maximumRetries attempts."
 }
-return $release
+return $releaseTag
