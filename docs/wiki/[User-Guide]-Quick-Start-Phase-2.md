@@ -8,7 +8,7 @@ Phase 2 of the accelerator is to run the boostrap. Follow the steps below to do 
 
 ## 2.2 Run the Bootstrap
 
-You are now ready to run the boostrap and setup your environment. If you want to use custom names for your resources, please refer to our [FAQs](https://github.com/Azure/alz-terraform-accelerator/wiki/Frequently-Asked-Questions) section.
+You are now ready to run the boostrap and setup your environment. If you want to use custom names for your resources or automate the bootstrap, please refer to our [FAQs](https://github.com/Azure/alz-terraform-accelerator/wiki/Frequently-Asked-Questions) section.
 
 The inputs differ depending on the VCS you have chosen:
 
