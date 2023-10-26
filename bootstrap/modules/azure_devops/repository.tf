@@ -18,7 +18,7 @@ locals {
     {
       content = templatefile(value.path, {
         agent_pool_configuration = local.agent_pool_configuration
-        service_connection_name  = var.service_connection_name
+        service_connection_name  = var.service_connection_apply_name
         environment_name_plan    = var.environment_name_plan
         environment_name_apply   = var.environment_name_apply
         variable_group_name      = var.variable_group_name

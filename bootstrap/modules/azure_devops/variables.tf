@@ -49,7 +49,11 @@ variable "pipeline_cd_file" {
   type = string
 }
 
-variable "service_connection_name" {
+variable "service_connection_plan_name" {
+  type = string
+}
+
+variable "service_connection_apply_name" {
   type = string
 }
 
@@ -61,7 +65,11 @@ variable "agent_pool_name" {
   type = string
 }
 
-variable "managed_identity_client_id" {
+variable "managed_identity_plan_client_id" {
+  type = string
+}
+
+variable "managed_identity_apply_client_id" {
   type = string
 }
 

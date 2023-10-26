@@ -2,7 +2,11 @@ variable "azure_location" {
   type = string
 }
 
-variable "user_assigned_managed_identity_name" {
+variable "user_assigned_managed_identity_plan_name" {
+  type = string
+}
+
+variable "user_assigned_managed_identity_apply_name" {
   type = string
 }
 

@@ -11,20 +11,21 @@ module "resource_names" {
 }
 
 module "azure" {
-  source                              = "./../modules/azure"
-  create_federated_credential         = module.azure_devops.is_authentication_scheme_workload_identity_federation
-  federated_credential_subjects       = { sc = module.azure_devops.subject }
-  federated_credential_issuer         = module.azure_devops.issuer
-  federated_credential_name           = local.resource_names.user_assigned_managed_identity_federated_credentials
-  create_agents_resource_group        = module.azure_devops.is_authentication_scheme_managed_identity
-  resource_group_identity_name        = local.resource_names.resource_group_identity
-  resource_group_agents_name          = local.resource_names.resource_group_agents
-  resource_group_state_name           = local.resource_names.resource_group_state
-  storage_account_name                = local.resource_names.storage_account
-  storage_container_name              = local.resource_names.storage_container
-  azure_location                      = var.azure_location
-  user_assigned_managed_identity_name = local.resource_names.user_assigned_managed_identity
-  create_agents                       = module.azure_devops.is_authentication_scheme_managed_identity
+  source                                    = "./../modules/azure"
+  create_federated_credential               = module.azure_devops.is_authentication_scheme_workload_identity_federation
+  federated_credential_subjects             = { sc = module.azure_devops.subject }
+  federated_credential_issuer               = module.azure_devops.issuer
+  federated_credential_name                 = local.resource_names.user_assigned_managed_identity_federated_credentials
+  create_agents_resource_group              = module.azure_devops.is_authentication_scheme_managed_identity
+  resource_group_identity_name              = local.resource_names.resource_group_identity
+  resource_group_agents_name                = local.resource_names.resource_group_agents
+  resource_group_state_name                 = local.resource_names.resource_group_state
+  storage_account_name                      = local.resource_names.storage_account
+  storage_container_name                    = local.resource_names.storage_container
+  azure_location                            = var.azure_location
+  user_assigned_managed_identity_plan_name  = local.resource_names.user_assigned_managed_identity_plan
+  user_assigned_managed_identity_apply_name = local.resource_names.user_assigned_managed_identity_apply
+  create_agents                             = module.azure_devops.is_authentication_scheme_managed_identity
   agent_container_instances = {
     agent_01 = {
       container_instance_name = local.resource_names.container_instance_01
@@ -84,7 +85,8 @@ module "azure_devops" {
   repository_files                             = local.all_repo_files
   service_connection_name                      = local.resource_names.version_control_system_service_connection
   variable_group_name                          = local.resource_names.version_control_system_variable_group
-  managed_identity_client_id                   = module.azure.user_assigned_managed_identity_client_id
+  managed_identity_plan_client_id              = module.azure.user_assigned_managed_identity_plan_client_id
+  managed_identity_apply_principal_id          = module.azure.user_assigned_managed_identity_apply_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
   azure_subscription_name                      = data.azurerm_subscription.current.display_name

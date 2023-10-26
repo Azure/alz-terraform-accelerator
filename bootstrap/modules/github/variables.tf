@@ -25,7 +25,11 @@ variable "repository_files" {
   }))
 }
 
-variable "managed_identity_client_id" {
+variable "managed_identity_plan_client_id" {
+  type = string
+}
+
+variable "managed_identity_apply_client_id" {
   type = string
 }
 
