@@ -44,18 +44,32 @@ resource "azuredevops_pipeline_authorization" "alz_environment_apply" {
   pipeline_id = azuredevops_build_definition.alz[each.key].id
 }
 
-resource "azuredevops_pipeline_authorization" "alz_service_connection" {
-  for_each    = local.pipelines
+resource "azuredevops_pipeline_authorization" "alz_service_connectio_plan" {
   project_id  = local.project_id
-  resource_id = azuredevops_serviceendpoint_azurerm.alz.id
+  resource_id = azuredevops_serviceendpoint_azurerm.alz["plan"].id
   type        = "endpoint"
-  pipeline_id = azuredevops_build_definition.alz[each.key].id
+  pipeline_id = azuredevops_build_definition.alz["ci"].id
 }
 
-resource "azuredevops_pipeline_authorization" "alz" {
-  for_each    = local.pipelines
+resource "azuredevops_pipeline_authorization" "alz_service_connection_apply" {
+  for_each    = local.service_connections
   project_id  = local.project_id
-  resource_id = azuredevops_agent_queue.alz.id
+  resource_id = azuredevops_serviceendpoint_azurerm.alz[each.key].id
+  type        = "endpoint"
+  pipeline_id = azuredevops_build_definition.alz["cd"].id
+}
+
+resource "azuredevops_pipeline_authorization" "alz_plan" {
+  project_id  = local.project_id
+  resource_id = azuredevops_agent_queue.alz["plan"].id
   type        = "queue"
-  pipeline_id = azuredevops_build_definition.alz[each.key].id
+  pipeline_id = azuredevops_build_definition.alz["ci"].id
+}
+
+resource "azuredevops_pipeline_authorization" "alz_apply" {
+  for_each    = local.agent_pools
+  project_id  = local.project_id
+  resource_id = azuredevops_agent_queue.alz[each.key].id
+  type        = "queue"
+  pipeline_id = azuredevops_build_definition.alz["cd"].id
 }

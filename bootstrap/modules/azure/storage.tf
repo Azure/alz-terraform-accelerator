@@ -14,7 +14,8 @@ resource "azurerm_storage_container" "alz" {
 }
 
 resource "azurerm_role_assignment" "alz_storage_container" {
+  for_each             = local.user_assigned_managed_identities
   scope                = azurerm_storage_container.alz.resource_manager_id
   role_definition_name = "Storage Blob Data Owner"
-  principal_id         = azurerm_user_assigned_identity.alz.principal_id
+  principal_id         = azurerm_user_assigned_identity.alz[each.key].principal_id
 }

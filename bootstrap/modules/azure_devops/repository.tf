@@ -13,15 +13,18 @@ resource "azuredevops_git_repository" "alz" {
 }
 
 locals {
-  agent_pool_configuration = local.is_authentication_scheme_managed_identity ? "name: ${var.agent_pool_name}" : "vmImage: ubuntu-latest"
+  agent_pool_configuration_plan  = local.is_authentication_scheme_managed_identity ? "name: ${var.agent_pool_plan_name}" : "vmImage: ubuntu-latest"
+  agent_pool_configuration_apply = local.is_authentication_scheme_managed_identity ? "name: ${var.agent_pool_apply_name}" : "vmImage: ubuntu-latest"
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        agent_pool_configuration = local.agent_pool_configuration
-        service_connection_name  = var.service_connection_apply_name
-        environment_name_plan    = var.environment_name_plan
-        environment_name_apply   = var.environment_name_apply
-        variable_group_name      = var.variable_group_name
+        agent_pool_configuration_plan  = local.agent_pool_configuration_plan
+        agent_pool_configuration_apply = local.agent_pool_configuration_apply
+        service_connection_name_plan   = var.service_connection_plan_name
+        service_connection_name_apply  = var.service_connection_apply_name
+        environment_name_plan          = var.environment_name_plan
+        environment_name_apply         = var.environment_name_apply
+        variable_group_name            = var.variable_group_name
       })
     } if value.flag == "cicd"
   }

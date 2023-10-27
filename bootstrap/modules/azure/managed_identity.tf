@@ -1,8 +1,4 @@
 locals {
-  user_assigned_managed_identities = {
-    local.plan_key  = var.user_assigned_managed_identity_plan_name
-    local.apply_key = var.user_assigned_managed_identity_apply_name
-  }
   federated_credentials = var.create_federated_credential ? var.federated_credential_subjects : {}
 }
 
@@ -37,21 +33,21 @@ data "azurerm_management_group" "alz" {
 }
 
 locals {
-  subscription_role_assignments = merge({
-    for subscription_id, subscription in data.azurerm_subscription.alz : subscription_id => {
-      "plan_${subscription_id}" = {
-        scope                = subscription.id
-        role_definition_name = "Reader"
-        principal_id         = azurerm_user_assigned_identity.alz[local.plan_key].principal_id
-      }
-      "apply_${subscription_id}" = {
-        scope                = subscription.id
-        role_definition_name = "Owner"
-        principal_id         = azurerm_user_assigned_identity.alz[local.apply_key].principal_id
-      }
+  subscription_plan_role_assignments = {
+    for subscription_id, subscription in data.azurerm_subscription.alz : "plan_${subscription_id}" => {
+      scope                = subscription.id
+      role_definition_name = "Reader"
+      principal_id         = azurerm_user_assigned_identity.alz[local.plan_key].principal_id
     }
-  })
-  role_assignments = merge(local.subscription_role_assignments, {
+  }
+  subscription_apply_role_assignments = {
+    for subscription_id, subscription in data.azurerm_subscription.alz : "apply_${subscription_id}" => {
+      scope                = subscription.id
+      role_definition_name = "Owner"
+      principal_id         = azurerm_user_assigned_identity.alz[local.apply_key].principal_id
+    }
+  }
+  role_assignments = merge(local.subscription_plan_role_assignments, local.subscription_apply_role_assignments, {
     plan_management_group = {
       scope                = data.azurerm_management_group.alz.id
       role_definition_name = "Management Group Reader"

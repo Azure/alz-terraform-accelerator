@@ -61,7 +61,11 @@ variable "variable_group_name" {
   type = string
 }
 
-variable "agent_pool_name" {
+variable "agent_pool_plan_name" {
+  type = string
+}
+
+variable "agent_pool_apply_name" {
   type = string
 }
 

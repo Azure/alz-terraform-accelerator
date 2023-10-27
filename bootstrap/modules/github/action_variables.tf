@@ -1,7 +1,15 @@
-resource "github_actions_variable" "azure_client_id" {
+resource "github_actions_environment_variable" "azure_plan_client_id" {
   repository    = github_repository.alz.name
+  environment   = github_repository_environment.alz_plan.environment
   variable_name = "AZURE_CLIENT_ID"
-  value         = var.managed_identity_client_id
+  value         = var.managed_identity_plan_client_id
+}
+
+resource "github_actions_environment_variable" "azure_apply_client_id" {
+  repository    = github_repository.alz.name
+  environment   = github_repository_environment.alz_apply.environment
+  variable_name = "AZURE_CLIENT_ID"
+  value         = var.managed_identity_apply_client_id
 }
 
 resource "github_actions_variable" "azure_subscription_id" {

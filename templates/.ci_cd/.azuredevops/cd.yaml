@@ -23,7 +23,7 @@ stages:
       - deployment: plan
         displayName: Plan with Terraform
         pool:
-          ${agent_pool_configuration}
+          ${agent_pool_configuration_plan}
         environment: ${environment_name_plan}
         strategy:
           runOnce:
@@ -40,7 +40,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'init'
-                    backendServiceArm: '${service_connection_name}'
+                    backendServiceArm: '${service_connection_name_plan}'
                     backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
                     backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
                     backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
@@ -56,7 +56,7 @@ stages:
                       commandOptions: '-out=tfplan -input=false'
                     $${{ if eq(coalesce(parameters.terraform_action, 'apply'), 'destroy') }}:
                       commandOptions: "-out=tfplan -input=false -destroy"
-                    environmentServiceNameAzureRM: '${service_connection_name}'
+                    environmentServiceNameAzureRM: '${service_connection_name_plan}'
                   env:
                     ARM_USE_AZUREAD: true
                 - task: CopyFiles@2
@@ -87,7 +87,7 @@ stages:
       - deployment: apply
         displayName: Apply with Terraform
         pool:
-          ${agent_pool_configuration}
+          ${agent_pool_configuration_apply}
         environment: ${environment_name_apply}
         strategy:
           runOnce:
@@ -109,7 +109,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'init'
-                    backendServiceArm: '${service_connection_name}'
+                    backendServiceArm: '${service_connection_name_apply}'
                     backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
                     backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
                     backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
@@ -122,6 +122,6 @@ stages:
                     provider: 'azurerm'
                     command: 'apply'
                     commandOptions: '-auto-approve tfplan'
-                    environmentServiceNameAzureRM: '${service_connection_name}'
+                    environmentServiceNameAzureRM: '${service_connection_name_apply}'
                   env:
                     ARM_USE_AZUREAD: true

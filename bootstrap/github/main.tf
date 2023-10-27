@@ -62,7 +62,7 @@ module "github" {
   repository_visibility                        = var.repository_visibility
   repository_files                             = local.all_repo_files
   managed_identity_plan_client_id              = module.azure.user_assigned_managed_identity_plan_client_id
-  managed_identity_apply_principal_id          = module.azure.user_assigned_managed_identity_apply_client_id
+  managed_identity_apply_client_id             = module.azure.user_assigned_managed_identity_apply_client_id
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
   backend_azure_resource_group_name            = local.resource_names.resource_group_state

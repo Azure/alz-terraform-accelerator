@@ -62,16 +62,13 @@ variable "agent_container_instances" {
   type = map(object({
     container_instance_name = string
     agent_name              = string
+    managed_identity_key    = string
+    agent_pool_name         = string
   }))
   default = {}
 }
 
 variable "agent_container_instance_image" {
-  type    = string
-  default = ""
-}
-
-variable "agent_pool_name" {
   type    = string
   default = ""
 }

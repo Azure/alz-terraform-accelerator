@@ -2,16 +2,23 @@ output "organization_url" {
   value = local.organization_url
 }
 
-output "subject" {
-  value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz.workload_identity_federation_subject : ""
+output "subjects" {
+  value = {
+    plan  = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["plan"].workload_identity_federation_subject : ""
+    apply = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["apply"].workload_identity_federation_subject : ""
+  }
 }
 
 output "issuer" {
-  value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz.workload_identity_federation_issuer : ""
+  value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["apply"].workload_identity_federation_issuer : ""
 }
 
-output "agent_pool_name" {
-  value = local.is_authentication_scheme_managed_identity ? azuredevops_agent_pool.alz.name : ""
+output "agent_pool_plan_name" {
+  value = local.is_authentication_scheme_managed_identity ? azuredevops_agent_pool.alz["plan"].name : ""
+}
+
+output "agent_pool_apply_name" {
+  value = local.is_authentication_scheme_managed_identity ? azuredevops_agent_pool.alz["apply"].name : ""
 }
 
 output "is_authentication_scheme_managed_identity" {
