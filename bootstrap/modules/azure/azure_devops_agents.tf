@@ -9,7 +9,7 @@ resource "azurerm_container_group" "alz" {
   identity {
     type = "UserAssigned"
     identity_ids = [
-      azurerm_user_assigned_identity.alz[each.value.identity_key].id
+      azurerm_user_assigned_identity.alz[each.value.managed_identity_key].id
     ]
   }
 
