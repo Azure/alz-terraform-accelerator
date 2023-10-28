@@ -30,9 +30,3 @@ variable "resource_group_location" {
   description = "This is the fourth test variable|7|azure_location"
   default = "uksouth"
 }
-
-variable "resource_group_name" {
-  description = "The name of the resource group for testing|8"
-  type        = string
-  default     = "testing-123"
-}
