@@ -28,5 +28,5 @@ variable "child_management_group_display_name" {
 variable "resource_group_location" {
   type        = string
   description = "This is the fourth test variable|7|azure_location"
-  default = "uksouth"
+  default     = "uksouth"
 }
