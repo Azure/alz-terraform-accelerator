@@ -9,20 +9,37 @@ module "resource_names" {
   resource_names   = var.resource_names
 }
 
+locals {
+  managed_identities = {
+    "${local.plan_key}"  = local.resource_names.user_assigned_managed_identity_plan
+    "${local.apply_key}" = local.resource_names.user_assigned_managed_identity_apply
+  }
+
+  federated_credentials = {
+    "${local.plan_key}" = {
+      federated_credential_subject = module.github.subjects[local.plan_key]
+      federated_credential_issuer  = module.github.issuer
+      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_plan
+    }
+    "${local.apply_key}" = {
+      federated_credential_subject = module.github.subjects[local.apply_key]
+      federated_credential_issuer  = module.github.issuer
+      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_apply
+    }
+  }
+}
+
 module "azure" {
-  source                                    = "./../modules/azure"
-  federated_credential_subjects             = module.github.subjects
-  federated_credential_issuer               = module.github.issuer
-  federated_credential_name                 = local.resource_names.user_assigned_managed_identity_federated_credentials
-  resource_group_identity_name              = local.resource_names.resource_group_identity
-  resource_group_state_name                 = local.resource_names.resource_group_state
-  storage_account_name                      = local.resource_names.storage_account
-  storage_container_name                    = local.resource_names.storage_container
-  azure_location                            = var.azure_location
-  user_assigned_managed_identity_plan_name  = local.resource_names.user_assigned_managed_identity_plan
-  user_assigned_managed_identity_apply_name = local.resource_names.user_assigned_managed_identity_apply
-  target_subscriptions                      = var.target_subscriptions
-  root_management_group_display_name        = var.root_management_group_display_name
+  source                             = "./../modules/azure"
+  user_assigned_managed_identities   = local.managed_identities
+  federated_credentials              = local.federated_credentials
+  resource_group_identity_name       = local.resource_names.resource_group_identity
+  resource_group_state_name          = local.resource_names.resource_group_state
+  storage_account_name               = local.resource_names.storage_account
+  storage_container_name             = local.resource_names.storage_container
+  azure_location                     = var.azure_location
+  target_subscriptions               = var.target_subscriptions
+  root_management_group_display_name = var.root_management_group_display_name
 }
 
 locals {
@@ -53,16 +70,21 @@ locals {
   all_repo_files = merge(local.starter_module_repo_files, local.additional_repo_files)
 }
 
+locals {
+  environments = {
+    "${local.plan_key}"  = local.resource_names.version_control_system_environment_plan
+    "${local.apply_key}" = local.resource_names.version_control_system_environment_apply
+  }
+}
+
 module "github" {
   source                                       = "./../modules/github"
   organization_name                            = var.version_control_system_organization
-  environment_name_plan                        = local.resource_names.version_control_system_environment_plan
-  environment_name_apply                       = local.resource_names.version_control_system_environment_apply
+  environments                                 = local.environments
   repository_name                              = local.resource_names.version_control_system_repository
   repository_visibility                        = var.repository_visibility
   repository_files                             = local.all_repo_files
-  managed_identity_plan_client_id              = module.azure.user_assigned_managed_identity_plan_client_id
-  managed_identity_apply_client_id             = module.azure.user_assigned_managed_identity_apply_client_id
+  managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
   backend_azure_resource_group_name            = local.resource_names.resource_group_state

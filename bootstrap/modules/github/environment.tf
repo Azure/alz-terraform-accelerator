@@ -1,20 +1,23 @@
-resource "github_repository_environment" "alz_plan" {
-  environment = var.environment_name_plan
-  repository  = github_repository.alz.name
-}
-
-resource "github_repository_environment" "alz_apply" {
+resource "github_repository_environment" "alz" {
   depends_on  = [github_team_repository.alz]
-  environment = var.environment_name_apply
+  for_each    = var.environments
+  environment = each.value
   repository  = github_repository.alz.name
-  reviewers {
-    teams = [
-      github_team.alz.id
-    ]
+
+  dynamic "reviewers" {
+    for_each = each.key == local.apply_key ? [1] : []
+    content {
+      teams = [
+        github_team.alz.id
+      ]
+    }
   }
-  deployment_branch_policy {
-    protected_branches     = true
-    custom_branch_policies = false
+
+  dynamic "deployment_branch_policy" {
+    for_each = each.key == local.apply_key ? [1] : []
+    content {
+      protected_branches     = true
+      custom_branch_policies = false
+    }
   }
 }
-

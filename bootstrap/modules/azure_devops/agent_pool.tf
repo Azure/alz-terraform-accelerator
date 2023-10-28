@@ -1,13 +1,10 @@
 locals {
-  agent_pools = {
-    plan  = var.agent_pool_plan_name
-    apply = var.agent_pool_apply_name
-  }
+  agent_pools = local.is_authentication_scheme_managed_identity ? var.environments : {}
 }
 
 resource "azuredevops_agent_pool" "alz" {
   for_each       = local.agent_pools
-  name           = each.value
+  name           = each.value.agent_pool_name
   auto_provision = false
   auto_update    = true
 }

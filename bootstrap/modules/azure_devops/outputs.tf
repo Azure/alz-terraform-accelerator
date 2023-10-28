@@ -3,22 +3,15 @@ output "organization_url" {
 }
 
 output "subjects" {
-  value = {
-    plan  = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["plan"].workload_identity_federation_subject : ""
-    apply = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["apply"].workload_identity_federation_subject : ""
-  }
+  value = local.is_authentication_scheme_workload_identity_federation ? { for key, value in var.environments : key => azuredevops_serviceendpoint_azurerm.alz[key].workload_identity_federation_subject } : {}
 }
 
-output "issuer" {
-  value = local.is_authentication_scheme_workload_identity_federation ? azuredevops_serviceendpoint_azurerm.alz["apply"].workload_identity_federation_issuer : ""
+output "issuers" {
+  value = local.is_authentication_scheme_workload_identity_federation ? { for key, value in var.environments : key => azuredevops_serviceendpoint_azurerm.alz[key].workload_identity_federation_issuer } : {}
 }
 
-output "agent_pool_plan_name" {
-  value = local.is_authentication_scheme_managed_identity ? azuredevops_agent_pool.alz["plan"].name : ""
-}
-
-output "agent_pool_apply_name" {
-  value = local.is_authentication_scheme_managed_identity ? azuredevops_agent_pool.alz["apply"].name : ""
+output "agent_pool_names" {
+  value = local.is_authentication_scheme_managed_identity ? { for key, value in var.environments : key => azuredevops_agent_pool.alz[key].name } : {}
 }
 
 output "is_authentication_scheme_managed_identity" {

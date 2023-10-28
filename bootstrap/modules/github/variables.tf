@@ -2,14 +2,6 @@ variable "organization_name" {
   type = string
 }
 
-variable "environment_name_plan" {
-  type = string
-}
-
-variable "environment_name_apply" {
-  type = string
-}
-
 variable "repository_name" {
   type = string
 }
@@ -25,12 +17,12 @@ variable "repository_files" {
   }))
 }
 
-variable "managed_identity_plan_client_id" {
-  type = string
+variable "environments" {
+  type = map(string)
 }
 
-variable "managed_identity_apply_client_id" {
-  type = string
+variable "managed_identity_client_ids" {
+  type = map(string)
 }
 
 variable "azure_tenant_id" {
