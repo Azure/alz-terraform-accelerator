@@ -12,17 +12,17 @@ module "resource_names" {
 
 locals {
   managed_identities = {
-    "${local.plan_key}"  = local.resource_names.user_assigned_managed_identity_plan
-    "${local.apply_key}" = local.resource_names.user_assigned_managed_identity_apply
+    (local.plan_key)  = local.resource_names.user_assigned_managed_identity_plan
+    (local.apply_key) = local.resource_names.user_assigned_managed_identity_apply
   }
 
   federated_credentials = {
-    "${local.plan_key}" = {
+    (local.plan_key) = {
       federated_credential_subject = module.azure_devops.subjects[local.plan_key]
       federated_credential_issuer  = module.azure_devops.issuers[local.plan_key]
       federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_plan
     }
-    "${local.apply_key}" = {
+    (local.apply_key) = {
       federated_credential_subject = module.azure_devops.subjects[local.apply_key]
       federated_credential_issuer  = module.azure_devops.issuers[local.apply_key]
       federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_apply
@@ -108,12 +108,12 @@ locals {
 
 locals {
   environments = {
-    "${local.plan_key}" = {
+    (local.plan_key) = {
       environment_name        = local.resource_names.version_control_system_environment_plan
       service_connection_name = local.resource_names.version_control_system_service_connection_plan
       agent_pool_name         = local.resource_names.version_control_system_agent_pool_plan
     }
-    "${local.apply_key}" = {
+    (local.apply_key) = {
       environment_name        = local.resource_names.version_control_system_environment_apply
       service_connection_name = local.resource_names.version_control_system_service_connection_apply
       agent_pool_name         = local.resource_names.version_control_system_agent_pool_apply

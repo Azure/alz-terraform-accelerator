@@ -19,16 +19,10 @@ variable "parent_management_group_display_name" {
   default     = "Tenant Root Group"
 }
 
-variable "child_management_group_name" {
-  description = "The child management group name for testing|5"
-  type        = string
-  default     = "testing123"
-}
-
 variable "child_management_group_display_name" {
   description = "The child management group for testing display name|6"
   type        = string
-  default     = "Testing 123"
+  default     = "E2E Test"
 }
 
 variable "resource_group_location" {
