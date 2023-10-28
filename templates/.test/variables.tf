@@ -1,34 +1,3 @@
-variable "test_variable_01" {
-  type        = string
-  description = "This is the first test variable|4|azure_name"
-}
-
-variable "test_variable_02" {
-  type        = number
-  description = "This is the second test variable|5|number"
-}
-
-variable "test_variable_03" {
-  type        = bool
-  description = "This is the third test variable|6|bool"
-}
-
-variable "test_variable_04" {
-  type        = string
-  description = "This is the fourth test variable|7|azure_location"
-}
-
-variable "test_variable_05" {
-  type        = string
-  description = "This is the fifth test variable|8|guid"
-}
-
-variable "test_variable_06" {
-  type        = string
-  description = "This is the sixth test variable.|9|azure_name"
-  default     = "testing-123"
-}
-
 variable "subscription_id_connectivity" {
   description = "The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|1|azure_subscription_id"
   type        = string
@@ -42,4 +11,34 @@ variable "subscription_id_identity" {
 variable "subscription_id_management" {
   description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)|3|azure_subscription_id"
   type        = string
+}
+
+variable "parent_management_group_display_name" {
+  description = "The parent management group for testing|4"
+  type        = string
+  default     = "Tenant Root Group"
+}
+
+variable "child_management_group_name" {
+  description = "The child management group name for testing|5"
+  type        = string
+  default     = "testing123"
+}
+
+variable "child_management_group_display_name" {
+  description = "The child management group for testing display name|6"
+  type        = string
+  default     = "Testing 123"
+}
+
+variable "resource_group_location" {
+  type        = string
+  description = "This is the fourth test variable|7|azure_location"
+  default = "uksouth"
+}
+
+variable "resource_group_name" {
+  description = "The name of the resource group for testing|8"
+  type        = string
+  default     = "testing-123"
 }
