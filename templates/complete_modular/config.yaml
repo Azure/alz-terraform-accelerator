@@ -1,0 +1,90 @@
+management:
+  automation_account_name: aa-${default_postfix}
+  location: uksouth
+  log_analytics_workspace_name: law-${default_postfix}
+  resource_group_name: rg-management-${default_postfix}
+
+management_groups:
+  root:
+    - id: root-${default_postfix}
+    - display_name: root
+    - parent_id: ${tenant_id}
+    - base_archtype: root
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  landing_zones:
+    - id: landing-zones-${default_postfix}
+    - display_name: landing-zones
+    - parent_id: root-${default_postfix}
+    - base_archtype: landing_zones
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  platform:
+    - id: platform-${default_postfix}
+    - display_name: platform
+    - parent_id: root-${default_postfix}
+    - base_archtype: platform
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  identity:
+    - id: identity-${default_postfix}
+    - display_name: identity
+    - parent_id: platform-${default_postfix}
+    - base_archtype: identity
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  connectivity:
+    - id: connectivity-${default_postfix}
+    - display_name: connectivity
+    - parent_id: platform-${default_postfix}
+    - base_archtype: connectivity
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  management:
+    - id: management-${default_postfix}
+    - display_name: management
+    - parent_id: landing-zones-${default_postfix}
+    - base_archtype: management
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  corp:
+    - id: corp-${default_postfix}
+    - display_name: corp
+    - parent_id: landing-zones-${default_postfix}
+    - base_archtype: corp
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  online:
+    - id: online-${default_postfix}
+    - display_name: online
+    - parent_id: landing-zones-${default_postfix}
+    - base_archtype: online
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+  sandboxes:
+    - id: sandboxes-${default_postfix}
+    - display_name: sandboxes
+    - parent_id: root-${default_postfix}
+    - base_archtype: sandboxes
+    - default_location: ${default_location}
+    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+
+connectivity:
+  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+    hub_virtual_networks:
+      primary:
+        name: vnet-hub-${default_postfix}
+        resource_group_name: rg-connectivity-${default_postfix}
+        location: ${default_location}
+        address_space:
+          - 10.0.0.0/16
+        firewall:
+          name: fw-hub-${default_postfix}
+          sku_name: AZFW_VNet
+          sku_tier: Standard
+          subnet_address_prefix: 10.0.1.0/24
+        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+          name: vgw-hub-${default_postfix}
+          sku: VpnGw1
+          type: Vpn
+          subnet_address_prefix: 10.0.2.0/24
