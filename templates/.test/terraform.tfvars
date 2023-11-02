@@ -1,9 +1,3 @@
-test_variable_01             = "testing1"
-test_variable_02             = 123
-test_variable_03             = true
-test_variable_04             = "uksouth"
-test_variable_05             = "00000000-0000-0000-0000-000000000000"
-test_variable_06             = "some-thing"
 subscription_id_connectivity = "00000000-0000-0000-0000-000000000000"
 subscription_id_identity     = "00000000-0000-0000-0000-000000000000"
 subscription_id_management   = "00000000-0000-0000-0000-000000000000"

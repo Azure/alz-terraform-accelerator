@@ -2,25 +2,21 @@ variable "azure_location" {
   type = string
 }
 
-variable "user_assigned_managed_identity_name" {
-  type = string
+variable "user_assigned_managed_identities" {
+  type = map(string)
+}
+
+variable "federated_credentials" {
+  type = map(object({
+    federated_credential_subject = string
+    federated_credential_issuer  = string
+    federated_credential_name    = string
+  }))
 }
 
 variable "create_federated_credential" {
   type    = bool
   default = true
-}
-
-variable "federated_credential_subjects" {
-  type = map(string)
-}
-
-variable "federated_credential_issuer" {
-  type = string
-}
-
-variable "federated_credential_name" {
-  type = string
 }
 
 variable "create_agents_resource_group" {
@@ -58,16 +54,13 @@ variable "agent_container_instances" {
   type = map(object({
     container_instance_name = string
     agent_name              = string
+    managed_identity_key    = string
+    agent_pool_name         = string
   }))
   default = {}
 }
 
 variable "agent_container_instance_image" {
-  type    = string
-  default = ""
-}
-
-variable "agent_pool_name" {
   type    = string
   default = ""
 }

@@ -1,7 +1,9 @@
-resource "github_actions_variable" "azure_client_id" {
+resource "github_actions_environment_variable" "azure_plan_client_id" {
+  for_each      = var.environments
   repository    = github_repository.alz.name
+  environment   = github_repository_environment.alz[each.key].environment
   variable_name = "AZURE_CLIENT_ID"
-  value         = var.managed_identity_client_id
+  value         = var.managed_identity_client_ids[each.key]
 }
 
 resource "github_actions_variable" "azure_subscription_id" {

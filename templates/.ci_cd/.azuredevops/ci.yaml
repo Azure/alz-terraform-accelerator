@@ -28,7 +28,7 @@ stages:
         dependsOn: validate
         displayName: Validate Terraform Plan
         pool:
-          ${agent_pool_configuration}
+          ${agent_pool_configuration_plan}
         environment: ${environment_name_plan}
         strategy:
           runOnce:
@@ -45,7 +45,7 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'init'
-                    backendServiceArm: '${service_connection_name}'
+                    backendServiceArm: '${service_connection_name_plan}'
                     backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
                     backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
                     backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
@@ -57,6 +57,6 @@ stages:
                   inputs:
                     provider: 'azurerm'
                     command: 'plan'
-                    environmentServiceNameAzureRM: '${service_connection_name}'
+                    environmentServiceNameAzureRM: '${service_connection_name_plan}'
                   env:
                     ARM_USE_AZUREAD: true

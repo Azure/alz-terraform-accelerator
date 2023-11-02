@@ -12,8 +12,8 @@ locals {
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        environment_name_plan  = var.environment_name_plan
-        environment_name_apply = var.environment_name_apply
+        environment_name_plan  = var.environments[local.plan_key]
+        environment_name_apply = var.environments[local.apply_key]
       })
     } if value.flag == "cicd"
   }

@@ -3,6 +3,11 @@ locals {
 }
 
 locals {
+  plan_key  = "plan"
+  apply_key = "apply"
+}
+
+locals {
   authentication_scheme_managed_identity                = "ManagedServiceIdentity"
   authentication_scheme_workload_identity_federation    = "WorkloadIdentityFederation"
   is_authentication_scheme_managed_identity             = var.authentication_scheme == local.authentication_scheme_managed_identity

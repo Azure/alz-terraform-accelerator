@@ -9,7 +9,7 @@ resource "azurerm_container_group" "alz" {
   identity {
     type = "UserAssigned"
     identity_ids = [
-      azurerm_user_assigned_identity.alz.id
+      azurerm_user_assigned_identity.alz[each.value.managed_identity_key].id
     ]
   }
 
@@ -26,7 +26,7 @@ resource "azurerm_container_group" "alz" {
 
     environment_variables = {
       AZP_URL        = var.agent_organization_url
-      AZP_POOL       = var.agent_pool_name
+      AZP_POOL       = each.value.agent_pool_name
       AZP_AGENT_NAME = each.value.agent_name
     }
 

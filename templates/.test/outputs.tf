@@ -6,30 +6,6 @@ output "subscription" {
   value = data.azurerm_subscription.current
 }
 
-output "test_output_01" {
-  value = var.test_variable_01
-}
-
-output "test_output_02" {
-  value = var.test_variable_02
-}
-
-output "test_output_03" {
-  value = var.test_variable_03
-}
-
-output "test_output_04" {
-  value = var.test_variable_04
-}
-
-output "test_output_05" {
-  value = var.test_variable_05
-}
-
-output "test_output_06" {
-  value = var.test_variable_06
-}
-
 output "subscription_id_connectivity" {
   value = var.subscription_id_connectivity
 }
@@ -40,4 +16,20 @@ output "subscription_id_identity" {
 
 output "subscription_id_management" {
   value = var.subscription_id_management
+}
+
+output "parent_management_group_display_name" {
+  value = data.azurerm_management_group.example_parent.display_name
+}
+
+output "child_management_group_name" {
+  value = azurerm_management_group.example_child.name
+}
+
+output "child_management_group_display_name" {
+  value = azurerm_management_group.example_child.display_name
+}
+
+output "resource_group_name" {
+  value = azurerm_resource_group.example.name
 }

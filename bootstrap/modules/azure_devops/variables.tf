@@ -22,12 +22,16 @@ variable "project_name" {
   type = string
 }
 
-variable "environment_name_plan" {
-  type = string
+variable "environments" {
+  type = map(object({
+    environment_name        = string
+    service_connection_name = string
+    agent_pool_name         = string
+  }))
 }
 
-variable "environment_name_apply" {
-  type = string
+variable "managed_identity_client_ids" {
+  type = map(string)
 }
 
 variable "repository_name" {
@@ -49,19 +53,7 @@ variable "pipeline_cd_file" {
   type = string
 }
 
-variable "service_connection_name" {
-  type = string
-}
-
 variable "variable_group_name" {
-  type = string
-}
-
-variable "agent_pool_name" {
-  type = string
-}
-
-variable "managed_identity_client_id" {
   type = string
 }
 

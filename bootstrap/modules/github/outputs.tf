@@ -4,8 +4,8 @@ output "organization_url" {
 
 output "subjects" {
   value = {
-    plan  = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environment_name_plan}"
-    apply = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environment_name_apply}"
+    (local.plan_key)  = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[local.plan_key]}"
+    (local.apply_key) = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[local.apply_key]}"
   }
 }
 
