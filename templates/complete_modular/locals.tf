@@ -1,5 +1,3 @@
-data "azurerm_client_config" "current" {}
-
 locals {
   base_config_replacements = {
     default_location = var.default_location
