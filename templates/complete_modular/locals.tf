@@ -5,6 +5,9 @@ locals {
     default_location = var.default_location
     default_postfix  = var.default_postfix
     tenant_id        = data.azurerm_client_config.current.tenant_id
+    subscription_id_connectivity = var.subscription_id_connectivity
+    subscription_id_identity     = var.subscription_id_identity
+    subscription_id_management   = var.subscription_id_management
   }
 
   initial_config = yamldecode(templatefile("${path.module}/config.yaml", local.base_config_replacements))

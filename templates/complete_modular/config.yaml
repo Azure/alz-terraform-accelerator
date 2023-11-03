@@ -33,6 +33,8 @@ management_groups:
     - base_archtype: identity
     - default_location: ${default_location}
     - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    - subscriptions:
+      - ${subscription_id_identity}
   connectivity:
     - id: connectivity-${default_postfix}
     - display_name: connectivity
@@ -40,6 +42,8 @@ management_groups:
     - base_archtype: connectivity
     - default_location: ${default_location}
     - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    - subscriptions:
+      - ${subscription_id_connectivity}
   management:
     - id: management-${default_postfix}
     - display_name: management
@@ -47,6 +51,8 @@ management_groups:
     - base_archtype: management
     - default_location: ${default_location}
     - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    - subscriptions:
+      - ${subscription_id_management}
   corp:
     - id: corp-${default_postfix}
     - display_name: corp

@@ -1,4 +1,4 @@
-module "alz_management_resources" {
+module "management_resources" {
   source  = "Azure/alz-management/azurerm"
   version = "~> 0.1.0"
 
@@ -8,19 +8,19 @@ module "alz_management_resources" {
   resource_group_name          = try(local.management.resource_group_name, "")
 }
 
-module "alz_archetype_root" {
+module "management_groups" {
   source                             = "Azure/avm-ptn-alz/azurerm"
   version                            = "~> 0.3.3"
   for_each                           = local.management_groups
-  id                                 = try(each.value.id, "")
-  display_name                       = try(each.value.display_name, "")
-  parent_id                          = try(each.value.parent_id, "")
+  id                                 = each.value.id
+  display_name                       = try(each.value.display_name, each.value.id)
+  parent_id                          = each.value.parent_id
   base_archetype                     = try(each.value.base_archetype, "")
   default_location                   = try(each.value.default_location, var.default_location)
   default_log_analytics_workspace_id = try(each.value.default_log_analytics_workspace_id, "")
 }
 
-module "hubnetworking" {
+module "hub_networking" {
   source  = "Azure/hubnetworking/azurerm"
   version = "1.1.0"
   count   = length(local.hub_virtual_networks) > 0 ? 1 : 0
@@ -32,7 +32,7 @@ module "hubnetworking" {
   }
 }
 
-module "vnet-gateway" {
+module "vnet_gateway" {
   source  = "Azure/vnet-gateway/azurerm"
   version = "0.1.2"
 
