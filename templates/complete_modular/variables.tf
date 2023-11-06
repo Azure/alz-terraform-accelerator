@@ -6,6 +6,7 @@ variable "default_location" {
 variable "default_postfix" {
   description = "The default postfix for Azure resources. (e.g 'landing-zone')|2|azure_name"
   type        = string
+  default     = "landing-zone"
 }
 
 variable "subscription_id_connectivity" {

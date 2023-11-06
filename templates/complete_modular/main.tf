@@ -1,11 +1,17 @@
 module "management_resources" {
   source  = "Azure/alz-management/azurerm"
-  version = "~> 0.1.0"
-
+  version = "~> 0.1.5"
+  providers = {
+    azurerm = azurerm.management
+  }
   automation_account_name      = try(local.management.automation_account_name, "")
   location                     = try(local.management.location, "")
   log_analytics_workspace_name = try(local.management.log_analytics_workspace_name, "")
   resource_group_name          = try(local.management.resource_group_name, "")
+}
+
+output "test" {
+  value = local.management_groups
 }
 
 module "management_groups" {
@@ -15,28 +21,31 @@ module "management_groups" {
   id                                 = each.value.id
   display_name                       = try(each.value.display_name, each.value.id)
   parent_id                          = each.value.parent_id
-  base_archetype                     = try(each.value.base_archetype, "")
-  default_location                   = try(each.value.default_location, var.default_location)
-  default_log_analytics_workspace_id = try(each.value.default_log_analytics_workspace_id, "")
+  base_archetype                     = each.value.base_archetype
+  default_location                   = var.default_location
+  default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
+  #subscription_ids                   = try(each.value.subscription_ids, [])
 }
 
 module "hub_networking" {
   source  = "Azure/hubnetworking/azurerm"
-  version = "1.1.0"
-  count   = length(local.hub_virtual_networks) > 0 ? 1 : 0
-
-  hub_virtual_networks = length(local.hub_virtual_networks) > 0 ? local.hub_virtual_networks : local.dummy_hub_virtual_network
-
+  version = "~> 1.1.0"
   providers = {
     azurerm = azurerm.connectivity
   }
+  count   = length(local.hub_virtual_networks) > 0 ? 1 : 0
+
+  hub_virtual_networks = length(local.hub_virtual_networks) > 0 ? local.hub_virtual_networks : null
 }
 
 module "vnet_gateway" {
   source  = "Azure/vnet-gateway/azurerm"
-  version = "0.1.2"
+  version = "~> 0.1.2"
+  providers = {
+    azurerm = azurerm.connectivity
+  }
 
-  for_each = local.vritual_network_gateways
+  for_each = local.virtual_network_gateways
 
   location                            = each.value.location
   name                                = each.value.name
@@ -58,11 +67,7 @@ module "vnet_gateway" {
   vpn_point_to_site                   = try(each.value.vpn_point_to_site, null)
   vpn_type                            = try(each.value.vpn_type, null)
 
-  providers = {
-    azurerm = azurerm.connectivity
-  }
-
   depends_on = [
-    module.hubnetworking
+    module.hub_networking
   ]
 }

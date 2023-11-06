@@ -1,3 +1,12 @@
+# This file contains templated variables to avoid repeating the same hard-coded values.
+# Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
+# `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
+# `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `tenant_id`: This is the tenant ID of the Entra ID tenant based on your connection. This is primarily used to set the root management group `parent_id`.
+# `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
+# `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
+# `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
+
 management:
   automation_account_name: aa-${default_postfix}
   location: uksouth
@@ -6,77 +15,59 @@ management:
 
 management_groups:
   root:
-    - id: root-${default_postfix}
-    - display_name: root
-    - parent_id: ${tenant_id}
-    - base_archtype: root
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: root-${default_postfix}
+    display_name: root
+    parent_id: ${tenant_id}
+    base_archetype: root
   landing_zones:
-    - id: landing-zones-${default_postfix}
-    - display_name: landing-zones
-    - parent_id: root-${default_postfix}
-    - base_archtype: landing_zones
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: landing-zones-${default_postfix}
+    display_name: landing-zones
+    parent_id: root-${default_postfix}
+    base_archetype: landing_zones
   platform:
-    - id: platform-${default_postfix}
-    - display_name: platform
-    - parent_id: root-${default_postfix}
-    - base_archtype: platform
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: platform-${default_postfix}
+    display_name: platform
+    parent_id: root-${default_postfix}
+    base_archetype: platform
   identity:
-    - id: identity-${default_postfix}
-    - display_name: identity
-    - parent_id: platform-${default_postfix}
-    - base_archtype: identity
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
-    - subscriptions:
-      - ${subscription_id_identity}
+    id: identity-${default_postfix}
+    display_name: identity
+    parent_id: platform-${default_postfix}
+    base_archetype: identity
+    subscriptions:
+    - ${subscription_id_identity}
   connectivity:
-    - id: connectivity-${default_postfix}
-    - display_name: connectivity
-    - parent_id: platform-${default_postfix}
-    - base_archtype: connectivity
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
-    - subscriptions:
-      - ${subscription_id_connectivity}
+    id: connectivity-${default_postfix}
+    display_name: connectivity
+    parent_id: platform-${default_postfix}
+    base_archetype: connectivity
+    subscriptions:
+    - ${subscription_id_connectivity}
   management:
-    - id: management-${default_postfix}
-    - display_name: management
-    - parent_id: landing-zones-${default_postfix}
-    - base_archtype: management
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
-    - subscriptions:
-      - ${subscription_id_management}
+    id: management-${default_postfix}
+    display_name: management
+    parent_id: landing-zones-${default_postfix}
+    base_archetype: management
+    subscriptions:
+    - ${subscription_id_management}
   corp:
-    - id: corp-${default_postfix}
-    - display_name: corp
-    - parent_id: landing-zones-${default_postfix}
-    - base_archtype: corp
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: corp-${default_postfix}
+    display_name: corp
+    parent_id: landing-zones-${default_postfix}
+    base_archetype: corp
   online:
-    - id: online-${default_postfix}
-    - display_name: online
-    - parent_id: landing-zones-${default_postfix}
-    - base_archtype: online
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: online-${default_postfix}
+    display_name: online
+    parent_id: landing-zones-${default_postfix}
+    base_archetype: online
   sandboxes:
-    - id: sandboxes-${default_postfix}
-    - display_name: sandboxes
-    - parent_id: root-${default_postfix}
-    - base_archtype: sandboxes
-    - default_location: ${default_location}
-    - default_log_analytics_workspace_id: ${management_log_analytics_workspace_id}
+    id: sandboxes-${default_postfix}
+    display_name: sandboxes
+    parent_id: root-${default_postfix}
+    base_archetype: sandboxes
 
 connectivity:
-  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+  hub_networking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       primary:
         name: vnet-hub-${default_postfix}
