@@ -9,17 +9,23 @@ variable "default_postfix" {
   default     = "landing-zone"
 }
 
+variable "tenant_root_management_group_id" {
+  description = "The identifier of the Tenant Root Management Group. (e.g '00000000-0000-0000-0000-000000000000')|3|azure_name"
+  type        = string
+  default     = ""
+}
+
 variable "subscription_id_connectivity" {
-  description = "The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|3|azure_subscription_id"
+  description = "The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|4|azure_subscription_id"
   type        = string
 }
 
 variable "subscription_id_identity" {
-  description = "The identifier of the Identity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|4|azure_subscription_id"
+  description = "The identifier of the Identity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|5|azure_subscription_id"
   type        = string
 }
 
 variable "subscription_id_management" {
-  description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)|5|azure_subscription_id"
+  description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)|6|azure_subscription_id"
   type        = string
 }

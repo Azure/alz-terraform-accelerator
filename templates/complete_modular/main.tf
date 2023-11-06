@@ -14,26 +14,13 @@ output "test" {
   value = local.management_groups
 }
 
-module "management_groups" {
-  source                             = "Azure/avm-ptn-alz/azurerm"
-  version                            = "~> 0.3.3"
-  for_each                           = local.management_groups
-  id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
-  parent_id                          = each.value.parent_id
-  base_archetype                     = each.value.base_archetype
-  default_location                   = var.default_location
-  default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
-  #subscription_ids                   = try(each.value.subscription_ids, [])
-}
-
 module "hub_networking" {
   source  = "Azure/hubnetworking/azurerm"
   version = "~> 1.1.0"
   providers = {
     azurerm = azurerm.connectivity
   }
-  count   = length(local.hub_virtual_networks) > 0 ? 1 : 0
+  count = length(local.hub_virtual_networks) > 0 ? 1 : 0
 
   hub_virtual_networks = length(local.hub_virtual_networks) > 0 ? local.hub_virtual_networks : null
 }

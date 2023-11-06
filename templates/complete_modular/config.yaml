@@ -2,7 +2,7 @@
 # Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
 # `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
 # `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
-# `tenant_id`: This is the tenant ID of the Entra ID tenant based on your connection. This is primarily used to set the root management group `parent_id`.
+# `tenant_root_management_group_id`: This is ID of the top level managemrnt group that you will build your hierarchy under. This is primarily used to set the root management group `parent_id`.
 # `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
@@ -17,7 +17,7 @@ management_groups:
   root:
     id: root-${default_postfix}
     display_name: root
-    parent_id: ${tenant_id}
+    parent_id: ${tenant_root_management_group_id}
     base_archetype: root
   landing_zones:
     id: landing-zones-${default_postfix}
