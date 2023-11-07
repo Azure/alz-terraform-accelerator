@@ -22,7 +22,7 @@ module "management_groups_layer_2" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_1]
+  depends_on                         = [module.management_groups_layer_1]
 }
 
 module "management_groups_layer_3" {
@@ -36,7 +36,7 @@ module "management_groups_layer_3" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_2]
+  depends_on                         = [module.management_groups_layer_2]
 }
 
 module "management_groups_layer_4" {
@@ -50,7 +50,7 @@ module "management_groups_layer_4" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_3]
+  depends_on                         = [module.management_groups_layer_3]
 }
 
 module "management_groups_layer_5" {
@@ -64,7 +64,7 @@ module "management_groups_layer_5" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_4]
+  depends_on                         = [module.management_groups_layer_4]
 }
 
 module "management_groups_layer_6" {
@@ -78,7 +78,7 @@ module "management_groups_layer_6" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_5]
+  depends_on                         = [module.management_groups_layer_5]
 }
 
 module "management_groups_layer_7" {
@@ -92,5 +92,5 @@ module "management_groups_layer_7" {
   default_location                   = var.default_location
   default_log_analytics_workspace_id = module.management_resources.log_analytics_workspace.id
   subscription_ids                   = try(each.value.subscription_ids, [])
-  depends_on = [module.management_groups_layer_6]
+  depends_on                         = [module.management_groups_layer_6]
 }

@@ -6,7 +6,7 @@
 # `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
-
+---
 management:
   automation_account_name: aa-${default_postfix}
   location: uksouth
@@ -35,21 +35,21 @@ management_groups:
     parent_id: platform-${default_postfix}
     base_archetype: identity
     subscriptions:
-    - ${subscription_id_identity}
+      - ${subscription_id_identity}
   connectivity:
     id: connectivity-${default_postfix}
     display_name: connectivity
     parent_id: platform-${default_postfix}
     base_archetype: connectivity
     subscriptions:
-    - ${subscription_id_connectivity}
+      - ${subscription_id_connectivity}
   management:
     id: management-${default_postfix}
     display_name: management
     parent_id: landing-zones-${default_postfix}
     base_archetype: management
     subscriptions:
-    - ${subscription_id_management}
+      - ${subscription_id_management}
   corp:
     id: corp-${default_postfix}
     display_name: corp
@@ -67,7 +67,7 @@ management_groups:
     base_archetype: sandboxes
 
 connectivity:
-  hub_networking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+  hub_networking:  # `hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       primary:
         name: vnet-hub-${default_postfix}
@@ -80,7 +80,7 @@ connectivity:
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+        virtual_network_gateway:  # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${default_postfix}
           sku: VpnGw1
           type: Vpn
