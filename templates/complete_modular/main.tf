@@ -10,10 +10,6 @@ module "management_resources" {
   resource_group_name          = try(local.management.resource_group_name, "")
 }
 
-output "test" {
-  value = local.management_groups
-}
-
 module "hub_networking" {
   source  = "Azure/hubnetworking/azurerm"
   version = "~> 1.1.0"
