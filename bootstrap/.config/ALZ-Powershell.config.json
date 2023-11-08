@@ -1,19 +1,6 @@
 {
     "parameters": {},
     "validators": {
-        "starter_module": {
-            "Type": "AllowedValues",
-            "Description": "A valid starter module e.g. 'basic'",
-            "AllowedValues": {
-                "Display": true,
-                "Values": [
-                    ".test",
-                    "basic",
-                    "hubnetworking",
-                    "complete"
-                ]
-            }
-        },
         "auth_scheme": {
             "Type": "AllowedValues",
             "Description": "A valid authentication scheme e.g. 'WorkloadIdentityFederation'",

@@ -123,3 +123,68 @@ For example:
 ```powershell
 New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
+
+## Questions about using custom starter modules
+
+### I want to use my own custom starter modules, how do I do that?
+
+First you'll need to create a folder structure to hold your custom starter modules. The folder structure should follow this pattern:
+
+```text
+📦my-custom-starter-modules #1
+ ┣ 📂my-ci-cd #2
+ ┃ ┣ 📂.azuredevops #3
+ ┃ ┃ ┣ 📜my-cd.yaml #4
+ ┃ ┃ ┗ 📜my-ci.yaml
+ ┃ ┗ 📂.github
+ ┃ ┃ ┗ 📂workflows
+ ┃ ┃ ┃ ┣ 📜my-cd.yaml
+ ┃ ┃ ┃ ┗ 📜my-ci.yaml
+ ┣ 📂my-starter-module-1 #5
+ ┃ ┣ 📜main.tf
+ ┃ ┣ 📜outputs.tf
+ ┃ ┣ 📜providers.tf
+ ┃ ┣ 📜README.md
+ ┃ ┣ 📜terraform.tfvars
+ ┃ ┗ 📜variables.tf #6
+ ┣ 📂my-starter-module-2
+ ┃ ┣ 📜data.tf
+ ┃ ┣ 📜main.tf
+ ┃ ┣ 📜variables.tf
+ ┃ ┗ 📜versions.tf
+```
+
+Notes on the folder structure:
+
+1. This is the enclosing folder as specified in the `template_folder_path` variable (see below).
+1. This is the CI / CD actions / pipelines folder as specified in `ci_cd_module` variable (see below).
+1. You only need to supply one of either `.azuredevops` or `.github\workflows` folder if you are only using one VCS system. The GitHub folder name cannot be altered, but Azure DevOps can if desired.
+1. If you change the name of these files from `ci.yaml` or `cd.yaml` for Azure DevOps, you need to specify them in the `ci_file_path` and `cd_file_path` variables as specified below. These files are templated, so please use the existing ones as a guide if you plan to update them.
+1. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
+1. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
+
+Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `template_folder_path` and optionally the `ci_cd_module` variables. For example:
+
+```yaml
+template_folder_path: "C:/my-config/my-custom-starter-modules" # This is the folder you created in the last step
+ci_cd_module: "my-ci-cd" # This is the name of the CI / CD folder
+ci_file_path: ".azuredevops/my-ci.yaml" # This variable is only required if are using Azure DevOps and have updated the CI file path / name.
+cd_file_path: ".azuredevops/my-cd.yaml" # This variable is only required if are using Azure DevOps and have updated the CD file path / name.
+```
+
+```json
+{
+  "template_folder_path": "~/my-config/my-custom-starter-modules",
+  "ci_cd_module": "my-ci-cd",
+  "ci_file_path": ".azuredevops/my-ci.yaml",
+  "cd_file_path": ".azuredevops/my-cd.yaml"
+}
+```
+
+Then, when you call the PowerShell module, specify the `-inputs` parameter with the path to the file containing the inputs. For example:
+
+```powershell
+New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.yaml"
+```
+
+Now when the PowerShell runs it will accept the name of your customer starter module in the `starter_module` variable. e.g. `my-starter-module-1`.
