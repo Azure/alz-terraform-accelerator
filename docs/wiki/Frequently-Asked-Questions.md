@@ -157,9 +157,9 @@ First you'll need to create a folder structure to hold your custom starter modul
 Notes on the folder structure:
 
 1. This is the enclosing folder as specified in the `template_folder_path` variable (see below).
-1. This is the CI / CD actions / pipelines folder as specified in `ci_cd_module`.
+1. This is the CI / CD actions / pipelines folder as specified in `ci_cd_module` variable (see below).
 1. You only need to supply one of either `.azuredevops` or `.github\workflows` folder if you are only using one VCS system. The GitHub folder name cannot be altered, but Azure DevOps can if desired.
-1. If you change the name of these files from `ci.yaml` or `cd.yaml` for Azure DevOps, you need to specify them in the `ci_file_path` and `cd_file_path`. These files are templated, so please use the existing ones as a guide if you plan to update them.
+1. If you change the name of these files from `ci.yaml` or `cd.yaml` for Azure DevOps, you need to specify them in the `ci_file_path` and `cd_file_path` variables as specified below. These files are templated, so please use the existing ones as a guide if you plan to update them.
 1. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
 1. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
 
