@@ -123,3 +123,53 @@ For example:
 ```powershell
 New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
+
+## Questions about using customer starter modules
+
+### I want to use my own custom starter modules, how do I do that?
+
+First you'll need to create a folder structure to hold your custom starter modules. The folder structure should follow this pattern:
+
+```yaml
+- my-custom-starter-modules # Enclosing folder
+  - my-ci-cd # CI / CD actions / pipelines
+    - azuredevops # NOTE: You only need to supply one of azuredevops or github folder if you are only using one VCS system
+      - cd.yaml # The CI / CD files must be named like this for now. These files are templated, so please use the existing ones as a guide
+      - ci.yaml
+    - github
+      - cd.yaml
+      - ci.yaml
+  - my-starter-module-1 # An example starter module folder. This will also the name of the starter module as supplied to the starter_module input
+    - README.md
+    - main.tf
+    - variables.tf # Variables must be stored in a file called variables.tf. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module
+    - outputs.tf
+  - my-starter-module-2
+    - README.md
+    - main.tf
+    - variables.tf
+    - outputs.tf
+  ...
+```
+
+Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `template_folder_path` and optionally the `ci_cd_module` variables. For example:
+
+```yaml
+template_folder_path: "C:/my-config/my-custom-starter-modules" # This is the folder you created in the last step
+ci_cd_module: "my-ci-cd" # This is the name of the CI / CD folder
+```
+
+```json
+{
+  "template_folder_path": "~/my-config/my-custom-starter-modules",
+  "ci_cd_module": "my-ci-cd"
+}
+```
+
+Then, when you call the PowerShell module, specify the `-inputs` parameter with the path to the file containing the inputs. For example:
+
+```powershell
+New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.yaml"
+```
+
+Now when the PowerShell runs it will accept the name of your customer starter module in the `starter_module` variable. e.g. `my-starter-module-1`.

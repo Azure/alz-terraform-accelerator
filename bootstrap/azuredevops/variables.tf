@@ -1,5 +1,5 @@
 variable "starter_module" {
-  description = "The starter module to use for the deployment. (e.g. 'basic')|1|starter_module"
+  description = "The starter module to use for the deployment. (e.g. 'basic')|1"
   type        = string
   default     = "basic"
 }
