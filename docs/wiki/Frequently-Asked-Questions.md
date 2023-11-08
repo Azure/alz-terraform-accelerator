@@ -124,7 +124,7 @@ For example:
 New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
 
-## Questions about using customer starter modules
+## Questions about using custom starter modules
 
 ### I want to use my own custom starter modules, how do I do that?
 
