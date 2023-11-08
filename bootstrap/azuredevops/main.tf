@@ -136,8 +136,8 @@ module "azure_devops" {
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
   azure_subscription_name                      = data.azurerm_subscription.current.display_name
-  pipeline_ci_file                             = ".azuredevops/ci.yaml"
-  pipeline_cd_file                             = ".azuredevops/cd.yaml"
+  pipeline_ci_file                             = var.ci_file_path
+  pipeline_cd_file                             = var.cd_file_path
   backend_azure_resource_group_name            = local.resource_names.resource_group_state
   backend_azure_storage_account_name           = local.resource_names.storage_account
   backend_azure_storage_account_container_name = local.resource_names.storage_container

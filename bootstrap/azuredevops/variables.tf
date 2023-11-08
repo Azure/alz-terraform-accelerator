@@ -109,7 +109,18 @@ variable "ci_cd_module" {
   type        = string
 }
 
+variable "ci_file_path" {
+  description = "The path to the ci file (e.g. ci.yaml)|hidden"
+  type        = string
+}
+
+variable "cd_file_path" {
+  description = "The path to the cd file (e.g. cd.yaml)|hidden"
+  type        = string
+}
+
 variable "resource_names" {
   type        = map(string)
   description = "Overrides for resource names|hidden"
 }
+
