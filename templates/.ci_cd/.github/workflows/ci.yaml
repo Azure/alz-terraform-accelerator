@@ -61,24 +61,19 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -input=false
-        continue-on-error: true
-
+        run: terraform plan -input=false
+  
       - name: Update Pull Request
-        if: github.event_name == 'pull_request'
+        if: (success() || failure()) && github.event_name == 'pull_request'
         uses: actions/github-script@v6
-        env:
-          PLAN: "terraform\n$${{ steps.plan.outputs.stdout }}"
         with:
           github-token: $${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Terraform Plan 📖\`$${{ steps.plan.outcome }}\`
 
-            <details><summary>Show Plan</summary>
+            <details><summary>Run details</summary>
 
-            \`\`\`\n
-            $${process.env.PLAN}
-            \`\`\`
+            The plan was a $${{ steps.plan.outcome }} see the action for more details.
 
             </details>
 
@@ -90,7 +85,3 @@ jobs:
               repo: context.repo.repo,
               body: output
             })
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
