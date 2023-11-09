@@ -32,3 +32,4 @@ override.tf.json
 terraform.log
 *.tfvars
 !terraform.tfvars
+templates/basic/terraform.tfvars
