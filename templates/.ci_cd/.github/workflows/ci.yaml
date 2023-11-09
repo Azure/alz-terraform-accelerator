@@ -62,7 +62,7 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform plan -input=false
-  
+
       - name: Update Pull Request
         if: (success() || failure()) && github.event_name == 'pull_request'
         uses: actions/github-script@v6
