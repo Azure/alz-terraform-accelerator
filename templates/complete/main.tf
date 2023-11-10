@@ -2,6 +2,8 @@ module "enterprise-scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
+  disable_telemetry = true
+
   default_location = local.archetypes.default_location
   root_parent_id   = try(local.archetypes.root_parent_id, data.azurerm_client_config.core.tenant_id)
 
@@ -24,7 +26,6 @@ module "enterprise-scale" {
   deploy_sap_landing_zones                                = try(local.archetypes.deploy_sap_landing_zones, false)
   destroy_duration_delay                                  = try(local.archetypes.destroy_duration_delay, {})
   disable_base_module_tags                                = try(local.archetypes.disable_base_module_tags, false)
-  disable_telemetry                                       = try(local.archetypes.disable_telemetry, false)
   library_path                                            = try(local.archetypes.library_path, "")
   policy_non_compliance_message_default                   = try(local.archetypes.policy_non_compliance_message_default, "This resource {enforcementMode} be compliant with the assigned policy.")
   policy_non_compliance_message_default_enabled           = try(local.archetypes.policy_non_compliance_message_default_enabled, true)

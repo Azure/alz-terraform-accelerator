@@ -20,19 +20,6 @@ resource "azurerm_federated_identity_credential" "alz" {
 }
 
 locals {
-  subscription_ids = { for subscription_id in distinct(var.target_subscriptions) : subscription_id => subscription_id }
-}
-
-data "azurerm_subscription" "alz" {
-  for_each        = local.subscription_ids
-  subscription_id = each.key
-}
-
-data "azurerm_management_group" "alz" {
-  display_name = var.root_management_group_display_name
-}
-
-locals {
   subscription_plan_role_assignments = {
     for subscription_id, subscription in data.azurerm_subscription.alz : "plan_${subscription_id}" => {
       scope                = subscription.id
