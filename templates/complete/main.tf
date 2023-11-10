@@ -2,6 +2,8 @@ module "enterprise-scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
+  disable_telemetry = true
+
   default_location = local.archetypes.default_location
   root_parent_id   = try(local.archetypes.root_parent_id, data.azurerm_client_config.core.tenant_id)
 
