@@ -1,5 +1,5 @@
 <!-- markdownlint-disable first-line-h1 -->
-Phase 2 of the accelerator is to run the boostrap. Follow the steps below to do that.
+Phase 2 of the accelerator is to run the bootstrap. Follow the steps below to do that.
 
 ## 2.1 Install the ALZ PowerShell module
 
@@ -8,7 +8,7 @@ Phase 2 of the accelerator is to run the boostrap. Follow the steps below to do 
 
 ## 2.2 Run the Bootstrap
 
-You are now ready to run the boostrap and setup your environment. If you want to use custom names for your resources or automate the bootstrap, please refer to our [FAQs](https://github.com/Azure/alz-terraform-accelerator/wiki/Frequently-Asked-Questions) section.
+You are now ready to run the bootstrap and setup your environment. If you want to use custom names for your resources or automate the bootstrap, please refer to our [FAQs](https://github.com/Azure/alz-terraform-accelerator/wiki/Frequently-Asked-Questions) section.
 
 The inputs differ depending on the VCS you have chosen:
 
@@ -27,12 +27,12 @@ The inputs differ depending on the VCS you have chosen:
     1. `postfix_number`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.
     1. `azure_devops_use_organisation_legacy_url`: If you have not migrated to the modern url (still using `https://<organization_name>.visualstudio.com`) for your Azure DevOps organisation, then set this to `true`. This is ignored if you supply an fqdn to `version_control_system_organization`.
     1. `azure_devops_create_project`: If you have an existing project you want to use rather than creating a new one, select `true`. We recommend creating a new project to ensure it is isolated by a strong security boundary.
-    1. `azure_devops_project_name`: Enter the name of the Azure DevOps project to create or the name of an existing poroject if you set `azure_devops_create_project` to `false`.
+    1. `azure_devops_project_name`: Enter the name of the Azure DevOps project to create or the name of an existing project if you set `azure_devops_create_project` to `false`.
     1. `azure_devops_authentication_scheme`: Enter the authentication scheme that your pipeline will use to authenticate to Azure. `WorkloadIdentityFederation` uses OpenId Connect and is the recommended approach. `ManagedServiceIdentity` requires the deployment of self-hosted agents are part of the bootstrap setup.
     1. `apply_approvers`: This is a list of service principal names (SPN) of people you wish to be in the group that approves apply of the Azure landing zone module. This is a comma-separated list like `abc@xyz.com,def@xyz.com,ghi@xyz.com`. You may need to check what the SPN is prior to filling this out as it can vary based on identity provider.
     1. `root_management_group_display_name`: The is the name of the root management group that you applied permissions to in a previous step. This defaults to `Tenant Root Group`, but if you organization has changed it you'll need to enter the new display name.
     1. `additional_files`: This is a method to supply additional files to your starter module. This is specifically used when using the `complete` starter module to supply the `config.yaml` file. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml). If you don't supply an absolute path, it will fail.
-1. You will now see a green message telling you that the next section is specigic to the starter module you choose. Navigate to the documentation for the relevant starter module to get details of the specific inputs.
+1. You will now see a green message telling you that the next section is specific to the starter module you choose. Navigate to the documentation for the relevant starter module to get details of the specific inputs.
 1. Once you have entered the starter module input, you see that a Terraform `init` and `apply` happen.
 1. There will be a pause after the `plan` phase you allow you to validate what is going to be deployed.
 1. If you are happy with the plan, then type `yes` and hit enter.
@@ -52,14 +52,18 @@ The inputs differ depending on the VCS you have chosen:
     1. `environment_name`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-<environment_name>-uksouth-001`. We recommend using `mgmt` for this.
     1. `postfix_number`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.
     1. `apply_approvers`: This is a list of service principal names (SPN) of people you wish to be in the group that approves apply of the Azure landing zone module. This is a comma-separated list like `abc@xyz.com,def@xyz.com,ghi@xyz.com`. You may need to check what the SPN is prior to filling this out as it can vary based on identity provider.
-    1. `repository_visibility`: This determines whether the repository is `public` or `private`. We recommend you choose `private`, but if you are testing and don't have a licensed GitHub organization, you will need to choose `public` or the boostrapping will fail due to missing functionality.
+    1. `repository_visibility`: This determines whether the repository is `public` or `private`. We recommend you choose `private`, but if you are testing and don't have a licensed GitHub organization, you will need to choose `public` or the bootstrapping will fail due to missing functionality.
     1. `root_management_group_display_name`: The is the name of the root management group that you applied permissions to in a previous step. This defaults to `Tenant Root Group`, but if you organization has changed it you'll need to enter the new display name.
     1. `additional_files`: This is a method to supply additional files to your starter module. This is specifically used when using the `complete` starter module to supply the `config.yaml` file. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml). If you don't supply an absolute path, it will fail.
-1. You will now see a green message telling you that the next section is specigic to the starter module you choose. Navigate to the documentation for the relevant starter module to get details of the specific inputs.
+1. You will now see a green message telling you that the next section is specific to the starter module you choose. Navigate to the documentation for the relevant starter module to get details of the specific inputs.
 1. Once you have entered the starter module input, you see that a Terraform `init` and `apply` happen.
 1. There will be a pause after the `plan` phase you allow you to validate what is going to be deployed.
 1. If you are happy with the plan, then type `yes` and hit enter.
 1. The Terraform will `apply` and your environment will be bootstrapped.
+
+## Next Steps
+
+Now head to [Phase 3.](%5BUser-Guide%5D-Quick-Start-Phase-3.md)
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)

@@ -3,7 +3,7 @@ Phase 3 of the accelerator is to run pipeline. Follow the steps below to do that
 
 ## 3.1 Deploy the Landing Zone
 
-Now you have created your boostrapped environment you can deploy you Azure landing zone by triggering the continuous delivery pipeline in your version control system.
+Now you have created your bootstrapped environment you can deploy you Azure landing zone by triggering the continuous delivery pipeline in your version control system.
 
 ### 3.1.1 Azure DevOps
 
