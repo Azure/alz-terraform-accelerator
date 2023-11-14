@@ -30,29 +30,34 @@ Once you have the access required, create three subscriptions following your des
 
 Take note of the subscription id of each subscription as we'll need them later.
 
-## 1.3 Azure Credentials
+## 1.3 Azure Authentication and Permissions
 
-You need an Azure User or Service Principal with the following permissions to run the bootstrap:
+You need either an Azure User Account or Service Principal with the following permissions to run the bootstrap:
 
 - `Management Group Contributor` on you root management groups (usually called `Tenant Root Group`)
 - `Owner` on your Azure landing zone subscriptions
 
-For simplicity we recommend using a User account since this is a one off proceess that you are unlikely to repeat.
+For simplicity we recommend using a User account since this is a one off process that you are unlikely to repeat.
 
-### 1.3.1 Azure Permissions
+### 1.3.1 Authenticate via User Account
 
-It is likely that if you were able to create the subscriptions you already have the level of access required for a user account, however you should follow these steps to validate them.
+1. Open a new PowerShell Core (pwsh) terminal.
+1. Run `az login`.
+1. You'll be redirected to a browser to login, perform MFA, etc.
+1. Find the subscription id of the management subscription you made a note of earlier.
+1. Type `az account set --subscription "<subscription id of your management subscription>"` and hit enter.
+1. Type `az account show` and verify that you are connected to the management subscription.
 
-If your preference is to run the bootstrap in the context of a Service Principal, follow these steps to create one:
+### 1.3.2 Authenticate via Service Principal (Skip this if using a User account)
 
-#### 1.3.1.1 Create Service Principal (Skip this if using a User account)
+#### 1.3.2.1 Create Service Principal
 
 1. Navigate to the [Azure Portal](https://portal.azure.com) and sign in to your tenant.
 1. Search for `Azure Active Directory` and open it.
 1. Copy the `Tenant ID` field and save it somewhere safe, making a note it is the `ARM_TENANT_ID`.
 1. Click `App registrations` in the left navigation.
 1. Click `+ New registration`.
-1. Choose a name (SPN) that you will remember and make a note of it, we recommend using `sp-alz-boostrap`.
+1. Choose a name (SPN) that you will remember and make a note of it, we recommend using `sp-alz-bootstrap`.
 1. Type the chosen name into the `Name` field.
 1. Leave the other settings as default and click `Register`.
 1. Wait for it to be created.
@@ -66,21 +71,21 @@ If your preference is to run the bootstrap in the context of a Service Principal
 1. Click `Add`.
 1. Copy the `Value` field save it somewhere safe, making a note that it is the `ARM_CLIENT_SECRET`.
 
-#### 1.3.1.2 Create Permissions
+#### 1.3.2.2 Create Permissions
 
-1. The service principal name (SPN) is the username of the User account or the name of the app registration you c reated.
+1. The service principal name (SPN) is the username of the User account or the name of the app registration you created.
 1. Search for `Subscriptions` and click to navigate to the subscription view.
 1. For each of the subscriptions you created in the previous step:
     1. Navigate to the subscription.
     1. Click `Access control (IAM)` in the left navigation.
     1. Click `+ Add` and choose `Add role assignment`.
-    1. Choose the `Priviledged administrator roles` tab.
+    1. Choose the `Privileged administrator roles` tab.
     1. Click `Owner` to highlight the row and then click `Next`.
     1. Leave the `User, group or service principal` option checked.
     1. Click `+ Select Members` and search for your SPN in the search box on the right.
     1. Click on your User to highlight it and then click `Select`.
     1. Click `Review + assign`, then click `Review + assign` again when the warning appears.
-    1. Wait for the role to be assinged and move onto the next subscription.
+    1. Wait for the role to be assigned and move onto the next subscription.
 1. Search for `Management Groups` and click to navigate to the management groups view.
 1. Click the `Tenant Root Group` management group (Note, it is possible someone changed the name of your root management group, select the one at the very top of the hierarchy if that is the case)
 1. Click `Access control (IAM)` in the left navigation.
@@ -92,22 +97,9 @@ If your preference is to run the bootstrap in the context of a Service Principal
 1. Click `+ Select Members` and search for your SPN in the search box on the right.
 1. Click on your User to highlight it and then click `Select`.
 1. Click `Review + assign`, then click `Review + assign` again when the warning appears.
-1. Wait for the role to be assinged and you are done with this part.
+1. Wait for the role to be assigned and you are done with this part.
 
-## 1.4 Login / Set Credentials
-
-Follow these steps to login as a User or user Service Princiapl credentials:
-
-### 1.4.1 User Login
-
-1. Open a new PowerShell Core (pwsh) terminal.
-1. Run `az login`.
-1. You'll be redirected to a browser to login, perform MFA, etc.
-1. Find the subscription id of the management subscription you made a note of earlier.
-1. Type `az account set --subscription "<subscription id of your management subscription>"` and hit enter.
-1. Type `az account show` and verify that you are connected to the management subscription.
-
-### 1.4.2 Service Principal Credentials
+#### 1.3.2.3 Set Service Principal Credentials in Terminal
 
 1. Open a new PowerShell Core (pwsh) terminal.
 1. Find the `ARM_TENANT_ID` you made a note of earlier.
@@ -116,17 +108,17 @@ Follow these steps to login as a User or user Service Princiapl credentials:
 1. Type `$env:ARM_CLIENT_ID="<client id>"` and hit enter.
 1. Find the `ARM_CLIENT_SECRET` you made a note of earlier.
 1. Type `$env:ARM_CLIENT_SECRET="<client id>"` and hit enter.
-1. Find the subscription id of the manangement subscription you made a note of earlier.
+1. Find the subscription id of the management subscription you made a note of earlier.
 1. Type `$env:ARM_SUBSCRIPTION_ID="<subscription id>"` and hit enter.
 
 [!NOTE]
 If you close your PowerShell prompt prior to running the bootstrap, you need to re-enter these environment variables.
 
-## 1.5 Version Control System Personal Access Token (PAT)
+## 1.4 Version Control System Personal Access Token (PAT)
 
 You'll need to decide whether you are using GitHub or Azure DevOps and follow the instructions below to generate a PAT:
 
-### 1.5.1 Azure DevOps
+### 1.4.1 Azure DevOps
 
 1. Navigate to [dev.azure.com](https://dev.azure.com) and sign in to your organization.
 1. Ensure you navigate to the organization you want to deploy to.
@@ -134,7 +126,7 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 1. Click `+ New Token`.
 1. Enter `Azure Landing Zone Terraform Accelerator` in the `Name` field.
 1. Alter the `Expiration` drop down and select `Custom defined`.
-1. Choose tommorrows date in the date picker.
+1. Choose tomorrows date in the date picker.
 1. Click the `Show all scopes` link at the bottom.
 1. Check the following scopes:
     1. `Agent Pools`: `Read & manage`
@@ -150,7 +142,7 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 1. Copy the token and save it somewhere safe.
 1. Click `Close`.
 
-### 1.5.2 GitHub
+### 1.4.2 GitHub
 
 1. Navigate to [github.com](https://github.com).
 1. Click on your user icon in the top right and select `Settings`.
@@ -159,7 +151,7 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 1. Click `Generate new token` at the top and select `Generate new token (classic)`.
 1. Enter `Azure Landing Zone Terraform Accelerator` in the `Note` field.
 1. Alter the `Expiration` drop down and select `Custom`.
-1. Choose tommorrows date in the date picker.
+1. Choose tomorrows date in the date picker.
 1. Check the following scopes:
     1. `repo`
     1. `workflow`
@@ -171,3 +163,7 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 1. Copy the token and save it somewhere safe.
 1. If your organization uses single sign on, then click the `Configure SSO` link next to your new PAT.
 1. Select your organization and click `Authorize`, then follow the prompts to allow SSO.
+
+## Next Steps
+
+Now head to [Phase 2.](%5BUser-Guide%5D-Quick-Start-Phase-2.md)
