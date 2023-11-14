@@ -30,6 +30,10 @@ output "child_management_group_display_name" {
   value = azurerm_management_group.example_child.display_name
 }
 
-output "resource_group_name" {
-  value = azurerm_resource_group.example.name
+output "resource_group_names" {
+  value = {
+    management   = azurerm_resource_group.management.name
+    connectivity = azurerm_resource_group.connectivity.name
+    identity     = azurerm_resource_group.identity.name
+  }
 }
