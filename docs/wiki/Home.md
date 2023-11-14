@@ -1,5 +1,5 @@
 <!-- markdownlint-disable first-line-heading first-line-h1 -->
-Welcome the Azure landing zones Terraform accelerator!
+Welcome to the Azure landing zones Terraform accelerator!
 
 The [Azure landing zones Terraform module][alz_tf_registry] provides an opinionated approach for deploying and managing the core platform capabilities of [Azure landing zones architecture][alz_architecture] using Terraform, with a focus on the central resource hierarchy:
 
@@ -43,7 +43,7 @@ We only support federated credentials for GitHub as a best practice.
 
 ### Azure DevOps with Workload identity federation (WIF / OIDC)
 
-This is the recommended authenticaton method for Azure DevOps.
+This is the recommended authentication method for Azure DevOps.
 
 - Azure:
   - Resource Group for State
