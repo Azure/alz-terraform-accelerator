@@ -63,10 +63,11 @@ The inputs differ depending on the VCS you have chosen:
 
 ## Next Steps
 
-Now head to [Phase 3.](%5BUser-Guide%5D-Quick-Start-Phase-3.md)
+Now head to [Phase 3][wiki_quick_start_phase_3].
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
  [//]: # (************************)
 
-[wiki_starter_modules]:                                              %5BUser-Guide%5D-Starter-Modules "Wiki - Starter Modules"
+[wiki_starter_modules]:               %5BUser-Guide%5D-Starter-Modules "Wiki - Starter Modules"
+[wiki_quick_start_phase_3]:           %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"

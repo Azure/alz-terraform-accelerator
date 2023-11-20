@@ -124,6 +124,20 @@ For example:
 New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
 
+## Questions about adding more subscriptions post initial deployment
+
+### I used a single subscription for the initial deployment, how do I split my landing zone to the recommended 3 subscriptions?
+
+There are some steps you need to take:
+
+1. Create a new subscription and take a note of the subscriptions ID.
+1. Find the names of the user assigned managed identities that were created in the initial boostrap. There should be one for `plan` and one for `apply`.
+1. Go to the `Access control (IAM)` section pf the subscription. Add the following permissions for each user assigned managed identity:
+    1. `Reader` to the `plan` identity
+    1. `Owner` to the `apply` identity
+1. Go to your Terraform code in source control and update the `terraform.tfvars` file, specifying the new subscription id in the relevant variable. You will need to create a branch and raise a PR to do this.
+1. You can now plan and apply from pipelines to update the subscriptions.
+
 ## Questions about using custom starter modules
 
 ### I want to use my own custom starter modules, how do I do that?
