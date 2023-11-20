@@ -14,16 +14,17 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-  <img width="50%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+  <img width="30%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
 </picture>
-<br/>
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
   <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
-  <img width="35%" padding="4%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+  <img width="20%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
 </picture>
 
 ## Introduction
+
+TLDR: Head straight over to our [Quick Start](https://github.com/Azure/alz-terraform-accelerator/wiki/%5BUser-Guide%5D-Quick-Start) to get going now.
 
 This repository provides an opinionated implementation of the Azure Landing Zones Terraform module, with Azure DevOps pipelines and GitHub actions workflows.
 

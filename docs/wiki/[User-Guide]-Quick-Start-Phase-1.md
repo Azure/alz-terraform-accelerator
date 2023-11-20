@@ -167,4 +167,10 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 
 ## Next Steps
 
-Now head to [Phase 2.](%5BUser-Guide%5D-Quick-Start-Phase-2.md)
+Now head to [Phase 2][wiki_quick_start_phase_2].
+
+ [//]: # (************************)
+ [//]: # (INSERT LINK LABELS BELOW)
+ [//]: # (************************)
+
+[wiki_quick_start_phase_2]:           %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
