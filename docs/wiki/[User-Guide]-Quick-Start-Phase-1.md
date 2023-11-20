@@ -35,7 +35,7 @@ Take note of the subscription id of each subscription as we'll need them later.
 You need either an Azure User Account or Service Principal with the following permissions to run the bootstrap:
 
 - `Owner` on you root management groups (usually called `Tenant Root Group`)
-    - Owner is required as this account will be granting permissions for the identities that run the management group deployment. Those identities will be granted least privilege permissions.
+  - Owner is required as this account will be granting permissions for the identities that run the management group deployment. Those identities will be granted least privilege permissions.
 - `Owner` on your Azure landing zone subscriptions
 
 For simplicity we recommend using a User account since this is a one off process that you are unlikely to repeat.
