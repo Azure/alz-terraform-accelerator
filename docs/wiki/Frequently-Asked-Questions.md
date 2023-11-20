@@ -133,8 +133,8 @@ There are some steps you need to take:
 1. Create a new subscription and take a note of the subscriptions ID.
 1. Find the names of the user assigned managed identities that were created in the initial boostrap. There should be one for `plan` and one for `apply`.
 1. Go to the `Access control (IAM)` section pf the subscription. Add the following permissions for each user assigned managed identity:
-  1. `Reader` to the `plan` identity
-  1. `Owner` to the `apply` identity
+    1. `Reader` to the `plan` identity
+    1. `Owner` to the `apply` identity
 1. Go to your Terraform code in source control and update the `terraform.tfvars` file, specifying the new subscription id in the relevant variable. You will need to create a branch and raise a PR to do this.
 1. You can now plan and apply from pipelines to update the subscriptions.
 
