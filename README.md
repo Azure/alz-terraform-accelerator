@@ -11,16 +11,22 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Percentage of issues still open")
 ![GitHub contributors](https://img.shields.io/github/contributors/Azure/alz-terraform-accelerator)
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
-  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-  <img width="30%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-</picture>
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
-  <img width="20%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-</picture>
+<div style="display: grid; grid-template-columns: 1fr 1fr">
+  <div style="width:25%;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+    <img alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+  </picture>
+  </div>
+  <div style="width:25%;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+    <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
+    <img alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+  </picture>
+  </div>
+</div>
 
 ## Introduction
 
