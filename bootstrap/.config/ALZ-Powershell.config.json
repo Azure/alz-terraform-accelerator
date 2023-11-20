@@ -82,7 +82,7 @@
         },
         "azure_name_section": {
             "Type": "Valid",
-            "Description": "A valid Azure name with no hyphens and limited length e.g. 'mgmt'",
+            "Description": "A valid Azure name with no hyphens and limited length e.g. 'abcd'",
             "Valid": "^[a-zA-Z0-9]{2,10}$"
         },
         "guid": {
@@ -103,7 +103,7 @@
         },
         "number": {
             "Type": "Valid",
-            "Description": "A number e.g. '123'",
+            "Description": "A number e.g. '1234'",
             "Valid": "^(0|[1-9][0-9]*)$"
         },
         "repo_visibility": {
