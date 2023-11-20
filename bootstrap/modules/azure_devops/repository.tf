@@ -2,6 +2,16 @@ locals {
   default_branch = "refs/heads/main"
 }
 
+resource "azuredevops_git_repository" "alz_templates" {
+  count          = var.use_template_repository ? 1 : 0
+  project_id     = local.project_id
+  name           = var.repository_name_templates
+  default_branch = local.default_branch
+  initialization {
+    init_type = "Clean"
+  }
+}
+
 resource "azuredevops_git_repository" "alz" {
   depends_on     = [azuredevops_environment.alz]
   project_id     = local.project_id
@@ -33,17 +43,35 @@ locals {
       })
     } if value.flag == "cicd"
   }
+  cicd_template_files = { for key, value in var.repository_files : key =>
+    {
+      content = templatefile(value.path, {
+        service_connection_name_plan   = local.service_connection_plan_name
+        service_connection_name_apply  = local.service_connection_apply_name
+      })
+    } if value.flag == "cicd_templates"
+  }
   module_files = { for key, value in var.repository_files : key =>
     {
       content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
     } if value.flag == "module" || value.flag == "additional"
   }
-  repository_files = merge(local.cicd_file, local.module_files)
+  repository_files = merge(local.cicd_file, local.module_files, var.use_template_repository ? local.cicd_template_files : {})
 }
 
 resource "azuredevops_git_repository_file" "alz" {
   for_each            = local.repository_files
   repository_id       = azuredevops_git_repository.alz.id
+  file                = each.key
+  content             = each.value.content
+  branch              = local.default_branch
+  commit_message      = "Add ${each.key} [skip ci]"
+  overwrite_on_create = true
+}
+
+resource "azuredevops_git_repository_file" "alz_templates" {
+  for_each            = var.use_template_repository ? local.cicd_template_files : {}
+  repository_id       = azuredevops_git_repository.alz_templates[0].id
   file                = each.key
   content             = each.value.content
   branch              = local.default_branch
@@ -59,7 +87,7 @@ resource "azuredevops_branch_policy_min_reviewers" "alz" {
   blocking = true
 
   settings {
-    reviewer_count                         = 1
+    reviewer_count                         = length(var.approvers) > 1 ? 1 : null
     submitter_can_vote                     = false
     last_pusher_cannot_approve             = true
     allow_completion_with_rejects_or_waits = false
@@ -109,6 +137,51 @@ resource "azuredevops_branch_policy_build_validation" "alz" {
     scope {
       repository_id  = azuredevops_git_repository.alz.id
       repository_ref = azuredevops_git_repository.alz.default_branch
+      match_type     = "Exact"
+    }
+  }
+}
+
+resource "azuredevops_branch_policy_min_reviewers" "alz_templates" {
+  count = var.use_template_repository ? 1 : 0
+  depends_on = [azuredevops_git_repository_file.alz_templates]
+  project_id = local.project_id
+
+  enabled  = true
+  blocking = true
+
+  settings {
+    reviewer_count                         = length(var.approvers) > 1 ? 1 : null
+    submitter_can_vote                     = false
+    last_pusher_cannot_approve             = true
+    allow_completion_with_rejects_or_waits = false
+    on_push_reset_approved_votes           = true
+
+    scope {
+      repository_id  = azuredevops_git_repository.alz_templates[0].id
+      repository_ref = azuredevops_git_repository.alz_templates[0].default_branch
+      match_type     = "Exact"
+    }
+  }
+}
+
+resource "azuredevops_branch_policy_merge_types" "alz_templates" {
+  count = var.use_template_repository ? 1 : 0
+  depends_on = [azuredevops_git_repository_file.alz_templates]
+  project_id = local.project_id
+
+  enabled  = true
+  blocking = true
+
+  settings {
+    allow_squash                  = true
+    allow_rebase_and_fast_forward = false
+    allow_basic_no_fast_forward   = false
+    allow_rebase_with_merge       = false
+
+    scope {
+      repository_id  = azuredevops_git_repository.alz_templates[0].id
+      repository_ref = azuredevops_git_repository.alz_templates[0].default_branch
       match_type     = "Exact"
     }
   }

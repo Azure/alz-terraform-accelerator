@@ -3,6 +3,8 @@ template_folder_path = "../../templates"
 ci_cd_module         = ".ci_cd"
 ci_file_path         = ".azuredevops/ci.yaml"
 cd_file_path         = ".azuredevops/cd.yaml"
+plan_template_file_path = ".templates/azuredevops/plan.yaml"
+apply_template_file_path = ".templates/azuredevops/apply.yaml"
 
 # Azure Variables
 agent_container_image = "jaredfholgate/azure-devops-agent:0.0.3"
@@ -27,6 +29,7 @@ resource_names = {
   agent_03                                                   = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_2}}"
   agent_04                                                   = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_3}}"
   version_control_system_repository                          = "{{service_name}}-{{environment_name}}"
+  version_control_system_repository_templates                = "{{service_name}}-{{environment_name}}-templates"
   version_control_system_service_connection_plan             = "sc-{{service_name}}-{{environment_name}}-plan"
   version_control_system_service_connection_apply            = "sc-{{service_name}}-{{environment_name}}-apply"
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"

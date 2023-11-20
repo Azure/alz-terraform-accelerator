@@ -88,3 +88,19 @@ variable "approvers" {
 variable "group_name" {
   type = string
 }
+
+variable "use_template_repository" {
+  type = bool
+}
+
+variable "repository_name_templates" {
+  type = string
+}
+
+variable "plan_template_file" {
+  type = string
+}
+
+variable "apply_template_file" {
+  type = string
+}

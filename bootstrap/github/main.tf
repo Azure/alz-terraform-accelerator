@@ -56,12 +56,19 @@ module "starter_module_files" {
 module "ci_cd_module_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
-  exclusions  = [".azuredevops"]
+  exclusions  = [".azuredevops", ".templates"]
   flag        = "cicd"
 }
 
+module "ci_cd_module_template_files" {
+  source      = "./../modules/files"
+  folder_path = local.ci_cd_module_path
+  exclusions  = [".github", ".azuredevops"]
+  flag        = "cicd_templates"
+}
+
 locals {
-  starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files)
+  starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files, module.ci_cd_module_template_files.files)
   additional_repo_files = { for file in var.additional_files : basename(file) => {
     path = file
     flag = "additional"
@@ -82,8 +89,12 @@ module "github" {
   organization_name                            = var.version_control_system_organization
   environments                                 = local.environments
   repository_name                              = local.resource_names.version_control_system_repository
+  use_template_repository                      = var.version_control_system_use_separate_repository_for_templates
+  repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   repository_visibility                        = var.repository_visibility
   repository_files                             = local.all_repo_files
+  plan_template_file                           = var.plan_template_file_path
+  apply_template_file                          = var.apply_template_file_path
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id

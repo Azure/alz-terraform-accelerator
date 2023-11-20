@@ -1,6 +1,8 @@
 # Version Control System Variables
 template_folder_path = "../../templates"
 ci_cd_module         = ".ci_cd"
+plan_template_file_path = ".templates/github/plan.yaml"
+apply_template_file_path = ".templates/github/apply.yaml"
 
 # Naming
 resource_names = {
@@ -13,6 +15,7 @@ resource_names = {
   storage_account                                            = "sto{{service_name}}{{environment_name}}{{azure_location_short}}{{postfix_number}}{{random_string}}"
   storage_container                                          = "{{environment_name}}-tfstate"
   version_control_system_repository                          = "{{service_name}}-{{environment_name}}"
+  version_control_system_repository_templates                = "{{service_name}}-{{environment_name}}-templates"
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply                   = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_team                                = "{{service_name}}-{{environment_name}}-approvers"
