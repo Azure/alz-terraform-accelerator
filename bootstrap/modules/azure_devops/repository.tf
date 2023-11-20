@@ -46,8 +46,8 @@ locals {
   cicd_template_files = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        service_connection_name_plan   = local.service_connection_plan_name
-        service_connection_name_apply  = local.service_connection_apply_name
+        service_connection_name_plan  = local.service_connection_plan_name
+        service_connection_name_apply = local.service_connection_apply_name
       })
     } if value.flag == "cicd_templates"
   }
@@ -56,7 +56,7 @@ locals {
       content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
     } if value.flag == "module" || value.flag == "additional"
   }
-  repository_files = merge(local.cicd_file, local.module_files, var.use_template_repository ? local.cicd_template_files : {})
+  repository_files = merge(local.cicd_file, local.module_files, var.use_template_repository ? {} : local.cicd_template_files)
 }
 
 resource "azuredevops_git_repository_file" "alz" {
@@ -83,11 +83,11 @@ resource "azuredevops_branch_policy_min_reviewers" "alz" {
   depends_on = [azuredevops_git_repository_file.alz]
   project_id = local.project_id
 
-  enabled  = true
+  enabled  = length(var.approvers) > 1
   blocking = true
 
   settings {
-    reviewer_count                         = length(var.approvers) > 1 ? 1 : null
+    reviewer_count                         = 1
     submitter_can_vote                     = false
     last_pusher_cannot_approve             = true
     allow_completion_with_rejects_or_waits = false
@@ -143,15 +143,15 @@ resource "azuredevops_branch_policy_build_validation" "alz" {
 }
 
 resource "azuredevops_branch_policy_min_reviewers" "alz_templates" {
-  count = var.use_template_repository ? 1 : 0
+  count      = var.use_template_repository ? 1 : 0
   depends_on = [azuredevops_git_repository_file.alz_templates]
   project_id = local.project_id
 
-  enabled  = true
+  enabled  = length(var.approvers) > 1
   blocking = true
 
   settings {
-    reviewer_count                         = length(var.approvers) > 1 ? 1 : null
+    reviewer_count                         = 1
     submitter_can_vote                     = false
     last_pusher_cannot_approve             = true
     allow_completion_with_rejects_or_waits = false
@@ -166,7 +166,7 @@ resource "azuredevops_branch_policy_min_reviewers" "alz_templates" {
 }
 
 resource "azuredevops_branch_policy_merge_types" "alz_templates" {
-  count = var.use_template_repository ? 1 : 0
+  count      = var.use_template_repository ? 1 : 0
   depends_on = [azuredevops_git_repository_file.alz_templates]
   project_id = local.project_id
 

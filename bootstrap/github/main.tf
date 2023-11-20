@@ -56,14 +56,14 @@ module "starter_module_files" {
 module "ci_cd_module_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
-  exclusions  = [".azuredevops", ".templates"]
+  include     = ".github/**"
   flag        = "cicd"
 }
 
 module "ci_cd_module_template_files" {
   source      = "./../modules/files"
   folder_path = local.ci_cd_module_path
-  exclusions  = [".github", ".azuredevops"]
+  include     = ".templates/.github/**"
   flag        = "cicd_templates"
 }
 

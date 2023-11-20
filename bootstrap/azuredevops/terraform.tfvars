@@ -1,9 +1,9 @@
 # Version Control System Variables
-template_folder_path = "../../templates"
-ci_cd_module         = ".ci_cd"
-ci_file_path         = ".azuredevops/ci.yaml"
-cd_file_path         = ".azuredevops/cd.yaml"
-plan_template_file_path = ".templates/azuredevops/plan.yaml"
+template_folder_path     = "../../templates"
+ci_cd_module             = ".ci_cd"
+ci_file_path             = ".azuredevops/ci.yaml"
+cd_file_path             = ".azuredevops/cd.yaml"
+plan_template_file_path  = ".templates/azuredevops/plan.yaml"
 apply_template_file_path = ".templates/azuredevops/apply.yaml"
 
 # Azure Variables
@@ -38,4 +38,6 @@ resource_names = {
   version_control_system_agent_pool_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_group                               = "{{service_name}}-{{environment_name}}-approvers"
+  ci_pipeline_name                                           = "01 Azure Landing Zone Continuous Integration"
+  cd_pipeline_name                                           = "02 Azure Landing Zone Continuous Delivery"
 }

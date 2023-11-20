@@ -45,12 +45,15 @@ variable "repository_files" {
   }))
 }
 
-variable "pipeline_ci_file" {
-  type = string
-}
-
-variable "pipeline_cd_file" {
-  type = string
+variable "pipelines" {
+  description = "The pipelines to create|hidden"
+  type = map(object({
+    pipeline_name           = string
+    file_path               = string
+    environment_keys        = list(string)
+    service_connection_keys = list(string)
+    agent_pool_keys         = list(string)
+  }))
 }
 
 variable "variable_group_name" {

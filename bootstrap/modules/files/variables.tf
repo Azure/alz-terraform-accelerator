@@ -3,10 +3,10 @@ variable "folder_path" {
   type        = string
 }
 
-variable "exclusions" {
-  description = "List of files / partial file names to exclude"
-  type        = list(string)
-  default     = []
+variable "include" {
+  description = "Files globs to match as per the fileset documentation: https://www.terraform.io/docs/language/functions/fileset.html"
+  type        = string
+  default     = "**"
 }
 
 variable "flag" {

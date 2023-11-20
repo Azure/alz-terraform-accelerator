@@ -1,7 +1,7 @@
 # Version Control System Variables
-template_folder_path = "../../templates"
-ci_cd_module         = ".ci_cd"
-plan_template_file_path = ".templates/github/plan.yaml"
+template_folder_path     = "../../templates"
+ci_cd_module             = ".ci_cd"
+plan_template_file_path  = ".templates/github/plan.yaml"
 apply_template_file_path = ".templates/github/apply.yaml"
 
 # Naming
