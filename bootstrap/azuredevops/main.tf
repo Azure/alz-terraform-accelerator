@@ -46,8 +46,7 @@ module "azure_devops" {
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
   azure_subscription_name                      = data.azurerm_subscription.current.display_name
   pipelines                                    = local.pipelines
-  plan_template_file                           = var.plan_template_file_path
-  apply_template_file                          = var.apply_template_file_path
+  pipeline_templates                           = local.pipeline_templates
   backend_azure_resource_group_name            = local.resource_names.resource_group_state
   backend_azure_storage_account_name           = local.resource_names.storage_account
   backend_azure_storage_account_container_name = local.resource_names.storage_container

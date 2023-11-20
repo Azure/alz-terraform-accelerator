@@ -108,3 +108,14 @@ locals {
     }
   }
 }
+
+locals {
+  pipeline_templates = {
+    (local.plan_key) = {
+      file_path = var.plan_template_file_path
+    }
+    (local.apply_key) = {
+      file_path = var.apply_template_file_path
+    }
+  }
+}
