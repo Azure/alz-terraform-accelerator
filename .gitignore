@@ -35,3 +35,4 @@ terraform.log
 templates/basic/terraform.tfvars
 templates/.test_azuredevops
 templates/.test_github
+.vscode/settings.json

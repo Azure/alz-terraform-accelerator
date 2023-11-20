@@ -34,7 +34,8 @@ Take note of the subscription id of each subscription as we'll need them later.
 
 You need either an Azure User Account or Service Principal with the following permissions to run the bootstrap:
 
-- `Management Group Contributor` on you root management groups (usually called `Tenant Root Group`)
+- `Owner` on you root management groups (usually called `Tenant Root Group`)
+    - Owner is required as this account will be granting permissions for the identities that run the management group deployment. Those identities will be granted least privilege permissions.
 - `Owner` on your Azure landing zone subscriptions
 
 For simplicity we recommend using a User account since this is a one off process that you are unlikely to repeat.
@@ -90,8 +91,8 @@ For simplicity we recommend using a User account since this is a one off process
 1. Click the `Tenant Root Group` management group (Note, it is possible someone changed the name of your root management group, select the one at the very top of the hierarchy if that is the case)
 1. Click `Access control (IAM)` in the left navigation.
 1. Click `+ Add` and choose `Add role assignment`.
-1. Remain on the `Job function roles` tab.
-1. Search for `Management Group Contributor` and click the row to highlight that role.
+1. Choose the `Privileged administrator roles` tab.
+1. Click `Owner` to highlight the row and then click `Next`.
 1. Click `Next`.
 1. Leave the `User, group or service principal` option checked.
 1. Click `+ Select Members` and search for your SPN in the search box on the right.
