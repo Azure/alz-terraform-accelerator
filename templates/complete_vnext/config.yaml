@@ -9,7 +9,7 @@
 ---
 management:
   automation_account_name: aa-${default_postfix}
-  location: uksouth
+  location: ${default_location}
   log_analytics_workspace_name: law-${default_postfix}
   resource_group_name: rg-management-${default_postfix}
 
