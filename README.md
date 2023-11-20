@@ -11,23 +11,6 @@
 [![Percentage of issues still open](http://isitmaintained.com/badge/open/azure/alz-terraform-accelerator.svg)](http://isitmaintained.com/project/azure/alz-terraform-accelerator "Percentage of issues still open")
 ![GitHub contributors](https://img.shields.io/github/contributors/Azure/alz-terraform-accelerator)
 
-<div style="display: grid; grid-template-columns: 1fr 1fr">
-  <div style="width:25%;">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
-    <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-    <img alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
-  </picture>
-  </div>
-  <div style="width:25%;">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-    <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
-    <img alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
-  </picture>
-  </div>
-</div>
-
 ## Introduction
 
 TLDR: Head straight over to our [Quick Start](https://github.com/Azure/alz-terraform-accelerator/wiki/%5BUser-Guide%5D-Quick-Start) to get going now.
@@ -37,6 +20,20 @@ This repository provides an opinionated implementation of the Azure Landing Zone
 It is designed to be used as a template to enable you to get started quickly deploying ALZ with Terraform.
 
 Please refer to our [wiki](https://github.com/Azure/alz-terraform-accelerator/wiki) for detailed usage instructions.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+  <img width="50%" alt="Microsoft Azure Logo" src="./docs/wiki/media/MS-Azure_logo_horiz_c-gray_rgb.png">
+</picture>
+
+<br/>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+  <source media="(prefers-color-scheme: light)" srcset="./docs/wiki/media/Terraform_PrimaryLogo_Color_RGB.png">
+  <img width="35%" padding="4%" alt="HashiCorp Terraform Logo" src="./docs/wiki/media/Terraform_PrimaryLogo_ColorWhite_RGB.png">
+</picture>
 
 ## Contributing
 
