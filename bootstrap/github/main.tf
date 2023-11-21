@@ -1,5 +1,3 @@
-data "azurerm_client_config" "current" {}
-
 module "resource_names" {
   source           = "./../modules/resource_names"
   azure_location   = var.azure_location
@@ -7,26 +5,6 @@ module "resource_names" {
   service_name     = var.service_name
   postfix_number   = var.postfix_number
   resource_names   = var.resource_names
-}
-
-locals {
-  managed_identities = {
-    (local.plan_key)  = local.resource_names.user_assigned_managed_identity_plan
-    (local.apply_key) = local.resource_names.user_assigned_managed_identity_apply
-  }
-
-  federated_credentials = {
-    (local.plan_key) = {
-      federated_credential_subject = module.github.subjects[local.plan_key]
-      federated_credential_issuer  = module.github.issuer
-      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_plan
-    }
-    (local.apply_key) = {
-      federated_credential_subject = module.github.subjects[local.apply_key]
-      federated_credential_issuer  = module.github.issuer
-      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_apply
-    }
-  }
 }
 
 module "azure" {
@@ -40,13 +18,6 @@ module "azure" {
   azure_location                     = var.azure_location
   target_subscriptions               = var.target_subscriptions
   root_management_group_display_name = var.root_management_group_display_name
-}
-
-locals {
-  environments = {
-    (local.plan_key)  = local.resource_names.version_control_system_environment_plan
-    (local.apply_key) = local.resource_names.version_control_system_environment_apply
-  }
 }
 
 module "github" {
