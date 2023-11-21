@@ -16,16 +16,16 @@ resource_names = {
 }
 
 # Version Control System Variables
-module_folder_path = "../../templates"
+module_folder_path   = "../../templates"
 pipeline_folder_path = "../../templates/.ci_cd"
 pipeline_files = {
   ci = {
-    file_path     = ".github/workflows/ci.yaml"
-    target_path   = ".github/workflows/ci.yaml"
+    file_path   = ".github/workflows/ci.yaml"
+    target_path = ".github/workflows/ci.yaml"
   }
   cd = {
-    file_path     = ".github/workflows/cd.yaml"
-    target_path   = ".github/workflows/cd.yaml"
+    file_path   = ".github/workflows/cd.yaml"
+    target_path = ".github/workflows/cd.yaml"
   }
 }
 pipeline_template_files = {

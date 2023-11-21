@@ -142,8 +142,8 @@ variable "pipeline_files" {
 variable "pipeline_template_files" {
   description = "The pipeline template files to upload to the repository|hidden"
   type = map(object({
-    file_path          = string
-    target_path        = string
+    file_path   = string
+    target_path = string
   }))
 }
 

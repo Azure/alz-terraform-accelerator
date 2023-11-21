@@ -33,7 +33,7 @@ resource_names = {
 }
 
 # Version Control System Variables
-module_folder_path = "../../templates"
+module_folder_path   = "../../templates"
 pipeline_folder_path = "../../templates/.ci_cd"
 
 pipeline_files = {
