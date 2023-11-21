@@ -61,10 +61,9 @@ variable "repository_name_templates" {
   type = string
 }
 
-variable "plan_template_file" {
-  type = string
-}
-
-variable "apply_template_file" {
-  type = string
+variable "pipeline_templates" {
+  type = map(object({
+    target_path = string
+    file_path   = string
+  }))
 }

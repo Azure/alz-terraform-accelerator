@@ -1,5 +1,5 @@
 ---
-name: Azure Landing Zone Continuous Delivery
+name: 02 Azure Landing Zone Continuous Delivery
 on:
   push:
     branches:

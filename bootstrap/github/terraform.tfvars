@@ -1,9 +1,3 @@
-# Version Control System Variables
-template_folder_path     = "../../templates"
-ci_cd_module             = ".ci_cd"
-plan_template_file_path  = ".templates/github/plan.yaml"
-apply_template_file_path = ".templates/github/apply.yaml"
-
 # Naming
 resource_names = {
   resource_group_state                                       = "rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}"
@@ -19,4 +13,27 @@ resource_names = {
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply                   = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_team                                = "{{service_name}}-{{environment_name}}-approvers"
+}
+
+# Version Control System Variables
+template_folder_path = "../../templates"
+pipeline_files = {
+  ci = {
+    file_path     = ".ci_cd/.github/workflows/ci.yaml"
+    target_path   = ".github/workflows/ci.yaml"
+  }
+  cd = {
+    file_path     = ".ci_cd/.github/workflows/cd.yaml"
+    target_path   = ".github/workflows/cd.yaml"
+  }
+}
+pipeline_template_files = {
+  plan = {
+    file_path   = ".ci_cd/.templates/.github/plan.yaml"
+    target_path = ".templates/plan.yaml"
+  }
+  apply = {
+    file_path   = ".ci_cd/.templates/.github/apply.yaml"
+    target_path = ".templates/apply.yaml"
+  }
 }

@@ -84,22 +84,25 @@ variable "template_folder_path" {
   type        = string
 }
 
-variable "ci_cd_module" {
-  description = "The folder for the ci/cd module|hidden"
-  type        = string
-}
-
 variable "resource_names" {
   type        = map(string)
   description = "Overrides for resource names|hidden"
 }
 
-variable "plan_template_file_path" {
-  description = "The path to the plan template file (e.g. plan.yaml)|hidden"
-  type        = string
+variable "pipeline_files" {
+  description = "The pipeline files to upload to the repository|hidden"
+  type = map(object({
+    file_path          = string
+    target_path        = string
+    file_path_relative = optional(bool, true)
+  }))
 }
 
-variable "apply_template_file_path" {
-  description = "The path to the apply template file (e.g. apply.yaml)|hidden"
-  type        = string
+variable "pipeline_template_files" {
+  description = "The pipeline template files to upload to the repository|hidden"
+  type = map(object({
+    file_path          = string
+    target_path        = string
+    file_path_relative = optional(bool, true)
+  }))
 }

@@ -43,41 +43,6 @@ module "azure" {
 }
 
 locals {
-  starter_module_path = abspath("${path.module}/${var.template_folder_path}/${var.starter_module}")
-  ci_cd_module_path   = abspath("${path.module}/${var.template_folder_path}/${var.ci_cd_module}")
-}
-
-module "starter_module_files" {
-  source      = "./../modules/files"
-  folder_path = local.starter_module_path
-  flag        = "module"
-}
-
-module "ci_cd_module_files" {
-  source      = "./../modules/files"
-  folder_path = local.ci_cd_module_path
-  include     = ".github/**"
-  flag        = "cicd"
-}
-
-module "ci_cd_module_template_files" {
-  source      = "./../modules/files"
-  folder_path = local.ci_cd_module_path
-  include     = ".templates/.github/**"
-  flag        = "cicd_templates"
-}
-
-locals {
-  starter_module_repo_files = merge(module.starter_module_files.files, module.ci_cd_module_files.files, module.ci_cd_module_template_files.files)
-  additional_repo_files = { for file in var.additional_files : basename(file) => {
-    path = file
-    flag = "additional"
-    }
-  }
-  all_repo_files = merge(local.starter_module_repo_files, local.additional_repo_files)
-}
-
-locals {
   environments = {
     (local.plan_key)  = local.resource_names.version_control_system_environment_plan
     (local.apply_key) = local.resource_names.version_control_system_environment_apply
@@ -93,8 +58,7 @@ module "github" {
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   repository_visibility                        = var.repository_visibility
   repository_files                             = local.all_repo_files
-  plan_template_file                           = var.plan_template_file_path
-  apply_template_file                          = var.apply_template_file_path
+  pipeline_templates                           = var.pipeline_template_files
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id
   azure_subscription_id                        = data.azurerm_client_config.current.subscription_id
