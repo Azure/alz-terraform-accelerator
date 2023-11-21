@@ -105,9 +105,26 @@ variable "target_subscriptions" {
   type        = list(string)
 }
 
-variable "template_folder_path" {
-  description = "The folder for the templates|hidden"
+variable "module_folder_path" {
+  description = "The folder for the starter modules|hidden"
   type        = string
+}
+
+variable "module_folder_path_relative" {
+  description = "Whether the module folder path is relative to the bootstrap module|hidden"
+  type        = bool
+  default     = true
+}
+
+variable "pipeline_folder_path" {
+  description = "The folder for the pipelines|hidden"
+  type        = string
+}
+
+variable "pipeline_folder_path_relative" {
+  description = "Whether the pipeline folder path is relative to the bootstrap module|hidden"
+  type        = bool
+  default     = true
 }
 
 variable "pipeline_files" {
@@ -116,7 +133,6 @@ variable "pipeline_files" {
     pipeline_name           = string
     file_path               = string
     target_path             = string
-    file_path_relative      = optional(bool, true)
     environment_keys        = list(string)
     service_connection_keys = list(string)
     agent_pool_keys         = list(string)
@@ -128,7 +144,6 @@ variable "pipeline_template_files" {
   type = map(object({
     file_path          = string
     target_path        = string
-    file_path_relative = optional(bool, true)
   }))
 }
 
