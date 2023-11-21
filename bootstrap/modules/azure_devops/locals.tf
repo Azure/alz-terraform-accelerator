@@ -17,3 +17,7 @@ locals {
 locals {
   default_branch = "refs/heads/main"
 }
+
+locals {
+  repository_name_templates = var.use_template_repository ? var.repository_name_templates : var.repository_name
+}

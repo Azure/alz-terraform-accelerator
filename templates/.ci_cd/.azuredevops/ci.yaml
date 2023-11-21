@@ -2,6 +2,12 @@
 trigger:
   - none
 
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: ${project_name}/${repository_name_templates}
+
 lockBehavior: sequential
 stages:
   - stage: validate
@@ -36,27 +42,4 @@ stages:
               steps:
                 - checkout: self
                   displayName: Checkout Terraform Module
-                - task: TerraformInstaller@0
-                  displayName: Install Terraform
-                  inputs:
-                    terraformVersion: 'latest'
-                - task: TerraformTaskV4@4
-                  displayName: Terraform Init
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'init'
-                    backendServiceArm: '${service_connection_name_plan}'
-                    backendAzureRmResourceGroupName: '$(BACKEND_AZURE_RESOURCE_GROUP_NAME)'
-                    backendAzureRmStorageAccountName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)'
-                    backendAzureRmContainerName: '$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)'
-                    backendAzureRmKey: 'terraform.tfstate'
-                  env:
-                    ARM_USE_AZUREAD: true
-                - task: TerraformTaskV4@4
-                  displayName: Terraform Plan
-                  inputs:
-                    provider: 'azurerm'
-                    command: 'plan'
-                    environmentServiceNameAzureRM: '${service_connection_name_plan}'
-                  env:
-                    ARM_USE_AZUREAD: true
+                - template: .templates/plan.yaml@templates

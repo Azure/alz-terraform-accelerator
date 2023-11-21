@@ -4,6 +4,12 @@ trigger:
     include:
       - main
 
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: ${project_name}/${repository_name_templates}
+
 parameters:
   - name: terraform_action
     displayName: Terraform Action to perform

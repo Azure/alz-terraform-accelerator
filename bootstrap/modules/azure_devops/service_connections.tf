@@ -38,3 +38,17 @@ resource "azuredevops_check_exclusive_lock" "alz" {
   target_resource_type = "endpoint"
   timeout              = 43200
 }
+
+resource "azuredevops_check_required_template" "alz" {
+  for_each = var.environments
+  project_id           = local.project_id
+  target_resource_id   = azuredevops_serviceendpoint_azurerm.alz[each.key].id
+  target_resource_type = "endpoint"
+
+  required_template {
+    repository_type = "azuregit"
+    repository_name = "${var.project_name}/${local.repository_name_templates}"
+    repository_ref  = "refs/heads/main"
+    template_path   = var.pipeline_templates[each.key].target_path
+  }
+}
