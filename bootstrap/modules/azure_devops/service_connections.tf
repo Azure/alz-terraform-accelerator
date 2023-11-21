@@ -40,15 +40,18 @@ resource "azuredevops_check_exclusive_lock" "alz" {
 }
 
 resource "azuredevops_check_required_template" "alz" {
-  for_each = var.environments
+  for_each             = var.environments
   project_id           = local.project_id
   target_resource_id   = azuredevops_serviceendpoint_azurerm.alz[each.key].id
   target_resource_type = "endpoint"
 
-  required_template {
-    repository_type = "azuregit"
-    repository_name = "${var.project_name}/${local.repository_name_templates}"
-    repository_ref  = "refs/heads/main"
-    template_path   = var.pipeline_templates[each.key].target_path
+  dynamic "required_template" {
+    for_each = each.value.service_connection_template_keys
+    content {
+      repository_type = "azuregit"
+      repository_name = "${var.project_name}/${local.repository_name_templates}"
+      repository_ref  = "refs/heads/main"
+      template_path   = var.pipeline_templates[required_template.value].target_path
+    }
   }
 }

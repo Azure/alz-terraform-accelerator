@@ -1,0 +1,35 @@
+---
+stages:
+  - stage: validate
+    displayName: Validation Terraform
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - job: validate
+        displayName: Validate Terraform
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: TerraformInstaller@0
+            displayName: Install Terraform
+            inputs:
+              terraformVersion: 'latest'
+          - pwsh: terraform fmt -check
+            displayName: Terraform Format Check
+          - pwsh: terraform init -backend=false
+            displayName: Terraform Init
+          - pwsh: terraform validate
+            displayName: Terraform Validate
+      - deployment: plan
+        dependsOn: validate
+        displayName: Validate Terraform Plan
+        pool:
+          ${agent_pool_configuration_plan}
+        environment: ${environment_name_plan}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  displayName: Checkout Terraform Module
+                - template: plan.yaml

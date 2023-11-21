@@ -24,9 +24,10 @@ variable "project_name" {
 
 variable "environments" {
   type = map(object({
-    environment_name        = string
-    service_connection_name = string
-    agent_pool_name         = string
+    environment_name                 = string
+    service_connection_name          = string
+    service_connection_template_keys = list(string)
+    agent_pool_name                  = string
   }))
 }
 

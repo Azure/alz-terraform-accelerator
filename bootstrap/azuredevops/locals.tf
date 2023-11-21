@@ -65,12 +65,19 @@ locals {
     (local.plan_key) = {
       environment_name        = local.resource_names.version_control_system_environment_plan
       service_connection_name = local.resource_names.version_control_system_service_connection_plan
-      agent_pool_name         = local.resource_names.version_control_system_agent_pool_plan
+      service_connection_template_keys = [
+        local.ci_key,
+        local.cd_key
+      ]
+      agent_pool_name = local.resource_names.version_control_system_agent_pool_plan
     }
     (local.apply_key) = {
       environment_name        = local.resource_names.version_control_system_environment_apply
       service_connection_name = local.resource_names.version_control_system_service_connection_apply
-      agent_pool_name         = local.resource_names.version_control_system_agent_pool_apply
+      service_connection_template_keys = [
+        local.cd_key
+      ]
+      agent_pool_name = local.resource_names.version_control_system_agent_pool_apply
     }
   }
 }

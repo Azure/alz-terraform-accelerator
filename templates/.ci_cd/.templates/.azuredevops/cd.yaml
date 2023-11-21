@@ -1,0 +1,69 @@
+---
+parameters:
+  - name: terraform_action
+    default: 'apply'
+
+stages:
+  - stage: plan
+    displayName: Plan
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - deployment: plan
+        displayName: Plan with Terraform
+        pool:
+          ${agent_pool_configuration_plan}
+        environment: ${environment_name_plan}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                  displayName: Checkout Terraform Module
+                - template: plan.yaml
+                  parameters:
+                    terraform_action: $${{ parameters.terraform_action }}
+                - task: CopyFiles@2
+                  displayName: Create Module Artifact
+                  inputs:
+                    SourceFolder: '$(Build.SourcesDirectory)'
+                    Contents: |
+                      *.tf
+                      *.tfvars
+                      tfplan
+                    TargetFolder: '$(Build.ArtifactsStagingDirectory)'
+                    CleanTargetFolder: true
+                    OverWrite: true
+                - task: PublishPipelineArtifact@1
+                  displayName: Publish Module Artifact
+                  inputs:
+                    targetPath: '$(Build.ArtifactsStagingDirectory)'
+                    artifact: 'module'
+                    publishLocation: 'pipeline'
+                - pwsh: terraform show tfplan
+                  displayName: Show the Plan for Review
+  - stage: apply
+    displayName: Apply
+    dependsOn: plan
+    variables:
+      - group: ${variable_group_name}
+    jobs:
+      - deployment: apply
+        displayName: Apply with Terraform
+        pool:
+          ${agent_pool_configuration_apply}
+        environment: ${environment_name_apply}
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - download: none
+                - task: DownloadPipelineArtifact@2
+                  displayName: Download Module Artifact
+                  inputs:
+                    buildType: 'current'
+                    artifactName: 'module'
+                    targetPath: '$(Build.SourcesDirectory)'
+                - template: apply.yaml
+                  parameters:
+                    terraform_action: $${{ parameters.terraform_action }}

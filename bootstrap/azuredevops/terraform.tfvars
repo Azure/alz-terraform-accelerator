@@ -78,4 +78,12 @@ pipeline_template_files = {
     file_path   = ".templates/.azuredevops/apply.yaml"
     target_path = ".templates/apply.yaml"
   }
+  ci = {
+    file_path   = ".templates/.azuredevops/ci.yaml"
+    target_path = ".templates/ci.yaml"
+  }
+  cd = {
+    file_path   = ".templates/.azuredevops/cd.yaml"
+    target_path = ".templates/cd.yaml"
+  }
 }

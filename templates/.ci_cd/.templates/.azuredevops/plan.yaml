@@ -1,9 +1,9 @@
+---
 parameters:
-  
+  - name: terraform_action
+    default: 'apply'
 
 steps:
-  - checkout: self
-    displayName: Checkout Terraform Module
   - task: TerraformInstaller@0
     displayName: Install Terraform
     inputs:
@@ -21,10 +21,14 @@ steps:
     env:
       ARM_USE_AZUREAD: true
   - task: TerraformTaskV4@4
-    displayName: Terraform Plan
+    displayName: Terraform Plan for $${{ coalesce(parameters.terraform_action, 'Apply') }}
     inputs:
       provider: 'azurerm'
       command: 'plan'
+      $${{ if eq(coalesce(parameters.terraform_action, 'apply'), 'apply') }}:
+        commandOptions: '-out=tfplan -input=false'
+      $${{ if eq(coalesce(parameters.terraform_action, 'apply'), 'destroy') }}:
+        commandOptions: "-out=tfplan -input=false -destroy"
       environmentServiceNameAzureRM: '${service_connection_name_plan}'
     env:
       ARM_USE_AZUREAD: true

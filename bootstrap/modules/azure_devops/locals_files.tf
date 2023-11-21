@@ -9,21 +9,23 @@ locals {
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        agent_pool_configuration_plan  = local.agent_pool_configuration_plan
-        agent_pool_configuration_apply = local.agent_pool_configuration_apply
-        service_connection_name_plan   = local.service_connection_plan_name
-        service_connection_name_apply  = local.service_connection_apply_name
-        environment_name_plan          = local.environment_name_plan
-        environment_name_apply         = local.environment_name_apply
-        variable_group_name            = var.variable_group_name
+        project_name              = var.project_name
+        repository_name_templates = local.repository_name_templates
       })
     } if value.flag == "pipeline"
   }
   cicd_template_files = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        service_connection_name_plan  = local.service_connection_plan_name
-        service_connection_name_apply = local.service_connection_apply_name
+        agent_pool_configuration_plan  = local.agent_pool_configuration_plan
+        agent_pool_configuration_apply = local.agent_pool_configuration_apply
+        environment_name_plan          = local.environment_name_plan
+        environment_name_apply         = local.environment_name_apply
+        variable_group_name            = var.variable_group_name
+        project_name                   = var.project_name
+        repository_name_templates      = local.repository_name_templates
+        service_connection_name_plan   = local.service_connection_plan_name
+        service_connection_name_apply  = local.service_connection_apply_name
       })
     } if value.flag == "pipeline_template"
   }
