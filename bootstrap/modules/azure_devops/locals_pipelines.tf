@@ -1,7 +1,7 @@
 locals {
   pipelines = { for key, value in var.pipelines : key => {
     pipeline_name = value.pipeline_name
-    file          = azuredevops_git_repository_file.alz[value.file_path].file
+    file          = azuredevops_git_repository_file.alz[value.target_path].file
     environments = [for environment_key in value.environment_keys : {
       environment_key = environment_key
       environment_id  = azuredevops_environment.alz[environment_key].id

@@ -17,7 +17,7 @@ locals {
         environment_name_apply         = local.environment_name_apply
         variable_group_name            = var.variable_group_name
       })
-    } if value.flag == "cicd"
+    } if value.flag == "pipeline"
   }
   cicd_template_files = { for key, value in var.repository_files : key =>
     {
@@ -25,7 +25,7 @@ locals {
         service_connection_name_plan  = local.service_connection_plan_name
         service_connection_name_apply = local.service_connection_apply_name
       })
-    } if value.flag == "cicd_templates"
+    } if value.flag == "pipeline_template"
   }
   module_files = { for key, value in var.repository_files : key =>
     {

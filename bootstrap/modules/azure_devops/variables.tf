@@ -50,6 +50,7 @@ variable "pipelines" {
   type = map(object({
     pipeline_name           = string
     file_path               = string
+    target_path             = string
     environment_keys        = list(string)
     service_connection_keys = list(string)
     agent_pool_keys         = list(string)
@@ -102,6 +103,7 @@ variable "repository_name_templates" {
 
 variable "pipeline_templates" {
   type = map(object({
-    file_path = string
+    target_path = string
+    file_path   = string
   }))
 }

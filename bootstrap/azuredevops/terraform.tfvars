@@ -1,11 +1,3 @@
-# Version Control System Variables
-template_folder_path     = "../../templates"
-ci_cd_module             = ".ci_cd"
-ci_file_path             = ".azuredevops/ci.yaml"
-cd_file_path             = ".azuredevops/cd.yaml"
-plan_template_file_path  = ".templates/azuredevops/plan.yaml"
-apply_template_file_path = ".templates/azuredevops/apply.yaml"
-
 # Azure Variables
 agent_container_image = "jaredfholgate/azure-devops-agent:0.0.3"
 
@@ -38,6 +30,50 @@ resource_names = {
   version_control_system_agent_pool_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_group                               = "{{service_name}}-{{environment_name}}-approvers"
-  ci_pipeline_name                                           = "01 Azure Landing Zone Continuous Integration"
-  cd_pipeline_name                                           = "02 Azure Landing Zone Continuous Delivery"
+}
+
+# Version Control System Variables
+template_folder_path = "../../templates"
+pipeline_files = {
+  ci = {
+    pipeline_name = "01 Azure Landing Zone Continuous Integration"
+    file_path     = ".ci_cd/.azuredevops/ci.yaml"
+    target_path   = ".pipelines/ci.yaml"
+    environment_keys = [
+      "plan"
+    ]
+    service_connection_keys = [
+      "plan"
+    ]
+    agent_pool_keys = [
+      "plan"
+    ]
+  }
+  cd = {
+    pipeline_name = "02 Azure Landing Zone Continuous Delivery"
+    file_path     = ".ci_cd/.azuredevops/cd.yaml"
+    target_path   = ".pipelines/cd.yaml"
+    environment_keys = [
+      "plan",
+      "apply"
+    ]
+    service_connection_keys = [
+      "plan",
+      "apply"
+    ]
+    agent_pool_keys = [
+      "plan",
+      "apply"
+    ]
+  }
+}
+pipeline_template_files = {
+  plan = {
+    file_path   = ".ci_cd/.templates/.azuredevops/plan.yaml"
+    target_path = ".templates/plan.yaml"
+  }
+  apply = {
+    file_path   = ".ci_cd/.templates/.azuredevops/apply.yaml"
+    target_path = ".templates/apply.yaml"
+  }
 }
