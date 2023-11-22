@@ -73,6 +73,7 @@ jobs:
           $Inputs["starter_module"] = ".test"
           $Inputs["version_control_system_access_token"] = if ($versionControlSystem -eq "github") { "${{ secrets.VCS_TOKEN_GITHUB }}" } else { "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}" }
           $Inputs["version_control_system_organization"] = "${{ vars.VCS_ORGANIZATION }}"
+          $Inputs["version_control_system_use_separate_repository_for_templates"] = "true"
           $Inputs["azure_location"] = "uksouth"
           $Inputs["azure_subscription_id"] = ""
           $Inputs["service_name"] = "alz"
