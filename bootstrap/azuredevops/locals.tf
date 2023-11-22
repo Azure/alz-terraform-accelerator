@@ -21,14 +21,16 @@ locals {
 
   federated_credentials = module.azure_devops.is_authentication_scheme_workload_identity_federation ? {
     (local.plan_key) = {
-      federated_credential_subject = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.subjects[local.plan_key] : ""
-      federated_credential_issuer  = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.issuers[local.plan_key] : ""
-      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_plan
+      user_assigned_managed_identity_key = local.plan_key
+      federated_credential_subject       = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.subjects[local.plan_key] : ""
+      federated_credential_issuer        = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.issuers[local.plan_key] : ""
+      federated_credential_name          = local.resource_names.user_assigned_managed_identity_federated_credentials_plan
     }
     (local.apply_key) = {
-      federated_credential_subject = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.subjects[local.apply_key] : ""
-      federated_credential_issuer  = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.issuers[local.apply_key] : ""
-      federated_credential_name    = local.resource_names.user_assigned_managed_identity_federated_credentials_apply
+      user_assigned_managed_identity_key = local.apply_key
+      federated_credential_subject       = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.subjects[local.apply_key] : ""
+      federated_credential_issuer        = module.azure_devops.is_authentication_scheme_workload_identity_federation ? module.azure_devops.issuers[local.apply_key] : ""
+      federated_credential_name          = local.resource_names.user_assigned_managed_identity_federated_credentials_apply
     }
   } : {}
 

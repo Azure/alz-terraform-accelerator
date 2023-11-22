@@ -22,6 +22,6 @@ parameters:
 lockBehavior: sequential
 
 extends:
-  template: .templates/cd.yaml@templates
+  template: ${cd_template_path}@templates
   parameters:
     terraform_action: $${{ parameters.terraform_action }}

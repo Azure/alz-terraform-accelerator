@@ -2,8 +2,10 @@ locals {
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        environment_name_plan  = var.environments[local.plan_key]
-        environment_name_apply = var.environments[local.apply_key]
+        organization_name         = var.organization_name
+        repository_name_templates = local.repository_name_templates
+        ci_template_path          = local.ci_template_path
+        cd_template_path          = local.cd_template_path
       })
     } if value.flag == "pipeline"
   }

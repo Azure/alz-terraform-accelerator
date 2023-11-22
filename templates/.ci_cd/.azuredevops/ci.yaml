@@ -11,4 +11,4 @@ resources:
 lockBehavior: sequential
 
 extends:
-  template: .templates/ci.yaml@templates
+  template: ${ci_template_path}@templates
