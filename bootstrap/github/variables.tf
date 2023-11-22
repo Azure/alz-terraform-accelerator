@@ -101,11 +101,6 @@ variable "pipeline_folder_path_relative" {
   default     = true
 }
 
-variable "resource_names" {
-  type        = map(string)
-  description = "Overrides for resource names|hidden"
-}
-
 variable "pipeline_files" {
   description = "The pipeline files to upload to the repository|hidden"
   type = map(object({
@@ -115,6 +110,7 @@ variable "pipeline_files" {
 }
 
 variable "pipeline_template_files" {
+  description = "The pipeline template files to upload to the repository|hidden"
   type = map(object({
     file_path   = string
     target_path = string
@@ -123,4 +119,9 @@ variable "pipeline_template_files" {
       user_assigned_managed_identity_key = string
     }))
   }))
+}
+
+variable "resource_names" {
+  type        = map(string)
+  description = "Overrides for resource names|hidden"
 }
