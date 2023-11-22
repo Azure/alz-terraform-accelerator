@@ -32,7 +32,7 @@ jobs:
     permissions:
       # NOTE: When modifying the token subject claims and adding `environment`.
       # If the `id-token` permission is granted at the workflow level
-      # and the workflow has at least one job that does not specify an environemnt
+      # and the workflow has at least one job that does not specify an environment
       # then the action will fail with an internal error.
       id-token: write
       contents: read
