@@ -27,11 +27,12 @@ We only support federated credentials for GitHub as a best practice.
   - Resource Group for State
   - Storage Account and Container for State
   - Resource Group for Identity
-  - User Assigned Managed Identity (UAMI) with Federated Credentials
+  - User Assigned Managed Identities (UAMI) with Federated Credentials for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
 
 - GitHub
-  - Repository
+  - Repository for the Module
+  - Repository for the Action Templates
   - Starter Terraform module with tfvars
   - Branch policy
   - Action for Continuous Integration
@@ -40,6 +41,7 @@ We only support federated credentials for GitHub as a best practice.
   - Environment for Apply
   - Action Variables for Backend and Plan / Apply
   - Team and Members for Apply Approval
+  - Customised OIDC Token Subject for governed Actions
 
 ### Azure DevOps with Workload identity federation (WIF / OIDC)
 
@@ -49,12 +51,13 @@ This is the recommended authentication method for Azure DevOps.
   - Resource Group for State
   - Storage Account and Container for State
   - Resource Group for Identity
-  - User Assigned Managed Identity (UAMI) with Federated Credentials
+  - User Assigned Managed Identities (UAMI) with Federated Credentials for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
 
 - Azure DevOps
   - Project (can be supplied or created)
-  - Repository
+  - Repository for the Module
+  - Repository for the Pipeline Templates
   - Starter Terraform module with tfvars
   - Branch policy
   - Pipeline for Continuous Integration
@@ -62,7 +65,8 @@ This is the recommended authentication method for Azure DevOps.
   - Environment for Plan
   - Environment for Apply
   - Variable Group for Backend
-  - Service Connection with Workload identity federation for Plan / Apply
+  - Service Connections with Workload identity federation for Plan and Apply
+  - Service Connection Approvals, Template Validation and Concurrency Control
   - Group and Members for Apply Approval
 
 ### Azure DevOps with Managed identity and self-hosted agents
@@ -73,14 +77,15 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Resource Group for State
   - Storage Account and Container for State
   - Resource Group for Identity
-  - User Assigned Managed Identity (UAMI)
+  - User Assigned Managed Identities (UAMI) for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
   - Resource Group for Agents
   - 2 Container Instances with UAMI hosting Azure DevOps Agents
 
 - Azure DevOps
   - Project (can be supplied or created)
-  - Repository
+  - Repository for the Module
+  - Repository for the Pipeline Templates
   - Starter Terraform module with tfvars
   - Branch policy
   - Pipeline for Continuous Integration
@@ -88,7 +93,8 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Environment for Plan
   - Environment for Apply
   - Variable Group for Backend
-  - Service Connection with Managed identity for Plan / Apply
+  - Service Connections with Managed identity for Plan and Apply
+  - Service Connection Approvals, Template Validation and Concurrency Control
   - Group and Members for Apply Approval
   - Agent Pool
 
