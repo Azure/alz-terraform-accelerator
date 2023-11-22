@@ -15,23 +15,19 @@ locals {
 locals {
   repository_name_templates = var.use_template_repository ? var.repository_name_templates : var.repository_name
   template_claim_structure  = "${var.organization_name}/${local.repository_name_templates}/%s@refs/heads/main"
-  ci_template_path          = var.pipeline_templates.ci.target_path
-  cd_template_path          = var.pipeline_templates.cd.target_path
-  ci_template_claim         = format(local.template_claim_structure, local.ci_template_path)
-  cd_template_claim         = format(local.template_claim_structure, local.cd_template_path)
 
-  oidc_subjects = {
-    ("${local.plan_key}-ci") = {
-      user_assigned_managed_identity_key = local.plan_key
-      subject                            = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[local.plan_key]}:job_workflow_ref:${local.ci_template_claim}"
+  oidc_subjects_flattened = flatten([for key, value in var.pipeline_templates : [
+    for environment_user_assigned_managed_identity_mapping in value.environment_user_assigned_managed_identity_mappings :
+    {
+      subject_key                        = "${key}-${environment_user_assigned_managed_identity_mapping.user_assigned_managed_identity_key}"
+      user_assigned_managed_identity_key = environment_user_assigned_managed_identity_mapping.user_assigned_managed_identity_key
+      subject                            = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[environment_user_assigned_managed_identity_mapping.environment_key]}:job_workflow_ref:${format(local.template_claim_structure, value.target_path)}"
     }
-    ("${local.plan_key}-cd") = {
-      user_assigned_managed_identity_key = local.plan_key
-      subject                            = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[local.plan_key]}:job_workflow_ref:${local.cd_template_claim}"
-    }
-    ("${local.apply_key}-cd") = {
-      user_assigned_managed_identity_key = local.apply_key
-      subject                            = "repo:${var.organization_name}/${var.repository_name}:environment:${var.environments[local.apply_key]}:job_workflow_ref:${local.cd_template_claim}"
-    }
-  }
+    ]
+  ])
+
+  oidc_subjects = { for oidc_subject in local.oidc_subjects_flattened : oidc_subject.subject_key => {
+    user_assigned_managed_identity_key = oidc_subject.user_assigned_managed_identity_key
+    subject                            = oidc_subject.subject
+  } }
 }

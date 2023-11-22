@@ -31,9 +31,21 @@ pipeline_template_files = {
   ci = {
     file_path   = ".templates/.github/workflows/ci.yaml"
     target_path = ".github/workflows/ci_template.yaml"
+    environment_user_assigned_managed_identity_mappings = [{
+      environment_key                    = "plan"
+      user_assigned_managed_identity_key = "plan"
+    }]
   }
   cd = {
     file_path   = ".templates/.github/workflows/cd.yaml"
     target_path = ".github/workflows/cd_template.yaml"
+    environment_user_assigned_managed_identity_mappings = [{
+      environment_key                    = "plan"
+      user_assigned_managed_identity_key = "plan"
+      },
+      {
+        environment_key                    = "apply"
+        user_assigned_managed_identity_key = "apply"
+    }]
   }
 }

@@ -4,8 +4,8 @@ locals {
       content = templatefile(value.path, {
         organization_name         = var.organization_name
         repository_name_templates = local.repository_name_templates
-        ci_template_path          = local.ci_template_path
-        cd_template_path          = local.cd_template_path
+        ci_template_path          = var.pipeline_templates["ci"].target_path
+        cd_template_path          = var.pipeline_templates["cd"].target_path
       })
     } if value.flag == "pipeline"
   }
