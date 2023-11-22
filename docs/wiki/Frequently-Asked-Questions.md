@@ -159,8 +159,9 @@ First you'll need to create a folder structure to hold your custom starter modul
  ┃   ┃ ┣ 📜plan.yaml
  ┃   ┃ ┗ 📜apply.yaml
  ┃   ┗ 📂.github
- ┃     ┣ 📜plan.yaml
- ┃     ┗ 📜apply.yaml
+ ┃      ┗ 📂workflows
+ ┃         ┣ 📜plan.yaml
+ ┃         ┗ 📜apply.yaml
  ┣ 📂my-starter-module-1 #6
  ┃ ┣ 📜main.tf
  ┃ ┣ 📜outputs.tf
