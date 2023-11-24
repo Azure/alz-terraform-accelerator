@@ -1,0 +1,12 @@
+---
+name: 01 Azure Landing Zone Continuous Integration
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate_and_plan:
+    uses: ${organization_name}/${repository_name_templates}/${ci_template_path}@main
+    name: 'CI'

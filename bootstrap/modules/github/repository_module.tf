@@ -8,23 +8,6 @@ resource "github_repository" "alz" {
   allow_rebase_merge  = false
 }
 
-locals {
-  cicd_file = { for key, value in var.repository_files : key =>
-    {
-      content = templatefile(value.path, {
-        environment_name_plan  = var.environments[local.plan_key]
-        environment_name_apply = var.environments[local.apply_key]
-      })
-    } if value.flag == "cicd"
-  }
-  module_files = { for key, value in var.repository_files : key =>
-    {
-      content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {}")
-    } if value.flag == "module" || value.flag == "additional"
-  }
-  repository_files = merge(local.cicd_file, local.module_files)
-}
-
 resource "github_repository_file" "alz" {
   for_each            = local.repository_files
   repository          = github_repository.alz.name

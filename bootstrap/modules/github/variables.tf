@@ -52,3 +52,22 @@ variable "approvers" {
 variable "team_name" {
   type = string
 }
+
+variable "use_template_repository" {
+  type = bool
+}
+
+variable "repository_name_templates" {
+  type = string
+}
+
+variable "pipeline_templates" {
+  type = map(object({
+    target_path = string
+    file_path   = string
+    environment_user_assigned_managed_identity_mappings = list(object({
+      environment_key                    = string
+      user_assigned_managed_identity_key = string
+    }))
+  }))
+}

@@ -1,30 +1,22 @@
 ---
-name: Azure Landing Zone Continuous Delivery
+name: Continuous Delivery
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  workflow_call:
     inputs:
       terraform_action:
         description: 'Terraform Action to perform'
-        required: true
         default: 'apply'
-        type: choice
-        options:
-          - 'apply'
-          - 'destroy'
-
-permissions:
-  id-token: write
-  contents: read
+        type: string
 
 jobs:
   plan:
     name: Plan with Terraform
-    concurrency: ${environment_name_plan}
-    environment: ${environment_name_plan}
     runs-on: ubuntu-latest
+    concurrency: ${backend_azure_storage_account_container_name}
+    environment: ${environment_name_plan}
+    permissions:
+      id-token: write
+      contents: read
     env:
       ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
       ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"
@@ -72,9 +64,12 @@ jobs:
   apply:
     needs: plan
     name: Apply with Terraform
-    concurrency: ${environment_name_apply}
-    environment: ${environment_name_apply}
     runs-on: ubuntu-latest
+    concurrency: ${backend_azure_storage_account_container_name}
+    environment: ${environment_name_apply}
+    permissions:
+      id-token: write
+      contents: read
     env:
       ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
       ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"

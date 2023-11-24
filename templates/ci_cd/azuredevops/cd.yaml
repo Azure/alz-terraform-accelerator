@@ -1,0 +1,27 @@
+---
+trigger:
+  branches:
+    include:
+      - main
+
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: ${project_name}/${repository_name_templates}
+
+parameters:
+  - name: terraform_action
+    displayName: Terraform Action to perform
+    type: string
+    default: 'apply'
+    values:
+      - 'apply'
+      - 'destroy'
+
+lockBehavior: sequential
+
+extends:
+  template: ${cd_template_path}@templates
+  parameters:
+    terraform_action: $${{ parameters.terraform_action }}

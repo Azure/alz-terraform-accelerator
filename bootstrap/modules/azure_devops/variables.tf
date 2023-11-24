@@ -24,9 +24,10 @@ variable "project_name" {
 
 variable "environments" {
   type = map(object({
-    environment_name        = string
-    service_connection_name = string
-    agent_pool_name         = string
+    environment_name                 = string
+    service_connection_name          = string
+    service_connection_template_keys = list(string)
+    agent_pool_name                  = string
   }))
 }
 
@@ -45,12 +46,16 @@ variable "repository_files" {
   }))
 }
 
-variable "pipeline_ci_file" {
-  type = string
-}
-
-variable "pipeline_cd_file" {
-  type = string
+variable "pipelines" {
+  description = "The pipelines to create|hidden"
+  type = map(object({
+    pipeline_name           = string
+    file_path               = string
+    target_path             = string
+    environment_keys        = list(string)
+    service_connection_keys = list(string)
+    agent_pool_keys         = list(string)
+  }))
 }
 
 variable "variable_group_name" {
@@ -87,4 +92,19 @@ variable "approvers" {
 
 variable "group_name" {
   type = string
+}
+
+variable "use_template_repository" {
+  type = bool
+}
+
+variable "repository_name_templates" {
+  type = string
+}
+
+variable "pipeline_templates" {
+  type = map(object({
+    target_path = string
+    file_path   = string
+  }))
 }

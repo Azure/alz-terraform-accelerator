@@ -147,13 +147,20 @@ First you'll need to create a folder structure to hold your custom starter modul
 ```text
 📦my-custom-starter-modules #1
  ┣ 📂my-ci-cd #2
- ┃ ┣ 📂.azuredevops #3
- ┃ ┃ ┣ 📜my-cd.yaml #4
- ┃ ┃ ┗ 📜my-ci.yaml
- ┃ ┗ 📂.github
- ┃ ┃ ┗ 📂workflows
- ┃ ┃ ┃ ┣ 📜my-cd.yaml
- ┃ ┃ ┃ ┗ 📜my-ci.yaml
+ ┃ ┣ 📂azuredevops #3
+ ┃ ┃ ┣ 📜cd.yaml
+ ┃ ┃ ┣ 📜ci.yaml
+ ┃ ┃ ┗ 📂templates #4
+ ┃ ┃   ┣ 📜apply.yaml
+ ┃ ┃   ┣ 📜cd.yaml
+ ┃ ┃   ┣ 📜ci.yaml
+ ┃ ┃   ┗ 📜plan.yaml
+ ┃ ┗ 📂github
+ ┃   ┣ 📜cd.yaml
+ ┃   ┣ 📜ci.yaml
+ ┃   ┗ 📂templates
+ ┃     ┣ 📜cd.yaml
+ ┃     ┗ 📜ci.yaml
  ┣ 📂my-starter-module-1 #5
  ┃ ┣ 📜main.tf
  ┃ ┣ 📜outputs.tf
@@ -161,37 +168,37 @@ First you'll need to create a folder structure to hold your custom starter modul
  ┃ ┣ 📜README.md
  ┃ ┣ 📜terraform.tfvars
  ┃ ┗ 📜variables.tf #6
- ┣ 📂my-starter-module-2
- ┃ ┣ 📜data.tf
- ┃ ┣ 📜main.tf
- ┃ ┣ 📜variables.tf
- ┃ ┗ 📜versions.tf
+ ┗ 📂my-starter-module-2
+   ┣ 📜data.tf
+   ┣ 📜main.tf
+   ┣ 📜variables.tf
+   ┗ 📜versions.tf
 ```
 
 Notes on the folder structure:
 
-1. This is the enclosing folder as specified in the `template_folder_path` variable (see below).
-1. This is the CI / CD actions / pipelines folder as specified in `ci_cd_module` variable (see below).
-1. You only need to supply one of either `.azuredevops` or `.github\workflows` folder if you are only using one VCS system. The GitHub folder name cannot be altered, but Azure DevOps can if desired.
-1. If you change the name of these files from `ci.yaml` or `cd.yaml` for Azure DevOps, you need to specify them in the `ci_file_path` and `cd_file_path` variables as specified below. These files are templated, so please use the existing ones as a guide if you plan to update them.
-1. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
-1. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
+1. This is the enclosing folder path as specified in the `module_folder_path` variable (see below).
+2. This is the CI / CD actions / pipelines folder path as specified in `pipeline_folder_path` variable (see below). This folder can be outside the module folder if desired.
+3. You only need to supply one of either `azuredevops` or `github` folder if you are only using one VCS system. The folder and file names can't be altered at present.
+4. This is the templates folder used for the cd, cd, plan and apply templates.
+5. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
+6. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
 
-Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `template_folder_path` and optionally the `ci_cd_module` variables. For example:
+Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `module_folder_path` and the `pipeline_folder_path` variables. For example:
 
 ```yaml
-template_folder_path: "C:/my-config/my-custom-starter-modules" # This is the folder you created in the last step
-ci_cd_module: "my-ci-cd" # This is the name of the CI / CD folder
-ci_file_path: ".azuredevops/my-ci.yaml" # This variable is only required if are using Azure DevOps and have updated the CI file path / name.
-cd_file_path: ".azuredevops/my-cd.yaml" # This variable is only required if are using Azure DevOps and have updated the CD file path / name.
+module_folder_path: "C:/my-config/my-custom-starter-modules" # This is the folder you created in the last step
+module_folder_path_relative: false # You must specifiy this as false if you are using a custom starter module folder
+pipeline_folder_path: "C:/my-config/my-custom-starter-modules/my_ci_cd" # This is the pipeline folder you created in the last step (NOTE: This does not need to be nested under the module folder, it could be in a separate location)
+pipeline_folder_path_relative: false # You must specifiy this as false if you are using a custom pipeline module folder
 ```
 
 ```json
 {
-  "template_folder_path": "~/my-config/my-custom-starter-modules",
-  "ci_cd_module": "my-ci-cd",
-  "ci_file_path": ".azuredevops/my-ci.yaml",
-  "cd_file_path": ".azuredevops/my-cd.yaml"
+  "module_folder_path": "~/my-config/my-custom-starter-modules",
+  "module_folder_path_relative": false,
+  "pipeline_folder_path": "~/my-config/my-custom-starter-modules/my_ci_cd",
+  "pipeline_folder_path_relative": false
 }
 ```
 

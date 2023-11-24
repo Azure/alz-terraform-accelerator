@@ -1,21 +1,12 @@
 ---
-name: Azure Landing Zone Continuous Integration
+name: Continuous Integration
 on:
-  pull_request:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  id-token: write
-  contents: read
-  pull-requests: write
+  workflow_call:
 
 jobs:
   validate:
     name: Validate Terraform
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -36,8 +27,16 @@ jobs:
     name: Validate Terraform Plan
     needs: validate
     runs-on: ubuntu-latest
-    concurrency: ${environment_name_plan}
+    concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_plan}
+    permissions:
+      # NOTE: When modifying the token subject claims and adding `environment`.
+      # If the `id-token` permission is granted at the workflow level
+      # and the workflow has at least one job that does not specify an environment
+      # then the action will fail with an internal error.
+      id-token: write
+      contents: read
+      pull-requests: write
     env:
       ARM_CLIENT_ID: "$${{ vars.AZURE_CLIENT_ID }}"
       ARM_SUBSCRIPTION_ID: "$${{ vars.AZURE_SUBSCRIPTION_ID }}"

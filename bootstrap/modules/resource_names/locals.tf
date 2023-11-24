@@ -3,6 +3,7 @@ resource "random_string" "alz" {
   length  = 4
   special = false
   upper   = false
+  numeric = false
 }
 
 locals {

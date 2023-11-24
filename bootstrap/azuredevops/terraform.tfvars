@@ -1,9 +1,3 @@
-# Version Control System Variables
-template_folder_path = "../../templates"
-ci_cd_module         = ".ci_cd"
-ci_file_path         = ".azuredevops/ci.yaml"
-cd_file_path         = ".azuredevops/cd.yaml"
-
 # Azure Variables
 agent_container_image = "jaredfholgate/azure-devops-agent:0.0.3"
 
@@ -27,6 +21,7 @@ resource_names = {
   agent_03                                                   = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_2}}"
   agent_04                                                   = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_3}}"
   version_control_system_repository                          = "{{service_name}}-{{environment_name}}"
+  version_control_system_repository_templates                = "{{service_name}}-{{environment_name}}-templates"
   version_control_system_service_connection_plan             = "sc-{{service_name}}-{{environment_name}}-plan"
   version_control_system_service_connection_apply            = "sc-{{service_name}}-{{environment_name}}-apply"
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"
@@ -35,4 +30,60 @@ resource_names = {
   version_control_system_agent_pool_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_group                               = "{{service_name}}-{{environment_name}}-approvers"
+}
+
+# Version Control System Variables
+module_folder_path   = "../../templates"
+pipeline_folder_path = "../../templates/ci_cd"
+
+pipeline_files = {
+  ci = {
+    pipeline_name = "01 Azure Landing Zone Continuous Integration"
+    file_path     = "azuredevops/ci.yaml"
+    target_path   = ".pipelines/ci.yaml"
+    environment_keys = [
+      "plan"
+    ]
+    service_connection_keys = [
+      "plan"
+    ]
+    agent_pool_keys = [
+      "plan"
+    ]
+  }
+  cd = {
+    pipeline_name = "02 Azure Landing Zone Continuous Delivery"
+    file_path     = "azuredevops/cd.yaml"
+    target_path   = ".pipelines/cd.yaml"
+    environment_keys = [
+      "plan",
+      "apply"
+    ]
+    service_connection_keys = [
+      "plan",
+      "apply"
+    ]
+    agent_pool_keys = [
+      "plan",
+      "apply"
+    ]
+  }
+}
+pipeline_template_files = {
+  plan = {
+    file_path   = "azuredevops/templates/plan.yaml"
+    target_path = "plan.yaml"
+  }
+  apply = {
+    file_path   = "azuredevops/templates/apply.yaml"
+    target_path = "apply.yaml"
+  }
+  ci = {
+    file_path   = "azuredevops/templates/ci.yaml"
+    target_path = "ci.yaml"
+  }
+  cd = {
+    file_path   = "azuredevops/templates/cd.yaml"
+    target_path = "cd.yaml"
+  }
 }

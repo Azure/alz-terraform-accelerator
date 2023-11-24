@@ -8,9 +8,10 @@ variable "user_assigned_managed_identities" {
 
 variable "federated_credentials" {
   type = map(object({
-    federated_credential_subject = string
-    federated_credential_issuer  = string
-    federated_credential_name    = string
+    user_assigned_managed_identity_key = string
+    federated_credential_subject       = string
+    federated_credential_issuer        = string
+    federated_credential_name          = string
   }))
 }
 

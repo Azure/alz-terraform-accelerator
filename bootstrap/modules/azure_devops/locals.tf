@@ -13,3 +13,11 @@ locals {
   is_authentication_scheme_managed_identity             = var.authentication_scheme == local.authentication_scheme_managed_identity
   is_authentication_scheme_workload_identity_federation = var.authentication_scheme == local.authentication_scheme_workload_identity_federation
 }
+
+locals {
+  default_branch = "refs/heads/main"
+}
+
+locals {
+  repository_name_templates = var.use_template_repository ? var.repository_name_templates : var.repository_name
+}
