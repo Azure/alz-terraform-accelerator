@@ -34,12 +34,12 @@ resource_names = {
 
 # Version Control System Variables
 module_folder_path   = "../../templates"
-pipeline_folder_path = "../../templates/.ci_cd"
+pipeline_folder_path = "../../templates/ci_cd"
 
 pipeline_files = {
   ci = {
     pipeline_name = "01 Azure Landing Zone Continuous Integration"
-    file_path     = ".azuredevops/ci.yaml"
+    file_path     = "azuredevops/ci.yaml"
     target_path   = ".pipelines/ci.yaml"
     environment_keys = [
       "plan"
@@ -53,7 +53,7 @@ pipeline_files = {
   }
   cd = {
     pipeline_name = "02 Azure Landing Zone Continuous Delivery"
-    file_path     = ".azuredevops/cd.yaml"
+    file_path     = "azuredevops/cd.yaml"
     target_path   = ".pipelines/cd.yaml"
     environment_keys = [
       "plan",
@@ -71,19 +71,19 @@ pipeline_files = {
 }
 pipeline_template_files = {
   plan = {
-    file_path   = ".templates/.azuredevops/plan.yaml"
-    target_path = ".templates/plan.yaml"
+    file_path   = "azuredevops/templates/plan.yaml"
+    target_path = "plan.yaml"
   }
   apply = {
-    file_path   = ".templates/.azuredevops/apply.yaml"
-    target_path = ".templates/apply.yaml"
+    file_path   = "azuredevops/templates/apply.yaml"
+    target_path = "apply.yaml"
   }
   ci = {
-    file_path   = ".templates/.azuredevops/ci.yaml"
-    target_path = ".templates/ci.yaml"
+    file_path   = "azuredevops/templates/ci.yaml"
+    target_path = "ci.yaml"
   }
   cd = {
-    file_path   = ".templates/.azuredevops/cd.yaml"
-    target_path = ".templates/cd.yaml"
+    file_path   = "azuredevops/templates/cd.yaml"
+    target_path = "cd.yaml"
   }
 }

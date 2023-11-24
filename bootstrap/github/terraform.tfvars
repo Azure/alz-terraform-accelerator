@@ -16,20 +16,20 @@ resource_names = {
 
 # Version Control System Variables
 module_folder_path   = "../../templates"
-pipeline_folder_path = "../../templates/.ci_cd"
+pipeline_folder_path = "../../templates/ci_cd"
 pipeline_files = {
   ci = {
-    file_path   = ".github/workflows/ci.yaml"
+    file_path   = "github/ci.yaml"
     target_path = ".github/workflows/ci.yaml"
   }
   cd = {
-    file_path   = ".github/workflows/cd.yaml"
+    file_path   = "github/cd.yaml"
     target_path = ".github/workflows/cd.yaml"
   }
 }
 pipeline_template_files = {
   ci = {
-    file_path   = ".templates/.github/workflows/ci.yaml"
+    file_path   = "github/templates/ci.yaml"
     target_path = ".github/workflows/ci_template.yaml"
     environment_user_assigned_managed_identity_mappings = [{
       environment_key                    = "plan"
@@ -37,7 +37,7 @@ pipeline_template_files = {
     }]
   }
   cd = {
-    file_path   = ".templates/.github/workflows/cd.yaml"
+    file_path   = "github/templates/cd.yaml"
     target_path = ".github/workflows/cd_template.yaml"
     environment_user_assigned_managed_identity_mappings = [{
       environment_key                    = "plan"

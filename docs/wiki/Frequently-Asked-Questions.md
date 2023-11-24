@@ -147,28 +147,27 @@ First you'll need to create a folder structure to hold your custom starter modul
 ```text
 📦my-custom-starter-modules #1
  ┣ 📂my-ci-cd #2
- ┃ ┣ 📂.azuredevops #3
+ ┃ ┣ 📂azuredevops #3
  ┃ ┃ ┣ 📜cd.yaml
- ┃ ┃ ┗ 📜ci.yaml
- ┃ ┣ 📂.github
- ┃ ┃ ┗ 📂workflows
+ ┃ ┃ ┣ 📜ci.yaml
+ ┃ ┃ ┗ 📂templates #4
+ ┃ ┃   ┣ 📜apply.yaml
  ┃ ┃   ┣ 📜cd.yaml
- ┃ ┃   ┗ 📜ci.yaml
- ┃ ┗ 📂.templates #4
- ┃   ┣ 📂.azuredevops #5
- ┃   ┃ ┣ 📜plan.yaml
- ┃   ┃ ┗ 📜apply.yaml
- ┃   ┗ 📂.github
- ┃      ┗ 📂workflows
- ┃         ┣ 📜plan.yaml
- ┃         ┗ 📜apply.yaml
- ┣ 📂my-starter-module-1 #6
+ ┃ ┃   ┣ 📜ci.yaml
+ ┃ ┃   ┗ 📜plan.yaml
+ ┃ ┗ 📂github
+ ┃   ┣ 📜cd.yaml
+ ┃   ┣ 📜ci.yaml
+ ┃   ┗ 📂templates
+ ┃     ┣ 📜cd.yaml
+ ┃     ┗ 📜ci.yaml
+ ┣ 📂my-starter-module-1 #5
  ┃ ┣ 📜main.tf
  ┃ ┣ 📜outputs.tf
  ┃ ┣ 📜providers.tf
  ┃ ┣ 📜README.md
  ┃ ┣ 📜terraform.tfvars
- ┃ ┗ 📜variables.tf #7
+ ┃ ┗ 📜variables.tf #6
  ┗ 📂my-starter-module-2
    ┣ 📜data.tf
    ┣ 📜main.tf
@@ -180,11 +179,10 @@ Notes on the folder structure:
 
 1. This is the enclosing folder path as specified in the `module_folder_path` variable (see below).
 2. This is the CI / CD actions / pipelines folder path as specified in `pipeline_folder_path` variable (see below). This folder can be outside the module folder if desired.
-3. You only need to supply one of either `.azuredevops` or `.github\workflows` folder if you are only using one VCS system. The folder and file names can't be altered at present.
-4. This is the templates folder used for the plan and apply templates.
-5. You only need to supply one of either `.azuredevops` or `.github` folder if you are only using one VCS system. The folder and file names can't be altered at present.
-6. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
-7. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
+3. You only need to supply one of either `azuredevops` or `github` folder if you are only using one VCS system. The folder and file names can't be altered at present.
+4. This is the templates folder used for the cd, cd, plan and apply templates.
+5. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
+6. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
 
 Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `module_folder_path` and the `pipeline_folder_path` variables. For example:
 
