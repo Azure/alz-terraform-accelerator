@@ -12,7 +12,7 @@ jobs:
   plan:
     name: Plan with Terraform
     runs-on: ubuntu-latest
-    concurrency: ${environment_name_plan}
+    concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_plan}
     permissions:
       id-token: write
@@ -65,7 +65,7 @@ jobs:
     needs: plan
     name: Apply with Terraform
     runs-on: ubuntu-latest
-    concurrency: ${environment_name_apply}
+    concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_apply}
     permissions:
       id-token: write

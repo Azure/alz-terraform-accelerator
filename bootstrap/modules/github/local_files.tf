@@ -12,8 +12,9 @@ locals {
   cicd_template_files = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
-        environment_name_plan  = var.environments[local.plan_key]
-        environment_name_apply = var.environments[local.apply_key]
+        environment_name_plan                        = var.environments[local.plan_key]
+        environment_name_apply                       = var.environments[local.apply_key]
+        backend_azure_storage_account_container_name = var.backend_azure_storage_account_container_name
       })
     } if value.flag == "pipeline_template"
   }

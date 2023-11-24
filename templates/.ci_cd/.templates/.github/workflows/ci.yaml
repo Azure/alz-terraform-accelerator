@@ -27,7 +27,7 @@ jobs:
     name: Validate Terraform Plan
     needs: validate
     runs-on: ubuntu-latest
-    concurrency: ${environment_name_plan}
+    concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_plan}
     permissions:
       # NOTE: When modifying the token subject claims and adding `environment`.
