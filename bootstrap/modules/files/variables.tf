@@ -1,16 +1,50 @@
-variable "folder_path" {
-  description = "Template folder path"
+variable "module_folder_path_relative" {
+  description = "Whether the module folder path is relative to the module root"
+  type        = bool
+  default     = true
+}
+
+variable "module_folder_path" {
+  description = "Module folder path"
   type        = string
 }
 
-variable "include" {
-  description = "Files globs to match as per the fileset documentation: https://www.terraform.io/docs/language/functions/fileset.html"
-  type        = string
-  default     = "**"
+variable "pipeline_folder_path_relative" {
+  description = "Whether the pipeline folder path is relative to the module root"
+  type        = bool
+  default     = true
 }
 
-variable "flag" {
-  description = "A flag to add to each file object"
+variable "pipeline_folder_path" {
+  description = "Pipeline folder path"
   type        = string
-  default     = ""
+}
+
+variable "starter_module" {
+  description = "Starter module name"
+  type        = string
+}
+
+variable "pipeline_files" {
+  description = "Pipeline files"
+  type        = map(object({
+    file_path   = string
+    target_path = string
+  }))
+  default     = {}
+}
+
+variable "pipeline_template_files" {
+  description = "Pipeline template files"
+  type        = map(object({
+    file_path   = string
+    target_path = string
+  }))
+  default     = {}
+}
+
+variable "additional_files" {
+  description = "Additional files"
+  type        = list(string)
+  default     = []
 }

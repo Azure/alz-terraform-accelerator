@@ -1,3 +1,3 @@
 output "files" {
-  value = local.file_map
+  value = local.all_repo_files
 }
