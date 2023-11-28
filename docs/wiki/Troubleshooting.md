@@ -16,6 +16,8 @@ The workflow is not valid. .github/workflows/ci.yaml (Line: 10, Col: 3): Error c
 
 It means that your `Workflow permissions` settings are too restrictive. To fix this, go to your organization's `Settings` => `Actions` => `General` page. Then, under `Workflow permissions`, select `Read and write permissions` and click `Save`.
 
+-> NOTE: This setting is only available to organization owners and admins. If your org is part of an enterprise, you may need to contact your enterprise admin to change this setting if it is greyed out for your org.
+
 <!-- markdownlint-enable no-inline-html -->
 
 [Issues]:     https://github.com/Azure/alz-terraform-accelerator/issues "Our issues log"
