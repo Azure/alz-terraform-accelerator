@@ -19,5 +19,8 @@ jobs:
   plan_and_apply:
     uses: ${organization_name}/${repository_name_templates}/${cd_template_path}@main
     name: 'CD'
+    permissions:
+      id-token: write
+      contents: read
     with:
       terraform_action: $${{ github.event.inputs.terraform_action }}
