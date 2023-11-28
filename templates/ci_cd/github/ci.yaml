@@ -10,3 +10,7 @@ jobs:
   validate_and_plan:
     uses: ${organization_name}/${repository_name_templates}/${ci_template_path}@main
     name: 'CI'
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
