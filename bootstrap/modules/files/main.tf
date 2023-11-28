@@ -1,9 +1,4 @@
 locals {
-  starter_module_folder_path = var.module_folder_path_relative ? ("${path.module}/${var.module_folder_path}/${var.starter_module}") : "${var.module_folder_path}/${var.starter_module}"
-  pipeline_folder_path       = var.pipeline_folder_path_relative ? ("${path.module}/${var.pipeline_folder_path}") : var.pipeline_folder_path
-}
-
-locals {
   file_type_flags = {
     pipeline          = "pipeline"
     pipeline_template = "pipeline_template"
@@ -13,18 +8,18 @@ locals {
 }
 
 locals {
-  starter_module_files = { for file in fileset(local.starter_module_folder_path) : file => {
-    path = "${local.starter_module_folder_path}/${file}"
-    flag = local.local.file_type_flags.module
+  starter_module_files = { for file in fileset(var.starter_module_folder_path, "**") : file => {
+    path = "${var.starter_module_folder_path}/${file}"
+    flag = local.file_type_flags.module
     }
   }
   pipeline_files = { for key, value in var.pipeline_files : value.target_path => {
-    path = "${local.pipeline_folder_path}/${value.file_path}"
+    path = "${var.pipeline_folder_path}/${value.file_path}"
     flag = local.file_type_flags.pipeline
     }
   }
   template_files = { for key, value in var.pipeline_template_files : value.target_path => {
-    path = "${local.pipeline_folder_path}/${value.file_path}"
+    path = "${var.pipeline_folder_path}/${value.file_path}"
     flag = local.file_type_flags.pipeline_template
     }
   }
