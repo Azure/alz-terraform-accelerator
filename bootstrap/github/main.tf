@@ -7,6 +7,15 @@ module "resource_names" {
   resource_names   = var.resource_names
 }
 
+module "files" {
+  source                     = "./../modules/files"
+  starter_module_folder_path = local.starter_module_folder_path
+  pipeline_folder_path       = local.pipeline_folder_path
+  pipeline_files             = var.pipeline_files
+  pipeline_template_files    = var.pipeline_template_files
+  additional_files           = var.additional_files
+}
+
 module "azure" {
   source                             = "./../modules/azure"
   user_assigned_managed_identities   = local.managed_identities
@@ -28,7 +37,7 @@ module "github" {
   use_template_repository                      = var.version_control_system_use_separate_repository_for_templates
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   repository_visibility                        = var.repository_visibility
-  repository_files                             = local.all_repo_files
+  repository_files                             = module.files.files
   pipeline_templates                           = var.pipeline_template_files
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id

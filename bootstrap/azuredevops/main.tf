@@ -7,6 +7,15 @@ module "resource_names" {
   resource_names   = var.resource_names
 }
 
+module "files" {
+  source                     = "./../modules/files"
+  starter_module_folder_path = local.starter_module_folder_path
+  pipeline_folder_path       = local.pipeline_folder_path
+  pipeline_files             = var.pipeline_files
+  pipeline_template_files    = var.pipeline_template_files
+  additional_files           = var.additional_files
+}
+
 module "azure" {
   source                             = "./../modules/azure"
   create_agents_resource_group       = module.azure_devops.is_authentication_scheme_managed_identity
@@ -38,7 +47,7 @@ module "azure_devops" {
   environments                                 = local.environments
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   repository_name                              = local.resource_names.version_control_system_repository
-  repository_files                             = local.all_repo_files
+  repository_files                             = module.files.files
   use_template_repository                      = var.version_control_system_use_separate_repository_for_templates
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   variable_group_name                          = local.resource_names.version_control_system_variable_group
