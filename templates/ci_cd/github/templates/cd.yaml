@@ -49,7 +49,7 @@ jobs:
           $stagingDirectory = "staging"
           New-Item -Path . -Name $stagingDirectory -ItemType "directory"
           Copy-Item -Path "./*" -Exclude @(".git", ".terraform", ".github",  $stagingDirectory) -Recurse -Destination "./$stagingDirectory"
-  
+
         shell: pwsh
 
       - name: Publish Module Artifact
