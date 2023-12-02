@@ -46,10 +46,10 @@ jobs:
 
       - name: Create Module Artifact
         run: |
-          New-Item -Path . -Name "staging" -ItemType "directory"
-          Copy-Item -Path "./*.tf" -Destination "./staging"
-          Copy-Item -Path "./*.tfvars" -Destination "./staging"
-          Copy-Item -Path "./tfplan" -Destination "./staging"
+          $stagingDirectory = "staging"
+          New-Item -Path . -Name $stagingDirectory -ItemType "directory"
+          Copy-Item -Path "./*" -Exclude @(".git", ".terraform", ".github",  $stagingDirectory) -Recurse -Destination "./$stagingDirectory"
+  
         shell: pwsh
 
       - name: Publish Module Artifact
