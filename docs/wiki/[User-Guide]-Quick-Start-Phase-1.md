@@ -134,6 +134,7 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
     1. `Build`: `Read & execute`
     1. `Code`: `Full`
     1. `Environment`: `Read & manage`
+    1. `Extensions`: `Read & manage`
     1. `Graph`: `Read & manage`
     1. `Pipeline Resources`: `Use & manage`
     1. `Project and Team`: `Read, write & manage`
