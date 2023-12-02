@@ -27,7 +27,15 @@ if($statusCode -eq 409)
 {
     Write-Host "Extension already installed"
 }
-else
+elseif($statusCode -eq 200)
 {
     Write-Host "Installed version $($result.version) of extension $($result.publisherName) $($result.extensionName)"
 }
+else
+{
+    Write-Host "Failed to install extension. Status code: $statusCode"
+    Write-Host "Response: $result"
+    exit 1
+}
+
+exit 0
