@@ -1,3 +1,9 @@
+variable "version_control_system_access_token" {
+  description = "The personal access token for the version control system to use for the deployment|2"
+  type        = string
+  sensitive   = true
+}
+
 variable "authentication_scheme" {
   type = string
   validation {
