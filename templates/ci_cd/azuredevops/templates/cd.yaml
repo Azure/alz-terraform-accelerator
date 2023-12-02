@@ -28,9 +28,10 @@ stages:
                   inputs:
                     SourceFolder: '$(Build.SourcesDirectory)'
                     Contents: |
-                      *.tf
-                      *.tfvars
-                      tfplan
+                      **/*
+                      !.terraform/**/*
+                      !.git/**/*
+                      !.pipelines/**/*
                     TargetFolder: '$(Build.ArtifactsStagingDirectory)'
                     CleanTargetFolder: true
                     OverWrite: true
