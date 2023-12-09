@@ -79,19 +79,19 @@ pipeline_template_files = {
     target_path = "cd.yaml"
   }
   terraform-installer = {
-    file_path   = "azuredevops/templates/terraform-installer.yaml"
-    target_path = "terraform-installer.yaml"
+    file_path   = "azuredevops/templates/helpers/terraform-installer.yaml"
+    target_path = "helpers/terraform-installer.yaml"
   }
   terraform-init = {
-    file_path   = "azuredevops/templates/terraform-init.yaml"
-    target_path = "terraform-init.yaml"
+    file_path   = "azuredevops/templates/helpers/terraform-init.yaml"
+    target_path = "helpers/terraform-init.yaml"
   }
   terraform-plan = {
-    file_path   = "azuredevops/templates/terraform-plan.yaml"
-    target_path = "terraform-plan.yaml"
+    file_path   = "azuredevops/templates/helpers/terraform-plan.yaml"
+    target_path = "helpers/terraform-plan.yaml"
   }
   terrafrom-apply = {
-    file_path   = "azuredevops/templates/terraform-apply.yaml"
-    target_path = "terraform-apply.yaml"
+    file_path   = "azuredevops/templates/helpers/terraform-apply.yaml"
+    target_path = "helpers/terraform-apply.yaml"
   }
 }

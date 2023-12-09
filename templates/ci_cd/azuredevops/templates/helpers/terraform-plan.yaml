@@ -6,9 +6,9 @@ parameters:
 
 steps:
   - task: AzureCLI@2
-    displayName: displayName: Terraform Plan for $${{ coalesce(parameters.terraform_action, 'Apply') }}
+    displayName: Terraform Plan for $${{ coalesce(parameters.terraform_action, 'Apply') }}
     inputs:
-      azureSubscription: '$(subscriptionConnection)'
+      azureSubscription: $${{ parameters.serviceConnection }}
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |

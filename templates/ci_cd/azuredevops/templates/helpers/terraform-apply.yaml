@@ -2,12 +2,13 @@
 parameters:
   - name: terraform_action
     default: 'apply'
+  - name: serviceConnection
 
 steps:
   - task: AzureCLI@2
-    displayName: displayName: Terraform Apply for $${{ coalesce(parameters.terraform_action, 'Apply') }}
+    displayName: Terraform Apply for $${{ coalesce(parameters.terraform_action, 'Apply') }}
     inputs:
-      azureSubscription: '$(subscriptionConnection)'
+      azureSubscription: $${{ parameters.serviceConnection }}
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |
