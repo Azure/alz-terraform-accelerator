@@ -151,10 +151,10 @@ First you'll need to create a folder structure to hold your custom starter modul
  ┃ ┃ ┣ 📜cd.yaml
  ┃ ┃ ┣ 📜ci.yaml
  ┃ ┃ ┗ 📂templates #4
- ┃ ┃   ┣ 📜apply.yaml
  ┃ ┃   ┣ 📜cd.yaml
  ┃ ┃   ┣ 📜ci.yaml
- ┃ ┃   ┗ 📜plan.yaml
+ ┃ ┃   ┗ 📂helpers
+ ┃ ┃     ┗ 📜helper.yaml
  ┃ ┗ 📂github
  ┃   ┣ 📜cd.yaml
  ┃   ┣ 📜ci.yaml
