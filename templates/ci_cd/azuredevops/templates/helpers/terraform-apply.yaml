@@ -20,7 +20,7 @@ steps:
           $env:ARM_TENANT_ID = $account.tenantId
           $env:ARM_SUBSCRIPTION_ID = $account.id
         }
-        
+
         # Run Terraform Apply
         $command = "terraform"
         $arguments = @()
