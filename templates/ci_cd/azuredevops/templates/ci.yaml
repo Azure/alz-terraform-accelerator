@@ -31,4 +31,12 @@ stages:
               steps:
                 - checkout: self
                   displayName: Checkout Terraform Module
-                - template: plan.yaml
+                - template: terraform-installer.yaml
+                  parameters:
+                    terraformVersion: 'latest'
+                - template: terraform-init.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_plan}'
+                - template: terraform-plan.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_plan}'

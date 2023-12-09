@@ -1,0 +1,17 @@
+---
+parameters:
+  - name: terraform_action
+    default: 'apply'
+
+steps:
+  - task: AzureCLI@2
+    displayName: displayName: Terraform Apply for $${{ coalesce(parameters.terraform_action, 'Apply') }}
+    inputs:
+      azureSubscription: '$(subscriptionConnection)'
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        terraform apply -auto-approve tfplan
+    env:
+      ARM_USE_AZUREAD: true
+      ARM_USE_CLI: true

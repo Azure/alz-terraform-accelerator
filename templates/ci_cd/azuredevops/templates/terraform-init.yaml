@@ -1,0 +1,34 @@
+---
+parameters:
+  - name: serviceConnection
+    default: 'latest'
+
+steps:
+- task: AzureCLI@2
+    displayName: 'terraform init'
+    inputs:
+      azureSubscription: $${{ parameters.serviceConnection }}}
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        # Get settings from service connection
+        az account show 2>$null | ConvertFrom-Json | Set-Variable account
+        $clientId = $account.user.name
+        $oidcToken = $env:idToken # requires addSpnToEnvironment: true
+        $subscriptionId = $account.id
+        $tenantId = $account.tenantId
+
+        # Run terraform init
+        terraform init -backend-config="storage_account_name=$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)" `
+                       -backend-config="container_name=$(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)" `
+                       -backend-config="key=terraform.tfstate" `
+                       -backend-config="resource_group_name=$(BACKEND_AZURE_RESOURCE_GROUP_NAME)" `
+                       -backend-config="subscription_id=$subscriptionId" `
+                       -backend-config="tenant_id=$tenantId" `
+                       -backend-config="client_id=$clientId" `
+                       -backend-config="oidc_token=$oidcToken" `
+                       -backend-config="use_oidc=true"
+
+      addSpnToEnvironment: true
+    env:
+      ARM_USE_AZUREAD: true

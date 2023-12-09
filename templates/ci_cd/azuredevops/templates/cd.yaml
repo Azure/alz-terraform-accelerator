@@ -20,9 +20,16 @@ stages:
               steps:
                 - checkout: self
                   displayName: Checkout Terraform Module
-                - template: plan.yaml
+                - template: terraform-installer.yaml
+                  parameters:
+                    terraformVersion: 'latest'
+                - template: terraform-init.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_plan}'
+                - template: terraform-plan.yaml
                   parameters:
                     terraform_action: $${{ parameters.terraform_action }}
+                    serviceConnection: '${service_connection_name_plan}'
                 - task: CopyFiles@2
                   displayName: Create Module Artifact
                   inputs:
@@ -65,6 +72,14 @@ stages:
                     buildType: 'current'
                     artifactName: 'module'
                     targetPath: '$(Build.SourcesDirectory)'
-                - template: apply.yaml
+                - template: terraform-installer.yaml
+                  parameters:
+                    terraformVersion: 'latest'
+                - template: terraform-init.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_apply}'
+                - template: terraform-apply.yaml
                   parameters:
                     terraform_action: $${{ parameters.terraform_action }}
+                    serviceConnection: '${service_connection_name_apply}'
+
