@@ -22,7 +22,14 @@ steps:
         }
         
         # Run Terraform Apply
-        terraform apply -auto-approve tfplan
+        $command = "terraform"
+        $arguments = @()
+        $arguments += "apply"
+        $arguments += "-auto-approve"
+        $arguments += "tfplan"
+        Write-Host "Running: $command $arguments"
+        & $command $arguments
+
     env:
       ARM_USE_AZUREAD: true
       ARM_USE_CLI: true

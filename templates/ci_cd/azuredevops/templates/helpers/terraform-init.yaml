@@ -22,20 +22,28 @@ steps:
         $oidcToken ??= $env:idToken # requires addSpnToEnvironment: true
         $subscriptionId = $account.id
         $tenantId = $account.tenantId
-        $authSpecificConfig = "-backend-config=`"client_id=$clientId`" -backend-config=`"oidc_token=$oidcToken`" -backend-config=`"use_oidc=true`""
+
+        $arguments = @()
+        $arguments += "init"
+        $arguments += "-backend-config=`"storage_account_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_NAME)`""
+        $arguments += "-backend-config=`"container_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)`""
+        $arguments += "-backend-config=`"key=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)`""
+        $arguments += "-backend-config=`"resource_group_name=$($env:BACKEND_AZURE_RESOURCE_GROUP_NAME)`""
+        $arguments += "-backend-config=`"subscription_id=$subscriptionId`""
+        $arguments += "-backend-config=`"tenant_id=$tenantId`""
 
         if($oidcToken -eq $null) {
-          $authSpecificConfig = '-backend-config="use_msi=true"'
+          $arguments += '-backend-config="use_msi=true"'
+        } else {
+          $arguments += "-backend-config=`"client_id=$clientId`""
+          $arguments += "-backend-config=`"oidc_token=$oidcToken`""
+          $arguments += '-backend-config="use_oidc=true"'
         }
 
         # Run terraform init
-        terraform init -backend-config="storage_account_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_NAME)" `
-                       -backend-config="container_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)" `
-                       -backend-config="key=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)" `
-                       -backend-config="resource_group_name=$($env:BACKEND_AZURE_RESOURCE_GROUP_NAME)" `
-                       -backend-config="subscription_id=$subscriptionId" `
-                       -backend-config="tenant_id=$tenantId" `
-                       $authSpecificConfig
+        $command = "terraform"
+        Write-Host "Running: $command $arguments"
+        & $command $arguments
 
     env:
       ARM_USE_AZUREAD: true

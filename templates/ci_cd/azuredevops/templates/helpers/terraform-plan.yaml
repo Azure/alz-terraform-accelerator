@@ -22,12 +22,19 @@ steps:
         }
         
         # Run Terraform Plan
-        if ($env:TERRAFORM_ACTION -eq 'apply') {
-          terraform plan -out=tfplan -input=false
-        }
+        $command = "terraform"
+        $arguments = @()
+        $arguments += "plan"
+        $arguments += "-out=tfplan"
+        $arguments += "-input=false"
+
         if ($env:TERRAFORM_ACTION -eq 'destroy') {
-          terraform plan -out=tfplan -input=false -destroy
+          $arguments += "-destroy"
         }
+
+        Write-Host "Running: $command $arguments"
+        & $command $arguments
+
     env:
       ARM_USE_AZUREAD: true
       ARM_USE_CLI: true
