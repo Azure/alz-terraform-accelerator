@@ -1,4 +1,5 @@
 terraform {
+  required_version = ">= 1.6"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -10,7 +11,7 @@ terraform {
     }
     azuredevops = {
       source  = "microsoft/azuredevops"
-      version = "~> 0.9"
+      version = "~> 0.10"
     }
     random = {
       source  = "hashicorp/random"

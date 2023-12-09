@@ -4,7 +4,7 @@ parameters:
     default: 'latest'
 
 steps:
-- task: AzureCLI@2
+  - task: AzureCLI@2
     displayName: 'terraform init'
     inputs:
       azureSubscription: $${{ parameters.serviceConnection }}}
@@ -14,9 +14,11 @@ steps:
         # Get settings from service connection
         az account show 2>$null | ConvertFrom-Json | Set-Variable account
         $clientId = $account.user.name
-        $oidcToken = $env:idToken # requires addSpnToEnvironment: true
+        $oidcToken ??= $env:idToken # requires addSpnToEnvironment: true
         $subscriptionId = $account.id
         $tenantId = $account.tenantId
+        $useOidc = $oidcToken -ne $null
+        $useMsi = $useOidc -ne $true
 
         # Run terraform init
         terraform init -backend-config="storage_account_name=$(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)" `
@@ -27,7 +29,8 @@ steps:
                        -backend-config="tenant_id=$tenantId" `
                        -backend-config="client_id=$clientId" `
                        -backend-config="oidc_token=$oidcToken" `
-                       -backend-config="use_oidc=true"
+                       -backend-config="use_oidc=$($useOidc.ToString().ToLower())" `
+                       -backend-config="use_msi=$($useMsi.ToString().ToLower())"
 
       addSpnToEnvironment: true
     env:

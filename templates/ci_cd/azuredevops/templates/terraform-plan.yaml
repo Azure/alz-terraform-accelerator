@@ -21,4 +21,4 @@ steps:
     env:
       ARM_USE_AZUREAD: true
       ARM_USE_CLI: true
-      TERRAFORM_ACTION: ${{ coalesce(parameters.terraform_action, 'apply') }}
+      TERRAFORM_ACTION: $${{ coalesce(parameters.terraform_action, 'apply') }}
