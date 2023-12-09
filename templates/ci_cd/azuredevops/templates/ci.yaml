@@ -13,7 +13,6 @@ stages:
           - template: terraform-installer.yaml
             parameters:
               terraformVersion: 'latest'
-              scriptPath: $(Build.SourcesDirectory)/${repository_name_templates}
           - pwsh: terraform fmt -check
             displayName: Terraform Format Check
           - pwsh: terraform init -backend=false

@@ -1,3 +1,6 @@
+# Powershell verison of the installer script for testing purposes
+# Scripts cannot be called from template repos in Azure DevOps, so we have to inline this script in the task
+# See here for more details: https://learn.microsoft.com/en-us/azure/devops/pipelines/process/templates?view=azure-devops&pivots=templates-includes#use-other-repositories
 param(
   [string]$TF_VERSION = "latest",
   [string]$TOOLS_PATH = ".\terraform"
@@ -28,51 +31,51 @@ if (Test-Path $unzipdir) {
 
 $os = ""
 if ($IsWindows) {
-    $os = "windows"
+  $os = "windows"
 }
 if($IsLinux) {
-    $os = "linux"
+  $os = "linux"
 }
 if($IsMacOS) {
-    $os = "darwin"
+  $os = "darwin"
 }
 
 # Enum values can be seen here: https://learn.microsoft.com/en-us/dotnet/api/system.runtime.interopservices.architecture?view=net-7.0#fields
 $architecture = ([System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture).ToString().ToLower()
 
 if($architecture -eq "x64") {
-    $architecture = "amd64"
+  $architecture = "amd64"
 }
 if($architecture -eq "x86") {
-    $architecture = "386"
+  $architecture = "386"
 }
 
 $osAndArchitecture = "$($os)_$($architecture)"
 
 $supportedOsAndArchitectures = @(
-    "darwin_amd64",
-    "darwin_arm64",
-    "linux_386",
-    "linux_amd64",
-    "linux_arm64",
-    "windows_386",
-    "windows_amd64"
+  "darwin_amd64",
+  "darwin_arm64",
+  "linux_386",
+  "linux_amd64",
+  "linux_arm64",
+  "windows_386",
+  "windows_amd64"
 )
 
 if($supportedOsAndArchitectures -notcontains $osAndArchitecture) {
-    Write-Error "Unsupported OS and architecture combination: $osAndArchitecture"
-    exit 1
+  Write-Error "Unsupported OS and architecture combination: $osAndArchitecture"
+  exit 1
 }
 
 $zipfilePath = "$unzipdir.zip"
 
 if(!(Test-Path $toolFilePath)) {
   $url = "https://releases.hashicorp.com/terraform/$($TF_VERSION)/terraform_$($TF_VERSION)_$($osAndArchitecture).zip"
-  
+
   if(!(Test-Path $unzipdir)) {
     New-Item -ItemType Directory -Path $unzipdir| Out-String | Write-Verbose
   }
-  
+
   Invoke-WebRequest -Uri $url -OutFile "$zipfilePath" | Out-String | Write-Verbose
 }
 
@@ -81,7 +84,7 @@ Expand-Archive -Path $zipfilePath -DestinationPath $unzipdir
 $toolFileName = "terraform"
 
 if($os -eq "windows") {
-    $toolFileName = "$($toolFileName).exe"
+  $toolFileName = "$($toolFileName).exe"
 }
 
 $toolFilePath = Join-Path -Path $unzipdir -ChildPath $toolFileName
@@ -89,7 +92,7 @@ $toolFilePath = Join-Path -Path $unzipdir -ChildPath $toolFileName
 if($os -ne "windows") {
     $isExecutable = $(test -x $toolFilePath; 0 -eq $LASTEXITCODE)
     if(!($isExecutable)) {
-        chmod +x $toolFilePath
+      chmod +x $toolFilePath
     }
 }
 
