@@ -7,7 +7,7 @@ steps:
   - pwsh: |
       $TF_VERSION = $env:TF_VERSION
       $TOOLS_PATH = $env:TOOLS_PATH
-      
+
       if($TF_VERSION -eq "latest") {
         $TF_VERSION = (Invoke-WebRequest -Uri "https://checkpoint-api.hashicorp.com/v1/check/terraform").Content | ConvertFrom-Json | Select -ExpandProperty current_version
       }
@@ -23,10 +23,14 @@ steps:
         }
       }
 
-      $unzipdir = "$TOOLS_PATH\terraform_$TF_VERSION"
+      $unzipdir = Join-Path -Path $TOOLS_PATH -ChildPath "terraform_$TF_VERSION"
       if (Test-Path $unzipdir) {
         Write-Host "Terraform $TF_VERSION already installed."
-        $env:PATH = "$unzipdir;$env:PATH"
+        if($os -eq "windows") {
+          $env:PATH = "$($unzipdir);$env:PATH"
+        } else {
+          $env:PATH = "$($unzipdir):$env:PATH"
+        }
         Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
         return
       }
@@ -96,7 +100,16 @@ steps:
           }
       }
 
-      $env:PATH = "$unzipdir;$env:PATH"
+      if($os -eq "windows") {
+        $env:PATH = "$($unzipdir);$env:PATH"
+      } else {
+        $env:PATH = "$($unzipdir):$env:PATH"
+      }
       Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
       Remove-Item $zipfilePath
       Write-Host "Installed Terraform version $TF_VERSION"
+
+    displayName: Install Terraform
+    env:
+      TF_VERSION: $${{ parameters.terraformVersion }}
+      TOOLS_PATH: $(Agent.ToolsDirectory)

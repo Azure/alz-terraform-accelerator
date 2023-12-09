@@ -21,10 +21,14 @@ if($commandDetails) {
   }
 }
 
-$unzipdir = "$TOOLS_PATH\terraform_$TF_VERSION"
+$unzipdir = Join-Path -Path $TOOLS_PATH -ChildPath "terraform_$TF_VERSION"
 if (Test-Path $unzipdir) {
   Write-Host "Terraform $TF_VERSION already installed."
-  $env:PATH = "$unzipdir;$env:PATH"
+  if($os -eq "windows") {
+    $env:PATH = "$($unzipdir);$env:PATH"
+  } else {
+    $env:PATH = "$($unzipdir):$env:PATH"
+  }
   Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
   return
 }
@@ -94,7 +98,11 @@ if($os -ne "windows") {
     }
 }
 
-$env:PATH = "$unzipdir;$env:PATH"
+if($os -eq "windows") {
+  $env:PATH = "$($unzipdir);$env:PATH"
+} else {
+  $env:PATH = "$($unzipdir):$env:PATH"
+}
 Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
 Remove-Item $zipfilePath
 Write-Host "Installed Terraform version $TF_VERSION"
