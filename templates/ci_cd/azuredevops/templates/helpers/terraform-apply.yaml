@@ -12,6 +12,16 @@ steps:
       scriptType: pscore
       scriptLocation: inlineScript
       inlineScript: |
+        # Workaround for MSI authentication
+        az account show 2>$null | ConvertFrom-Json | Set-Variable account
+        if($account.user.name -eq 'systemAssignedIdentity') {
+          $env:ARM_USE_CLI = 'false'
+          $env:ARM_USE_MSI = 'true'
+          $env:ARM_TENANT_ID = $account.tenantId
+          $env:ARM_SUBSCRIPTION_ID = $account.id
+        }
+        
+        # Run Terraform Apply
         terraform apply -auto-approve tfplan
     env:
       ARM_USE_AZUREAD: true

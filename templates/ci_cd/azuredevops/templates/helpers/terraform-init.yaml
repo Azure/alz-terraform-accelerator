@@ -22,8 +22,11 @@ steps:
         $oidcToken ??= $env:idToken # requires addSpnToEnvironment: true
         $subscriptionId = $account.id
         $tenantId = $account.tenantId
-        $useOidc = $oidcToken -ne $null
-        $useMsi = $useOidc -ne $true
+        $authSpecificConfig = "-backend-config=`"client_id=$clientId`" -backend-config=`"oidc_token=$oidcToken`" -backend-config=`"use_oidc=true`""
+
+        if($oidcToken -eq $null) {
+          $authSpecificConfig = '-backend-config="use_msi=true"'
+        }
 
         # Run terraform init
         terraform init -backend-config="storage_account_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_NAME)" `
@@ -32,10 +35,7 @@ steps:
                        -backend-config="resource_group_name=$($env:BACKEND_AZURE_RESOURCE_GROUP_NAME)" `
                        -backend-config="subscription_id=$subscriptionId" `
                        -backend-config="tenant_id=$tenantId" `
-                       -backend-config="client_id=$clientId" `
-                       -backend-config="oidc_token=$oidcToken" `
-                       -backend-config="use_oidc=$($useOidc.ToString().ToLower())" `
-                       -backend-config="use_msi=$($useMsi.ToString().ToLower())"
+                       $authSpecificConfig
 
     env:
       ARM_USE_AZUREAD: true
