@@ -69,15 +69,13 @@ if($supportedOsAndArchitectures -notcontains $osAndArchitecture) {
 
 $zipfilePath = "$unzipdir.zip"
 
-if(!(Test-Path $toolFilePath)) {
-  $url = "https://releases.hashicorp.com/terraform/$($TF_VERSION)/terraform_$($TF_VERSION)_$($osAndArchitecture).zip"
+$url = "https://releases.hashicorp.com/terraform/$($TF_VERSION)/terraform_$($TF_VERSION)_$($osAndArchitecture).zip"
 
-  if(!(Test-Path $unzipdir)) {
-    New-Item -ItemType Directory -Path $unzipdir| Out-String | Write-Verbose
-  }
-
-  Invoke-WebRequest -Uri $url -OutFile "$zipfilePath" | Out-String | Write-Verbose
+if(!(Test-Path $TOOLS_PATH)) {
+  New-Item -ItemType Directory -Path $TOOLS_PATH| Out-String | Write-Verbose
 }
+
+Invoke-WebRequest -Uri $url -OutFile "$zipfilePath" | Out-String | Write-Verbose
 
 Expand-Archive -Path $zipfilePath -DestinationPath $unzipdir
 

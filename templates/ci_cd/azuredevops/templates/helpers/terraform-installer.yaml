@@ -7,7 +7,7 @@ steps:
   - pwsh: |
       $TF_VERSION = $env:TF_VERSION
       $TOOLS_PATH = $env:TOOLS_PATH
-
+      
       if($TF_VERSION -eq "latest") {
         $TF_VERSION = (Invoke-WebRequest -Uri "https://checkpoint-api.hashicorp.com/v1/check/terraform").Content | ConvertFrom-Json | Select -ExpandProperty current_version
       }
@@ -71,15 +71,13 @@ steps:
 
       $zipfilePath = "$unzipdir.zip"
 
-      if(!(Test-Path $toolFilePath)) {
-        $url = "https://releases.hashicorp.com/terraform/$($TF_VERSION)/terraform_$($TF_VERSION)_$($osAndArchitecture).zip"
+      $url = "https://releases.hashicorp.com/terraform/$($TF_VERSION)/terraform_$($TF_VERSION)_$($osAndArchitecture).zip"
 
-        if(!(Test-Path $unzipdir)) {
-          New-Item -ItemType Directory -Path $unzipdir| Out-String | Write-Verbose
-        }
-
-        Invoke-WebRequest -Uri $url -OutFile "$zipfilePath" | Out-String | Write-Verbose
+      if(!(Test-Path $TOOLS_PATH)) {
+        New-Item -ItemType Directory -Path $TOOLS_PATH| Out-String | Write-Verbose
       }
+
+      Invoke-WebRequest -Uri $url -OutFile "$zipfilePath" | Out-String | Write-Verbose
 
       Expand-Archive -Path $zipfilePath -DestinationPath $unzipdir
 
@@ -102,8 +100,3 @@ steps:
       Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
       Remove-Item $zipfilePath
       Write-Host "Installed Terraform version $TF_VERSION"
-
-    displayName: Install Terraform
-    env:
-      TF_VERSION: $${{ parameters.terraformVersion }}
-      TOOLS_PATH: $(Agent.ToolsDirectory)
