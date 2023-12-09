@@ -4,10 +4,10 @@ parameters:
     default: 'apply'
 
 steps:
-  - task: TerraformInstaller@0
-    displayName: Install Terraform
-    inputs:
+  - template: terraform-installer.yaml
+    parameters:
       terraformVersion: 'latest'
+      scriptPath: $(Build.SourcesDirectory)/${repository_name_templates}
   - task: TerraformTaskV4@4
     displayName: Terraform Init
     inputs:

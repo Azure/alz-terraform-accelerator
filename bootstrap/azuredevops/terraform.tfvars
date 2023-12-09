@@ -86,4 +86,13 @@ pipeline_template_files = {
     file_path   = "azuredevops/templates/cd.yaml"
     target_path = "cd.yaml"
   }
+  installer_task = {
+    file_path   = "azuredevops/templates/terraform-installer.yaml"
+    target_path = "terraform-installer.yaml"
+  }
+  installer_script = {
+    file_path   = "azuredevops/templates/terraform-installer.ps1"
+    target_path = "terraform-installer.ps1"
+  }
+
 }

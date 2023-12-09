@@ -1,0 +1,14 @@
+---
+parameters:
+  - name: terraformVersion
+    default: 'latest'
+  - name: scriptPath
+    default: ''
+
+steps:
+  - pwsh: |
+      $${{ parameters.scriptPath }}/terraform-installer.ps1 -Version $env:TF_VERSION -ToolsPath $env:TOOLS_PATH
+    displayName: Install Terraform
+    env:
+      TF_VERSION: $${{ parameters.terraformVersion }}
+      TOOLS_PATH: $(Agent.ToolsDirectory)
