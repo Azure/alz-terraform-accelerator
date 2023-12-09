@@ -99,3 +99,4 @@ if($os -ne "windows") {
 $env:PATH = "$unzipdir;$env:PATH"
 Write-Host "##vso[task.setvariable variable=PATH]$env:PATH"
 Remove-Item $zipfilePath
+Write-Host "Installed Terraform version $TF_VERSION"
