@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        terraform_version: ['latest', '1.5.0']
+        terraform_version: ['latest', '1.6.0']
         versionControlSystem: ['github', 'azuredevops']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
         exclude:
