@@ -88,4 +88,3 @@ stages:
                   parameters:
                     terraform_action: $${{ parameters.terraform_action }}
                     serviceConnection: '${service_connection_name_apply}'
-
