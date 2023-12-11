@@ -24,3 +24,9 @@ provider "azurerm" {
   subscription_id            = var.subscription_id_connectivity
   features {}
 }
+
+provider "azurerm" {
+  alias           = "identity"
+  subscription_id = var.subscription_id_identity
+  features {}
+}
