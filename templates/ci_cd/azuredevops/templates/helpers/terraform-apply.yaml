@@ -25,6 +25,8 @@ steps:
         $env:ARM_SUBSCRIPTION_ID = $account.id
 
         if($isOidc) {
+          # Note: We are using CLI auth for the provider as it caches the access token for us, which helps with edge cases like terraform test.
+          # The backend is hard coded to use OIDC auth as it does not support CLI auth yet.
           $env:ARM_USE_CLI = 'true'
           $env:ARM_OIDC_TOKEN = $oidcToken
           $env:ARM_CLIENT_ID = $clientId

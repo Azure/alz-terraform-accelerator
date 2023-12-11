@@ -33,7 +33,7 @@ locals {
   }
   module_files = { for key, value in var.repository_files : key =>
     {
-      content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {\n    ${local.is_authentication_scheme_workload_identity_federation ? "use_oidc = true" : "use_msi = true"}\n    use_azuread_auth = true\n  }")
+      content = replace((file(value.path)), "# backend \"azurerm\" {}", "backend \"azurerm\" {\n    ${local.is_authentication_scheme_workload_identity_federation ? "use_oidc         = true" : "use_msi          = true"}\n    use_azuread_auth = true\n  }")
     } if value.flag == "module" || value.flag == "additional"
   }
   repository_files = merge(local.cicd_file, local.module_files, var.use_template_repository ? {} : local.cicd_template_files)
