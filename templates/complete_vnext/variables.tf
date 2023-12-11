@@ -9,8 +9,8 @@ variable "default_postfix" {
   default     = "landing-zone"
 }
 
-variable "tenant_root_management_group_id" {
-  description = "The identifier of the Tenant Root Management Group. (e.g '00000000-0000-0000-0000-000000000000')|3|azure_name"
+variable "root_management_group_id" {
+  description = "The identifier of the Tenant Root Management Group, if left blank will use the tenant id. (e.g '00000000-0000-0000-0000-000000000000')|3|azure_name"
   type        = string
   default     = ""
 }
