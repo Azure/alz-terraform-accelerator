@@ -1,0 +1,41 @@
+---
+parameters:
+  - name: terraform_action
+    default: 'apply'
+  - name: serviceConnection
+
+steps:
+  - task: AzureCLI@2
+    displayName: Terraform Plan for $${{ coalesce(parameters.terraform_action, 'Apply') }}
+    inputs:
+      azureSubscription: $${{ parameters.serviceConnection }}
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        # Workaround for MSI authentication
+        az account show 2>$null | ConvertFrom-Json | Set-Variable account
+        if($account.user.name -eq 'systemAssignedIdentity') {
+          $env:ARM_USE_CLI = 'false'
+          $env:ARM_USE_MSI = 'true'
+          $env:ARM_TENANT_ID = $account.tenantId
+          $env:ARM_SUBSCRIPTION_ID = $account.id
+        }
+
+        # Run Terraform Plan
+        $command = "terraform"
+        $arguments = @()
+        $arguments += "plan"
+        $arguments += "-out=tfplan"
+        $arguments += "-input=false"
+
+        if ($env:TERRAFORM_ACTION -eq 'destroy') {
+          $arguments += "-destroy"
+        }
+
+        Write-Host "Running: $command $arguments"
+        & $command $arguments
+
+    env:
+      ARM_USE_AZUREAD: true
+      ARM_USE_CLI: true
+      TERRAFORM_ACTION: $${{ coalesce(parameters.terraform_action, 'apply') }}

@@ -61,5 +61,4 @@ module "azure_devops" {
   backend_azure_storage_account_container_name = local.resource_names.storage_container
   approvers                                    = var.apply_approvers
   group_name                                   = local.resource_names.version_control_system_group
-  version_control_system_access_token          = var.version_control_system_access_token
 }

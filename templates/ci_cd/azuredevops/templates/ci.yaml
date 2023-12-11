@@ -10,9 +10,8 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - task: TerraformInstaller@0
-            displayName: Install Terraform
-            inputs:
+          - template: helpers/terraform-installer.yaml
+            parameters:
               terraformVersion: 'latest'
           - pwsh: terraform fmt -check
             displayName: Terraform Format Check
@@ -32,4 +31,15 @@ stages:
               steps:
                 - checkout: self
                   displayName: Checkout Terraform Module
-                - template: plan.yaml
+                - template: helpers/terraform-installer.yaml
+                  parameters:
+                    terraformVersion: 'latest'
+                - template: helpers/terraform-init.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_plan}'
+                    backendAzureResourceGroupName: $(BACKEND_AZURE_RESOURCE_GROUP_NAME)
+                    backendAzureStorageAccountName: $(BACKEND_AZURE_STORAGE_ACCOUNT_NAME)
+                    backendAzureStorageAccountContainerName: $(BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)
+                - template: helpers/terraform-plan.yaml
+                  parameters:
+                    serviceConnection: '${service_connection_name_plan}'
