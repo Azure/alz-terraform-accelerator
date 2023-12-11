@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        terraform_version: ['latest', '1.6.0']
+        terraform_version: ['latest', '1.5.0']
         versionControlSystem: ['github', 'azuredevops']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
         exclude:
@@ -42,6 +42,7 @@ jobs:
         with:
           terraform_version: ${{ matrix.terraform_version }}
           terraform_wrapper: false
+        if: ${{ matrix.terraform_version != 'latest' }}
 
       - name: Setup ALZ Module Inputs
         run: |
@@ -157,6 +158,13 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: "latest"
+          terraform_wrapper: false
+        if: always()
 
       - name: Run Terraform Destroy to Clean Up
         if: always()
