@@ -22,6 +22,7 @@ steps:
         $oidcToken ??= $env:idToken # requires addSpnToEnvironment: true
         $subscriptionId = $account.id
         $tenantId = $account.tenantId
+        $isOidc = $oidcToken -ne $null
 
         $arguments = @()
         $arguments += "init"
@@ -29,15 +30,13 @@ steps:
         $arguments += "-backend-config=`"container_name=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME)`""
         $arguments += "-backend-config=`"key=$($env:BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_KEY_NAME)`""
         $arguments += "-backend-config=`"resource_group_name=$($env:BACKEND_AZURE_RESOURCE_GROUP_NAME)`""
-        $arguments += "-backend-config=`"subscription_id=$subscriptionId`""
-        $arguments += "-backend-config=`"tenant_id=$tenantId`""
+        
+        $env:ARM_SUBSCRIPTION_ID = $subscriptionId
+        $env:ARM_TENANT_ID = $tenantId
 
-        if($oidcToken -eq $null) {
-          $arguments += '-backend-config="use_msi=true"'
-        } else {
-          $arguments += "-backend-config=`"client_id=$clientId`""
-          $arguments += "-backend-config=`"oidc_token=$oidcToken`""
-          $arguments += '-backend-config="use_oidc=true"'
+        if($isOidc) {
+          $env:ARM_OIDC_TOKEN = $oidcToken
+          $env:ARM_CLIENT_ID = $clientId
         }
 
         # Run terraform init
@@ -46,7 +45,6 @@ steps:
         & $command $arguments
 
     env:
-      ARM_USE_AZUREAD: true
       BACKEND_AZURE_RESOURCE_GROUP_NAME: $${{ parameters.backendAzureResourceGroupName }}
       BACKEND_AZURE_STORAGE_ACCOUNT_NAME: $${{ parameters.backendAzureStorageAccountName }}
       BACKEND_AZURE_STORAGE_ACCOUNT_CONTAINER_NAME: $${{ parameters.backendAzureStorageAccountContainerName }}
