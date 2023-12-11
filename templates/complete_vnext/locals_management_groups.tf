@@ -1,5 +1,5 @@
 locals {
-  management_groups       = local.initial_config.management_groups
+  management_groups = local.initial_config.management_groups
 
   management_groups_layer_1 = { for k, v in local.management_groups : k => v if v.parent == local.root_management_group_id }
   management_groups_layer_2 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_1), v.parent) }
