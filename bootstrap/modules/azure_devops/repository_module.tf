@@ -14,7 +14,7 @@ resource "azuredevops_git_repository_file" "alz" {
   file                = each.key
   content             = each.value.content
   branch              = local.default_branch
-  commit_message      = "Add ${each.key} [skip ci]"
+  commit_message      = "[skip ci]"
   overwrite_on_create = true
 }
 
