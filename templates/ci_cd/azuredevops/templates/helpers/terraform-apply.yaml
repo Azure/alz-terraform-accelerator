@@ -11,14 +11,27 @@ steps:
       azureSubscription: $${{ parameters.serviceConnection }}
       scriptType: pscore
       scriptLocation: inlineScript
+      addSpnToEnvironment: true
       inlineScript: |
-        # Workaround for MSI authentication
+        # Get settings from service connection
         az account show 2>$null | ConvertFrom-Json | Set-Variable account
-        if($account.user.name -eq 'systemAssignedIdentity') {
-          $env:ARM_USE_CLI = 'false'
+        $clientId = $account.user.name
+        $oidcToken ??= $env:idToken # requires addSpnToEnvironment: true
+        $subscriptionId = $account.id
+        $tenantId = $account.tenantId
+        $isOidc = $oidcToken -ne $null
+
+        $env:ARM_TENANT_ID = $account.tenantId
+        $env:ARM_SUBSCRIPTION_ID = $account.id
+
+        if($isOidc) {
+          # Note: We are using CLI auth for the provider as it caches the access token for us, which helps with edge cases like terraform test.
+          # The backend is hard coded to use OIDC auth as it does not support CLI auth yet.
+          $env:ARM_USE_CLI = 'true'
+          $env:ARM_OIDC_TOKEN = $oidcToken
+          $env:ARM_CLIENT_ID = $clientId
+        } else {
           $env:ARM_USE_MSI = 'true'
-          $env:ARM_TENANT_ID = $account.tenantId
-          $env:ARM_SUBSCRIPTION_ID = $account.id
         }
 
         # Run Terraform Apply
@@ -29,7 +42,3 @@ steps:
         $arguments += "tfplan"
         Write-Host "Running: $command $arguments"
         & $command $arguments
-
-    env:
-      ARM_USE_AZUREAD: true
-      ARM_USE_CLI: true
