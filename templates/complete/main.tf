@@ -1,12 +1,12 @@
-module "enterprise-scale" {
+module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
-  disable_telemetry = true
+  count = length(local.archetypes) > 0 ? 1 : 0
 
-  default_location = local.archetypes.default_location
-  root_parent_id   = try(local.archetypes.root_parent_id, data.azurerm_client_config.core.tenant_id)
-
+  disable_telemetry                                       = try(local.archetypes.disable_telemetry, false)
+  default_location                                        = try(local.archetypes.default_location, "uksouth")
+  root_parent_id                                          = try(local.archetypes.root_parent_id, data.azurerm_client_config.core.tenant_id)
   archetype_config_overrides                              = try(local.archetypes.archetype_config_overrides, {})
   configure_connectivity_resources                        = try(local.archetypes.configure_connectivity_resources, {})
   configure_identity_resources                            = try(local.archetypes.configure_identity_resources, {})
@@ -38,12 +38,11 @@ module "enterprise-scale" {
   root_id                                                 = try(local.archetypes.root_id, "es")
   root_name                                               = try(local.archetypes.root_name, "Enterprise-Scale")
   strict_subscription_association                         = try(local.archetypes.strict_subscription_association, true)
-  subscription_id_connectivity                            = var.subscription_id_connectivity
-  subscription_id_identity                                = var.subscription_id_identity
-  subscription_id_management                              = var.subscription_id_management
+  subscription_id_connectivity                            = try(local.archetypes.subscription_id_connectivity, var.subscription_id_connectivity)
+  subscription_id_identity                                = try(local.archetypes.subscription_id_identity, var.subscription_id_identity)
+  subscription_id_management                              = try(local.archetypes.subscription_id_management, var.subscription_id_management)
   subscription_id_overrides                               = try(local.archetypes.subscription_id_overrides, {})
   template_file_variables                                 = try(local.archetypes.template_file_variables, {})
-
 
   providers = {
     azurerm              = azurerm
@@ -54,21 +53,22 @@ module "enterprise-scale" {
 
 module "hubnetworking" {
   source  = "Azure/hubnetworking/azurerm"
-  version = "1.1.0"
-  count   = length(local.hub_virtual_networks) > 0 ? 1 : 0
+  version = "1.1.1"
 
-  hub_virtual_networks = length(local.hub_virtual_networks) > 0 ? local.hub_virtual_networks : local.dummy_hub_virtual_network
+  count = length(local.hub_virtual_networks) > 0 ? 1 : 0
+
+  hub_virtual_networks = local.module_hubnetworking.hub_virtual_networks
 
   providers = {
     azurerm = azurerm.connectivity
   }
 }
 
-module "vnet-gateway" {
+module "virtual_network_gateway" {
   source  = "Azure/vnet-gateway/azurerm"
   version = "0.1.2"
 
-  for_each = local.vritual_network_gateways
+  for_each = local.module_virtual_network_gateway
 
   location                            = each.value.location
   name                                = each.value.name
