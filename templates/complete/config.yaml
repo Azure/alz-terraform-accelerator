@@ -5,6 +5,7 @@ archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module 
   deploy_corp_landing_zones: true
   deploy_online_landing_zones: true
   default_location: uksouth
+  disable_telemetry: true
   deploy_management_resources: true
   configure_management_resources:
     location: uksouth
