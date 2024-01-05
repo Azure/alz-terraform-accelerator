@@ -62,6 +62,10 @@ module "hubnetworking" {
   providers = {
     azurerm = azurerm.connectivity
   }
+
+  depends_on = [
+    module.enterprise_scale
+  ]
 }
 
 module "virtual_network_gateway" {
