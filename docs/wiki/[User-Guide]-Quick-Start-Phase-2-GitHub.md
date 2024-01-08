@@ -1,7 +1,7 @@
 <!-- markdownlint-disable first-line-h1 -->
 ### 2.2.2 GitHub
 
-1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -IaC "terraform" -Cicd "github"`.
+1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -i "terraform" -c "github"`.
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
     1. `starter_module`: This is the choice of [Starter Module][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
@@ -9,7 +9,7 @@
     1. `version_control_system_organization`: Enter the name of your GitHub organization. This is the section of the url after `github.com`. E.g. For `https://github.com/my-org`, you would enter `my-org`.
     1. `version_control_system_use_separate_repository_for_templates`: Determine whether to create a separate repository to store pipeline templates as an extra layer of security. Set to `false` if you don't wish to secure you pipeline templates by using a separate repository. This will default to `true`.
     1. `azure_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.
-    1. `azure_subscription_id`: Enter the id of the subscription in which you would like to deploy the storage account and identity for your continuous delivery pipeline. If left blank, the subscription you are connected to via `az login` will be used.
+    1. `azure_subscription_id`: Enter the id of the boostrap subscription in which you would like to deploy the storage account and identity for your continuous delivery pipeline. If left blank, the subscription you are connected to via `az login` will be used.
     1. `service_name`: This is used to build up the names of your Azure and GitHub resources, for example `rg-<service_name>-mgmt-uksouth-001`. We recommend using `alz` for this.
     1. `environment_name`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-<environment_name>-uksouth-001`. We recommend using `mgmt` for this.
     1. `postfix_number`: This is used to build up the names of your Azure and GitHub resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.

@@ -23,6 +23,8 @@ The accelerator follows a 3 phase approach:
 
 The components of the environment are similar, but differ depending on your choice of VCS and authentication:
 
+![Components][components]
+
 ### GitHub
 
 We only support federated credentials for GitHub as a best practice.
@@ -117,6 +119,7 @@ The following diagram and links detail the Azure landing zone, but you can learn
  [//]: # (*****************************)
 
 [alz_accelerator_overview]: media/alz-terraform-acclerator.png "A process flow showing the areas covered by the Azure landing zones Terraform accelerator."
+[components]: media/components.png "The components deployed by the accelerator."
 
 [alz_tf_overview]: media/alz-tf-module-overview.png "A conceptual architecture diagram highlighting the design areas covered by the Azure landing zones Terraform module."
 

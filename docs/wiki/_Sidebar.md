@@ -8,7 +8,11 @@
   - [Getting started][wiki_getting_started]
   - [Quick Start][wiki_quick_start]
     - [Quick Start Phase 1][wiki_quick_start_phase_1]
+      - [Service Principal][wiki_quick_start_phase_1_service_principal]
     - [Quick Start Phase 2][wiki_quick_start_phase_2]
+      - [Azure DevOps][wiki_quick_start_phase_2_azure_devops]
+      - [GitHub][wiki_quick_start_phase_2_github]
+      - [Local][wiki_quick_start_phase_2_local]
     - [Quick Start Phase 3][wiki_quick_start_phase_3]
   - [Starter Modules][wiki_starter_modules]
     - [Starter Module Basic][wiki_starter_module_basic]
@@ -16,6 +20,7 @@
     - [Starter Module Complete][wiki_starter_module_complete]
       - [YAML Schema for `config.yaml`][wiki_yaml_schema_reference]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
+- [Upgrade Guide][wiki_upgrade_process]
 - [Troubleshooting][wiki_troubleshooting]
 - [Contributing][wiki_contributing]
   - [Raising an issue][wiki_raising_an_issue]
@@ -32,7 +37,11 @@
 [wiki_getting_started]:                                              %5BUser-Guide%5D-Getting-Started "Wiki - Getting started"
 [wiki_quick_start]:                                                  %5BUser-Guide%5D-Quick-Start "Wiki - Quick start"
 [wiki_quick_start_phase_1]:                                          %5BUser-Guide%5D-Quick-Start-Phase-1 "Wiki - Quick Start - Phase 1"
+[wiki_quick_start_phase_1_service_principal]:           %5BUser-Guide%5D-Quick-Start-Phase-1-Service-Principal "Wiki - Quick Start - Phase 1 - Service Principal"
 [wiki_quick_start_phase_2]:                                          %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
+[wiki_quick_start_phase_2_azure_devops]: %5BUser-Guide%5D-Quick-Start-Phase-2-Azure-DevOps "Wiki - Quick Start - Phase 2 - Azure DevOps"
+[wiki_quick_start_phase_2_github]:       %5BUser-Guide%5D-Quick-Start-Phase-2-GitHub "Wiki - Quick Start - Phase 2 - GitHub"
+[wiki_quick_start_phase_2_local]:         %5BUser-Guide%5D-Quick-Start-Phase-2-Local "Wiki - Quick Start - Phase 2 - Local"
 [wiki_quick_start_phase_3]:                                          %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"
 [wiki_starter_modules]:                                              %5BUser-Guide%5D-Starter-Modules "Wiki - Starter Modules"
 [wiki_starter_module_basic]:                                         %5BUser-Guide%5D-Starter-Module-Basic "Wiki - Starter Modules - Basic"
@@ -46,3 +55,4 @@
 [wiki_feature_requests]:                                             Feature-Requests "Wiki - Feature requests"
 [wiki_contributing_to_code]:                                         Contributing-to-Code "Wiki - Contributing to code"
 [wiki_contributing_to_documentation]:                                Contributing-to-Documentation "Wiki - Contributing to documentation"
+[wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"

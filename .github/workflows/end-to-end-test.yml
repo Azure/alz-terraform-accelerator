@@ -136,7 +136,7 @@ jobs:
             $retryCount++
             try {
               Write-Host "Running the ALZ Module"
-              New-ALZEnvironment -IaC "terraform" -cicd $versionControlSystem  -inputs "./inputs.json" -autoApprove -ErrorAction Stop
+              New-ALZEnvironment -i "terraform" -c $versionControlSystem -inputs "./inputs.json" -autoApprove -ErrorAction Stop
               if ($LastExitCode -eq 0) {
                 $success = $true
               } else {
