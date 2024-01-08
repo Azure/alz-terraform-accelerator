@@ -8,6 +8,7 @@ Each starter module expects different inputs and the following pages detail thos
 
 - [Basic Starter Module][wiki_starter_module_basic]: Management groups and policies.
 - [Hub Networking Starter Module][wiki_starter_module_hubnetworking]: Management groups, policies and hub networking.
+- [Complete Starter Module][wiki_starter_module_complete]: Management groups, policies, hub networking with fully custom configuration.
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
@@ -15,3 +16,4 @@ Each starter module expects different inputs and the following pages detail thos
 
 [wiki_starter_module_basic]:                   %5BUser-Guide%5D-Starter-Module-Basic "Wiki - Starter Modules - Basic"
 [wiki_starter_module_hubnetworking]:           %5BUser-Guide%5D-Starter-Module-HubNetworking "Wiki - Start Modules - Hub Networking"
+[wiki_starter_module_complete]:                %5BUser-Guide%5D-Starter-Module-Complete "Wiki - Starter Modules - Complete"
