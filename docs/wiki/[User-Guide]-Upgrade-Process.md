@@ -17,7 +17,7 @@ If you want to upgrade to a newer version of the accelerator, you can follow the
     New-ALZEnvironment -i "terraform" -c "azuredevops" -o "./my-folder" -v "latest"
     ```
 
-2. You will see a message that starts with `AUTOMATIC UPGRADE:`. This will explain which version you will be upgrading from and to. E.g. `AUTOMATIC UPGRADE: We found version v0.1.5 that has been previously run. You can upgrade from this version to the new version v0.1.5`
+2. You will see a message that starts with `AUTOMATIC UPGRADE:`. This will explain which version you will be upgrading from and to. E.g. `AUTOMATIC UPGRADE: We found version v0.1.5 that has been previously run. You can upgrade from this version to the new version v0.1.6`
 3. You will then be prompted to confirm the upgrade. Type `upgrade` and hit enter.
 4. The module will then run the upgrade process and you will see a success message once it completes.
 5. The module will now follow the standard process and will pick up on the existing variables and prompt you to use them. Type `use` and hit enter.

@@ -7,7 +7,9 @@ This accelerator provides an opinionated approach for configuring and securing t
 
 ## Supported Version Control Systems (VCS)
 
-The accelerator supports both Azure DevOps and GitHub as a VCS. We are only able to support the hosted versions of these services as we use the Terraform providers to configure the environment, which do not support self-hosted versions of these services. If you are using self-hosted versions of these services, you can still use the accelerator to produce the landing zone code, but you will need to configure the VCS manually or with your own automation.
+The accelerator supports both Azure DevOps and GitHub as a VCS. We are only able to support the hosted versions of these services as we use the Terraform providers to configure the environment, which do not support self-hosted versions of these services.
+
+If you are using self-hosted versions of these services, you can still use the accelerator to produce the landing zone code by using the `-c "local"` flag option, but you will need to configure the VCS manually or with your own automation.
 
 ## Accelerator features
 
