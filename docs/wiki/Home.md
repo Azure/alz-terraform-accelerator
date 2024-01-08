@@ -5,6 +5,10 @@ The [Azure landing zones Terraform module][alz_tf_registry] provides an opiniona
 
 This accelerator provides an opinionated approach for configuring and securing that module in a continuous delivery pipeline. It has end to end automation for bootstrapping the module and it also provides guidance on branching strategies.
 
+## Supported Version Control Systems (VCS)
+
+The accelerator supports both Azure DevOps and GitHub as a VCS. We are only able to support the hosted versions of these services as we use the Terraform providers to configure the environment, which do not support self-hosted versions of these services. If you are using self-hosted versions of these services, you can still use the accelerator to produce the landing zone code, but you will need to configure the VCS manually or with your own automation.
+
 ## Accelerator features
 
 The accelerator bootstraps a continuous delivery environment for you. It supports both the Azure DevOps and GitHub version control system (VCS). It uses the PowerShell module [ALZ](https://www.powershellgallery.com/packages/ALZ) to gather required user input and apply a Terraform module to configure the bootstrap environment.

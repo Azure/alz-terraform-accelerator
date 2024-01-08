@@ -11,7 +11,7 @@ variable "version_control_system_access_token" {
 }
 
 variable "version_control_system_organization" {
-  description = "The organization for the version control system to use for the deployment (supply a fqdn e.g. https://vcs.company.com/my-org to use a self-hosted Azure DevOps Server)|3"
+  description = "Enter the name of your Azure DevOps organization. This is the section of the url after `dev.azure.com` or before `.visualstudio.com`. E.g. for `https://dev.azure.com/my-org` you would enter `my-org`|3"
   type        = string
 }
 
