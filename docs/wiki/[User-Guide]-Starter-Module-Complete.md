@@ -64,7 +64,7 @@ The schema for the `config.yaml` is documented here - [YAML Schema for `config.y
 
 ### `caf-enterprise-scale`
 
-The `caf-enterprise-scale` has been used to deploy the management group hierarchy, policy assignments and management resources. For more information on the module itself see [here](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale).
+The `caf-enterprise-scale` module is used to deploy the management group hierarchy, policy assignments and management resources. For more information on the module itself see [here](https://github.com/Azure/terraform-azurerm-caf-enterprise-scale).
 
 ### `hubnetworking`
 
