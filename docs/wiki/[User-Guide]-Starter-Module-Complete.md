@@ -69,7 +69,7 @@ The `caf-enterprise-scale` module is used to deploy the management group hierarc
 ### `hubnetworking`
 
 The `hubnetworking` module is used to deploy connectivity resources such as Virtual Networks and Firewalls.
- This module can be extended however to deploy multiple Virtual Networks at scale, Route Tables, and Resource Locks. For more information on the module itself see [here](https://github.com/Azure/terraform-azurerm-hubnetworking).
+This module can be extended to deploy multiple Virtual Networks at scale, Route Tables, and Resource Locks. For more information on the module itself see [here](https://github.com/Azure/terraform-azurerm-hubnetworking).
 
 ### `vnet-gateway`
 
