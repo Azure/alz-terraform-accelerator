@@ -1,5 +1,5 @@
 <!-- markdownlint-disable first-line-h1 -->
-The `complete` starer module provides full customization of the Azure Landing Zone through the means of a `config.yaml` file that provides the ability to enable and disable modules, configure module inputs and outputs, and configure module resources.
+The `complete` starter module provides full customization of the Azure Landing Zone using the `config.yaml` file. The `config.yaml` file provides the ability to enable and disable modules, configure module inputs and outputs, and configure module resources.
 A custom `config.yaml` file can be passed to the `additional_files` argument of the ALZ PowerShell Module. This allows you to firstly design your Azure Landing Zone, and then deploy it.
 If not specified, the default `config.yaml` file will be used, which is as follows:
   
