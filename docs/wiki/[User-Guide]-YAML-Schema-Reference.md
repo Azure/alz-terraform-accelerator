@@ -49,7 +49,7 @@ archetypes: # Arguments from https://github.com/Azure/terraform-azurerm-caf-ente
 
 ```
 
-### Example
+### `archetypes` Example
 
 ```yaml
 
