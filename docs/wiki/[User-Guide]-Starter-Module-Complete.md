@@ -82,7 +82,7 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 - `subscription_id_management`: The identifier of the Management Subscription.
 - `additional_files`: Argument where our custom `config.yaml` file is passed to the module.
 
-> IMPORTANT: The name of the file you supply in `additional_files` must be `config.yaml`. If you use a different file name, your config will not be picked up.
+> **IMPORTANT**: The name of the file you supply in `additional_files` must be `config.yaml`. If you use a different file name, your config will not be picked up.
 
 ## Example
 
@@ -132,6 +132,8 @@ connectivity:
 ### Use the ALZ PowerShell Module to prepare your Azure Landing Zone for deployment
 
 Set your inputs.yaml file (See [Frequently Asked Questions][wiki_frequently_asked_questions] for more information on the `inputs.yaml` file.) for the `New-ALZEnvironment` command as follows:
+
+> **Note:** This is an alternative way of supplying the input arguments to the ALZ PowerShell Module, you can still run it as documented in the Quick Start guide and be prompted for inputs.
 
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
