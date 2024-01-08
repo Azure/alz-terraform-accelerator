@@ -82,6 +82,8 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 - `subscription_id_management`: The identifier of the Management Subscription.
 - `additional_files`: Argument where our custom `config.yaml` file is passed to the module.
 
+> IMPORTANT: The name of the file you supply in `additional_files` must be `config.yaml`. If you use a different file name, your config will not be picked up.
+
 ## Example
 
 ### Design your Azure Landing Zone through a custom `config.yaml` file
