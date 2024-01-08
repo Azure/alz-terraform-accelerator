@@ -12,21 +12,23 @@ You'll need to install the following tools before getting started.
 
 ## 1.2 Azure Subscriptions
 
-We recommend setting up 4 subscriptions for Azure landing zones. These are bootstrap, management, identity and networking. You can read more about the management, identity and networking subscriptions in the [Landing Zone docs](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/deploy-landing-zones-with-terraform). The bootstrap subscription is used to deploy the storage account and identities for your continuous delivery pipeline.
+We recommend setting up 4 subscriptions for Azure landing zones. These are bootstrap, management, identity and networking.
+
+- Bootstrap: This is used to deploy the storage account and identities for your continuous delivery pipeline.
+- Management: This is used to deploy the management resources, such as log analytics and automation accounts.
+- Identity: This is used to deploy the identity resources, such as Azure AD and Azure AD Domain Services.
+- Networking: This is used to deploy the networking resources, such as virtual networks and firewalls.
+
+You can read more about the management, identity and networking subscriptions in the [Landing Zone docs](https://learn.microsoft.com/en-us/azure/cloud-adoption-framework/ready/landing-zone/deploy-landing-zones-with-terraform).
 
 To create the subscriptions you will need access to a billing agreement. The following links detail the permissions required for each type of agreement:
 
 - [Enterprise Agreement (EA)](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-enterprise-subscription)
 - [Microsoft Customer Agreement (MCA)](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription)
 
-Once you have the access required, create three subscriptions following your desired naming convention with the following purposes:
+Once you have the access required, create the four subscriptions following your desired naming convention.
 
-- bootstrap
-- management
-- identity
-- networking
-
-Take note of the subscription id of each subscription as we'll need them later.
+Take note of the subscription id of each subscription as we will need them later.
 
 ## 1.3 Azure Authentication and Permissions
 
