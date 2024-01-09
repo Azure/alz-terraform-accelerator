@@ -44,7 +44,7 @@ archetypes: # Arguments from https://github.com/Azure/terraform-azurerm-caf-ente
   subscription_id_connectivity: # string
   subscription_id_identity: # string
   subscription_id_management: # string
-  subscription_id_overrides: # map
+  subscription_id_overrides: # object
   template_file_variables: # string
 
 ```
