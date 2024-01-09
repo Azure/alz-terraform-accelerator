@@ -12,10 +12,9 @@ You'll need to install the following tools before getting started.
 
 ## 1.2 Azure Subscriptions
 
-We recommend setting up 4 subscriptions for Azure landing zones. These are bootstrap, management, identity and networking.
+We recommend setting up 3 subscriptions for Azure landing zones. These are management, identity and networking. See our [advanced scenarios][wiki_advanced_scenarios] section for alternatives.
 
-- Bootstrap: This is used to deploy the storage account and identities for your continuous delivery pipeline.
-- Management: This is used to deploy the management resources, such as log analytics and automation accounts.
+- Management: This is used to deploy the bootstrap and management resources, such as log analytics and automation accounts.
 - Identity: This is used to deploy the identity resources, such as Azure AD and Azure AD Domain Services.
 - Networking: This is used to deploy the networking resources, such as virtual networks and firewalls.
 
@@ -26,7 +25,7 @@ To create the subscriptions you will need access to a billing agreement. The fol
 - [Enterprise Agreement (EA)](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-enterprise-subscription)
 - [Microsoft Customer Agreement (MCA)](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/create-subscription)
 
-Once you have the access required, create the four subscriptions following your desired naming convention.
+Once you have the access required, create the three subscriptions following your desired naming convention.
 
 Take note of the subscription id of each subscription as we will need them later.
 
@@ -36,7 +35,7 @@ You need either an Azure User Account or Service Principal with the following pe
 
 - `Owner` on you root management groups (usually called `Tenant Root Group`)
   - Owner is required as this account will be granting permissions for the identities that run the management group deployment. Those identities will be granted least privilege permissions.
-- `Owner` on each of your 4 Azure landing zone subscriptions.
+- `Owner` on each of your 3 Azure landing zone subscriptions.
 
 For simplicity we recommend using a User account since this is a one off process that you are unlikely to repeat.
 
@@ -46,8 +45,8 @@ For simplicity we recommend using a User account since this is a one off process
 1. Run `az login`.
 1. You'll be redirected to a browser to login, perform MFA, etc.
 1. Find the subscription id of the management subscription you made a note of earlier.
-1. Type `az account set --subscription "<subscription id of your bootstrap subscription>"` and hit enter.
-1. Type `az account show` and verify that you are connected to the bootstrap subscription.
+1. Type `az account set --subscription "<subscription id of your management subscription>"` and hit enter.
+1. Type `az account show` and verify that you are connected to the management subscription.
 
 ### 1.3.2 Authenticate via Service Principal (Skip this if using a User account)
 
@@ -115,3 +114,4 @@ Now head to [Phase 2][wiki_quick_start_phase_2].
 
 [wiki_quick_start_phase_2]:           %5BUser-Guide%5D-Quick-Start-Phase-2 "Wiki - Quick Start - Phase 2"
 [wiki_quick_start_phase_1_service_principal]:           %5BUser-Guide%5D-Quick-Start-Phase-1-Service-Principal "Wiki - Quick Start - Phase 1 - Service Principal"
+[wiki_advanced_scenarios]:             %5BUser-Guide%5D-Advanced-Scenarios "Wiki - Advanced Scenarios"

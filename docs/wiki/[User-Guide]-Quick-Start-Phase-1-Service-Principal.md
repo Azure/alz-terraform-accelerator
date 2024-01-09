@@ -59,7 +59,7 @@
 1. Type `$env:ARM_CLIENT_ID="<client id>"` and hit enter.
 1. Find the `ARM_CLIENT_SECRET` you made a note of earlier.
 1. Type `$env:ARM_CLIENT_SECRET="<client id>"` and hit enter.
-1. Find the subscription id of the bootstrap subscription you made a note of earlier.
+1. Find the subscription id of the management subscription you made a note of earlier.
 1. Type `$env:ARM_SUBSCRIPTION_ID="<subscription id>"` and hit enter.
 
 [!NOTE]
