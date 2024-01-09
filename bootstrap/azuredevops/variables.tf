@@ -4,18 +4,18 @@ variable "starter_module" {
   default     = "basic"
 }
 
-variable "version_control_system_access_token" {
-  description = "The personal access token for the version control system to use for the deployment|2"
+variable "azure_devops_personal_access_token" {
+  description = "The personal access token for Azure DevOps|2"
   type        = string
   sensitive   = true
 }
 
-variable "version_control_system_organization" {
-  description = "Enter the name of your Azure DevOps organization. This is the section of the url after `dev.azure.com` or before `.visualstudio.com`. E.g. for `https://dev.azure.com/my-org` you would enter `my-org`|3"
+variable "azure_devops_organization_name" {
+  description = "The name of your Azure DevOps organization. This is the section of the url after 'dev.azure.com' or before '.visualstudio.com'. E.g. enter 'my-org' for 'https://dev.azure.com/my-org'|3"
   type        = string
 }
 
-variable "version_control_system_use_separate_repository_for_templates" {
+variable "use_separate_repository_for_pipeline_templates" {
   description = "Controls whether to use a separate repository to store pipeline templates. This is an extra layer of security to ensure that the azure credentials can only be leveraged for the specified workload|4"
   type        = bool
   default     = true

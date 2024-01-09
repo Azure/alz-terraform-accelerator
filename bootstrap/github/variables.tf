@@ -4,18 +4,18 @@ variable "starter_module" {
   default     = "basic"
 }
 
-variable "version_control_system_access_token" {
-  description = "The personal access token for the version control system to use for the deployment|2"
+variable "github_personal_access_token" {
+  description = "Personal access token for GitHub|2"
   type        = string
   sensitive   = true
 }
 
-variable "version_control_system_organization" {
-  description = "Enter the name of your GitHub organization. This is the section of the url after `github.com`. E.g. For `https://github.com/my-org`, you would enter `my-org`|3"
+variable "github_organization_name" {
+  description = "The name of your GitHub organization. This is the section of the url after 'github.com'. E.g. enter 'my-org' for 'https://github.com/my-org'|3"
   type        = string
 }
 
-variable "version_control_system_use_separate_repository_for_templates" {
+variable "use_separate_repository_for_workflow_templates" {
   description = "Controls whether to use a separate repository to store action templates. This is an extra layer of security to ensure that the azure credentials can only be leveraged for the specified workload|4"
   type        = bool
   default     = true

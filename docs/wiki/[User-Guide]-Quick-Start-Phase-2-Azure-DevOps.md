@@ -5,9 +5,9 @@
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
     1. `starter_module`: This is the choice of [Starter Modules][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
-    1. `version_control_system_access_token`: Enter the Azure DevOps PAT you generated in a previous step.
-    1. `version_control_system_organization`: Enter the name of your Azure DevOps organization. This is the section of the url after `dev.azure.com` or before `.visualstudio.com`. E.g. for `https://dev.azure.com/my-org` you would enter `my-org`.
-    1. `version_control_system_use_separate_repository_for_templates`: Determine whether to create a separate repository to store pipeline templates as an extra layer of security. Set to `false` if you don't wish to secure you pipeline templates by using a separate repository. This will default to `true`.
+    1. `azure_devops_personal_access_token`: Enter the Azure DevOps PAT you generated in a previous step.
+    1. `azure_devops_organization_name`: Enter the name of your Azure DevOps organization. This is the section of the url after `dev.azure.com` or before `.visualstudio.com`. E.g. enter `my-org` for `https://dev.azure.com/my-org`.
+    1. `use_separate_repository_for_pipeline_templates`: Determine whether to create a separate repository to store pipeline templates as an extra layer of security. Set to `false` if you don't wish to secure you pipeline templates by using a separate repository. This will default to `true`.
     1. `azure_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.
     1. `azure_subscription_id`: Enter the id of the bootstrap subscription in which you would like to deploy the storage account and identity for your continuous delivery pipeline. If left blank, the subscription you are connected to via `az login` will be used.
     1. `service_name`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-<service_name>-mgmt-uksouth-001`. We recommend using `alz` for this.

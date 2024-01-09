@@ -31,10 +31,10 @@ module "azure" {
 
 module "github" {
   source                                       = "./../modules/github"
-  organization_name                            = var.version_control_system_organization
+  organization_name                            = var.github_organization_name
   environments                                 = local.environments
   repository_name                              = local.resource_names.version_control_system_repository
-  use_template_repository                      = var.version_control_system_use_separate_repository_for_templates
+  use_template_repository                      = var.use_separate_repository_for_workflow_templates
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   repository_visibility                        = var.repository_visibility
   repository_files                             = module.files.files

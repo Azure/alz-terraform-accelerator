@@ -30,7 +30,7 @@ provider "azurerm" {
 }
 
 provider "azuredevops" {
-  personal_access_token = var.version_control_system_access_token
+  personal_access_token = var.azure_devops_personal_access_token
   org_service_url       = module.azure_devops.organization_url
 }
 
