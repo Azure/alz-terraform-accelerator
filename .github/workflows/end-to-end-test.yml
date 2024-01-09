@@ -72,9 +72,6 @@ jobs:
 
           $Inputs = @{}
           $Inputs["starter_module"] = ".test"
-          $Inputs["version_control_system_access_token"] = if ($versionControlSystem -eq "github") { "${{ secrets.VCS_TOKEN_GITHUB }}" } else { "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}" }
-          $Inputs["version_control_system_organization"] = "${{ vars.VCS_ORGANIZATION }}"
-          $Inputs["version_control_system_use_separate_repository_for_templates"] = "true"
           $Inputs["azure_location"] = "uksouth"
           $Inputs["azure_subscription_id"] = ""
           $Inputs["service_name"] = "alz"
@@ -82,8 +79,16 @@ jobs:
           $Inputs["postfix_number"] = "1"
 
           if($versionControlSystem -eq "github") {
+            $Inputs["github_personal_access_token"] = "${{ secrets.VCS_TOKEN_GITHUB }}"
+            $Inputs["github_organization_name"] = "${{ vars.VCS_ORGANIZATION }}"
+            $Inputs["use_separate_repository_for_workflow_templates"] = "true"
             $Inputs["repository_visibility"] = "public"
-          } else {
+          }
+          
+          if($versionControlSystem -eq "azuredevops") {
+            $Inputs["azure_devops_personal_access_token"] = "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
+            $Inputs["azure_devops_organization_name"] = "${{ vars.VCS_ORGANIZATION }}"
+            $Inputs["use_separate_repository_for_pipeline_templates"] = "true"
             $Inputs["azure_devops_use_organisation_legacy_url"] = "false"
             $Inputs["azure_devops_create_project"] = "true"
             $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
@@ -93,7 +98,6 @@ jobs:
           $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
           $Inputs["root_management_group_display_name"] = "Tenant Root Group"
           $Inputs["additional_files"] = ""
-
 
           $Inputs["subscription_id_connectivity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
           $Inputs["subscription_id_identity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
