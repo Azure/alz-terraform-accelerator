@@ -68,7 +68,7 @@ archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module
 6. When you get to step 2.2.1 (GitHub), 2.2.2 (Azure DevOps) or 2.2.3 (Local), enter the subscription id of the new subscription you created into the `azure_subscription_id` field.
 7. Continue with the rest of the steps in the [Quick Start][wiki_quick_start] guide.
 
-This will result in the seed resources being deployed in the new subscription. When you then deploy the Azure Landing Zone your subscription will be moved under the `management`` management group.
+This will result in the seed resources being deployed in the new subscription. When you then deploy the Azure Landing Zone your subscription will be moved under the `management` management group.
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
