@@ -84,7 +84,7 @@ jobs:
             $Inputs["use_separate_repository_for_workflow_templates"] = "true"
             $Inputs["repository_visibility"] = "public"
           }
-          
+
           if($versionControlSystem -eq "azuredevops") {
             $Inputs["azure_devops_personal_access_token"] = "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
             $Inputs["azure_devops_organization_name"] = "${{ vars.VCS_ORGANIZATION }}"
