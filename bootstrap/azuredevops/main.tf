@@ -32,7 +32,7 @@ module "azure" {
   agent_container_instances          = local.agent_container_instances
   agent_container_instance_image     = var.agent_container_image
   agent_organization_url             = module.azure_devops.organization_url
-  agent_token                        = var.version_control_system_access_token
+  agent_token                        = var.azure_devops_personal_access_token
   target_subscriptions               = var.target_subscriptions
   root_management_group_display_name = var.root_management_group_display_name
 }
@@ -40,7 +40,7 @@ module "azure" {
 module "azure_devops" {
   source                                       = "./../modules/azure_devops"
   use_legacy_organization_url                  = var.azure_devops_use_organisation_legacy_url
-  organization_name                            = var.version_control_system_organization
+  organization_name                            = var.azure_devops_organization_name
   authentication_scheme                        = var.azure_devops_authentication_scheme
   create_project                               = var.azure_devops_create_project
   project_name                                 = var.azure_devops_project_name
@@ -48,7 +48,7 @@ module "azure_devops" {
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
   repository_name                              = local.resource_names.version_control_system_repository
   repository_files                             = module.files.files
-  use_template_repository                      = var.version_control_system_use_separate_repository_for_templates
+  use_template_repository                      = var.use_separate_repository_for_pipeline_templates
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
   variable_group_name                          = local.resource_names.version_control_system_variable_group
   azure_tenant_id                              = data.azurerm_client_config.current.tenant_id

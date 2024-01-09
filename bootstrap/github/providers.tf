@@ -30,6 +30,6 @@ provider "azurerm" {
 }
 
 provider "github" {
-  token = var.version_control_system_access_token
-  owner = var.version_control_system_organization
+  token = var.github_personal_access_token
+  owner = var.github_organization_name
 }

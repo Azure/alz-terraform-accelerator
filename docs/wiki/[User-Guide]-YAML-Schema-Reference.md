@@ -9,43 +9,43 @@ Specifies the archetypes to be used through the `caf-enterprise-scale` module.
 archetypes: # Arguments from https://github.com/Azure/terraform-azurerm-caf-enterprise-scale/blob/v4.2.0/variables.tf converted to YAML.
   disable_telemetry: # boolean
   default_location: # string
-  root_parent_id: # string                                         
+  root_parent_id: # string
   archetype_config_overrides: # object
-  configure_connectivity_resources: # object  
-  configure_identity_resources: # object  
-  configure_management_resources: # object  
-  create_duration_delay: # object   
-  custom_landing_zones: # object  
-  custom_policy_roles: # object  
+  configure_connectivity_resources: # object
+  configure_identity_resources: # object
+  configure_management_resources: # object
+  create_duration_delay: # object
+  custom_landing_zones: # object
+  custom_policy_roles: # object
   default_tags: # object
-  deploy_connectivity_resources: # boolean   
-  deploy_corp_landing_zones: # boolean     
-  deploy_core_landing_zones: # boolean    
-  deploy_demo_landing_zones: # boolean     
-  deploy_diagnostics_for_mg: # boolean     
-  deploy_identity_resources: # boolean     
-  deploy_management_resources: # boolean     
-  deploy_online_landing_zones: # boolean         
-  deploy_sap_landing_zones: # boolean         
-  destroy_duration_delay: # object     
-  disable_base_module_tags: # boolean          
-  library_path: # string     
-  policy_non_compliance_message_default: # string               
-  policy_non_compliance_message_default_enabled: # boolean        
-  policy_non_compliance_message_enabled: # boolean      
+  deploy_connectivity_resources: # boolean
+  deploy_corp_landing_zones: # boolean
+  deploy_core_landing_zones: # boolean
+  deploy_demo_landing_zones: # boolean
+  deploy_diagnostics_for_mg: # boolean
+  deploy_identity_resources: # boolean
+  deploy_management_resources: # boolean
+  deploy_online_landing_zones: # boolean
+  deploy_sap_landing_zones: # boolean
+  destroy_duration_delay: # object
+  disable_base_module_tags: # boolean
+  library_path: # string
+  policy_non_compliance_message_default: # string
+  policy_non_compliance_message_default_enabled: # boolean
+  policy_non_compliance_message_enabled: # boolean
   policy_non_compliance_message_enforced_replacement: # string
   policy_non_compliance_message_enforcement_placeholder: # string
   policy_non_compliance_message_not_enforced_replacement: # string
   policy_non_compliance_message_not_supported_definitions: # list
-  resource_custom_timeouts: # object      
-  root_id: # string        
-  root_name: # string                     
-  strict_subscription_association: # boolean     
-  subscription_id_connectivity: # string                           
-  subscription_id_identity: # string                               
-  subscription_id_management: # string                            
-  subscription_id_overrides: # string      
-  template_file_variables: # string                                
+  resource_custom_timeouts: # object
+  root_id: # string
+  root_name: # string
+  strict_subscription_association: # boolean
+  subscription_id_connectivity: # string
+  subscription_id_identity: # string
+  subscription_id_management: # string
+  subscription_id_overrides: # object
+  template_file_variables: # string
 
 ```
 
@@ -103,7 +103,7 @@ connectivity:
 
 ```yaml
 connectivity:
-  hubnetworking: 
+  hubnetworking:
     hub_virtual_networks:
       hub-one:
         name: vnet-hub
@@ -126,7 +126,7 @@ Specifies the virtual network gateway configuration to be used from the `terrafo
 ```yaml
 
 connectivity:
-  hubnetworking: 
+  hubnetworking:
     hub_virtual_networks:
       <hub_key>:
         name: # string
@@ -138,18 +138,18 @@ connectivity:
           sku: # string
           subnet_address_prefix: # string
           type: # string
-          default_tags: # object           
-          edge_zone: # string           
-          express_route_circuits: # object           
-          ip_configurations: # object       
-          local_network_gateways: # object        
-          tags: # object           
-          vpn_active_active_enabled: # boolean           
-          vpn_bgp_enabled: # boolean          
-          vpn_bgp_settings: # object          
-          vpn_generation: # string          
-          vpn_point_to_site: # object           
-          vpn_type: # string           
+          default_tags: # object
+          edge_zone: # string
+          express_route_circuits: # object
+          ip_configurations: # object
+          local_network_gateways: # object
+          tags: # object
+          vpn_active_active_enabled: # boolean
+          vpn_bgp_enabled: # boolean
+          vpn_bgp_settings: # object
+          vpn_generation: # string
+          vpn_point_to_site: # object
+          vpn_type: # string
 
 ```
 
@@ -157,7 +157,7 @@ connectivity:
 
 ```yaml
 connectivity:
-  hubnetworking: 
+  hubnetworking:
     hub_virtual_networks:
       hub-one:
         name: vnet-hub
@@ -170,7 +170,7 @@ connectivity:
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway: 
+        virtual_network_gateway:
           name: vgw-hub
           sku: VpnGw1
           type: Vpn

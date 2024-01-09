@@ -14,11 +14,11 @@ management:
   resource_group_name: rg-management-${default_postfix}
 
 management_groups:
-  root: # `key`: the unique identifier for the management group within the Terraform Module this is used in the `parent` field to build the hierarchy
-    id: root-${default_postfix} # `id`: the id the management group will be created with in Azure
-    display_name: Intermediate Root # `display_name`: the name the management group will be created with in Azure
-    parent: ${root_management_group_id} # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
-    base_archetype: root # `archetype`: the archetype to use for this management group
+  root:  # `key`: the unique identifier for the management group within the Terraform Module this is used in the `parent` field to build the hierarchy
+    id: root-${default_postfix}  # `id`: the id the management group will be created with in Azure
+    display_name: Intermediate Root  # `display_name`: the name the management group will be created with in Azure
+    parent: ${root_management_group_id}  # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
+    base_archetype: root  # `archetype`: the archetype to use for this management group
   landing-zones:
     id: landing-zones-${default_postfix}
     display_name: Landing Zones

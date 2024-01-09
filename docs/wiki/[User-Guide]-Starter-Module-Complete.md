@@ -167,8 +167,7 @@ Run the accelerator:
 
 ```powershell
 # Working Directory: C:\users\johndoe
-New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "inputs.yaml" -autoApprove -alzVersion "v0.1.9"
-
+New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoApprove -v "v0.1.9"
 ```
 
  [//]: # (************************)

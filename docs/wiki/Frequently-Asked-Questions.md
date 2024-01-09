@@ -21,20 +21,35 @@ Follow these steps to customise the resource names:
 
 You'll now get the names you specified instead of the default ones.
 
-## Questions about boostrap clean up
+## Questions about bootstrap clean up
 
 ### I was just testing or I made a mistake, how do I remove the boostrap environment and start again?
 
 After the Terraform apply has been completed there is an opportunity to remove the environment it just created. Follow these steps to run a `terraform destroy`.
 
-1. Open a terminal and navigate to the relevant bootstrap folder:
-    1. Azure DevOps: `cd ./v#.#.#/bootstrap/azuredevops`
-    1. GitHub: `cd ./v#.#.#/bootstrap/github`
-1. Run a this command `terraform destroy -var-file override.tfvars`.
-1. Terraform will show a plan and prompt you to continue by typing `yes` and hitting enter.
-1. Terraform will destroy all the resources it created in the boostrap.
+1. Run `New-ALZEnvironment` with the `-destroy` flag. E.g. `New-ALZEnvironment -i "terraform" -c "azuredevops" -o "./my-folder" -destroy`.
+1. The module will run and ask if you want to use the existing variables, enter `use` to use them.
+1. You can confirm the destroy by typing `yes` when prompted.
 
 You'll now be able to delete the `./v#.#.#` folder and run the `New-ALZEnvironment` command again.
+
+## Questions about changing variables
+
+### I made a mistake in the variables I entered, do I need to re-enter them all?
+
+When you run the PowerShell module, it caches the responses you supply. If you make a mistake, you can re-run the `New-ALZEnvironment` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
+
+### I want to update a variable after the bootstrap has been completed, how do I do that?
+
+When you run the PowerShell module, it caches the responses you supply. If you want to update a variable, you can re-run the `New-ALZEnvironment` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
+
+> NOTE: In some cases changing a variable may result in a change to a starter module or CI / CD file. In this scenario you may see an error on Terraform Apply due to branch protection. You can disable branch protection and re-run the `New-ALZEnvironment` command to resolve this.
+
+## Questions about Upgrading to a newer version of the accelerator
+
+### How do I upgrade to a newer version of the accelerator?
+
+Follow the steps in the [Upgrade Guide][wiki_upgrade_process] to upgrade to a newer version of the accelerator.
 
 ## Questions about Multiple landing zone deployments
 
@@ -60,16 +75,18 @@ The module will accept inputs as in json or yaml format. `.json,`, `.yaml` or `.
 To call the module, you then specify the `-inputs` parameter with the path to the file containing the inputs. For example:
 
 ```powershell
-New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json"
+New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.json"
 ```
 
 yaml example:
+
 ```yaml
 starter_module: "basic"
 azure_location: "uksouth"
 ```
 
 json example:
+
 ```json
 {
   "starter_module": "basic",
@@ -121,7 +138,7 @@ Yes, you can skip the approval of the Terraform plan by using the `-autoApprove`
 For example:
 
 ```powershell
-New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
+New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
 
 ## Questions about adding more subscriptions post initial deployment
@@ -205,7 +222,13 @@ pipeline_folder_path_relative: false # You must specifiy this as false if you ar
 Then, when you call the PowerShell module, specify the `-inputs` parameter with the path to the file containing the inputs. For example:
 
 ```powershell
-New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Inputs "~/config/inputs.yaml"
+New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.yaml"
 ```
 
 Now when the PowerShell runs it will accept the name of your customer starter module in the `starter_module` variable. e.g. `my-starter-module-1`.
+
+[//]: # "************************"
+[//]: # "INSERT LINK LABELS BELOW"
+[//]: # "************************"
+
+[wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
