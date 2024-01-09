@@ -14,7 +14,7 @@ The inputs differ depending on the VCS you have chosen. Click through to the rel
 
 - [Azure DevOps][wiki_quick_start_phase_2_azure_devops]
 - [GitHub][wiki_quick_start_phase_2_github]
-- [Local][wiki_quick_start_phase_2_local]
+- [Local file system][wiki_quick_start_phase_2_local]
 
 ## Next Steps
 

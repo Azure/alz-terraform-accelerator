@@ -54,7 +54,7 @@ Follow the instructions in the [Service Principal][wiki_quick_start_phase_1_serv
 
 ## 1.4 Version Control System Personal Access Token (PAT)
 
-You'll need to decide whether you are using GitHub or Azure DevOps and follow the instructions below to generate a PAT:
+You'll need to decide whether you are using GitHub, Azure DevOps or the Local File System and follow the instructions below to generate a PAT:
 
 ### 1.4.1 Azure DevOps
 
@@ -103,6 +103,10 @@ You'll need to decide whether you are using GitHub or Azure DevOps and follow th
 1. Copy the token and save it somewhere safe.
 1. If your organization uses single sign on, then click the `Configure SSO` link next to your new PAT.
 1. Select your organization and click `Authorize`, then follow the prompts to allow SSO.
+
+### 1.4.3 Local File System
+
+You just need to ensure that you have a folder on your local file system that you can use to store the files, which you current session has access to.
 
 ## Next Steps
 
