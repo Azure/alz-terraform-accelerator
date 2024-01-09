@@ -23,10 +23,12 @@ jobs:
       matrix:
         operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         terraform_version: ['latest', '1.5.0']
-        versionControlSystem: ['github', 'azuredevops']
+        versionControlSystem: ['github', 'azuredevops', 'local']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
         exclude:
           - versionControlSystem: github
+            authScheme: ManagedServiceIdentity
+          - versionControlSystem: local
             authScheme: ManagedServiceIdentity
 
     runs-on: ${{ matrix.operatingSystem }}
