@@ -21,6 +21,7 @@
       - [YAML Schema for `config.yaml`][wiki_yaml_schema_reference]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
 - [Upgrade Guide][wiki_upgrade_process]
+- [Advanced Scenarios][wiki_advanced_scenarios]
 - [Troubleshooting][wiki_troubleshooting]
 - [Contributing][wiki_contributing]
   - [Raising an issue][wiki_raising_an_issue]
@@ -56,3 +57,4 @@
 [wiki_contributing_to_code]:                                         Contributing-to-Code "Wiki - Contributing to code"
 [wiki_contributing_to_documentation]:                                Contributing-to-Documentation "Wiki - Contributing to documentation"
 [wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
+[wiki_advanced_scenarios]:                                           Advanced-Scenarios "Wiki - Advanced Scenarios"
