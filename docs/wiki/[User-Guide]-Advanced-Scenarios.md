@@ -2,16 +2,16 @@
 
 ## Scenario 1 - Secure island for seed resources
 
-Depending on your security needs, you may wish to store the Azure resources deployed by the bootstrap in separate subscription and optionally management group hierarchy to the Azure Landing Zone. This could be the case when you need to separate concerns of deploying and maintaining the Azure Landing Zone from the day to day access of the Azure Landing Zone.
+Depending on your security needs, you may wish to store the Azure resources deployed by the bootstrap in separate subscription and optionally a separate management group hierarchy to the Azure Landing Zone. This could be the case when you need to separate the concerns of deploying and maintaining the Azure Landing Zone from the day to day access of the Azure Landing Zone.
 
-The resources deployed by the boostrap vary depending on the options you choose, but they may include the following:
+The resources deployed by the bootstrap vary depending on the options you choose, but they may include the following:
 
 - Storage account for state file
 - User assigned managed identities
 - [Optional] Self hosted agents
 - [Optional] Networking, DNS and Private End Point for storage account
 
-In order to use the secure island approach, you need to follow these steps:
+In order to use the secure island approach, you can follow these steps:
 
 ### Option 1 - Separate subscription under separate management group hierarchy
 
