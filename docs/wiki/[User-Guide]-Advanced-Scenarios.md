@@ -30,7 +30,7 @@ This will result in the seed resources being deployed in the new subscription an
 1. Create a new subscription for the seed resources. Take note of the subscription id.
 2. Grant owner rights to the account you are using to deploy the accelerator on the new subscription.
 3. Use the `complete` starter module to deploy the Azure Landing Zone.
-4. Update the `config.yaml` file to include subscription placement for the new subscription:
+4. Update the `config.yaml` file to include subscription placement for the new subscription using the `subscription-id-overrides` setting. For example:
 
 ```yaml
 archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
@@ -61,7 +61,7 @@ archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module
             name: aa-management
   subscription-id-overrides:
     management:
-      - 00000000-0000-0000-0000-000000000000  # Your new subscription id
+      - "00000000-0000-0000-0000-000000000000"  # Your new subscription id
 ```
 
 5. Run the bootstrap as normal, following the instructions in the [Quick Start][wiki_quick_start] guide.
