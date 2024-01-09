@@ -15,6 +15,7 @@ module "files" {
 
 module "azure" {
   source                             = "./../modules/azure"
+  count                              = var.create_seed_resources_in_azure ? 1 : 0
   user_assigned_managed_identities   = local.managed_identities
   federated_credentials              = local.federated_credentials
   resource_group_identity_name       = local.resource_names.resource_group_identity
@@ -31,12 +32,4 @@ resource "local_file" "alz" {
   for_each = local.module_files
   content  = each.value.content
   filename = "${local.target_directory}/${each.key}"
-}
-
-output "test" {
-  value = local.module_files
-}
-
-output "test_path" {
-  value = local.target_directory
 }
