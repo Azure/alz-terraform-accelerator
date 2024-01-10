@@ -2,7 +2,7 @@
 
 | :warning: WARNING!          |
 |:---------------------------|
-| This repository is a work in progress, use it at your own risk. This notice will be removed once it is ready for public preview. |
+| This repository is still a work in progress, but we encourage you to try it out. This notice will be removed once version 1.0 is released. |
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)
@@ -19,7 +19,7 @@ This repository provides an opinionated implementation of the Azure Landing Zone
 
 It is designed to be used as a template to enable you to get started quickly deploying ALZ with Terraform.
 
-Please refer to our [wiki](https://github.com/Azure/alz-terraform-accelerator/wiki) for detailed usage instructions.
+Please refer to our [Wiki](https://github.com/Azure/alz-terraform-accelerator/wiki) for detailed features and usage instructions.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="./docs/wiki/media/MS-Azure_logo_horiz_c-white_rgb.png">
