@@ -97,6 +97,10 @@ jobs:
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
           }
 
+          if($versionControlSystem -eq "azuredevops") {
+            $Inputs["target_directory"] = ""
+          }
+
           $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
           $Inputs["root_management_group_display_name"] = "Tenant Root Group"
           $Inputs["additional_files"] = ""
