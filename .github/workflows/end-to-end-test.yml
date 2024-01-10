@@ -99,6 +99,7 @@ jobs:
 
           if($versionControlSystem -eq "local") {
             $Inputs["target_directory"] = ""
+            $Inputs["create_bootstrap_resources_in_azure"] = "true"
           }
 
           $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
