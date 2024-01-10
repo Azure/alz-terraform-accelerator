@@ -10,7 +10,7 @@ variable "target_directory" {
   default     = ""
 }
 
-variable "create_seed_resources_in_azure" {
+variable "create_bootstrap_resources_in_azure" {
   description = "Whether to create seed resources in Azure (e.g. resource group, storage account, identities, etc.)|3"
   type        = bool
   default     = true
