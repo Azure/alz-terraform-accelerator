@@ -77,20 +77,26 @@ variable "azure_devops_authentication_scheme" {
   default = "WorkloadIdentityFederation"
 }
 
+variable "use_self_hosted_agents" {
+  description = "Controls whether to use self-hosted agents for the pipelines|14"
+  type        = bool
+  default     = true
+}
+
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|14"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|15"
   type        = list(string)
   default     = []
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|15"
+  description = "The root management group display name|16"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|16"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|17"
   type        = list(string)
   default     = []
 }
@@ -150,4 +156,28 @@ variable "pipeline_template_files" {
 variable "resource_names" {
   type        = map(string)
   description = "Overrides for resource names|hidden"
+}
+
+variable "agent_name_environment_variable" {
+  description = "The agent name environment variable supplied to the container|hidden"
+  type    = string
+  default = "AZP_AGENT_NAME"
+}
+
+variable "agent_pool_environment_variable" {
+  description = "The agent pool environment variable supplied to the container|hidden"
+  type    = string
+  default = "AZP_POOL"
+}
+
+variable "agent_organization_environment_variable" {
+  description = "The agent organization environment variable supplied to the container|hidden"
+  type    = string
+  default = "AZP_URL"
+}
+
+variable "agent_token_environment_variable" {
+  description = "The agent token environment variable supplied to the container|hidden"
+  type = string
+  default = "AZP_TOKEN"
 }

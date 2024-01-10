@@ -25,7 +25,6 @@ module "azure" {
   azure_location                     = var.azure_location
   target_subscriptions               = var.target_subscriptions
   root_management_group_display_name = var.root_management_group_display_name
-  create_federated_credential        = local.federated_credentials != {}
 }
 
 resource "local_file" "alz" {

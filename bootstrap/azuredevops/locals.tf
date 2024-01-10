@@ -34,32 +34,64 @@ locals {
     }
   } : {}
 
-  agent_container_instances = module.azure_devops.is_authentication_scheme_managed_identity ? {
+
+
+  agent_container_instances_managed_service_identity = module.azure_devops.is_authentication_scheme_managed_identity ? {
     agent_01 = {
       container_instance_name = local.resource_names.container_instance_01
       agent_name              = local.resource_names.agent_01
+      attach_managed_identity = true
       managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
       agent_name              = local.resource_names.agent_02
+      attach_managed_identity = true
       managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
     }
     agent_03 = {
       container_instance_name = local.resource_names.container_instance_03
       agent_name              = local.resource_names.agent_03
+      attach_managed_identity = true
       managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
     }
     agent_04 = {
       container_instance_name = local.resource_names.container_instance_04
       agent_name              = local.resource_names.agent_04
+      attach_managed_identity = true
       managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
     }
   } : {}
+
+  agent_container_instances_workload_identity_federation = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? {
+    agent_01 = {
+      container_instance_name = local.resource_names.container_instance_01
+      agent_name              = local.resource_names.agent_01
+      agent_pool_name         = module.azure_devops.agent_pool_names["general"]
+    }
+    agent_02 = {
+      container_instance_name = local.resource_names.container_instance_02
+      agent_name              = local.resource_names.agent_02
+      agent_pool_name         = module.azure_devops.agent_pool_names["general"]
+    }
+  } : {}
+
+  agent_container_instances = merge(local.agent_container_instances_managed_service_identity, local.agent_container_instances_workload_identity_federation)
+
+  agent_pools_managed_service_identity = module.azure_devops.is_authentication_scheme_managed_identity ? {
+    (local.plan_key) = module.resource_names.version_control_system_agent_pool_plan
+    (local.apply_key) = module.resource_names.version_control_system_agent_pool_apply
+  } : {}
+
+  agent_pools_workload_identity_federation = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? {
+    "general" = module.resource_names.version_control_system_agent_pool_general
+  } : {}
+
+  agent_pools = merge(local.agent_pools_managed_service_identity, local.agent_pools_workload_identity_federation)
 }
 
 locals {

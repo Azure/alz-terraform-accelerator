@@ -27,6 +27,7 @@ resource_names = {
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply                   = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_variable_group                      = "{{service_name}}-{{environment_name}}"
+  version_control_system_agent_pool_general                  = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_group                               = "{{service_name}}-{{environment_name}}-approvers"

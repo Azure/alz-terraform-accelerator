@@ -18,7 +18,6 @@ module "files" {
 
 module "azure" {
   source                             = "./../modules/azure"
-  create_agents_resource_group       = module.azure_devops.is_authentication_scheme_managed_identity
   resource_group_identity_name       = local.resource_names.resource_group_identity
   resource_group_agents_name         = local.resource_names.resource_group_agents
   resource_group_state_name          = local.resource_names.resource_group_state
@@ -26,13 +25,15 @@ module "azure" {
   storage_container_name             = local.resource_names.storage_container
   azure_location                     = var.azure_location
   user_assigned_managed_identities   = local.managed_identities
-  create_federated_credential        = module.azure_devops.is_authentication_scheme_workload_identity_federation
   federated_credentials              = local.federated_credentials
-  create_agents                      = module.azure_devops.is_authentication_scheme_managed_identity
   agent_container_instances          = local.agent_container_instances
   agent_container_instance_image     = var.agent_container_image
   agent_organization_url             = module.azure_devops.organization_url
   agent_token                        = var.azure_devops_personal_access_token
+  agent_organization_environment_variable = var.agent_organization_environment_variable
+  agent_pool_environment_variable        = var.agent_pool_environment_variable
+  agent_name_environment_variable        = var.agent_name_environment_variable
+  agent_token_environment_variable = var.agent_token_environment_variable
   target_subscriptions               = var.target_subscriptions
   root_management_group_display_name = var.root_management_group_display_name
 }
@@ -61,4 +62,5 @@ module "azure_devops" {
   backend_azure_storage_account_container_name = local.resource_names.storage_container
   approvers                                    = var.apply_approvers
   group_name                                   = local.resource_names.version_control_system_group
+  agent_pools                                  = local.agent_pools
 }
