@@ -15,7 +15,7 @@ module "files" {
 
 module "azure" {
   source                             = "./../modules/azure"
-  count                              = var.create_seed_resources_in_azure ? 1 : 0
+  count                              = var.create_bootstrap_resources_in_azure ? 1 : 0
   user_assigned_managed_identities   = local.managed_identities
   federated_credentials              = local.federated_credentials
   resource_group_identity_name       = local.resource_names.resource_group_identity
