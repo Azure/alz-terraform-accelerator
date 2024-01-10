@@ -1,6 +1,4 @@
 <!-- markdownlint-disable first-line-h1 -->
-> NOTE: This local option is not available yet, this page will be updated to remove this note when it is.
-
 ### 2.2.3 Local file system
 
 1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -i "terraform" -c "local"`.
