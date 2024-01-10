@@ -97,7 +97,7 @@ jobs:
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
           }
 
-          if($versionControlSystem -eq "azuredevops") {
+          if($versionControlSystem -eq "local") {
             $Inputs["target_directory"] = ""
           }
 
