@@ -14,7 +14,7 @@
       - [GitHub][wiki_quick_start_phase_2_github]
       - [Local][wiki_quick_start_phase_2_local]
     - [Phase 3 - Run][wiki_quick_start_phase_3]
-  - [Starter Modules][wiki_starter_modules]R
+  - [Starter Modules][wiki_starter_modules]
     - [Basic][wiki_starter_module_basic]
     - [Hub Networking][wiki_starter_module_hubnetworking]
     - [Complete][wiki_starter_module_complete]
