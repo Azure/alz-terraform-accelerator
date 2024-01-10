@@ -27,3 +27,13 @@ Now you have created your bootstrapped environment you can deploy you Azure land
 1. Your pipeline will run a `plan`.
 1. If you provided `apply_approvers` to the bootstrap, it will prompt you to approve the `apply` job.
 1. Your pipeline will run an `apply` and deploy an Azure landing zone based on the starter module you choose.
+
+### 3.1.3 Local file system
+
+1. Open a new PowerShell Core (pwsh) terminal or use the one you already have open.
+1. Navigate to the directory shown in the `module_output_directory_path` output from the bootstrap.
+1. Type `terraform init` and hit enter.
+1. Type `terraform plan` and hit enter.
+1. Review the plan.
+1. If you are happy with the plan, then type `terraform apply` and hit enter.
+1. The ALZ will now be deployed, this may take some time.

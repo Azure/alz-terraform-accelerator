@@ -23,10 +23,12 @@ jobs:
       matrix:
         operatingSystem: ['ubuntu-latest', 'windows-latest', 'macos-latest']
         terraform_version: ['latest', '1.5.0']
-        versionControlSystem: ['github', 'azuredevops']
+        versionControlSystem: ['github', 'azuredevops', 'local']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
         exclude:
           - versionControlSystem: github
+            authScheme: ManagedServiceIdentity
+          - versionControlSystem: local
             authScheme: ManagedServiceIdentity
 
     runs-on: ${{ matrix.operatingSystem }}
@@ -93,6 +95,11 @@ jobs:
             $Inputs["azure_devops_create_project"] = "true"
             $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
+          }
+
+          if($versionControlSystem -eq "local") {
+            $Inputs["target_directory"] = ""
+            $Inputs["create_bootstrap_resources_in_azure"] = "true"
           }
 
           $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }

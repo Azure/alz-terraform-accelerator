@@ -6,6 +6,7 @@ variable "starter_module_folder_path" {
 variable "pipeline_folder_path" {
   description = "Pipeline folder path"
   type        = string
+  default     = ""
 }
 
 variable "pipeline_files" {

@@ -106,6 +106,20 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Group and Members for Apply Approval
   - Agent Pool
 
+### Local File System
+
+This outputs the ALZ module files to the file system, so you can apply them manually or with your own VCS / automation.
+
+- Azure:
+  - Resource Group for State
+  - Storage Account and Container for State
+  - Resource Group for Identity
+  - User Assigned Managed Identities (UAMI) for Plan and Apply
+  - Permissions for the UAMI on state storage container, subscriptions and management groups
+
+- Local File System
+  - Starter Terraform module with tfvars
+
 ## Next steps
 
 Check out the [User Guide](User-Guide).

@@ -13,6 +13,7 @@ variable "federated_credentials" {
     federated_credential_issuer        = string
     federated_credential_name          = string
   }))
+  default = {}
 }
 
 variable "create_federated_credential" {
