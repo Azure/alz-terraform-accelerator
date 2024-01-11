@@ -98,6 +98,8 @@ jobs:
             $selfhostedAgentsShort = "r"
           }
 
+          $localDeployAzureResources = if($terraformVersion -eq "latest") { "true" } else { "false" }
+
           $runNumber = "${{ github.run_number }}"
 
           Write-Host "Version Control System: $versionControlSystem ($versionControlSystemShort)"
@@ -105,6 +107,7 @@ jobs:
           Write-Host "Operating System: $operatingSystem ($operationSystemShort)"
           Write-Host "Terraform Version: $terraformVersion ($terraformVersionShort)"
           Write-Host "Self Hosted Agents: $selfHostedAgents ($selfhostedAgentsShort)"
+          Write-Host "Local Deploy Azure Resources: $localDeployAzureResources"
           Write-Host "Run Number: $runNumber"
 
           $uniqueId = "$operationSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$selfhostedAgentsShort$runNumber".ToLower()
@@ -142,7 +145,7 @@ jobs:
 
           if($versionControlSystem -eq "local") {
             $Inputs["target_directory"] = ""
-            $Inputs["create_bootstrap_resources_in_azure"] = if($terraformVersion -eq "latest") { "true" } else { "false" }
+            $Inputs["create_bootstrap_resources_in_azure"] = $localDeployAzureResources
           }
 
           $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
