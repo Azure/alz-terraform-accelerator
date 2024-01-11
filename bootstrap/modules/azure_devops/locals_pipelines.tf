@@ -18,7 +18,7 @@ locals {
       {
         agent_pool_key = agent_pool_key
         agent_pool_id  = azuredevops_agent_queue.alz[agent_pool_key].id
-      }] : local.local.has_agent_pools ? [
+      }] : local.has_agent_pools ? [
       {
         agent_pool_key = keys(var.agent_pools)[0]
         agent_pool_id  = azuredevops_agent_queue.alz[keys(var.agent_pools)[0]].id
