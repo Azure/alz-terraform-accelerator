@@ -11,7 +11,7 @@ output "issuers" {
 }
 
 output "agent_pool_names" {
-  value = local.is_authentication_scheme_managed_identity ? { for key, value in var.environments : key => azuredevops_agent_pool.alz[key].name } : {}
+  value = { for key, value in var.agent_pools : key => azuredevops_agent_pool.alz[key].name }
 }
 
 output "is_authentication_scheme_managed_identity" {

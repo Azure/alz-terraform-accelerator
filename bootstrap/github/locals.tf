@@ -9,6 +9,10 @@ locals {
 }
 
 locals {
+  general_agent_pool_key = "general"
+}
+
+locals {
   environments = {
     (local.plan_key)  = local.resource_names.version_control_system_environment_plan
     (local.apply_key) = local.resource_names.version_control_system_environment_apply
@@ -30,31 +34,21 @@ locals {
     }
   }
 
-  agent_container_instances = var.use_self_hosted_agents ? {
+  runner_container_instances = var.use_self_hosted_runners ? {
     agent_01 = {
       container_instance_name = local.resource_names.container_instance_01
       agent_name              = local.resource_names.agent_01
-      managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
       agent_name              = local.resource_names.agent_02
-      managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
     }
-    agent_03 = {
-      container_instance_name = local.resource_names.container_instance_03
-      agent_name              = local.resource_names.agent_03
-      managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
-    }
-    agent_04 = {
-      container_instance_name = local.resource_names.container_instance_04
-      agent_name              = local.resource_names.agent_04
-      managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
-    }
+  } : {}
+
+  runner_groups = var.use_self_hosted_runners ? {
+    (local.general_agent_pool_key) = local.resource_names.version_control_system_agent_pool_general
   } : {}
 }
 

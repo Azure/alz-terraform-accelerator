@@ -16,14 +16,14 @@ variable "create_bootstrap_resources_in_azure" {
   default     = true
 }
 
-variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|4|azure_location"
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)|4|azure_location"
   type        = string
   default     = ""
 }
 
-variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|5|azure_subscription_id"
+variable "bootstrap_subscription_id" {
+  description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription|6|azure_subscription_id"
   type        = string
   default     = ""
 }

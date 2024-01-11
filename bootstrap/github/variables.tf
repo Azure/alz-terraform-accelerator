@@ -21,13 +21,13 @@ variable "use_separate_repository_for_workflow_templates" {
   default     = true
 }
 
-variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|5|azure_location"
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)|4|azure_location"
   type        = string
 }
 
-variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|6|azure_subscription_id"
+variable "bootstrap_subscription_id" {
+  description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription|6|azure_subscription_id"
   type        = string
   default     = ""
 }
@@ -50,32 +50,44 @@ variable "postfix_number" {
   default     = 1
 }
 
-variable "use_self_hosted_agents" {
-  description = "Controls whether to use self-hosted agents for the pipelines|10"
+variable "use_self_hosted_runners" {
+  description = "Controls whether to use self-hosted runners for the actions|10"
+  type        = bool
+  default     = true
+}
+
+variable "use_private_networking" {
+  description = "Controls whether to use private networking for the runner to storage account communication|11"
+  type        = bool
+  default     = true
+}
+
+variable "allow_storage_access_from_my_ip" {
+  description = "Allow access to the storage account from the current IP address. We recommend this is left on for convenience|12"
   type        = bool
   default     = true
 }
 
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|11"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|13"
   type        = list(string)
   default     = []
 }
 
 variable "repository_visibility" {
-  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|12|repo_visibility"
+  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|14|repo_visibility"
   type        = string
   default     = "private"
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|13"
+  description = "The root management group display name|15"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|14"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|16"
   type        = list(string)
   default     = []
 }
@@ -139,24 +151,24 @@ variable "runner_container_image" {
 
 variable "runner_name_environment_variable" {
   description = "The runner name environment variable supplied to the container|hidden"
-  type    = string
-  default = "GH_RUNNER_NAME"
+  type        = string
+  default     = "GH_RUNNER_NAME"
 }
 
 variable "runner_group_environment_variable" {
   description = "The runner group environment variable supplied to the container|hidden"
-  type    = string
-  default = "GH_RUNNER_GROUP"
+  type        = string
+  default     = "GH_RUNNER_GROUP"
 }
 
 variable "runner_organization_environment_variable" {
   description = "The runner organization environment variable supplied to the container|hidden"
-  type    = string
-  default = "GH_RUNNER_ORG"
+  type        = string
+  default     = "GH_RUNNER_ORG"
 }
 
 variable "runner_token_environment_variable" {
   description = "The runner token environment variable supplied to the container|hidden"
-  type = string
-  default = "GH_RUNNER_TOKEN"
+  type        = string
+  default     = "GH_RUNNER_TOKEN"
 }

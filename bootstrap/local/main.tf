@@ -1,6 +1,6 @@
 module "resource_names" {
   source           = "./../modules/resource_names"
-  azure_location   = var.azure_location
+  azure_location   = var.bootstrap_location
   environment_name = var.environment_name
   service_name     = var.service_name
   postfix_number   = var.postfix_number
@@ -22,7 +22,7 @@ module "azure" {
   resource_group_state_name          = local.resource_names.resource_group_state
   storage_account_name               = local.resource_names.storage_account
   storage_container_name             = local.resource_names.storage_container
-  azure_location                     = var.azure_location
+  azure_location                     = var.bootstrap_location
   target_subscriptions               = var.target_subscriptions
   root_management_group_display_name = var.root_management_group_display_name
 }

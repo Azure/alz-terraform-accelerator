@@ -21,13 +21,13 @@ variable "use_separate_repository_for_pipeline_templates" {
   default     = true
 }
 
-variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|5|azure_location"
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)|4|azure_location"
   type        = string
 }
 
-variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|6|azure_subscription_id"
+variable "bootstrap_subscription_id" {
+  description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription|6|azure_subscription_id"
   type        = string
   default     = ""
 }
@@ -83,20 +83,32 @@ variable "use_self_hosted_agents" {
   default     = true
 }
 
+variable "use_private_networking" {
+  description = "Controls whether to use private networking for the agent to storage account communication|15"
+  type        = bool
+  default     = true
+}
+
+variable "allow_storage_access_from_my_ip" {
+  description = "Allow access to the storage account from the current IP address. We recommend this is left on for convenience|16"
+  type        = bool
+  default     = true
+}
+
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|15"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|17"
   type        = list(string)
   default     = []
 }
 
 variable "root_management_group_display_name" {
-  description = "The root management group display name|16"
+  description = "The root management group display name|18"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|17"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|19"
   type        = list(string)
   default     = []
 }
@@ -160,24 +172,24 @@ variable "resource_names" {
 
 variable "agent_name_environment_variable" {
   description = "The agent name environment variable supplied to the container|hidden"
-  type    = string
-  default = "AZP_AGENT_NAME"
+  type        = string
+  default     = "AZP_AGENT_NAME"
 }
 
 variable "agent_pool_environment_variable" {
   description = "The agent pool environment variable supplied to the container|hidden"
-  type    = string
-  default = "AZP_POOL"
+  type        = string
+  default     = "AZP_POOL"
 }
 
 variable "agent_organization_environment_variable" {
   description = "The agent organization environment variable supplied to the container|hidden"
-  type    = string
-  default = "AZP_URL"
+  type        = string
+  default     = "AZP_URL"
 }
 
 variable "agent_token_environment_variable" {
   description = "The agent token environment variable supplied to the container|hidden"
-  type = string
-  default = "AZP_TOKEN"
+  type        = string
+  default     = "AZP_TOKEN"
 }

@@ -1,3 +1,7 @@
+locals {
+  has_agent_pools = length(var.agent_pools) > 0
+}
+
 resource "azuredevops_agent_pool" "alz" {
   for_each       = var.agent_pools
   name           = each.value

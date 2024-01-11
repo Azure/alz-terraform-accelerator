@@ -3,8 +3,9 @@ resource "azurerm_container_group" "alz" {
   name                = each.value.container_instance_name
   location            = var.azure_location
   resource_group_name = azurerm_resource_group.agents[0].name
-  ip_address_type     = "None"
+  ip_address_type     = "Private"
   os_type             = "Linux"
+  subnet_ids          = [azurerm_subnet.container_instances[0].id]
 
   dynamic "identity" {
     for_each = each.value.attach_managed_identity ? [1] : []
