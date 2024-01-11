@@ -37,6 +37,8 @@ We only support federated credentials for GitHub as a best practice.
   - Resource Group for Identity
   - User Assigned Managed Identities (UAMI) with Federated Credentials for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
+  - [Optional] Container Instances hosting GitHub Runners
+  - [Optional] Virtual network, subnets, private DNS zone and private endpoint.
 
 - GitHub
   - Repository for the Module
@@ -50,6 +52,7 @@ We only support federated credentials for GitHub as a best practice.
   - Action Variables for Backend and Plan / Apply
   - Team and Members for Apply Approval
   - Customised OIDC Token Subject for governed Actions
+  - [Optional] Runner Group
 
 ### Azure DevOps with Workload identity federation (WIF / OIDC)
 
@@ -61,6 +64,8 @@ This is the recommended authentication method for Azure DevOps.
   - Resource Group for Identity
   - User Assigned Managed Identities (UAMI) with Federated Credentials for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
+  - [Optional] Container Instances hosting Azure DevOps Agents
+  - [Optional] Virtual network, subnets, private DNS zone and private endpoint.
 
 - Azure DevOps
   - Project (can be supplied or created)
@@ -76,6 +81,7 @@ This is the recommended authentication method for Azure DevOps.
   - Service Connections with Workload identity federation for Plan and Apply
   - Service Connection Approvals, Template Validation and Concurrency Control
   - Group and Members for Apply Approval
+  - [Optional] Agent Pool
 
 ### Azure DevOps with Managed identity and self-hosted agents
 
@@ -88,7 +94,8 @@ We include this option as Workload identity federation (WIF) is still in preview
   - User Assigned Managed Identities (UAMI) for Plan and Apply
   - Permissions for the UAMI on state storage container, subscriptions and management groups
   - Resource Group for Agents
-  - 2 Container Instances with UAMI hosting Azure DevOps Agents
+  - Container Instances with UAMI hosting Azure DevOps Agents
+  - [Optional] Virtual network, subnets, private DNS zone and private endpoint.
 
 - Azure DevOps
   - Project (can be supplied or created)
@@ -104,7 +111,7 @@ We include this option as Workload identity federation (WIF) is still in preview
   - Service Connections with Managed identity for Plan and Apply
   - Service Connection Approvals, Template Validation and Concurrency Control
   - Group and Members for Apply Approval
-  - Agent Pool
+  - Agent Pools for Plan and Apply
 
 ### Local File System
 

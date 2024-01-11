@@ -75,7 +75,3 @@ locals {
     }
   }
 }
-
-output "test" {
-  value = local.pipeline_agent_pools_map
-}

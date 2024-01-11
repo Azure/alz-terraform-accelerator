@@ -17,32 +17,35 @@ module "files" {
 }
 
 module "azure" {
-  source                                          = "./../modules/azure"
-  user_assigned_managed_identities                = local.managed_identities
-  federated_credentials                           = local.federated_credentials
-  resource_group_identity_name                    = local.resource_names.resource_group_identity
-  resource_group_state_name                       = local.resource_names.resource_group_state
-  resource_group_agents_name                      = local.resource_names.resource_group_agents
-  resource_group_network_name                     = local.resource_names.resource_group_network
-  storage_account_name                            = local.resource_names.storage_account
-  storage_container_name                          = local.resource_names.storage_container
-  azure_location                                  = var.bootstrap_location
-  target_subscriptions                            = var.target_subscriptions
-  root_management_group_display_name              = var.root_management_group_display_name
-  agent_container_instances                       = local.runner_container_instances
-  agent_container_instance_image                  = var.runner_container_image
-  agent_organization_url                          = module.github.organization_url
-  agent_token                                     = module.github.runner_registration_token
-  agent_organization_environment_variable         = var.runner_organization_environment_variable
-  agent_pool_environment_variable                 = var.runner_group_environment_variable
-  agent_name_environment_variable                 = var.runner_name_environment_variable
-  agent_token_environment_variable                = var.runner_token_environment_variable
-  virtual_network_name                            = local.resource_names.virtual_network
-  virtual_network_subnet_name_container_instances = local.resource_names.subnet_container_instances
-  virtual_network_subnet_name_storage             = local.resource_names.subnet_storage
-  private_endpoint_name                           = local.resource_names.private_endpoint
-  use_private_networking                          = var.use_private_networking
-  allow_storage_access_from_my_ip                 = var.allow_storage_access_from_my_ip
+  source                                                    = "./../modules/azure"
+  user_assigned_managed_identities                          = local.managed_identities
+  federated_credentials                                     = local.federated_credentials
+  resource_group_identity_name                              = local.resource_names.resource_group_identity
+  resource_group_state_name                                 = local.resource_names.resource_group_state
+  resource_group_agents_name                                = local.resource_names.resource_group_agents
+  resource_group_network_name                               = local.resource_names.resource_group_network
+  storage_account_name                                      = local.resource_names.storage_account
+  storage_container_name                                    = local.resource_names.storage_container
+  azure_location                                            = var.bootstrap_location
+  target_subscriptions                                      = var.target_subscriptions
+  root_management_group_display_name                        = var.root_management_group_display_name
+  agent_container_instances                                 = local.runner_container_instances
+  agent_container_instance_image                            = var.runner_container_image
+  agent_organization_url                                    = module.github.organization_url
+  agent_token                                               = module.github.runner_registration_token
+  agent_organization_environment_variable                   = var.runner_organization_environment_variable
+  agent_pool_environment_variable                           = var.runner_group_environment_variable
+  agent_name_environment_variable                           = var.runner_name_environment_variable
+  agent_token_environment_variable                          = var.runner_token_environment_variable
+  virtual_network_name                                      = local.resource_names.virtual_network
+  virtual_network_subnet_name_container_instances           = local.resource_names.subnet_container_instances
+  virtual_network_subnet_name_storage                       = local.resource_names.subnet_storage
+  private_endpoint_name                                     = local.resource_names.private_endpoint
+  use_private_networking                                    = var.use_private_networking
+  allow_storage_access_from_my_ip                           = var.allow_storage_access_from_my_ip
+  virtual_network_address_space                             = var.virtual_network_address_space
+  virtual_network_subnet_address_prefix_container_instances = var.virtual_network_subnet_address_prefix_container_instances
+  virtual_network_subnet_address_prefix_storage             = var.virtual_network_subnet_address_prefix_storage
 }
 
 module "github" {

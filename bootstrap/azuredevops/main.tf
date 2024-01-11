@@ -17,32 +17,35 @@ module "files" {
 }
 
 module "azure" {
-  source                                          = "./../modules/azure"
-  resource_group_identity_name                    = local.resource_names.resource_group_identity
-  resource_group_agents_name                      = local.resource_names.resource_group_agents
-  resource_group_network_name                     = local.resource_names.resource_group_network
-  resource_group_state_name                       = local.resource_names.resource_group_state
-  storage_account_name                            = local.resource_names.storage_account
-  storage_container_name                          = local.resource_names.storage_container
-  azure_location                                  = var.bootstrap_location
-  user_assigned_managed_identities                = local.managed_identities
-  federated_credentials                           = local.federated_credentials
-  agent_container_instances                       = local.agent_container_instances
-  agent_container_instance_image                  = var.agent_container_image
-  agent_organization_url                          = module.azure_devops.organization_url
-  agent_token                                     = var.azure_devops_personal_access_token
-  agent_organization_environment_variable         = var.agent_organization_environment_variable
-  agent_pool_environment_variable                 = var.agent_pool_environment_variable
-  agent_name_environment_variable                 = var.agent_name_environment_variable
-  agent_token_environment_variable                = var.agent_token_environment_variable
-  target_subscriptions                            = var.target_subscriptions
-  root_management_group_display_name              = var.root_management_group_display_name
-  virtual_network_name                            = local.resource_names.virtual_network
-  virtual_network_subnet_name_container_instances = local.resource_names.subnet_container_instances
-  virtual_network_subnet_name_storage             = local.resource_names.subnet_storage
-  private_endpoint_name                           = local.resource_names.private_endpoint
-  use_private_networking                          = var.use_private_networking
-  allow_storage_access_from_my_ip                 = var.allow_storage_access_from_my_ip
+  source                                                    = "./../modules/azure"
+  resource_group_identity_name                              = local.resource_names.resource_group_identity
+  resource_group_agents_name                                = local.resource_names.resource_group_agents
+  resource_group_network_name                               = local.resource_names.resource_group_network
+  resource_group_state_name                                 = local.resource_names.resource_group_state
+  storage_account_name                                      = local.resource_names.storage_account
+  storage_container_name                                    = local.resource_names.storage_container
+  azure_location                                            = var.bootstrap_location
+  user_assigned_managed_identities                          = local.managed_identities
+  federated_credentials                                     = local.federated_credentials
+  agent_container_instances                                 = local.agent_container_instances
+  agent_container_instance_image                            = var.agent_container_image
+  agent_organization_url                                    = module.azure_devops.organization_url
+  agent_token                                               = var.azure_devops_personal_access_token
+  agent_organization_environment_variable                   = var.agent_organization_environment_variable
+  agent_pool_environment_variable                           = var.agent_pool_environment_variable
+  agent_name_environment_variable                           = var.agent_name_environment_variable
+  agent_token_environment_variable                          = var.agent_token_environment_variable
+  target_subscriptions                                      = var.target_subscriptions
+  root_management_group_display_name                        = var.root_management_group_display_name
+  virtual_network_name                                      = local.resource_names.virtual_network
+  virtual_network_subnet_name_container_instances           = local.resource_names.subnet_container_instances
+  virtual_network_subnet_name_storage                       = local.resource_names.subnet_storage
+  private_endpoint_name                                     = local.resource_names.private_endpoint
+  use_private_networking                                    = var.use_private_networking
+  allow_storage_access_from_my_ip                           = var.allow_storage_access_from_my_ip
+  virtual_network_address_space                             = var.virtual_network_address_space
+  virtual_network_subnet_address_prefix_container_instances = var.virtual_network_subnet_address_prefix_container_instances
+  virtual_network_subnet_address_prefix_storage             = var.virtual_network_subnet_address_prefix_storage
 }
 
 module "azure_devops" {
@@ -70,8 +73,4 @@ module "azure_devops" {
   approvers                                    = var.apply_approvers
   group_name                                   = local.resource_names.version_control_system_group
   agent_pools                                  = local.agent_pools
-}
-
-output "test" {
-  value = module.azure_devops.test
 }

@@ -193,3 +193,21 @@ variable "agent_token_environment_variable" {
   type        = string
   default     = "AZP_TOKEN"
 }
+
+variable "virtual_network_address_space" {
+  type        = string
+  description = "The address space for the virtual network|hidden"
+  default     = "10.0.0.0/24"
+}
+
+variable "virtual_network_subnet_address_prefix_container_instances" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.0/26"
+}
+
+variable "virtual_network_subnet_address_prefix_storage" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.64/26"
+}
