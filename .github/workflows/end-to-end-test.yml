@@ -25,11 +25,19 @@ jobs:
         terraform_version: ['latest', '1.5.0']
         versionControlSystem: ['github', 'azuredevops', 'local']
         authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
+        selfHostedAgents: ['public', 'private', 'none']
         exclude:
           - versionControlSystem: github
             authScheme: ManagedServiceIdentity
           - versionControlSystem: local
             authScheme: ManagedServiceIdentity
+          - versionControlSystem: local
+            selfHostedAgents: public
+          - versionControlSystem: local
+            selfHostedAgents: private
+          - versionControlSystem: local
+            terraform_version: 1.5.0
+          - versionControlSystem: azuredevops
 
     runs-on: ${{ matrix.operatingSystem }}
     steps:
@@ -54,6 +62,17 @@ jobs:
           $authScheme = "${{ matrix.authScheme }}"
           $operatingSystem = "${{ matrix.operatingSystem }}"
           $terraformVersion = "${{ matrix.terraform_version }}"
+          $selfHostedAgents = "${{ matrix.selfHostedAgents }}"
+
+          $enableSelfHostedAgents = "false"
+          if($selfHostedAgents -eq "public" -or $selfHostedAgents -eq "private") {
+            $enableSelfHostedAgents = "true"
+          }
+
+          $enablePrivateNetworking = "false"
+          if($selfHostedAgents -eq "private") {
+            $enablePrivateNetworking = "true"
+          }
 
           # Get Unique ID
           $versionControlSystemShort = $versionControlSystem.Substring(0, 1)
@@ -74,17 +93,19 @@ jobs:
 
           $Inputs = @{}
           $Inputs["starter_module"] = ".test"
-          $Inputs["azure_location"] = "uksouth"
-          $Inputs["azure_subscription_id"] = ""
+          $Inputs["bootstrap_location"] = "uksouth"
+          $Inputs["bootstrap_subscription_id"] = ""
           $Inputs["service_name"] = "alz"
           $Inputs["environment_name"] = $uniqueId
           $Inputs["postfix_number"] = "1"
+          $Inputs["use_self_hosted_agents"] = $enableSelfHostedAgents
+          $Inputs["use_private_networking"] = $enablePrivateNetworking
+          $Inputs["allow_storage_access_from_my_ip"] = "true"
 
           if($versionControlSystem -eq "github") {
             $Inputs["github_personal_access_token"] = "${{ secrets.VCS_TOKEN_GITHUB }}"
             $Inputs["github_organization_name"] = "${{ vars.VCS_ORGANIZATION }}"
             $Inputs["use_separate_repository_for_workflow_templates"] = "true"
-            $Inputs["repository_visibility"] = "public"
           }
 
           if($versionControlSystem -eq "azuredevops") {
