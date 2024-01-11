@@ -9,5 +9,6 @@ locals {
 }
 
 locals {
-  use_private_networking = var.use_private_networking && length(var.agent_container_instances) > 0
+  has_agent_container_instances = length(var.agent_container_instances) > 0
+  use_private_networking = var.use_private_networking && local.has_agent_container_instances
 }
