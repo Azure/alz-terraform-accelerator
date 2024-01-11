@@ -155,6 +155,9 @@ jobs:
       - name: Run ALZ PowerShell
         run: |
 
+          $myIp = Invoke-RestMethod -Uri http://ipinfo.io/json | Select -ExpandProperty ip
+          Write-Host "Runner IP Address: $myIp"
+
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
 
@@ -215,6 +218,9 @@ jobs:
       - name: Run Terraform Destroy to Clean Up
         if: always()
         run: |
+
+          $myIp = Invoke-RestMethod -Uri http://ipinfo.io/json | Select -ExpandProperty ip
+          Write-Host "Runner IP Address: $myIp"
 
           # Get Inputs
           $versionControlSystem = "${{ matrix.versionControlSystem }}"
