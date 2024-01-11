@@ -110,7 +110,7 @@ jobs:
           $Inputs["service_name"] = "alz"
           $Inputs["environment_name"] = $uniqueId
           $Inputs["postfix_number"] = "1"
-          
+
           $Inputs["use_private_networking"] = $enablePrivateNetworking
           $Inputs["allow_storage_access_from_my_ip"] = "true"
 
