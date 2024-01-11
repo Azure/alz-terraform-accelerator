@@ -32,15 +32,15 @@ module "azure" {
   agent_container_instances                       = local.runner_container_instances
   agent_container_instance_image                  = var.runner_container_image
   agent_organization_url                          = module.github.organization_url
-  agent_token                                     = var.github_personal_access_token
+  agent_token                                     = module.github.runner_registration_token
   agent_organization_environment_variable         = var.runner_organization_environment_variable
   agent_pool_environment_variable                 = var.runner_group_environment_variable
   agent_name_environment_variable                 = var.runner_name_environment_variable
   agent_token_environment_variable                = var.runner_token_environment_variable
-  virtual_network_name                            = module.resource_names.virtual_network
+  virtual_network_name                            = local.resource_names.virtual_network
   virtual_network_subnet_name_container_instances = local.resource_names.subnet_container_instances
   virtual_network_subnet_name_storage             = local.resource_names.subnet_storage
-  private_endpoint_name                           = module.resource_names.private_endpoint
+  private_endpoint_name                           = local.resource_names.private_endpoint
   use_private_networking                          = var.use_private_networking
   allow_storage_access_from_my_ip                 = var.allow_storage_access_from_my_ip
 }
@@ -52,7 +52,6 @@ module "github" {
   repository_name                              = local.resource_names.version_control_system_repository
   use_template_repository                      = var.use_separate_repository_for_workflow_templates
   repository_name_templates                    = local.resource_names.version_control_system_repository_templates
-  repository_visibility                        = var.repository_visibility
   repository_files                             = module.files.files
   pipeline_templates                           = var.pipeline_template_files
   managed_identity_client_ids                  = module.azure.user_assigned_managed_identity_client_ids
@@ -63,4 +62,6 @@ module "github" {
   backend_azure_storage_account_container_name = local.resource_names.storage_container
   approvers                                    = var.apply_approvers
   team_name                                    = local.resource_names.version_control_system_team
+  runner_groups                                = local.runner_groups
+  default_runner_group_name                    = var.default_runner_group_name
 }

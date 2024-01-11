@@ -1,4 +1,8 @@
 locals {
+  runner_name = length(var.runner_groups) != 0 ? "group: ${local.runner_group_name}" : "ubuntu-latest"
+}
+
+locals {
   cicd_file = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
@@ -12,6 +16,7 @@ locals {
   cicd_template_files = { for key, value in var.repository_files : key =>
     {
       content = templatefile(value.path, {
+        runner_name                                  = local.runner_name
         environment_name_plan                        = var.environments[local.plan_key]
         environment_name_apply                       = var.environments[local.apply_key]
         backend_azure_storage_account_container_name = var.backend_azure_storage_account_container_name

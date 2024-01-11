@@ -74,12 +74,6 @@ variable "apply_approvers" {
   default     = []
 }
 
-variable "repository_visibility" {
-  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|14|repo_visibility"
-  type        = string
-  default     = "private"
-}
-
 variable "root_management_group_display_name" {
   description = "The root management group display name|15"
   type        = string
@@ -171,4 +165,10 @@ variable "runner_token_environment_variable" {
   description = "The runner token environment variable supplied to the container|hidden"
   type        = string
   default     = "GH_RUNNER_TOKEN"
+}
+
+variable "default_runner_group_name" {
+  description = "The default runner group name for unlicenses orgs|hidden"
+  type        = string
+  default     = "Default"
 }

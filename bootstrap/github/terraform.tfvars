@@ -1,5 +1,5 @@
 # Azure Variables
-runner_container_image = "jaredfholgate/github-runner:0.0.1"
+runner_container_image = "jaredfholgate/github-runner:0.0.3"
 
 # Naming
 resource_names = {
@@ -14,17 +14,14 @@ resource_names = {
   storage_container                                           = "{{environment_name}}-tfstate"
   container_instance_01                                       = "aci-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
   container_instance_02                                       = "aci-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number_plus_1}}"
-  container_instance_03                                       = "aci-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number_plus_2}}"
-  container_instance_04                                       = "aci-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number_plus_3}}"
-  agent_01                                                    = "agent-{{service_name}}-{{environment_name}}-{{postfix_number}}"
-  agent_02                                                    = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_1}}"
-  agent_03                                                    = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_2}}"
-  agent_04                                                    = "agent-{{service_name}}-{{environment_name}}-{{postfix_number_plus_3}}"
+  runner_01                                                   = "runner-{{service_name}}-{{environment_name}}-{{postfix_number}}"
+  runner_02                                                   = "runner-{{service_name}}-{{environment_name}}-{{postfix_number_plus_1}}"
   version_control_system_repository                           = "{{service_name}}-{{environment_name}}"
   version_control_system_repository_templates                 = "{{service_name}}-{{environment_name}}-templates"
   version_control_system_environment_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_team                                 = "{{service_name}}-{{environment_name}}-approvers"
+  version_control_system_runner_group                         = "{{service_name}}-{{environment_name}}"
   virtual_network                                             = "vnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
   subnet_container_instances                                  = "subnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}-aci"
   subnet_storage                                              = "subnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}-sto"
