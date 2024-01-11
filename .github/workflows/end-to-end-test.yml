@@ -79,15 +79,24 @@ jobs:
           $authSchemeShort = $authScheme.Substring(0, 1)
           $operationSystemShort = $operatingSystem.Substring(0, 1)
           $terraformVersionShort = if ($terraformVersion -eq "latest") { "l" } else { "m" }
+          $selfhostedAgentsShort = "n"
+          if($selfHostedAgents -eq "public") {
+            $selfhostedAgentsShort = "p"
+          }
+          if($selfHostedAgents -eq "private") {
+            $selfhostedAgentsShort = "r"
+          }
+
           $runNumber = "${{ github.run_number }}"
 
           Write-Host "Version Control System: $versionControlSystem ($versionControlSystemShort)"
           Write-Host "Auth Scheme: $authScheme ($authSchemeShort)"
           Write-Host "Operating System: $operatingSystem ($operationSystemShort)"
           Write-Host "Terraform Version: $terraformVersion ($terraformVersionShort)"
+          Write-Host "Self Hosted Agents: $selfHostedAgents ($selfhostedAgentsShort)"
           Write-Host "Run Number: $runNumber"
 
-          $uniqueId = "$operationSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$runNumber".ToLower()
+          $uniqueId = "$operationSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$selfhostedAgentsShort$runNumber".ToLower()
 
           Write-Host "Unique ID: $uniqueId"
 
