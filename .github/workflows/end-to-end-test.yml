@@ -37,7 +37,6 @@ jobs:
             selfHostedAgents: private
           - versionControlSystem: local
             terraform_version: 1.5.0
-          - versionControlSystem: azuredevops
 
     runs-on: ${{ matrix.operatingSystem }}
     steps:
@@ -107,7 +106,7 @@ jobs:
           $Inputs["service_name"] = "alz"
           $Inputs["environment_name"] = $uniqueId
           $Inputs["postfix_number"] = "1"
-          $Inputs["use_self_hosted_agents"] = $enableSelfHostedAgents
+          
           $Inputs["use_private_networking"] = $enablePrivateNetworking
           $Inputs["allow_storage_access_from_my_ip"] = "true"
 
@@ -115,6 +114,7 @@ jobs:
             $Inputs["github_personal_access_token"] = "${{ secrets.VCS_TOKEN_GITHUB }}"
             $Inputs["github_organization_name"] = "${{ vars.VCS_ORGANIZATION }}"
             $Inputs["use_separate_repository_for_workflow_templates"] = "true"
+            $Inputs["use_self_hosted_runners"] = $enableSelfHostedAgents
           }
 
           if($versionControlSystem -eq "azuredevops") {
@@ -125,6 +125,7 @@ jobs:
             $Inputs["azure_devops_create_project"] = "true"
             $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
+            $Inputs["use_self_hosted_agents"] = $enableSelfHostedAgents
           }
 
           if($versionControlSystem -eq "local") {
