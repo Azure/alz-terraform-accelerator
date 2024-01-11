@@ -38,10 +38,18 @@ jobs:
             selfHostedAgents: private
           - versionControlSystem: azuredevops
             terraform_version: 1.5.0
-          - versionControlSystem: local
+          - versionControlSystem: github
             terraform_version: 1.5.0
           - authScheme: ManagedServiceIdentity
             selfHostedAgents: none
+          - operatingSystem: windows-latest
+            versionControlSystem: azuredevops
+          - operatingSystem: macos-latest
+            versionControlSystem: azuredevops
+          - operatingSystem: windows-latest
+            versionControlSystem: github
+          - operatingSystem: macos-latest
+            versionControlSystem: github
 
     runs-on: ${{ matrix.operatingSystem }}
     steps:
