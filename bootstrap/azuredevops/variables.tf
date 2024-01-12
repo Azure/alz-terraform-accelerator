@@ -90,9 +90,9 @@ variable "use_private_networking" {
 }
 
 variable "allow_storage_access_from_my_ip" {
-  description = "Allow access to the storage account from the current IP address. We recommend this is left on for convenience|16"
+  description = "Allow access to the storage account from the current IP address. We recommend this is kept off for security|16"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "apply_approvers" {

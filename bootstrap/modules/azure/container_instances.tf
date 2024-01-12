@@ -39,4 +39,10 @@ resource "azurerm_container_group" "alz" {
       (var.agent_token_environment_variable) = var.agent_token
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      container[0].secure_environment_variables
+    ]
+  }
 }

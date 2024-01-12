@@ -5,7 +5,7 @@ resource "github_repository_environment" "alz" {
   repository  = github_repository.alz.name
 
   dynamic "reviewers" {
-    for_each = each.key == local.apply_key ? [1] : []
+    for_each = each.key == local.apply_key && length(var.approvers) > 0 ? [1] : []
     content {
       teams = [
         github_team.alz.id
