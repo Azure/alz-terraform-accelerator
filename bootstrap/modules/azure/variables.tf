@@ -71,22 +71,27 @@ variable "agent_token" {
 
 variable "agent_name_environment_variable" {
   type    = string
-  default = "AZP_AGENT_NAME"
+  default = ""
 }
 
 variable "agent_pool_environment_variable" {
   type    = string
-  default = "AZP_POOL"
+  default = ""
+}
+
+variable "use_agent_pool_environment_variable" {
+  type    = bool
+  default = true
 }
 
 variable "agent_organization_environment_variable" {
   type    = string
-  default = "AZP_URL"
+  default = ""
 }
 
 variable "agent_token_environment_variable" {
   type    = string
-  default = "AZP_TOKEN"
+  default = ""
 }
 
 variable "target_subscriptions" {

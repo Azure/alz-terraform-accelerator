@@ -28,11 +28,12 @@ resource "azurerm_container_group" "alz" {
       protocol = "TCP"
     }
 
-    environment_variables = {
+    environment_variables = merge({
       (var.agent_organization_environment_variable) = var.agent_organization_url
-      (var.agent_pool_environment_variable)         = each.value.agent_pool_name
       (var.agent_name_environment_variable)         = each.value.agent_name
-    }
+      }, var.use_agent_pool_environment_variable ? {
+      (var.agent_pool_environment_variable) = each.value.agent_pool_name
+    } : {})
 
     secure_environment_variables = {
       (var.agent_token_environment_variable) = var.agent_token

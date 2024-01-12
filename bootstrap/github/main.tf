@@ -28,14 +28,15 @@ module "azure" {
   storage_container_name                                    = local.resource_names.storage_container
   azure_location                                            = var.bootstrap_location
   target_subscriptions                                      = var.target_subscriptions
-  root_parent_management_group_display_name                        = var.root_parent_management_group_display_name
+  root_parent_management_group_display_name                 = var.root_parent_management_group_display_name
   agent_container_instances                                 = local.runner_container_instances
   agent_container_instance_image                            = var.runner_container_image
-  agent_organization_url                                    = module.github.organization_url
+  agent_organization_url                                    = "${module.github.organization_url}/${module.github.repository_names.module}"
   agent_token                                               = module.github.runner_registration_token
   agent_organization_environment_variable                   = var.runner_organization_environment_variable
   agent_pool_environment_variable                           = var.runner_group_environment_variable
   agent_name_environment_variable                           = var.runner_name_environment_variable
+  use_agent_pool_environment_variable                       = module.github.organization_plan == "enterprise"
   agent_token_environment_variable                          = var.runner_token_environment_variable
   virtual_network_name                                      = local.resource_names.virtual_network
   virtual_network_subnet_name_container_instances           = local.resource_names.subnet_container_instances

@@ -156,9 +156,9 @@ variable "runner_group_environment_variable" {
 }
 
 variable "runner_organization_environment_variable" {
-  description = "The runner organization environment variable supplied to the container|hidden"
+  description = "The runner url environment variable supplied to the container|hidden"
   type        = string
-  default     = "GH_RUNNER_ORG"
+  default     = "GH_RUNNER_URL"
 }
 
 variable "runner_token_environment_variable" {

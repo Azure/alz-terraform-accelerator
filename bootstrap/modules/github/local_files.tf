@@ -1,5 +1,6 @@
 locals {
-  runner_name = length(var.runner_groups) != 0 ? "group: ${local.runner_group_name}" : "ubuntu-latest"
+  self_hosted_runner_name = data.github_organization.alz.plan == local.enterprise_plan ? "group: ${local.runner_group_name}" : "self-hosted"
+  runner_name             = length(var.runner_groups) != 0 ? local.self_hosted_runner_name : "ubuntu-latest"
 }
 
 locals {
