@@ -97,16 +97,6 @@ The accelerator does not support GitHub personal accounts, since they don't supp
 
 > NOTE: If you choose to use a `free` organization account the accelerator bootstrap will make your repositories public. It must do this to support the functionality required by the accelerator. This is not recommended for production environments.
 
-If you are using a `free` account and you plan to use self-hosted agents, follow these steps to confugure the Default Runner Group:
-
-1. Navigate to your organization on GitHub.com.
-1. Click on `Settings` in the top navigation.
-1. Click on `Actions` in the left navigation and choose `Runner Groups`.
-1. Click on the `Default` runner group.
-1. Check the `Allow public repositories` box.
-
-> NOTE: This is only required for Free accounts since the repositories must be made public.
-
 #### 1.4.2.2 GitHub Personal Access Token (PAT)
 
 1. Navigate to [github.com](https://github.com).
