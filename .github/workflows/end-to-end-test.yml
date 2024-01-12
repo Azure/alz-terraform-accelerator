@@ -110,6 +110,7 @@ jobs:
           Write-Host "Run Number: $runNumber"
 
           $uniqueId = "$operationSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$selfhostedAgentsShort$runNumber".ToLower()
+          echo "UNIQUE_ID=$uniqueId" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
           Write-Host "Unique ID: $uniqueId"
 
@@ -147,8 +148,8 @@ jobs:
             $Inputs["create_bootstrap_resources_in_azure"] = $localDeployAzureResources
           }
 
-          $Inputs["apply_approvers"] = if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
-          $Inputs["root_management_group_display_name"] = "Tenant Root Group"
+          $Inputs["apply_approvers"] = "" # if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
+          $Inputs["root_parent_management_group_display_name"] = "Tenant Root Group"
           $Inputs["additional_files"] = ""
 
           $Inputs["subscription_id_connectivity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
@@ -217,6 +218,21 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
+
+      - name: Run Pipelines or Actions
+        run: |
+
+          # Get Inputs
+          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          $versionControlSystemOrganisationName = "${{ vars.VCS_ORGANIZATION }}"
+          $uniqueId = $ENV:UNIQUE_ID
+          $repositoryOrProjectName = "alz-$uniqueId"
+
+          if($versionControlSystem -eq "github") {
+            ./tests/scripts/github-action-run.ps1 -organizationName $versionControlSystemOrganisationName -repositoryName $repositoryOrProjectName -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
+          }
+
+        shell: pwsh
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2

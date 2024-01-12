@@ -4,7 +4,7 @@ data "azurerm_subscription" "alz" {
 }
 
 data "azurerm_management_group" "alz" {
-  display_name = var.root_management_group_display_name
+  display_name = var.root_parent_management_group_display_name
 }
 
 data "http" "ip" {

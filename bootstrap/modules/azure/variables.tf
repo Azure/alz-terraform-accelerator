@@ -93,7 +93,7 @@ variable "target_subscriptions" {
   type = list(string)
 }
 
-variable "root_management_group_display_name" {
+variable "root_parent_management_group_display_name" {
   description = "The root management group display name"
   type        = string
 }

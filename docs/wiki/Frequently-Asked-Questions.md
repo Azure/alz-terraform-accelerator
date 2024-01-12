@@ -117,7 +117,7 @@ azure_devops_create_project: "true" # Azure DevOps Only
 azure_devops_project_name: "alz-demo" # Azure DevOps Only
 azure_devops_authentication_scheme: "WorkloadIdentityFederation" # Azure DevOps Only
 apply_approvers: "a.person@example.com,b.person@example.com"
-root_management_group_display_name: "Tenant Root Group"
+root_parent_management_group_display_name: "Tenant Root Group"
 additional_files: ""
 
 # Starter Module Specific Variables

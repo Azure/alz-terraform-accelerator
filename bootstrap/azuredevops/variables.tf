@@ -101,8 +101,8 @@ variable "apply_approvers" {
   default     = []
 }
 
-variable "root_management_group_display_name" {
-  description = "The root management group display name|18"
+variable "root_parent_management_group_display_name" {
+  description = "The root parent management group display name. This default to 'Tenant Root Group' if not supplied|18"
   type        = string
   default     = "Tenant Root Group"
 }

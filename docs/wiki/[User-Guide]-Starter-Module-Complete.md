@@ -152,7 +152,7 @@ azure_devops_use_organisation_legacy_url: "false" # Azure DevOps Only
 azure_devops_create_project: "true" # Azure DevOps Only
 azure_devops_project_name: "alz-demo" # Azure DevOps Only
 azure_devops_authentication_scheme: "WorkloadIdentityFederation" # Azure DevOps Only
-root_management_group_display_name: "Tenant Root Group"
+root_parent_management_group_display_name: "Tenant Root Group"
 additional_files: "C:\users\johndoe\config.yaml"
 version_control_system_use_separate_repository_for_templates: "true"
 
