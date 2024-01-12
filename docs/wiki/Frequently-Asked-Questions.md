@@ -23,15 +23,16 @@ You'll now get the names you specified instead of the default ones.
 
 ## Questions about bootstrap clean up
 
-### I was just testing or I made a mistake, how do I remove the boostrap environment and start again?
+### I was just testing or I made a mistake, how do I remove the bootstrap environment and start again?
 
 After the Terraform apply has been completed there is an opportunity to remove the environment it just created. Follow these steps to run a `terraform destroy`.
 
-1. Run `New-ALZEnvironment` with the `-destroy` flag. E.g. `New-ALZEnvironment -i "terraform" -c "azuredevops" -o "./my-folder" -destroy`.
+1. If you already ran the CD pipeline / action in phase 3 to deploy the ALZ, then you will need to run the pipeline / action again, but this time select the `destroy` option. This will delete the landing zone resources. If you don't do this, those resource will be left orphaned and you will have to clean them up manually. Wait for the destroy run to complete before moving to the next step, you will need to approve it if you configured approvals.
+1. Now run `New-ALZEnvironment` with the `-destroy` flag. E.g. `New-ALZEnvironment -i "terraform" -c "azuredevops" -o "./my-folder" -destroy`.
 1. The module will run and ask if you want to use the existing variables, enter `use` to use them.
 1. You can confirm the destroy by typing `yes` when prompted.
-
-You'll now be able to delete the `./v#.#.#` folder and run the `New-ALZEnvironment` command again.
+1. To fully clean up, you should now delete the folder that was created for the accelerator. E.g. `./my-folder`.
+1. You'll now be and run the `New-ALZEnvironment` agin command to start fresh.
 
 ## Questions about changing variables
 
