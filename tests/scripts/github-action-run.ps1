@@ -19,10 +19,10 @@ function Trigger-Workflow {
     $workflowDispatchUrl = "https://api.github.com/repos/$organizationName/$repositoryName/actions/workflows/$workflowId/dispatches"
     Write-Host "Workflow Dispatch URL: $workflowDispatchUrl"
     $workflowDispatchBody = @{
-    ref = "main"
-    inputs = @{
-        terraform_action = $workflowAction
-    }
+        ref = "main"
+        inputs = @{
+            terraform_action = $workflowAction
+        }
     } | ConvertTo-Json -Depth 100
     $result = Invoke-RestMethod -Method POST -Uri $workflowDispatchUrl -Headers $headers -Body $workflowDispatchBody -StatusCodeVariable statusCode
     if ($statusCode -ne 204) {
