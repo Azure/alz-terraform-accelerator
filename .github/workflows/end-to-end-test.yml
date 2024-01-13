@@ -177,7 +177,7 @@ jobs:
           Install-Module -Name ALZ -Force -Scope CurrentUser -Repository PSGallery
 
           # Get the latest release version
-          $release = ./tests/scripts/get-release.ps1
+          $release = ./.github/tests/scripts/get-release.ps1
 
           # Copy the Module into the Release Folder to ensure we are using the code in our branch
           Write-Host "Copying the ALZ Module into the release Folder"
@@ -204,7 +204,7 @@ jobs:
               }
             } catch {
               Write-Host "Failed to apply the bootstrap environment. Destroy and retry..."
-              ./tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
+              ./.github/tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
             }
           } while ($success -eq $false -and $retryCount -lt $maximumRetries)
 
@@ -229,14 +229,14 @@ jobs:
           $repositoryOrProjectName = "alz-$uniqueId"
 
           if($versionControlSystem -eq "github") {
-            ./tests/scripts/github-action-run.ps1 `
+            ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -repositoryName $repositoryOrProjectName `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
           }
 
           if($versionControlSystem -eq "azuredevops") {
-            ./tests/scripts/azuredevops-pipeline-run.ps1 `
+            ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -projectName $repositoryOrProjectName `
               -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
@@ -262,7 +262,7 @@ jobs:
           $versionControlSystem = "${{ matrix.vcs }}"
 
           # Run destroy
-          ./tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
+          ./.github/tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
 
         shell: pwsh
         env:
