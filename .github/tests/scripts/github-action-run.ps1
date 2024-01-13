@@ -9,7 +9,7 @@ param (
     [int]$retryDelay = 10000
 )
 
-function Trigger-Workflow {
+function Invoke-Workflow {
     param (
         [string]$organizationName,
         [string]$repositoryName,
@@ -36,7 +36,7 @@ function Trigger-Workflow {
 
     $result = Invoke-RestMethod -Method POST -Uri $workflowDispatchUrl -Headers $headers -Body $workflowDispatchBody -StatusCodeVariable statusCode
     if ($statusCode -ne 204) {
-        throw "Failed to dispatch the workflow."
+        throw "Failed to dispatch the workflow. $result"
     }
 }
 
@@ -103,7 +103,7 @@ try {
 
     # Trigger the apply workflow
     Write-Host "Triggering the $workflowAction workflow"
-    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
+    Invoke-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
     Write-Host "$workflowAction workflow triggered successfully"
 
     # Wait for the apply workflow to complete
@@ -120,7 +120,7 @@ try {
 
     # Trigger the destroy workflow
     Write-Host "Triggering the $workflowAction workflow"
-    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
+    Invoke-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
     Write-Host "$workflowAction workflow triggered successfully"
 
     # Wait for the apply workflow to complete

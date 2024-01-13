@@ -9,7 +9,7 @@ param (
     [int]$retryDelay = 10000
 )
 
-function Trigger-Pipeline {
+function Invoke-Pipeline {
     param (
         [string]$organizationName,
         [string]$projectName,
@@ -122,7 +122,7 @@ try {
 
     # Trigger the apply pipeline
     Write-Host "Triggering the $pipelineAction pipeline"
-    $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction $pipelineAction -headers $headers
+    $pipelineRunId = Invoke-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction $pipelineAction -headers $headers
     Write-Host "$pipelineAction pipeline triggered successfully"
 
     # Wait for the apply pipeline to complete
@@ -139,7 +139,7 @@ try {
 
     # Trigger the destroy pipeline
     Write-Host "Triggering the $pipelineAction pipeline"
-    $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "destroy" -headers $headers
+    $pipelineRunId = Invoke-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "destroy" -headers $headers
     Write-Host "$pipelineAction pipeline triggered successfully"
 
     # Wait for the apply pipeline to complete
