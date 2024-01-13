@@ -39,4 +39,3 @@ Now head to [Phase 3][wiki_quick_start_phase_3].
 
 [wiki_starter_modules]:               %5BUser-Guide%5D-Starter-Modules "Wiki - Starter Modules"
 [wiki_quick_start_phase_3]:           %5BUser-Guide%5D-Quick-Start-Phase-3 "Wiki - Quick Start - Phase 3"
-[wiki_troubleshooting]:               %5BUser-Guide%5D-Troubleshooting "Wiki - Troubleshooting"
