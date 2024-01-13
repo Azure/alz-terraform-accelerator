@@ -229,5 +229,5 @@ variable "use_private_networking" {
 
 variable "allow_storage_access_from_my_ip" {
   type    = bool
-  default = true
+  default = false
 }

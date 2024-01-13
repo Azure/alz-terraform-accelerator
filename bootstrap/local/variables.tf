@@ -47,7 +47,7 @@ variable "postfix_number" {
 }
 
 variable "root_parent_management_group_display_name" {
-  description = "The root parent management group display name. This default to 'Tenant Root Group' if not supplied|9"
+  description = "The root parent management group display name. This will default to 'Tenant Root Group' if not supplied|9"
   type        = string
   default     = "Tenant Root Group"
 }

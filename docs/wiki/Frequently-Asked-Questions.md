@@ -33,7 +33,7 @@ After the Terraform apply has been completed there is an opportunity to remove t
 1. The module will run and ask if you want to use the existing variables, enter `use` to use them.
 1. You can confirm the destroy by typing `yes` when prompted.
 1. To fully clean up, you should now delete the folder that was created for the accelerator. E.g. `./my-folder`.
-1. You'll now be and run the `New-ALZEnvironment` agin command to start fresh.
+1. You'll now be able to run the `New-ALZEnvironment` command again to start fresh.
 
 ## Questions about changing variables
 
