@@ -14,40 +14,40 @@ permissions:
 
 jobs:
   e2e-test:
-    name: "OS: ${{ matrix.os }}, VCS: ${{ matrix.versionControlSystem }}, A: ${{ matrix.authScheme }}, TF: ${{ matrix.tf }}, AG: ${{ matrix.selfHostedAgents }}"
+    name: "OS: ${{ matrix.os }}, VCS: ${{ matrix.vcs }}, A: ${{ matrix.as }}, TF: ${{ matrix.tf }}, AG: ${{ matrix.ag }}"
     environment: CSUTF
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch') }}"
     strategy:
       fail-fast: false
       matrix:
-        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']
-        tf: ['latest', '1.5.0']
-        versionControlSystem: ['github', 'azuredevops', 'local']
-        authScheme: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']
-        selfHostedAgents: ['public', 'private', 'none']
+        os: ['ubuntu-latest', 'windows-latest', 'macos-latest']  # Operating System
+        tf: ['latest', '1.5.0']  # Terraform Version
+        vcs: ['github', 'azuredevops', 'local']  # Version Control System
+        as: ['ManagedServiceIdentity', 'WorkloadIdentityFederation']  # Authentication Scheme
+        ag: ['public', 'private', 'none']  # Self Hosted Agents
         exclude:
-          - versionControlSystem: github
-            authScheme: ManagedServiceIdentity
-          - versionControlSystem: local
-            authScheme: ManagedServiceIdentity
-          - versionControlSystem: local
-            selfHostedAgents: public
-          - versionControlSystem: local
-            selfHostedAgents: private
-          - versionControlSystem: azuredevops
+          - vcs: github
+            as: ManagedServiceIdentity
+          - vcs: local
+            as: ManagedServiceIdentity
+          - vcs: local
+            ag: public
+          - vcs: local
+            ag: private
+          - vcs: azuredevops
             tf: 1.5.0
-          - versionControlSystem: github
+          - vcs: github
             tf: 1.5.0
-          - authScheme: ManagedServiceIdentity
-            selfHostedAgents: none
+          - as: ManagedServiceIdentity
+            ag: none
           - os: windows-latest
-            versionControlSystem: azuredevops
+            vcs: azuredevops
           - os: macos-latest
-            versionControlSystem: azuredevops
+            vcs: azuredevops
           - os: windows-latest
-            versionControlSystem: github
+            vcs: github
           - os: macos-latest
-            versionControlSystem: github
+            vcs: github
 
     runs-on: ${{ matrix.os }}
     steps:
@@ -68,11 +68,11 @@ jobs:
         run: |
 
           # Get Inputs
-          $versionControlSystem = "${{ matrix.versionControlSystem }}"
-          $authScheme = "${{ matrix.authScheme }}"
-          $os = "${{ matrix.os }}"
+          $versionControlSystem = "${{ matrix.vcs }}"
+          $authScheme = "${{ matrix.as }}"
+          $operatingSystem = "${{ matrix.os }}"
           $terraformVersion = "${{ matrix.tf }}"
-          $selfHostedAgents = "${{ matrix.selfHostedAgents }}"
+          $selfHostedAgents = "${{ matrix.ag }}"
 
           $enableSelfHostedAgents = "false"
           if($selfHostedAgents -eq "public" -or $selfHostedAgents -eq "private") {
@@ -87,7 +87,7 @@ jobs:
           # Get Unique ID
           $versionControlSystemShort = $versionControlSystem.Substring(0, 1)
           $authSchemeShort = $authScheme.Substring(0, 1)
-          $operationSystemShort = $os.Substring(0, 1)
+          $operatingSystemShort = $operatingSystem.Substring(0, 1)
           $terraformVersionShort = if ($terraformVersion -eq "latest") { "l" } else { "m" }
           $selfhostedAgentsShort = "n"
           if($selfHostedAgents -eq "public") {
@@ -103,13 +103,13 @@ jobs:
 
           Write-Host "Version Control System: $versionControlSystem ($versionControlSystemShort)"
           Write-Host "Auth Scheme: $authScheme ($authSchemeShort)"
-          Write-Host "Operating System: $os ($operationSystemShort)"
+          Write-Host "Operating System: $operatingSystem ($operatingSystemShort)"
           Write-Host "Terraform Version: $terraformVersion ($terraformVersionShort)"
           Write-Host "Self Hosted Agents: $selfHostedAgents ($selfhostedAgentsShort)"
           Write-Host "Local Deploy Azure Resources: $localDeployAzureResources"
           Write-Host "Run Number: $runNumber"
 
-          $uniqueId = "$operationSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$selfhostedAgentsShort$runNumber".ToLower()
+          $uniqueId = "$operatingSystemShort$versionControlSystemShort$authSchemeShort$terraformVersionShort$selfhostedAgentsShort$runNumber".ToLower()
           echo "UNIQUE_ID=$uniqueId" | Out-File -FilePath $Env:GITHUB_ENV -Encoding utf8 -Append
 
           Write-Host "Unique ID: $uniqueId"
@@ -170,7 +170,7 @@ jobs:
           Write-Host "Runner IP Address: $myIp"
 
           # Get Inputs
-          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          $versionControlSystem = "${{ matrix.vcs }}"
 
           # Install the Module
           Write-Host "Installing the ALZ Module"
@@ -223,7 +223,7 @@ jobs:
         run: |
 
           # Get Inputs
-          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          $versionControlSystem = "${{ matrix.vcs }}"
           $versionControlSystemOrganisationName = "${{ vars.VCS_ORGANIZATION }}"
           $uniqueId = $ENV:UNIQUE_ID
           $repositoryOrProjectName = "alz-$uniqueId"
@@ -259,7 +259,7 @@ jobs:
           Write-Host "Runner IP Address: $myIp"
 
           # Get Inputs
-          $versionControlSystem = "${{ matrix.versionControlSystem }}"
+          $versionControlSystem = "${{ matrix.vcs }}"
 
           # Run destroy
           ./tests/scripts/destroy.ps1 -versionControlSystem $versionControlSystem
