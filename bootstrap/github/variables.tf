@@ -152,19 +152,19 @@ variable "runner_container_cpu" {
 variable "runner_container_memory" {
   description = "The container memory default|hidden"
   type        = number
-  default     = 8
+  default     = 4
 }
 
 variable "runner_container_cpu_max" {
   description = "The container cpu default|hidden"
   type        = number
-  default     = 4
+  default     = 2
 }
 
 variable "runner_container_memory_max" {
   description = "The container memory default|hidden"
   type        = number
-  default     = 16
+  default     = 4
 }
 
 variable "runner_name_environment_variable" {

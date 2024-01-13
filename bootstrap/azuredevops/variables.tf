@@ -127,19 +127,19 @@ variable "agent_container_cpu" {
 variable "agent_container_memory" {
   description = "The container memory default|hidden"
   type        = number
-  default     = 8
+  default     = 4
 }
 
 variable "agent_container_cpu_max" {
   description = "The container cpu default|hidden"
   type        = number
-  default     = 4
+  default     = 2
 }
 
 variable "agent_container_memory_max" {
   description = "The container memory default|hidden"
   type        = number
-  default     = 16
+  default     = 4
 }
 
 variable "target_subscriptions" {
