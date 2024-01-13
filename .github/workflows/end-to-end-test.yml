@@ -233,7 +233,7 @@ jobs:
             ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -repositoryName $repositoryOrProjectName `
-              -workflowFileName "ci.yml" `
+              -workflowFileName "ci.yaml" `
               -skipDestroy `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
 
@@ -241,7 +241,7 @@ jobs:
             ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -repositoryName $repositoryOrProjectName `
-              -workflowFileName "cd.yml" `
+              -workflowFileName "cd.yaml" `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
           }
 
