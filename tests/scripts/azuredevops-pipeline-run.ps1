@@ -11,12 +11,12 @@ param (
 function Trigger-Pipeline {
     param (
         [string]$organizationName,
-        [string]$propjectName,
+        [string]$projectName,
         [int]$pipelineId,
         [string]$pipelineAction = "apply",
         [hashtable]$headers
     )
-    $pipelineDispatchUrl = "https://dev.azure.com/$organizationName/$propjectName/_apis/pipelines/$pipelineId/runs?api-version=7.2-preview.1"
+    $pipelineDispatchUrl = "https://dev.azure.com/$organizationName/$projectName/_apis/pipelines/$pipelineId/runs?api-version=7.2-preview.1"
     Write-Host "Pipeline Dispatch URL: $pipelineDispatchUrl"
     $pipelineDispatchBody = @{
         "resources" = @{
@@ -30,15 +30,15 @@ function Trigger-Pipeline {
             "terraform_action" = $pipelineAction
         }
     } | ConvertTo-Json -Depth 100
-    $result = Invoke-RestMethod -Method POST -Uri $pipelineDispatchUrl -Headers $headers -Body $pipelineDispatchBody -StatusCodeVariable statusCode
-    if ($statusCode -ne 204) {
+    $result = Invoke-RestMethod -Method POST -Uri $pipelineDispatchUrl -Headers $headers -Body $pipelineDispatchBody -StatusCodeVariable statusCode -ContentType "application/json"
+    if ($statusCode -ne 200) {
         throw "Failed to dispatch the pipeline."
     }
 
     # Get the pipeline run id
     $pipelineRunId = $result.id
     Write-Host "Pipeline Run ID: $pipelineRunId"
-    return  $pipelineRunId
+    return [int]$pipelineRunId
 }
 
 function Wait-ForPipelineRunToComplete {
@@ -46,15 +46,17 @@ function Wait-ForPipelineRunToComplete {
         [string]$organizationName,
         [string]$projectName,
         [int]$pipelineId,
-        [int]$pipelineRunID,
+        [int]$pipelineRunId,
         [hashtable]$headers
     )
+
+    $pipelineRunUrl = "https://dev.azure.com/$organizationName/$projectName/_apis/pipelines/$pipelineId/runs/$($pipelineRunId)?api-version=7.2-preview.1"
+    Write-Host "Pipeline Run URL: $pipelineRunUrl"
+
     $pipelineRunStatus = ""
     $pipelineRunResult = ""
     while($pipelineRunStatus -ne "completed") {
         Start-Sleep -Seconds 10
-        $pipelineRunUrl = "https://dev.azure.com/$organizationName/$projectName/_apis/pipelines/$pipelineId/runs/$pipelineRunID?api-version=7.2-preview.1"
-        Write-Host "Pipeline Run URL: $pipelineRunUrl"
         $pipelineRun = Invoke-RestMethod -Method GET -Uri $pipelineRunUrl -Headers $headers -StatusCodeVariable statusCode
         if ($statusCode -eq 200) {
             $pipelineRunStatus = $pipelineRun.state
@@ -108,7 +110,7 @@ try {
 
     # Trigger the destroy pipeline
     Write-Host "Triggering the destroy pipeline"
-    Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "destroy" -headers $headers
+    $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "destroy" -headers $headers
     Write-Host "Destroy pipeline triggered successfully"
 
     # Wait for the apply pipeline to complete

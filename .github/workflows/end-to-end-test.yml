@@ -232,6 +232,10 @@ jobs:
             ./tests/scripts/github-action-run.ps1 -organizationName $versionControlSystemOrganisationName -repositoryName $repositoryOrProjectName -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
           }
 
+          if($versionControlSystem -eq "azuredevops") {
+            ./tests/scripts/azuredevops-pipeline-run.ps1 -organizationName $versionControlSystemOrganisationName -projectName $repositoryOrProjectName -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
+          }
+
         shell: pwsh
 
       - name: Setup Terraform

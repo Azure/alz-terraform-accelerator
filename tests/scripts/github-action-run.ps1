@@ -36,12 +36,15 @@ function Wait-ForWorkflowRunToComplete {
         [string]$repositoryName,
         [hashtable]$headers
     )
+
+    $workflowRunUrl = "https://api.github.com/repos/$organizationName/$repositoryName/actions/runs"
+    Write-Host "Workflow Run URL: $workflowRunUrl"
+
     $workflowRunStatus = ""
     $workflowRunConclusion = ""
     while($workflowRunStatus -ne "completed") {
         Start-Sleep -Seconds 10
-        $workflowRunUrl = "https://api.github.com/repos/$organizationName/$repositoryName/actions/runs"
-        Write-Host "Workflow Run URL: $workflowRunUrl"
+        
         $workflowRun = Invoke-RestMethod -Method GET -Uri $workflowRunUrl -Headers $headers -StatusCodeVariable statusCode
         if ($statusCode -eq 200) {
             $workflowRunStatus = $workflowRun.workflow_runs[0].status
