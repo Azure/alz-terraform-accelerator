@@ -138,7 +138,7 @@ jobs:
             $Inputs["use_separate_repository_for_pipeline_templates"] = "true"
             $Inputs["azure_devops_use_organisation_legacy_url"] = "false"
             $Inputs["azure_devops_create_project"] = "true"
-            $Inputs["azure_devops_project_name"] = "alz-$uniqueId"
+            $Inputs["azure_devops_project_name"] = "alz-test-$uniqueId"
             $Inputs["azure_devops_authentication_scheme"] = $authScheme
             $Inputs["use_self_hosted_agents"] = $enableSelfHostedAgents
           }
@@ -226,13 +226,14 @@ jobs:
           $versionControlSystem = "${{ matrix.vcs }}"
           $versionControlSystemOrganisationName = "${{ vars.VCS_ORGANIZATION }}"
           $uniqueId = $ENV:UNIQUE_ID
-          $repositoryOrProjectName = "alz-$uniqueId"
 
           if($versionControlSystem -eq "github") {
+            $repositoryName = "alz-$uniqueId"
+
             Write-Host "Running GitHub Actions Test for CI"
             ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
-              -repositoryName $repositoryOrProjectName `
+              -repositoryName $repositoryName `
               -workflowFileName "ci.yaml" `
               -skipDestroy `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
@@ -240,16 +241,18 @@ jobs:
             Write-Host "Running GitHub Actions Test for CD"
             ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
-              -repositoryName $repositoryOrProjectName `
+              -repositoryName $repositoryName `
               -workflowFileName "cd.yaml" `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
           }
 
           if($versionControlSystem -eq "azuredevops") {
+            $projectName = "alz-$uniqueId"
+
             Write-Host "Running Azure DevOps Pipelines Test for CI"
             ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
-              -projectName $repositoryOrProjectName `
+              -projectName $projectName `
               -pipelineNamePart "Continuous Integration" `
               -skipDestroy `
               -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
@@ -257,7 +260,7 @@ jobs:
             Write-Host "Running Azure DevOps Pipelines Test for CD"
             ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
-              -projectName $repositoryOrProjectName `
+              -projectName $projectName `
               -pipelineNamePart "Continuous Delivery" `
               -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
           }
