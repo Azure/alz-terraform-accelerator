@@ -74,12 +74,13 @@ function Wait-ForPipelineRunToComplete {
     while($pipelineRunStatus -ne "completed") {
         Start-Sleep -Seconds 10
         $pipelineRun = Invoke-RestMethod -Method GET -Uri $pipelineRunUrl -Headers $headers -StatusCodeVariable statusCode
-        if ($statusCode -eq 200) {
+        if ($statusCode -lt 300) {
             $pipelineRunStatus = $pipelineRun.state
             $pipelineRunResult = $pipelineRun.result
             Write-Host "Pipeline Run Status: $pipelineRunStatus - Conclusion: $pipelineRunResult"
         } else {
             Write-Host "Failed to find the pipeline run. Status Code: $statusCode"
+            throw "Failed to find the pipeline run."
         }
     }
 

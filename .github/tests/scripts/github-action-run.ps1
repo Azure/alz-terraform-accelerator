@@ -56,12 +56,13 @@ function Wait-ForWorkflowRunToComplete {
         Start-Sleep -Seconds 10
         
         $workflowRun = Invoke-RestMethod -Method GET -Uri $workflowRunUrl -Headers $headers -StatusCodeVariable statusCode
-        if ($statusCode -eq 200) {
+        if ($statusCode -lt 300) {
             $workflowRunStatus = $workflowRun.workflow_runs[0].status
             $workflowRunConclusion = $workflowRun.workflow_runs[0].conclusion
             Write-Host "Workflow Run Status: $workflowRunStatus - Conclusion: $workflowRunConclusion"
         } else {
             Write-Host "Failed to find the workflow run. Status Code: $statusCode"
+            throw "Failed to find the workflow run."
         }
     }
 
