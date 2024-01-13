@@ -143,6 +143,30 @@ variable "runner_container_image" {
   type        = string
 }
 
+variable "runner_container_cpu" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 2
+}
+
+variable "runner_container_memory" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 8
+}
+
+variable "runner_container_cpu_max" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 4
+}
+
+variable "runner_container_memory_max" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 16
+}
+
 variable "runner_name_environment_variable" {
   description = "The runner name environment variable supplied to the container|hidden"
   type        = string

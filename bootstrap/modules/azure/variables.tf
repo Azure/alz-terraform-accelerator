@@ -49,6 +49,10 @@ variable "agent_container_instances" {
     attach_managed_identity = optional(bool, false)
     managed_identity_key    = optional(string, null)
     agent_pool_name         = string
+    cpu                     = optional(number, 2)
+    memory                  = optional(number, 8)
+    cpu_max                 = optional(number, 4)
+    memory_max              = optional(number, 16)
   }))
   default = {}
 }

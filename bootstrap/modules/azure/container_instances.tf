@@ -18,10 +18,12 @@ resource "azurerm_container_group" "alz" {
   }
 
   container {
-    name   = each.value.container_instance_name
-    image  = var.agent_container_instance_image
-    cpu    = "1"
-    memory = "4"
+    name         = each.value.container_instance_name
+    image        = var.agent_container_instance_image
+    cpu          = each.value.cpu
+    memory       = each.value.memory
+    cpu_limit    = each.value.cpu_max
+    memory_limit = each.value.memory_max
 
     ports {
       port     = 80

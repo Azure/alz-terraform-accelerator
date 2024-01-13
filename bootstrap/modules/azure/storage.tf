@@ -18,20 +18,20 @@ resource "azurerm_storage_account_network_rules" "alz" {
 
 data "azapi_resource_id" "storage_account_blob_service" {
   type      = "Microsoft.Storage/storageAccounts/blobServices@2022-09-01"
-  parent_id =  azurerm_storage_account.alz.id
-  name = "default"
+  parent_id = azurerm_storage_account.alz.id
+  name      = "default"
 }
 
 resource "azapi_resource" "storage_account_container" {
-  type = "Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01"
+  type      = "Microsoft.Storage/storageAccounts/blobServices/containers@2023-01-01"
   parent_id = data.azapi_resource_id.storage_account_blob_service.id
   name      = var.storage_container_name
   body = jsonencode({
-      properties = {
-        publicAccess = "None"
-      }
-    })
-  depends_on            = [azurerm_storage_account_network_rules.alz]
+    properties = {
+      publicAccess = "None"
+    }
+  })
+  depends_on = [azurerm_storage_account_network_rules.alz]
 }
 
 resource "azurerm_role_assignment" "alz_storage_container" {

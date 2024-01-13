@@ -39,11 +39,19 @@ locals {
       container_instance_name = local.resource_names.container_instance_01
       agent_name              = local.resource_names.runner_01
       agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
+      cpu                     = var.runner_container_cpu
+      memory                  = var.runner_container_memory
+      cpu_max                 = var.runner_container_cpu_max
+      memory_max              = var.runner_container_memory_max
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
       agent_name              = local.resource_names.runner_02
       agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
+      cpu                     = var.runner_container_cpu
+      memory                  = var.runner_container_memory
+      cpu_max                 = var.runner_container_cpu_max
+      memory_max              = var.runner_container_memory_max
     }
   } : {}
 

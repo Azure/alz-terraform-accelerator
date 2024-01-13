@@ -38,8 +38,6 @@ locals {
     }
   } : {}
 
-
-
   agent_container_instances_managed_service_identity = module.azure_devops.is_authentication_scheme_managed_identity ? {
     agent_01 = {
       container_instance_name = local.resource_names.container_instance_01
@@ -47,6 +45,10 @@ locals {
       attach_managed_identity = true
       managed_identity_key    = local.plan_key
       agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
@@ -54,6 +56,10 @@ locals {
       attach_managed_identity = true
       managed_identity_key    = local.plan_key
       agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_03 = {
       container_instance_name = local.resource_names.container_instance_03
@@ -61,6 +67,10 @@ locals {
       attach_managed_identity = true
       managed_identity_key    = local.apply_key
       agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_04 = {
       container_instance_name = local.resource_names.container_instance_04
@@ -68,6 +78,10 @@ locals {
       attach_managed_identity = true
       managed_identity_key    = local.apply_key
       agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
   } : {}
 
@@ -76,11 +90,19 @@ locals {
       container_instance_name = local.resource_names.container_instance_01
       agent_name              = local.resource_names.agent_01
       agent_pool_name         = module.azure_devops.agent_pool_names[local.general_agent_pool_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
       agent_name              = local.resource_names.agent_02
       agent_pool_name         = module.azure_devops.agent_pool_names[local.general_agent_pool_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
   } : {}
 
