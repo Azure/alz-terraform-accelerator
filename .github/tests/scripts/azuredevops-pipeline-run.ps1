@@ -3,6 +3,7 @@ param (
     [string]$projectName,
     [string]$personalAccessToken,
     [string]$pipelineNamePart = "Continuous Delivery",
+    [switch]$skipDestroy = $false,
     [int]$maximumRetries = 10,
     [int]$retryCount = 0,
     [int]$retryDelay = 10000
@@ -13,23 +14,38 @@ function Trigger-Pipeline {
         [string]$organizationName,
         [string]$projectName,
         [int]$pipelineId,
-        [string]$pipelineAction = "apply",
+        [string]$pipelineAction = "",
         [hashtable]$headers
     )
     $pipelineDispatchUrl = "https://dev.azure.com/$organizationName/$projectName/_apis/pipelines/$pipelineId/runs?api-version=7.2-preview.1"
     Write-Host "Pipeline Dispatch URL: $pipelineDispatchUrl"
-    $pipelineDispatchBody = @{
-        "resources" = @{
-            "repositories" = @{
-                "self" = @{
-                    "refName" = "refs/heads/main"
+
+    $pipelineDispatchBody = @{}
+    if($pipelineAction -eq "") {
+        $pipelineDispatchBody = @{
+            "resources" = @{
+                "repositories" = @{
+                    "self" = @{
+                        "refName" = "refs/heads/main"
+                    }
                 }
             }
-        }
-        "templateParameters" = @{
-            "terraform_action" = $pipelineAction
-        }
-    } | ConvertTo-Json -Depth 100
+        } | ConvertTo-Json -Depth 100
+    } else {
+        $pipelineDispatchBody = @{
+            "resources" = @{
+                "repositories" = @{
+                    "self" = @{
+                        "refName" = "refs/heads/main"
+                    }
+                }
+            }
+            "templateParameters" = @{
+                "terraform_action" = $pipelineAction
+            }
+        } | ConvertTo-Json -Depth 100
+    }
+
     $result = Invoke-RestMethod -Method POST -Uri $pipelineDispatchUrl -Headers $headers -Body $pipelineDispatchBody -StatusCodeVariable statusCode -ContentType "application/json"
     if ($statusCode -ne 200) {
         throw "Failed to dispatch the pipeline."
@@ -98,25 +114,37 @@ try {
     $pipelineId = $pipeline.id
     Write-Host "Pipeline ID: $pipelineId"
 
+    $pipelineAction = ""
+    if(!($skipDestroy)) {
+        $pipelineAction = "apply"
+    }
+
     # Trigger the apply pipeline
-    Write-Host "Triggering the apply pipeline"
-    $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "apply" -headers $headers
-    Write-Host "Apply pipeline triggered successfully"
+    Write-Host "Triggering the $pipelineAction pipeline"
+    $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction $pipelineAction -headers $headers
+    Write-Host "$pipelineAction pipeline triggered successfully"
 
     # Wait for the apply pipeline to complete
-    Write-Host "Waiting for the apply pipeline to complete"
+    Write-Host "Waiting for the $pipelineAction pipeline to complete"
     Wait-ForPipelineRunToComplete -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineRunId $pipelineRunId -headers $headers
-    Write-Host "Apply pipeline completed successfully"
+    Write-Host "$pipelineAction pipeline completed successfully"
+
+    if($skipDestroy) {
+        $success = $true
+        break
+    }
+
+    $pipelineAction = "destroy"
 
     # Trigger the destroy pipeline
-    Write-Host "Triggering the destroy pipeline"
+    Write-Host "Triggering the $pipelineAction pipeline"
     $pipelineRunId = Trigger-Pipeline -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineAction "destroy" -headers $headers
-    Write-Host "Destroy pipeline triggered successfully"
+    Write-Host "$pipelineAction pipeline triggered successfully"
 
     # Wait for the apply pipeline to complete
-    Write-Host "Waiting for the destroy pipeline to complete"
+    Write-Host "Waiting for the $pipelineAction pipeline to complete"
     Wait-ForPipelineRunToComplete -organizationName $organizationName -projectName $projectName -pipelineId $pipelineId -pipelineRunId $pipelineRunId -headers $headers
-    Write-Host "Destroy pipeline completed successfully"
+    Write-Host "$pipelineAction pipeline completed successfully"
 
     $success = $true
 } catch {

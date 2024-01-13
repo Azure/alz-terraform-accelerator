@@ -3,6 +3,7 @@ param (
     [string]$repositoryName,
     [string]$personalAccessToken,
     [string]$workflowFileName = "cd.yaml",
+    [switch]$skipDestroy = $false,
     [int]$maximumRetries = 10,
     [int]$retryCount = 0,
     [int]$retryDelay = 10000
@@ -13,17 +14,26 @@ function Trigger-Workflow {
         [string]$organizationName,
         [string]$repositoryName,
         [string]$workflowId,
-        [string]$workflowAction = "apply",
+        [string]$workflowAction = "",
         [hashtable]$headers
     )
     $workflowDispatchUrl = "https://api.github.com/repos/$organizationName/$repositoryName/actions/workflows/$workflowId/dispatches"
     Write-Host "Workflow Dispatch URL: $workflowDispatchUrl"
-    $workflowDispatchBody = @{
-        ref = "main"
-        inputs = @{
-            terraform_action = $workflowAction
-        }
-    } | ConvertTo-Json -Depth 100
+
+    $workflowDispatchBody = @{}
+    if($workflowAction -eq "") {
+        $workflowDispatchBody = @{
+            ref = "main"
+        } | ConvertTo-Json -Depth 100
+    } else {
+        $workflowDispatchBody = @{
+            ref = "main"
+            inputs = @{
+                terraform_action = $workflowAction
+            }
+        } | ConvertTo-Json -Depth 100
+    }
+
     $result = Invoke-RestMethod -Method POST -Uri $workflowDispatchUrl -Headers $headers -Body $workflowDispatchBody -StatusCodeVariable statusCode
     if ($statusCode -ne 204) {
         throw "Failed to dispatch the workflow."
@@ -84,25 +94,38 @@ try {
     $workflowId = $workflow.id
     Write-Host "Workflow ID: $workflowId"
 
+    $workflowAction = ""
+
+    if(!($skipDestroy)) {
+        $workflowAction = "apply"
+    }
+
     # Trigger the apply workflow
-    Write-Host "Triggering the apply workflow"
-    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction "apply" -headers $headers
-    Write-Host "Apply workflow triggered successfully"
+    Write-Host "Triggering the $workflowAction workflow"
+    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
+    Write-Host "$workflowAction workflow triggered successfully"
 
     # Wait for the apply workflow to complete
-    Write-Host "Waiting for the apply workflow to complete"
+    Write-Host "Waiting for the $workflowAction workflow to complete"
     Wait-ForWorkflowRunToComplete -organizationName $organizationName -repositoryName $repositoryName -headers $headers
-    Write-Host "Apply workflow completed successfully"
+    Write-Host "$workflowAction workflow completed successfully"
+
+    if($skipDestroy) {
+        $success = $true
+        break
+    }
+
+    $workflowAction = "destroy"
 
     # Trigger the destroy workflow
-    Write-Host "Triggering the destroy workflow"
-    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction "destroy" -headers $headers
-    Write-Host "Destroy workflow triggered successfully"
+    Write-Host "Triggering the $workflowAction workflow"
+    Trigger-Workflow -organizationName $organizationName -repositoryName $repositoryName -workflowId $workflowId -workflowAction $workflowAction -headers $headers
+    Write-Host "$workflowAction workflow triggered successfully"
 
     # Wait for the apply workflow to complete
-    Write-Host "Waiting for the destroy workflow to complete"
+    Write-Host "Waiting for the $workflowAction workflow to complete"
     Wait-ForWorkflowRunToComplete -organizationName $organizationName -repositoryName $repositoryName -headers $headers
-    Write-Host "Destroy workflow completed successfully"
+    Write-Host "$workflowAction workflow completed successfully"
 
     $success = $true
 } catch {

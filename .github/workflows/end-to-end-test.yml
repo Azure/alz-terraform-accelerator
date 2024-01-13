@@ -229,16 +229,36 @@ jobs:
           $repositoryOrProjectName = "alz-$uniqueId"
 
           if($versionControlSystem -eq "github") {
+            Write-Host "Running GitHub Actions Test for CI"
             ./.github/tests/scripts/github-action-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -repositoryName $repositoryOrProjectName `
+              -workflowFileName "ci.yml" `
+              -skipDestroy `
+              -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
+
+            Write-Host "Running GitHub Actions Test for CD"
+            ./.github/tests/scripts/github-action-run.ps1 `
+              -organizationName $versionControlSystemOrganisationName `
+              -repositoryName $repositoryOrProjectName `
+              -workflowFileName "cd.yml" `
               -personalAccessToken "${{ secrets.VCS_TOKEN_GITHUB }}"
           }
 
           if($versionControlSystem -eq "azuredevops") {
+            Write-Host "Running Azure DevOps Pipelines Test for CI"
             ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
               -organizationName $versionControlSystemOrganisationName `
               -projectName $repositoryOrProjectName `
+              -pipelineNamePart "Continuous Integration" `
+              -skipDestroy `
+              -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
+
+            Write-Host "Running Azure DevOps Pipelines Test for CD"
+            ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
+              -organizationName $versionControlSystemOrganisationName `
+              -projectName $repositoryOrProjectName `
+              -pipelineNamePart "Continuous Delivery" `
               -personalAccessToken "${{ secrets.VCS_TOKEN_AZURE_DEVOPS }}"
           }
 
