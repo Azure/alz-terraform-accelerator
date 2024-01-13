@@ -247,7 +247,7 @@ jobs:
           }
 
           if($versionControlSystem -eq "azuredevops") {
-            $projectName = "alz-$uniqueId"
+            $projectName = "alz-test-$uniqueId"
 
             Write-Host "Running Azure DevOps Pipelines Test for CI"
             ./.github/tests/scripts/azuredevops-pipeline-run.ps1 `
