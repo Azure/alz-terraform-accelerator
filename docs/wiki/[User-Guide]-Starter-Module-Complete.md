@@ -4,17 +4,29 @@ A custom `config.yaml` file can be passed to the `additional_files` argument of 
 If not specified, the default `config.yaml` file will be used, which is as follows:
   
   ```yaml
+# This file contains templated variables to avoid repeating the same hard-coded values.
+# Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
+# `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
+# `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
+# `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
+# `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 ---
 archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
   root_name: es
   root_id: Enterprise-Scale
+
+  subscription_id_connectivity: ${subscription_id_connectivity}
+  subscription_id_identity: ${subscription_id_identity}
+  subscription_id_management: ${subscription_id_management}
+  root_parent_id: ${root_parent_management_group_id}
   deploy_corp_landing_zones: true
   deploy_online_landing_zones: true
-  default_location: uksouth
+  default_location: ${default_location}
   disable_telemetry: true
   deploy_management_resources: true
   configure_management_resources:
-    location: uksouth
+    location: ${default_location}
     settings:
       security_center:
         config:
@@ -37,7 +49,7 @@ connectivity:
       primary:
         name: vnet-hub
         resource_group_name: rg-connectivity
-        location: uksouth
+        location: ${default_location}
         address_space:
           - 10.0.0.0/16
         firewall:
@@ -50,7 +62,10 @@ connectivity:
           sku: VpnGw1
           type: Vpn
           subnet_address_prefix: 10.0.2.0/24
+
   ```
+
+The `config.yaml` file also comes with helpful templated variables such as `default_location` and `root_parent_management_group_id` which get prompted for during the ALZ PowerShell Module run. Alternatively, you can opt to not use the templated variables and hard-code the values in the `config.yaml` file.
 
 > **Note:** We recommend that you use the `caf-enterprise-scale` module for management groups and policies, and the `hubnetworking` module for connectivity resources. However, connectivity resources can be deployed using the `caf-enterprise-scale` module if you desire.
 
@@ -77,6 +92,8 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 
 ## Inputs
 
+- `default_location`: The default location to deploy resources to.
+- `root_parent_management_group_id`: The id of the management group that the ALZ hierarchy will be nested under.
 - `subscription_id_connectivity`: The identifier of the Connectivity Subscription.
 - `subscription_id_identity`: The identifier of the Identity Subscription.
 - `subscription_id_management`: The identifier of the Management Subscription.

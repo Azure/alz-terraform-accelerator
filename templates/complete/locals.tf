@@ -1,5 +1,12 @@
 locals {
-  config = yamldecode(file("${path.module}/config.yaml"))
+  config_template_file_variables = {
+    default_location                = var.default_location
+    root_parent_management_group_id = var.root_parent_management_group_id == "" ? data.azurerm_client_config.core.tenant_id : var.root_parent_management_group_id
+    subscription_id_connectivity    = var.subscription_id_connectivity
+    subscription_id_identity        = var.subscription_id_identity
+    subscription_id_management      = var.subscription_id_management
+  }
+  config = yamldecode(templatefile("${path.module}/config.yaml", local.config_template_file_variables))
 }
 locals {
   archetypes = try(merge(local.config.archetypes, {}), {})
