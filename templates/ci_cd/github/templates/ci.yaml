@@ -6,7 +6,8 @@ on:
 jobs:
   validate:
     name: Validate Terraform
-    runs-on: ubuntu-latest
+    runs-on:
+      ${runner_name}
     environment: ${environment_name_plan}
     steps:
       - name: Checkout Code
@@ -27,7 +28,8 @@ jobs:
   plan:
     name: Validate Terraform Plan
     needs: validate
-    runs-on: ubuntu-latest
+    runs-on:
+      ${runner_name}
     concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_plan}
     permissions:

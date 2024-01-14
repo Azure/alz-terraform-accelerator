@@ -52,11 +52,22 @@ For simplicity we recommend using a User account since this is a one off process
 
 Follow the instructions in the [Service Principal][wiki_quick_start_phase_1_service_principal] section.
 
-## 1.4 Version Control System Personal Access Token (PAT)
+## 1.4 Version Control Systems
 
-You'll need to decide whether you are using GitHub, Azure DevOps or the Local File System and follow the instructions below to generate a PAT:
+You'll need to decide if you are using GitHub, Azure DevOps or the Local File System and follow these steps:
 
 ### 1.4.1 Azure DevOps
+
+#### 1.4.1.1 Azure DevOps Pre-Requisites
+
+When you first create an Azure DevOps organization, it will not have any Microsoft-hosted agents available. If you intend to use Microsoft-hosted agents, you must either license your org or request a free pipeline.
+
+1. Setup billing with your MCAPS External Subscription: [Set up billing for your organization](https://learn.microsoft.com/en-us/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops)
+2. Check for and request a free pipeline via the form here: [Configure and pay for parallel jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted#how-much-do-parallel-jobs-cost)
+
+If you choose the billing option, you'll then need to purchase at least one parallel pipeline. You can do this by following the instructions here: [Configure and pay for parallel jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted#how-do-i-buy-more-parallel-jobs).
+
+#### 1.4.1.2 Azure DevOps Personal Access Token (PAT)
 
 1. Navigate to [dev.azure.com](https://dev.azure.com) and sign in to your organization.
 1. Ensure you navigate to the organization you want to deploy to.
@@ -74,7 +85,7 @@ You'll need to decide whether you are using GitHub, Azure DevOps or the Local Fi
     1. `Graph`: `Read & manage`
     1. `Pipeline Resources`: `Use & manage`
     1. `Project and Team`: `Read, write & manage`
-    1. `Service Connections`: `Read, write & manage`
+    1. `Service Connections`: `Read, query & manage`
     1. `Variable Groups`: `Read, create & manage`
 1. Click `Create`.
 1. Copy the token and save it somewhere safe.
@@ -82,7 +93,13 @@ You'll need to decide whether you are using GitHub, Azure DevOps or the Local Fi
 
 ### 1.4.2 GitHub
 
-> NOTE: The accelerator does not support GitHub personal accounts at this time, since they don't support all the features required for security. You must have a GitHub organization account or the accelerator will fail on apply. You can create a free organization [here](https://github.com/organizations/plan). Learn more about account types [here](https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts).
+#### 1.4.2.1 GitHub Pre-Requisites
+
+The accelerator does not support GitHub personal accounts, since they don't support all the features required for security. You must have a GitHub organization account or the accelerator will fail on apply. You can create a free organization [here](https://github.com/organizations/plan). Learn more about account types [here](https://docs.github.com/en/get-started/learning-about-github/types-of-github-accounts).
+
+> NOTE: If you choose to use a `free` organization account the accelerator bootstrap will make your repositories public. It must do this to support the functionality required by the accelerator. This is not recommended for production environments.
+
+#### 1.4.2.2 GitHub Personal Access Token (PAT)
 
 1. Navigate to [github.com](https://github.com).
 1. Click on your user icon in the top right and select `Settings`.
@@ -95,7 +112,7 @@ You'll need to decide whether you are using GitHub, Azure DevOps or the Local Fi
 1. Check the following scopes:
     1. `repo`
     1. `workflow`
-    1. `admin:org`: `write:org`
+    1. `admin:org`
     1. `user`: `read:user`
     1. `user`: `user:email`
     1. `delete_repo`
@@ -106,7 +123,7 @@ You'll need to decide whether you are using GitHub, Azure DevOps or the Local Fi
 
 ### 1.4.3 Local File System
 
-You just need to ensure that you have a folder on your local file system that you can use to store the files, which you current session has access to.
+You just need to ensure that you have a folder on your local file system that you can use to store the files, which your current session has access to.
 
 ## Next Steps
 

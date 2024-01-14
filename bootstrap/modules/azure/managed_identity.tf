@@ -1,5 +1,5 @@
 locals {
-  federated_credentials = var.create_federated_credential ? var.federated_credentials : {}
+  federated_credentials = var.federated_credentials
 }
 
 resource "azurerm_user_assigned_identity" "alz" {

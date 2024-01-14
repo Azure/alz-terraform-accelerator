@@ -3,7 +3,7 @@ resource "github_repository" "alz_templates" {
   name                = var.repository_name_templates
   description         = var.repository_name_templates
   auto_init           = true
-  visibility          = var.repository_visibility
+  visibility          = data.github_organization.alz.plan == local.free_plan ? "public" : "private"
   allow_update_branch = true
   allow_merge_commit  = false
   allow_rebase_merge  = false

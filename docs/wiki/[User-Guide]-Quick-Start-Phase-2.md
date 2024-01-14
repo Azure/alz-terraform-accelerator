@@ -3,8 +3,19 @@ Phase 2 of the accelerator is to run the bootstrap. Follow the steps below to do
 
 ## 2.1 Install the ALZ PowerShell module
 
-1. In your PowerShell Core (pwsh) terminal type `Install-Module -Name ALZ`.
-1. The module should download and install the latest version.
+The ALZ PowerShell module is used to run the bootstrap phase. It is available on the [PowerShell Gallery](https://www.powershellgallery.com/packages/ALZ/). You can install it using the following steps:
+
+1. Open a PowerShell Core (pwsh) terminal.
+2. Check if you already have the ALZ module installed  by runnung `Get-InstalledModule -Name ALZ`. You'll see something like this if it is already installed:
+
+```powershell
+Version    Name                                Repository           Description
+-------    ----                                ----------           -----------
+1.0.0      ALZ                                 PSGallery            Azure Landing Zones Powershell Module
+```
+
+3. If the module is already installed, run `Update-Module -Name ALZ` to ensure you have the latest version.
+4. If the module is not installed, run `Install-Module -Name ALZ`.
 
 ## 2.2 Run the Bootstrap
 

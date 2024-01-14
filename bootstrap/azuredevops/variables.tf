@@ -21,13 +21,13 @@ variable "use_separate_repository_for_pipeline_templates" {
   default     = true
 }
 
-variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|5|azure_location"
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)|4|azure_location"
   type        = string
 }
 
-variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|6|azure_subscription_id"
+variable "bootstrap_subscription_id" {
+  description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription|6|azure_subscription_id"
   type        = string
   default     = ""
 }
@@ -77,20 +77,38 @@ variable "azure_devops_authentication_scheme" {
   default = "WorkloadIdentityFederation"
 }
 
+variable "use_self_hosted_agents" {
+  description = "Controls whether to use self-hosted agents for the pipelines|14"
+  type        = bool
+  default     = true
+}
+
+variable "use_private_networking" {
+  description = "Controls whether to use private networking for the agent to storage account communication|15"
+  type        = bool
+  default     = true
+}
+
+variable "allow_storage_access_from_my_ip" {
+  description = "Allow access to the storage account from the current IP address. We recommend this is kept off for security|16"
+  type        = bool
+  default     = false
+}
+
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|14"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|17"
   type        = list(string)
   default     = []
 }
 
-variable "root_management_group_display_name" {
-  description = "The root management group display name|15"
+variable "root_parent_management_group_display_name" {
+  description = "The root parent management group display name. This will default to 'Tenant Root Group' if not supplied|18"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|16"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|19"
   type        = list(string)
   default     = []
 }
@@ -98,6 +116,30 @@ variable "additional_files" {
 variable "agent_container_image" {
   description = "The container image to use for Azure DevOps Agents|hidden"
   type        = string
+}
+
+variable "agent_container_cpu" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 2
+}
+
+variable "agent_container_memory" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 4
+}
+
+variable "agent_container_cpu_max" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 2
+}
+
+variable "agent_container_memory_max" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 4
 }
 
 variable "target_subscriptions" {
@@ -150,4 +192,46 @@ variable "pipeline_template_files" {
 variable "resource_names" {
   type        = map(string)
   description = "Overrides for resource names|hidden"
+}
+
+variable "agent_name_environment_variable" {
+  description = "The agent name environment variable supplied to the container|hidden"
+  type        = string
+  default     = "AZP_AGENT_NAME"
+}
+
+variable "agent_pool_environment_variable" {
+  description = "The agent pool environment variable supplied to the container|hidden"
+  type        = string
+  default     = "AZP_POOL"
+}
+
+variable "agent_organization_environment_variable" {
+  description = "The agent organization environment variable supplied to the container|hidden"
+  type        = string
+  default     = "AZP_URL"
+}
+
+variable "agent_token_environment_variable" {
+  description = "The agent token environment variable supplied to the container|hidden"
+  type        = string
+  default     = "AZP_TOKEN"
+}
+
+variable "virtual_network_address_space" {
+  type        = string
+  description = "The address space for the virtual network|hidden"
+  default     = "10.0.0.0/24"
+}
+
+variable "virtual_network_subnet_address_prefix_container_instances" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.0/26"
+}
+
+variable "virtual_network_subnet_address_prefix_storage" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.64/26"
 }

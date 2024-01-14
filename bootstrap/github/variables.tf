@@ -21,13 +21,13 @@ variable "use_separate_repository_for_workflow_templates" {
   default     = true
 }
 
-variable "azure_location" {
-  description = "Azure Deployment location for the landing zone management resources|5|azure_location"
+variable "bootstrap_location" {
+  description = "Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)|4|azure_location"
   type        = string
 }
 
-variable "azure_subscription_id" {
-  description = "Azure Subscription ID for the landing zone management resources. Leave empty to use the az login subscription|6|azure_subscription_id"
+variable "bootstrap_subscription_id" {
+  description = "Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription|6|azure_subscription_id"
   type        = string
   default     = ""
 }
@@ -50,26 +50,38 @@ variable "postfix_number" {
   default     = 1
 }
 
+variable "use_self_hosted_runners" {
+  description = "Controls whether to use self-hosted runners for the actions|10"
+  type        = bool
+  default     = true
+}
+
+variable "use_private_networking" {
+  description = "Controls whether to use private networking for the runner to storage account communication|11"
+  type        = bool
+  default     = true
+}
+
+variable "allow_storage_access_from_my_ip" {
+  description = "Allow access to the storage account from the current IP address. We recommend this is kept off for security|12"
+  type        = bool
+  default     = false
+}
+
 variable "apply_approvers" {
-  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|10"
+  description = "Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)|13"
   type        = list(string)
   default     = []
 }
 
-variable "repository_visibility" {
-  description = "The visibility of the repository. Must be 'public' if your organization is not licensed|11|repo_visibility"
-  type        = string
-  default     = "private"
-}
-
-variable "root_management_group_display_name" {
-  description = "The root management group display name|12"
+variable "root_parent_management_group_display_name" {
+  description = "The root parent management group display name. This will default to 'Tenant Root Group' if not supplied|15"
   type        = string
   default     = "Tenant Root Group"
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|13"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|16"
   type        = list(string)
   default     = []
 }
@@ -124,4 +136,81 @@ variable "pipeline_template_files" {
 variable "resource_names" {
   type        = map(string)
   description = "Overrides for resource names|hidden"
+}
+
+variable "runner_container_image" {
+  description = "The container image to use for GitHub Runners|hidden"
+  type        = string
+}
+
+variable "runner_container_cpu" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 2
+}
+
+variable "runner_container_memory" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 4
+}
+
+variable "runner_container_cpu_max" {
+  description = "The container cpu default|hidden"
+  type        = number
+  default     = 2
+}
+
+variable "runner_container_memory_max" {
+  description = "The container memory default|hidden"
+  type        = number
+  default     = 4
+}
+
+variable "runner_name_environment_variable" {
+  description = "The runner name environment variable supplied to the container|hidden"
+  type        = string
+  default     = "GH_RUNNER_NAME"
+}
+
+variable "runner_group_environment_variable" {
+  description = "The runner group environment variable supplied to the container|hidden"
+  type        = string
+  default     = "GH_RUNNER_GROUP"
+}
+
+variable "runner_organization_environment_variable" {
+  description = "The runner url environment variable supplied to the container|hidden"
+  type        = string
+  default     = "GH_RUNNER_URL"
+}
+
+variable "runner_token_environment_variable" {
+  description = "The runner token environment variable supplied to the container|hidden"
+  type        = string
+  default     = "GH_RUNNER_TOKEN"
+}
+
+variable "default_runner_group_name" {
+  description = "The default runner group name for unlicenses orgs|hidden"
+  type        = string
+  default     = "Default"
+}
+
+variable "virtual_network_address_space" {
+  type        = string
+  description = "The address space for the virtual network|hidden"
+  default     = "10.0.0.0/24"
+}
+
+variable "virtual_network_subnet_address_prefix_container_instances" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.0/26"
+}
+
+variable "virtual_network_subnet_address_prefix_storage" {
+  type        = string
+  description = "Address prefix for the virtual network subnet|hidden"
+  default     = "10.0.0.64/26"
 }

@@ -108,3 +108,7 @@ variable "pipeline_templates" {
     file_path   = string
   }))
 }
+
+variable "agent_pools" {
+  type = map(string)
+}

@@ -31,6 +31,9 @@ $success = $false
 do {
     $retryCount++
     try {
+        $myIp = Invoke-RestMethod -Uri http://ipinfo.io/json | Select-Object -ExpandProperty ip
+        Write-Host "Runner IP Address: $myIp"
+
         Write-Host "Running Terraform Destroy"
         terraform -chdir="$bootstrapDirectoryPath" destroy -auto-approve -var-file="override.tfvars"
         if ($LastExitCode -eq 0) {

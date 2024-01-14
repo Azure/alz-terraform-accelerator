@@ -8,7 +8,7 @@ stages:
       - job: validate
         displayName: Validate Terraform
         pool:
-          vmImage: ubuntu-latest
+          ${agent_pool_configuration_plan}
         steps:
           - template: helpers/terraform-installer.yaml
             parameters:

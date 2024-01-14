@@ -14,6 +14,10 @@ locals {
 }
 
 locals {
+  general_agent_pool_key = "general"
+}
+
+locals {
   managed_identities = {
     (local.plan_key)  = local.resource_names.user_assigned_managed_identity_plan
     (local.apply_key) = local.resource_names.user_assigned_managed_identity_apply
@@ -34,32 +38,86 @@ locals {
     }
   } : {}
 
-  agent_container_instances = module.azure_devops.is_authentication_scheme_managed_identity ? {
+  agent_container_instances_managed_service_identity = module.azure_devops.is_authentication_scheme_managed_identity ? {
     agent_01 = {
       container_instance_name = local.resource_names.container_instance_01
       agent_name              = local.resource_names.agent_01
+      attach_managed_identity = true
       managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_02 = {
       container_instance_name = local.resource_names.container_instance_02
       agent_name              = local.resource_names.agent_02
+      attach_managed_identity = true
       managed_identity_key    = local.plan_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.plan_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.plan_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_03 = {
       container_instance_name = local.resource_names.container_instance_03
       agent_name              = local.resource_names.agent_03
+      attach_managed_identity = true
       managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
     agent_04 = {
       container_instance_name = local.resource_names.container_instance_04
       agent_name              = local.resource_names.agent_04
+      attach_managed_identity = true
       managed_identity_key    = local.apply_key
-      agent_pool_name         = module.azure_devops.is_authentication_scheme_managed_identity ? module.azure_devops.agent_pool_names[local.apply_key] : ""
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.apply_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
     }
   } : {}
+
+  agent_container_instances_workload_identity_federation = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? {
+    agent_01 = {
+      container_instance_name = local.resource_names.container_instance_01
+      agent_name              = local.resource_names.agent_01
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.general_agent_pool_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
+    }
+    agent_02 = {
+      container_instance_name = local.resource_names.container_instance_02
+      agent_name              = local.resource_names.agent_02
+      agent_pool_name         = module.azure_devops.agent_pool_names[local.general_agent_pool_key]
+      cpu                     = var.agent_container_cpu
+      memory                  = var.agent_container_memory
+      cpu_max                 = var.agent_container_cpu_max
+      memory_max              = var.agent_container_memory_max
+    }
+  } : {}
+
+  agent_container_instances = merge(local.agent_container_instances_managed_service_identity, local.agent_container_instances_workload_identity_federation)
+
+  agent_pools_managed_service_identity = module.azure_devops.is_authentication_scheme_managed_identity ? {
+    (local.plan_key)  = local.resource_names.version_control_system_agent_pool_plan
+    (local.apply_key) = local.resource_names.version_control_system_agent_pool_apply
+  } : {}
+
+  agent_pools_workload_identity_federation = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? {
+    (local.general_agent_pool_key) = local.resource_names.version_control_system_agent_pool_general
+  } : {}
+
+  agent_pools = merge(local.agent_pools_managed_service_identity, local.agent_pools_workload_identity_federation)
 }
 
 locals {
@@ -71,7 +129,7 @@ locals {
         local.ci_key,
         local.cd_key
       ]
-      agent_pool_name = local.resource_names.version_control_system_agent_pool_plan
+      agent_pool_name = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? local.resource_names.version_control_system_agent_pool_general : local.resource_names.version_control_system_agent_pool_plan
     }
     (local.apply_key) = {
       environment_name        = local.resource_names.version_control_system_environment_apply
@@ -79,7 +137,7 @@ locals {
       service_connection_template_keys = [
         local.cd_key
       ]
-      agent_pool_name = local.resource_names.version_control_system_agent_pool_apply
+      agent_pool_name = module.azure_devops.is_authentication_scheme_workload_identity_federation && var.use_self_hosted_agents ? local.resource_names.version_control_system_agent_pool_general : local.resource_names.version_control_system_agent_pool_apply
     }
   }
 }

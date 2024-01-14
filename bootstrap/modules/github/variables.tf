@@ -6,10 +6,6 @@ variable "repository_name" {
   type = string
 }
 
-variable "repository_visibility" {
-  type = string
-}
-
 variable "repository_files" {
   type = map(object({
     path = string
@@ -70,4 +66,12 @@ variable "pipeline_templates" {
       user_assigned_managed_identity_key = string
     }))
   }))
+}
+
+variable "runner_groups" {
+  type = map(string)
+}
+
+variable "default_runner_group_name" {
+  type = string
 }
