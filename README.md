@@ -1,8 +1,4 @@
-# Azure Landing Zone Terraform Accelerator
-
-| :warning: WARNING!          |
-|:---------------------------|
-| This repository is still a work in progress, but we encourage you to try it out. This notice will be removed once version 1.0 is released. |
+# Azure Landing Zones Terraform Accelerator
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)

@@ -11,7 +11,8 @@ on:
 jobs:
   plan:
     name: Plan with Terraform
-    runs-on: ubuntu-latest
+    runs-on:
+      ${runner_name}
     concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_plan}
     permissions:
@@ -64,7 +65,8 @@ jobs:
   apply:
     needs: plan
     name: Apply with Terraform
-    runs-on: ubuntu-latest
+    runs-on:
+      ${runner_name}
     concurrency: ${backend_azure_storage_account_container_name}
     environment: ${environment_name_apply}
     permissions:

@@ -8,6 +8,11 @@ locals {
 }
 
 locals {
+  free_plan       = "free"
+  enterprise_plan = "enterprise"
+}
+
+locals {
   primary_approver     = length(var.approvers) > 0 ? var.approvers[0] : ""
   default_commit_email = coalesce(local.primary_approver, "demo@microsoft.com")
 }
@@ -30,4 +35,8 @@ locals {
     user_assigned_managed_identity_key = oidc_subject.user_assigned_managed_identity_key
     subject                            = oidc_subject.subject
   } }
+}
+
+locals {
+  runner_group_name = data.github_organization.alz.plan == local.enterprise_plan ? github_actions_runner_group.alz[keys(var.runner_groups)[0]].name : var.default_runner_group_name
 }

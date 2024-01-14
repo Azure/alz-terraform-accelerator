@@ -9,6 +9,10 @@ locals {
 }
 
 locals {
+  general_agent_pool_key = "general"
+}
+
+locals {
   environments = {
     (local.plan_key)  = local.resource_names.version_control_system_environment_plan
     (local.apply_key) = local.resource_names.version_control_system_environment_apply
@@ -29,6 +33,31 @@ locals {
       federated_credential_name          = "${local.resource_names.user_assigned_managed_identity_federated_credentials_prefix}-${key}"
     }
   }
+
+  runner_container_instances = var.use_self_hosted_runners ? {
+    agent_01 = {
+      container_instance_name = local.resource_names.container_instance_01
+      agent_name              = local.resource_names.runner_01
+      agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
+      cpu                     = var.runner_container_cpu
+      memory                  = var.runner_container_memory
+      cpu_max                 = var.runner_container_cpu_max
+      memory_max              = var.runner_container_memory_max
+    }
+    agent_02 = {
+      container_instance_name = local.resource_names.container_instance_02
+      agent_name              = local.resource_names.runner_02
+      agent_pool_name         = module.github.runner_group_names[local.general_agent_pool_key]
+      cpu                     = var.runner_container_cpu
+      memory                  = var.runner_container_memory
+      cpu_max                 = var.runner_container_cpu_max
+      memory_max              = var.runner_container_memory_max
+    }
+  } : {}
+
+  runner_groups = var.use_self_hosted_runners ? {
+    (local.general_agent_pool_key) = local.resource_names.version_control_system_runner_group
+  } : {}
 }
 
 locals {

@@ -6,6 +6,7 @@ resource_names = {
   resource_group_state                                       = "rg-{{service_name}}-{{environment_name}}-state-{{azure_location}}-{{postfix_number}}"
   resource_group_identity                                    = "rg-{{service_name}}-{{environment_name}}-identity-{{azure_location}}-{{postfix_number}}"
   resource_group_agents                                      = "rg-{{service_name}}-{{environment_name}}-agents-{{azure_location}}-{{postfix_number}}"
+  resource_group_network                                     = "rg-{{service_name}}-{{environment_name}}-network-{{azure_location}}-{{postfix_number}}"
   user_assigned_managed_identity_plan                        = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-plan-{{postfix_number}}"
   user_assigned_managed_identity_apply                       = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-apply-{{postfix_number}}"
   user_assigned_managed_identity_federated_credentials_plan  = "id-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}-plan"
@@ -27,9 +28,14 @@ resource_names = {
   version_control_system_environment_plan                    = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_environment_apply                   = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_variable_group                      = "{{service_name}}-{{environment_name}}"
+  version_control_system_agent_pool_general                  = "{{service_name}}-{{environment_name}}"
   version_control_system_agent_pool_plan                     = "{{service_name}}-{{environment_name}}-plan"
   version_control_system_agent_pool_apply                    = "{{service_name}}-{{environment_name}}-apply"
   version_control_system_group                               = "{{service_name}}-{{environment_name}}-approvers"
+  virtual_network                                            = "vnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
+  subnet_container_instances                                 = "subnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}-aci"
+  subnet_storage                                             = "subnet-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}-sto"
+  private_endpoint                                           = "pe-{{service_name}}-{{environment_name}}-{{azure_location}}-{{postfix_number}}"
 }
 
 # Version Control System Variables
