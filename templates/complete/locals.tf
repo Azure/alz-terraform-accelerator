@@ -1,7 +1,6 @@
 locals {
   const_yaml = "yaml"
   const_yml  = "yml"
-  const_json = "json"
 
   config_file_name      = basename(var.configuration_file_path)
   config_file_split     = split(".", local.config_file_name)

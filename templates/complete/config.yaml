@@ -7,7 +7,7 @@
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 ---
-archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
+archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
   root_name: es
   root_id: Enterprise-Scale
   subscription_id_connectivity: ${subscription_id_connectivity}
@@ -38,7 +38,7 @@ archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module 
           management:
             name: aa-management
 connectivity:
-  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+  hubnetworking:  # `hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       primary:
         name: vnet-hub
@@ -51,7 +51,7 @@ connectivity:
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+        virtual_network_gateway:  # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub
           sku: VpnGw1
           type: Vpn
