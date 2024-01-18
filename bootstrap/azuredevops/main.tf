@@ -8,12 +8,14 @@ module "resource_names" {
 }
 
 module "files" {
-  source                     = "./../modules/files"
-  starter_module_folder_path = local.starter_module_folder_path
-  pipeline_folder_path       = local.pipeline_folder_path
-  pipeline_files             = var.pipeline_files
-  pipeline_template_files    = var.pipeline_template_files
-  additional_files           = var.additional_files
+  source                            = "./../modules/files"
+  starter_module_folder_path        = local.starter_module_folder_path
+  pipeline_folder_path              = local.pipeline_folder_path
+  pipeline_files                    = var.pipeline_files
+  pipeline_template_files           = var.pipeline_template_files
+  additional_files                  = concat(var.additional_files)
+  configuration_file_path           = var.configuration_file_path
+  built_in_configurartion_file_name = var.built_in_configurartion_file_name
 }
 
 module "azure" {

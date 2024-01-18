@@ -97,19 +97,17 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 - `subscription_id_connectivity`: The identifier of the Connectivity Subscription.
 - `subscription_id_identity`: The identifier of the Identity Subscription.
 - `subscription_id_management`: The identifier of the Management Subscription.
-- `additional_files`: Argument where our custom `config.yaml` file is passed to the module.
-
-> **IMPORTANT**: The name of the file you supply in `additional_files` must be `config.yaml`. If you use a different file name, your config will not be picked up.
+- `configuration_file_path`: This is the path to your custom config file if you wish to supply one. Leaving this empty will use the default `config.yaml` file. This must be specified as an absolute file paths (e.g. c:\\my-config\\my-config.yaml or /home/user/my-config/my-config.yaml). If you don't supply an absolute path, it will fail.
 
 ## Example
 
-### Design your Azure Landing Zone through a custom `config.yaml` file
+### Design your Azure Landing Zone through a custom config file
 
-Create a custom `config.yaml` to tailor to your needs, for example an Azure Landing Zone with a three-region mesh:
+Create a custom yaml config to tailor to your needs, for example an Azure Landing Zone with a three-region mesh:
 
 ```yaml
 
-# Path of file: C:\users\johndoe\config.yaml
+# Path of file: C:\users\johndoe\my-config.yaml
 
 archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
   root_name: es
@@ -152,39 +150,69 @@ Set your inputs.yaml file (See [Frequently Asked Questions][wiki_frequently_aske
 
 > **Note:** This is an alternative way of supplying the input arguments to the ALZ PowerShell Module, you can still run it as documented in the Quick Start guide and be prompted for inputs.
 
+GitHub Example:
+
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
 
 starter_module: "complete"
 azure_location: "uksouth"
-version_control_system_access_token: "xxxxxxxxxx"
-version_control_system_organization: "contoso"
+github_personal_system_access_token: "xxxxxxxxxx"
+github_organization_name: "contoso"
 azure_location": "uksouth"
 azure_subscription_id: "00000000-0000-0000-0000-000000000000"
 service_name: "alz"
 environment_name: "mgmt"
 postfix_number: "1"
-# repository_visibility: "public" # GitHub Only
-azure_devops_use_organisation_legacy_url: "false" # Azure DevOps Only
-azure_devops_create_project: "true" # Azure DevOps Only
-azure_devops_project_name: "alz-demo" # Azure DevOps Only
-azure_devops_authentication_scheme: "WorkloadIdentityFederation" # Azure DevOps Only
 root_parent_management_group_display_name: "Tenant Root Group"
-additional_files: "C:\users\johndoe\config.yaml"
 version_control_system_use_separate_repository_for_templates: "true"
+use_self_hosted_agents: "true"
+use_private_networking: "true"
+allow_storage_access_from_my_ip: "false"
 
 # Starter Module Specific Variables
 subscription_id_connectivity: "00000000-0000-0000-0000-000000000000"
 subscription_id_identity: "00000000-0000-0000-0000-000000000000"
 subscription_id_management: "00000000-0000-0000-0000-000000000000"
+configuration_file_path: "C:\users\johndoe\config.yaml"
+```
 
+Azure DevOps Example:
+
+```yaml
+# Path of file: C:\users\johndoe\inputs.yaml
+
+starter_module: "complete"
+azure_location: "uksouth"
+azure_devops_personal_system_access_token: "xxxxxxxxxx"
+azure_devops_organization_name: "contoso"
+azure_location": "uksouth"
+azure_subscription_id: "00000000-0000-0000-0000-000000000000"
+service_name: "alz"
+environment_name: "mgmt"
+postfix_number: "1"
+azure_devops_use_organisation_legacy_url: "false"
+azure_devops_create_project: "true"
+azure_devops_project_name: "alz-demo"
+azure_devops_authentication_scheme: "WorkloadIdentityFederation"
+root_parent_management_group_display_name: "Tenant Root Group"
+version_control_system_use_separate_repository_for_templates: "true"
+use_self_hosted_agents: "true"
+use_private_networking: "true"
+allow_storage_access_from_my_ip: "false"
+
+# Starter Module Specific Variables
+subscription_id_connectivity: "00000000-0000-0000-0000-000000000000"
+subscription_id_identity: "00000000-0000-0000-0000-000000000000"
+subscription_id_management: "00000000-0000-0000-0000-000000000000"
+configuration_file_path: "C:\users\johndoe\config.yaml"
 ```
 
 Run the accelerator:
 
 ```powershell
 # Working Directory: C:\users\johndoe
-New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoApprove -v "v0.1.9"
+New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoApprove -v "v0.4.0"
 ```
 
  [//]: # (************************)

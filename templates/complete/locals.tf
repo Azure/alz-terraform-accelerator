@@ -1,11 +1,11 @@
 locals {
   const_yaml = "yaml"
-  const_yml = "yml"
+  const_yml  = "yml"
   const_json = "json"
 
-  config_file_name = var.configuration_file_name
-  config_file_split = split(".", config_file_name)
-  config_file_extension = replace(lower(element(config_file_split, length(config_file_split) - 1)), local.const_yml, local.const_yaml)
+  config_file_name      = basename(var.configuration_file_path)
+  config_file_split     = split(".", local.config_file_name)
+  config_file_extension = replace(lower(element(local.config_file_split, length(local.config_file_split) - 1)), local.const_yml, local.const_yaml)
 }
 locals {
   config_template_file_variables = {
