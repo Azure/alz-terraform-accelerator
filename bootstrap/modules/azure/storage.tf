@@ -5,6 +5,7 @@ resource "azurerm_storage_account" "alz" {
   account_tier                    = "Standard"
   account_replication_type        = "GRS"
   allow_nested_items_to_be_public = false
+  shared_access_key_enabled       = false
   public_network_access_enabled   = local.use_private_networking && !var.allow_storage_access_from_my_ip ? false : true
 }
 
