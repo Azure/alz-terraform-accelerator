@@ -127,7 +127,7 @@ connectivity:
         mesh_peering_enabled: true
         address_space:
           - 10.0.0.0/16
-      secondary: 
+      secondary:
         name: vnet-hub-ukw
         resource_group_name: rg-connectivity-ukw
         location: ukwest
