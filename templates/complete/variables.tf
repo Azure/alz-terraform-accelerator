@@ -24,3 +24,8 @@ variable "subscription_id_identity" {
   type        = string
 }
 
+variable "configuration_file_name" {
+  description = "The name of the configuration file to be generated|6|hidden_configuration_file_name"
+  type        = string
+  default     = "config.yaml"
+}

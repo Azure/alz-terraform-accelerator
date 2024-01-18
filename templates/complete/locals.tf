@@ -1,4 +1,13 @@
 locals {
+  const_yaml = "yaml"
+  const_yml = "yml"
+  const_json = "json"
+
+  config_file_name = var.configuration_file_name
+  config_file_split = split(".", config_file_name)
+  config_file_extension = replace(lower(element(config_file_split, length(config_file_split) - 1)), local.const_yml, local.const_yaml)
+}
+locals {
   config_template_file_variables = {
     default_location                = var.default_location
     root_parent_management_group_id = var.root_parent_management_group_id == "" ? data.azurerm_client_config.core.tenant_id : var.root_parent_management_group_id
@@ -6,7 +15,11 @@ locals {
     subscription_id_identity        = var.subscription_id_identity
     subscription_id_management      = var.subscription_id_management
   }
-  config = yamldecode(templatefile("${path.module}/config.yaml", local.config_template_file_variables))
+
+  config = (local.config_file_extension == local.const_yaml ?
+    yamldecode(templatefile("${path.module}/${local.config_file_name}", local.config_template_file_variables)) :
+    jsondecode(templatefile("${path.module}/${local.config_file_name}", local.config_template_file_variables))
+  )
 }
 locals {
   archetypes = try(merge(local.config.archetypes, {}), {})
