@@ -10,6 +10,7 @@ locals {
 locals {
   config_template_file_variables = {
     default_location                = var.default_location
+    default_postfix                 = var.default_postfix
     root_parent_management_group_id = var.root_parent_management_group_id == "" ? data.azurerm_client_config.core.tenant_id : var.root_parent_management_group_id
     subscription_id_connectivity    = var.subscription_id_connectivity
     subscription_id_identity        = var.subscription_id_identity
