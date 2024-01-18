@@ -36,7 +36,7 @@ variable "additional_files" {
 variable "configuration_file_path" {
   description = "Configuration file path"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "built_in_configurartion_file_name" {

@@ -8,7 +8,7 @@ locals {
 }
 
 locals {
-  has_configuration_file = var.configuration_file_path != ""
+  has_configuration_file = var.configuration_file_path != null
 }
 
 locals {
