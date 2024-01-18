@@ -33,5 +33,5 @@ variable "subscription_id_identity" {
 variable "configuration_file_path" {
   description = "The path of the configuration file|7|configuration_file_path"
   type        = string
-  default     = "config.yaml"
+  default     = ""
 }

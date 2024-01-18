@@ -2,7 +2,7 @@ locals {
   const_yaml = "yaml"
   const_yml  = "yml"
 
-  config_file_name      = basename(var.configuration_file_path)
+  config_file_name      = var.configuration_file_path == "" ? "config.yaml" : basename(var.configuration_file_path)
   config_file_split     = split(".", local.config_file_name)
   config_file_extension = replace(lower(element(local.config_file_split, length(local.config_file_split) - 1)), local.const_yml, local.const_yaml)
 }
