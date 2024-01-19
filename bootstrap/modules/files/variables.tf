@@ -6,7 +6,7 @@ variable "starter_module_folder_path" {
 variable "starter_module_folder_path_exclusion" {
   description = "Starter module folder path exclusion"
   type        = string
-  default     = ".example_"
+  default     = ".examples"
 }
 
 variable "pipeline_folder_path" {

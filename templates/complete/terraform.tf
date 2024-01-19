@@ -1,7 +1,7 @@
 terraform {
-  required_version = ">= 0.12"
+  required_version = "~> 1.6"
   required_providers {
-    azurerm = ">= 3.0.0"
+    azurerm = "~> 3.88"
   }
   # backend "azurerm" {}
 }
@@ -12,15 +12,15 @@ provider "azurerm" {
 }
 
 provider "azurerm" {
+  skip_provider_registration = true
   alias                      = "management"
   subscription_id            = var.subscription_id_management
-  skip_provider_registration = true
   features {}
 }
 
 provider "azurerm" {
+  skip_provider_registration = true
   alias                      = "connectivity"
   subscription_id            = var.subscription_id_connectivity
-  skip_provider_registration = true
   features {}
 }
