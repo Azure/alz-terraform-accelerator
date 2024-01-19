@@ -214,7 +214,7 @@ archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module
 # ** vNext **
 # vNext is currently under development and will contain the next version of Terraform providers for CAF ALZ deployment.
 
-#connectivity:
+# connectivity:
 #  hubnetworking:  # `hubnetworking` module, add inputs as listed on the module registry where necessary.
 #    hub_virtual_networks:
 #      primary:
