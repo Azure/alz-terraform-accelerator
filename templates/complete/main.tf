@@ -82,6 +82,7 @@ module "virtual_network_gateway" {
   virtual_network_resource_group_name = each.value.virtual_network_resource_group_name
   default_tags                        = try(each.value.default_tags, null)
   edge_zone                           = try(each.value.edge_zone, null)
+  enable_telemetry                    = false
   express_route_circuits              = try(each.value.express_route_circuits, null)
   ip_configurations                   = try(each.value.ip_configurations, null)
   local_network_gateways              = try(each.value.local_network_gateways, null)

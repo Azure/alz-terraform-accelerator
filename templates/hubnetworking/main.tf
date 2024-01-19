@@ -57,6 +57,7 @@ module "vnet-gateway" {
   sku                                 = "VpnGw1"
   subnet_address_prefix               = var.gateway_subnet_address_prefix
   type                                = "Vpn"
+  enable_telemetry                    = false
   virtual_network_name                = module.hubnetworking.virtual_networks["primary-hub"].name
   virtual_network_resource_group_name = "rg-connectivity-${var.default_location}"
 
