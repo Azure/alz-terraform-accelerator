@@ -53,7 +53,7 @@ variable "root_parent_management_group_display_name" {
 }
 
 variable "additional_files" {
-  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|10"
+  description = "Additional files to upload to the repository. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml)|hidden"
   type        = list(string)
   default     = []
 }
@@ -61,6 +61,18 @@ variable "additional_files" {
 variable "target_subscriptions" {
   description = "The target subscriptions to apply onwer permissions to|hidden_azure_subscription_ids"
   type        = list(string)
+}
+
+variable "configuration_file_path" {
+  description = "The name of the configuration file to be generated|hidden_configuration_file_path"
+  type        = string
+  default     = ""
+}
+
+variable "built_in_configurartion_file_name" {
+  description = "The name of the built-in configuration file|hidden"
+  type        = string
+  default     = "config.yaml"
 }
 
 variable "module_folder_path" {

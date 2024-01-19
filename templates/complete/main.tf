@@ -5,7 +5,7 @@ module "enterprise_scale" {
   count = length(local.archetypes) > 0 ? 1 : 0
 
   disable_telemetry                                       = try(local.archetypes.disable_telemetry, true)
-  default_location                                        = try(local.archetypes.default_location, "uksouth")
+  default_location                                        = try(local.archetypes.default_location, var.default_location)
   root_parent_id                                          = try(local.archetypes.root_parent_id, data.azurerm_client_config.core.tenant_id)
   archetype_config_overrides                              = try(local.archetypes.archetype_config_overrides, {})
   configure_connectivity_resources                        = try(local.archetypes.configure_connectivity_resources, {})

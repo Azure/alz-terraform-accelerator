@@ -150,7 +150,6 @@ jobs:
 
           $Inputs["apply_approvers"] = "" # if ($versionControlSystem -eq "github") { "${{ vars.VCS_APPROVER_GITHUB }}" } else { "${{ vars.VCS_APPROVER_AZUREDEVOPS }}" }
           $Inputs["root_parent_management_group_display_name"] = "Tenant Root Group"
-          $Inputs["additional_files"] = ""
 
           $Inputs["subscription_id_connectivity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"
           $Inputs["subscription_id_identity"] = "${{ vars.ARM_SUBSCRIPTION_ID }}"

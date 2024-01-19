@@ -13,7 +13,6 @@
     1. `environment_name`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-alz-<environment_name>-uksouth-001`. We recommend using `mgmt` for this.
     1. `postfix_number`: This is used to build up the names of your Azure and Azure DevOps resources, for example `rg-alz-mgmt-uksouth-<postfix_number>`. We recommend using `1` for this.
     1. `root_parent_management_group_display_name`: This is the name of the root management group that you applied permissions to in a previous step. This defaults to `Tenant Root Group`, but if your organization has changed it or you want to use a different management group you'll need to enter the new display name.
-    1. `additional_files`: This is a method to supply additional files to your starter module. This is specifically used when using the `complete` starter module to supply the `config.yaml` file. This must be specified as a comma-separated list of absolute file paths (e.g. c:\\config\\config.yaml or /home/user/config/config.yaml). If you don't supply an absolute path, it will fail.
 1. You will now see a green message telling you that the next section is specific to the starter module you choose. Navigate to the documentation for the relevant starter module to get details of the specific inputs.
 1. Once you have entered the starter module input, you see that a Terraform `init` and `apply` happen.
 1. There will be a pause after the `plan` phase you allow you to validate what is going to be deployed.
