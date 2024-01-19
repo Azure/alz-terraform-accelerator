@@ -1,0 +1,235 @@
+# This file contains templated variables to avoid repeating the same hard-coded values.
+# Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
+# `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
+# `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
+# `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
+# `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
+# `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
+---
+archetypes:  # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
+  # Base variables
+  root_name: Contoso
+  root_id: contoso
+  subscription_id_connectivity: ${subscription_id_connectivity}
+  subscription_id_identity: ${subscription_id_identity}
+  subscription_id_management: ${subscription_id_management}
+  root_parent_id: ${root_parent_management_group_id}
+  deploy_core_landing_zones: true
+  deploy_corp_landing_zones: true
+  deploy_online_landing_zones: true
+  default_location: ${default_location}
+  deploy_management_resources: true
+  deploy_connectivity_resources: true
+  deploy_identity_resources: true
+  disable_telemetry: true
+
+  # Management
+  configure_management_resources:
+    location: ${default_location}
+    settings:
+      log_analytics:
+        enabled: true
+        config:
+          retention_in_days: 50
+          enable_monitoring_for_vm: true
+          enable_monitoring_for_vmss: true
+          enable_solution_for_agent_health_assessment: true
+          enable_solution_for_anti_malware: true
+          enable_solution_for_change_tracking: true
+          enable_solution_for_service_map: true
+          enable_solution_for_sql_assessment: true
+          enable_solution_for_sql_vulnerability_assessment: true
+          enable_solution_for_sql_advanced_threat_detection: true
+          enable_solution_for_updates: true
+          enable_solution_for_vm_insights: true
+          enable_solution_for_container_insights: true
+          enable_sentinel: true
+      security_center:
+        enabled: true
+        config:
+          email_security_contact: "user@contoso.com"
+          enable_defender_for_apis: true
+          enable_defender_for_app_services: true
+          enable_defender_for_arm: true
+          enable_defender_for_containers: true
+          enable_defender_for_cosmosdbs: true
+          enable_defender_for_cspm: true
+          enable_defender_for_dns: true
+          enable_defender_for_key_vault: true
+          enable_defender_for_oss_databases: true
+          enable_defender_for_servers: true
+          enable_defender_for_servers_vulnerability_assessments: true
+          enable_defender_for_sql_servers: true
+          enable_defender_for_sql_server_vms: true
+          enable_defender_for_storage: true
+      location: ${default_location}
+      tags: null
+    advanced:
+      asc_export_resource_group_name: rg-asc-export
+      custom_settings_by_resource_type:
+        azurerm_resource_group:
+          management:
+            name: rg-management
+        azurerm_log_analytics_workspace:
+          management:
+            name: log-management
+        azurerm_automation_account:
+          management:
+            name: aa-management
+
+  # Networking
+  configure_connectivity_resources:
+    settings:
+      hub_networks:
+        - config:
+            address_space:
+              - 10.100.0.0/16
+            location: ${default_location}
+            link_to_ddos_protection_plan: false
+            dns_servers: []
+            bgp_community: ""
+            subnets: []
+            virtual_network_gateway:
+              enabled: true
+              config:
+                address_prefix: 10.100.1.0/24
+                gateway_sku_expressroute: ErGw2AZ
+                gateway_sku_vpn: null
+              advanced_vpn_settings:
+                enable_bgp: null
+                active_active: null
+                private_ip_address_allocation: ""
+                default_local_network_gateway_id: ""
+                vpn_client_configuration: []
+                bgp_settings: []
+                custom_route: []
+            azure_firewall:
+              enabled: false
+              config:
+                address_prefix: 10.100.0.0/24
+                enable_dns_proxy: true
+                sku_tier: ""
+                base_policy_id: ""
+                private_ip_ranges: []
+                threat_intelligence_mode: ""
+                threat_intelligence_allowlist: []
+                availability_zones:
+                  zone_1: true
+                  zone_2: true
+                  zone_3: true
+            spoke_virtual_network_resource_ids: []
+            enable_outbound_virtual_network_peering: true
+            enable_hub_network_mesh_peering: false
+      vwan_hub_networks: []
+      ddos_protection_plan:
+        enabled: false
+        config:
+          location: ${default_location}
+      dns:
+        enabled: true
+        config:
+          location: null
+          enable_private_link_by_service:
+            azure_api_management: true
+            azure_app_configuration_stores: true
+            azure_arc: true
+            azure_automation_dscandhybridworker: true
+            azure_automation_webhook: true
+            azure_backup: true
+            azure_batch_account: true
+            azure_bot_service_bot: true
+            azure_bot_service_token: true
+            azure_cache_for_redis: true
+            azure_cache_for_redis_enterprise: true
+            azure_container_registry: true
+            azure_cosmos_db_cassandra: true
+            azure_cosmos_db_gremlin: true
+            azure_cosmos_db_mongodb: true
+            azure_cosmos_db_sql: true
+            azure_cosmos_db_table: true
+            azure_data_explorer: true
+            azure_data_factory: true
+            azure_data_factory_portal: true
+            azure_data_health_data_services: true
+            azure_data_lake_file_system_gen2: true
+            azure_database_for_mariadb_server: true
+            azure_database_for_mysql_server: true
+            azure_database_for_postgresql_server: true
+            azure_digital_twins: true
+            azure_event_grid_domain: true
+            azure_event_grid_topic: true
+            azure_event_hubs_namespace: true
+            azure_file_sync: true
+            azure_hdinsights: true
+            azure_iot_dps: true
+            azure_iot_hub: true
+            azure_key_vault: true
+            azure_key_vault_managed_hsm: true
+            azure_kubernetes_service_management: true
+            azure_machine_learning_workspace: true
+            azure_managed_disks: true
+            azure_media_services: true
+            azure_migrate: true
+            azure_monitor: true
+            azure_purview_account: true
+            azure_purview_studio: true
+            azure_relay_namespace: true
+            azure_search_service: true
+            azure_service_bus_namespace: true
+            azure_site_recovery: true
+            azure_sql_database_sqlserver: true
+            azure_synapse_analytics_dev: true
+            azure_synapse_analytics_sql: true
+            azure_synapse_studio: true
+            azure_web_apps_sites: true
+            azure_web_apps_static_sites: true
+            cognitive_services_account: true
+            microsoft_power_bi: true
+            signalr: true
+            signalr_webpubsub: true
+            storage_account_blob: true
+      private_link_locations:
+        - ${default_location}
+      public_dns_zones: []
+      private_dns_zones: []
+      enable_private_dns_zone_virtual_network_link_on_hubs: true
+      enable_private_dns_zone_virtual_network_link_on_spokes: true
+      virtual_network_resource_ids_to_link: []
+    location: ${default_location}
+    tags: null
+    advanced: null
+
+  # Identity
+  configure_identity_resources:
+    settings:
+      identity:
+        enabled: true
+        config:
+          enable_deny_public_ip: true
+          enable_deny_rdp_from_internet: true
+          enable_deny_subnet_without_nsg: true
+          enable_deploy_azure_backup_on_vms: true
+
+# ** vNext **
+# vNext is currently under development and will contain the next version of Terraform providers for CAF ALZ deployment.
+
+#connectivity:
+#  hubnetworking:  # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+#    hub_virtual_networks:
+#      primary:
+#        name: vnet-hub
+#        resource_group_name: rg-connectivity
+#        location: ${default_location}
+#        address_space:
+#          - 10.0.0.0/16
+#        firewall:
+#          name: fw-hub
+#          sku_name: AZFW_VNet
+#          sku_tier: Standard
+#          subnet_address_prefix: 10.0.1.0/24
+#        virtual_network_gateway:  # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+#          name: vgw-hub
+#          sku: VpnGw1
+#          type: Vpn
+#          subnet_address_prefix: 10.0.2.0/24

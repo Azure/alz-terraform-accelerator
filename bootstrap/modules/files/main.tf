@@ -15,7 +15,7 @@ locals {
   starter_module_files = { for file in fileset(var.starter_module_folder_path, "**") : file => {
     path = "${var.starter_module_folder_path}/${file}"
     flag = local.file_type_flags.module
-    } if !local.has_configuration_file || file != var.built_in_configurartion_file_name
+    } if (!local.has_configuration_file || file != var.built_in_configurartion_file_name) && !strcontains(file, var.starter_module_folder_path_exclusion)
   }
 
   pipeline_files = { for key, value in var.pipeline_files : value.target_path => {
