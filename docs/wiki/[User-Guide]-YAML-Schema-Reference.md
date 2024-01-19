@@ -121,7 +121,7 @@ connectivity:
 
 ## `connectivity.hubnetworking.hub_virtual_networks.<hub_key>.virtual_network_gateway`
 
-Specifies the virtual network gateway configuration to be used from the `terraform-azurerm-vnet-gateway` module.
+Specifies the virtual network gateway configuration to be used from the `terraform-azurerm-avm-ptn-vnetgateway` module.
 
 ```yaml
 
@@ -133,10 +133,11 @@ connectivity:
         resource_group_name: # string
         location: # string
         address_space: # list
-        virtual_network_gateway: # Arguments from https://github.com/Azure/terraform-azurerm-vnet-gateway/blob/v0.1.2/variables.tf converted to YAML.
+        virtual_network_gateway: # Arguments from https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway/blob/v0.2.0/variables.tf converted to YAML.
           name: # string
           sku: # string
           subnet_address_prefix: # string
+          subnet_id: # string
           type: # string
           default_tags: # object
           edge_zone: # string

@@ -69,15 +69,14 @@ module "hubnetworking" {
 }
 
 module "virtual_network_gateway" {
-  source  = "Azure/vnet-gateway/azurerm"
-  version = "0.1.2"
+  source  = "Azure/avm-ptn-vnetgateway/azurerm"
+  version = "0.2.0"
 
   for_each = local.module_virtual_network_gateway
 
   location                            = each.value.location
   name                                = each.value.name
   sku                                 = each.value.sku
-  subnet_address_prefix               = each.value.subnet_address_prefix
   type                                = each.value.type
   virtual_network_name                = each.value.virtual_network_name
   virtual_network_resource_group_name = each.value.virtual_network_resource_group_name
@@ -86,6 +85,8 @@ module "virtual_network_gateway" {
   express_route_circuits              = try(each.value.express_route_circuits, null)
   ip_configurations                   = try(each.value.ip_configurations, null)
   local_network_gateways              = try(each.value.local_network_gateways, null)
+  subnet_address_prefix               = try(each.value.subnet_address_prefix, null)
+  subnet_id                           = try(each.value.subnet_id, null)
   tags                                = try(each.value.tags, null)
   vpn_active_active_enabled           = try(each.value.vpn_active_active_enabled, null)
   vpn_bgp_enabled                     = try(each.value.vpn_bgp_enabled, null)

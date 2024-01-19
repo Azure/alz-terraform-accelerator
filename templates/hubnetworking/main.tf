@@ -47,8 +47,8 @@ module "hubnetworking" {
 }
 
 module "vnet-gateway" {
-  source  = "Azure/vnet-gateway/azurerm"
-  version = "0.1.2"
+  source  = "Azure/avm-ptn-vnetgateway/azurerm"
+  version = "0.2.0"
 
   count = var.virtual_network_gateway_creation_enabled ? 1 : 0
 

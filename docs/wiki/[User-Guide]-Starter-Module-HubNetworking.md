@@ -19,7 +19,7 @@ The `hubnetworking` module is used to deploy connectivity resources such as Virt
 ### `vnet-gateway`
 
 The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside your Virtual Network. By default, the resources of the module will not be deployed unless `virtual_network_gateway_creation_enabled` is set to true, if so, the module will deploy a VPN Gateway with SKU VpnGw1.
- Further configuration can be added depending on requirements to deploy Local Network Gateways, configure Virtual Network Gateway Connections, deploy ExpressRoute Gateways and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-vnet-gateway).
+ Further configuration can be added depending on requirements to deploy Local Network Gateways, configure Virtual Network Gateway Connections, deploy ExpressRoute Gateways and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway).
 
 ## Inputs
 
