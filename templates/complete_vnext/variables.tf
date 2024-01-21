@@ -9,7 +9,7 @@ variable "default_postfix" {
   default     = "landing-zone"
 }
 
-variable "root_management_group_id" {
+variable "root_parent_management_group_id" {
   description = "The identifier of the Tenant Root Management Group, if left blank will use the tenant id. (e.g '00000000-0000-0000-0000-000000000000')|3|azure_name"
   type        = string
   default     = ""
@@ -28,4 +28,10 @@ variable "subscription_id_identity" {
 variable "subscription_id_management" {
   description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)|6|azure_subscription_id"
   type        = string
+}
+
+variable "configuration_file_path" {
+  description = "The path of the configuration file|7|configuration_file_path"
+  type        = string
+  default     = ""
 }

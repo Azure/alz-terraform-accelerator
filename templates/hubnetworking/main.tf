@@ -1,4 +1,4 @@
-module "enterprise-scale" {
+module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
@@ -44,9 +44,13 @@ module "hubnetworking" {
   providers = {
     azurerm = azurerm.connectivity
   }
+
+  depends_on = [
+    module.enterprise_scale
+  ]
 }
 
-module "vnet-gateway" {
+module "virtual_network_gateway" {
   source  = "Azure/avm-ptn-vnetgateway/azurerm"
   version = "0.2.0"
 

@@ -14,15 +14,15 @@ management:
   resource_group_name: rg-management-${default_postfix}
 
 management_groups:
-  root:  # `key`: the unique identifier for the management group within the Terraform Module this is used in the `parent` field to build the hierarchy
-    id: root-${default_postfix}  # `id`: the id the management group will be created with in Azure
-    display_name: Intermediate Root  # `display_name`: the name the management group will be created with in Azure
-    parent: ${root_management_group_id}  # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
-    base_archetype: root  # `archetype`: the archetype to use for this management group
+  root: # `key`: the unique identifier for the management group within the Terraform Module this is used in the `parent` field to build the hierarchy
+    id: root-${default_postfix} # `id`: the id the management group will be created with in Azure
+    display_name: Intermediate Root # `display_name`: the name the management group will be created with in Azure
+    parent: ${root_parent_management_group_id} # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
+    base_archetype: root # `archetype`: the archetype to use for this management group
   landing-zones:
     id: landing-zones-${default_postfix}
     display_name: Landing Zones
-    parent: root  # Note that `parent` refers to the `key` of it's parent as opposed to the `id` which can be different
+    parent: root # Note that `parent` refers to the `key` of it's parent as opposed to the `id` which can be different
     base_archetype: landing_zones
   platform:
     id: platform-${default_postfix}
@@ -72,7 +72,7 @@ management_groups:
     base_archetype: decommissioned
 
 connectivity:
-  hub_networking:  # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+  hub_networking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       primary:
         name: vnet-hub-${default_postfix}
@@ -85,7 +85,7 @@ connectivity:
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway:  # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${default_postfix}
           sku: VpnGw1
           type: Vpn
