@@ -11,14 +11,14 @@
 starter_module: "complete"
 
 # Personal access token for GitHub
-github_personal_access_token: ""
+github_personal_access_token: "<token>"
 
 # The name of your GitHub organization. This is the section of the url after 'github.com'. E.g. enter 'my-org' for 'https://github.com/my-org'
 github_organization_name: "<GitHub organization>"
 
 # Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)
 # (An Azure deployment location e.g. 'uksouth')
-bootstrap_location: "eastus"
+bootstrap_location: "<region>"
 
 # Controls whether to use a separate repository to store action templates. This is an extra layer of security to ensure that the azure credentials
 # can only be leveraged for the specified workload

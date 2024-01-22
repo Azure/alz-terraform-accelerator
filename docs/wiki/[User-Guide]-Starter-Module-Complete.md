@@ -105,6 +105,9 @@ The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside you
 
 Create a custom yaml config to tailor to your needs, for example an Azure Landing Zone with a three-region mesh:
 
+- Example file for hub and spoke: [config-hub-spoke.yaml][example_starter_module_complete_config_hub_spoke]
+- Example file for Virtual WAN: [config-vwan.yaml][example_starter_module_complete_config_vwan]
+
 ```yaml
 
 # Path of file: C:\users\johndoe\my-config.yaml
@@ -152,6 +155,8 @@ Set your inputs.yaml file (See [Frequently Asked Questions][wiki_frequently_aske
 
 GitHub Example:
 
+- Example file: [inputs-github.yaml][example_powershell_inputs_github]
+
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
 
@@ -178,6 +183,8 @@ configuration_file_path: "C:\users\johndoe\config.yaml"
 ```
 
 Azure DevOps Example:
+
+- Example file: [inputs-azure-devops.yaml][example_powershell_inputs_azure_devops]
 
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
@@ -221,3 +228,7 @@ New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoAp
 
 [wiki_yaml_schema_reference]: %5BUser-Guide%5D-YAML-Schema-Reference "Wiki - YAML Schema Reference"
 [wiki_frequently_asked_questions]: Frequently-Asked-Questions "Wiki - Frequently Asked Questions"
+[example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
+[example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
+[example_starter_module_complete_config_hub_spoke]: examples/starter-module-complete/config-huib-spoke.yaml "Example - Starter Module Config - Complete - Hub and Spoke"
+[example_starter_module_complete_config_vwan]: examples/starter-module-complete/config-vwan.yaml "Example - Starter Module Config - Complete - Virtual WAN"

@@ -15,7 +15,7 @@ azure_devops_personal_access_token: "<token>"
 
 # The name of your Azure DevOps organization. This is the section of the url after 'dev.azure.com'
 # or before '.visualstudio.com'. E.g. enter 'my-org' for 'https://dev.azure.com/my-org'
-azure_devops_organization_name: "<GitHub organization>"
+azure_devops_organization_name: "<Azure DevOps organization>"
 
 # Azure Deployment location for the bootstrap resources (e.g. storage account, identities, etc)
 # (An Azure deployment location e.g. 'uksouth')
@@ -27,7 +27,7 @@ use_separate_repository_for_pipeline_templates: "true"
 
 # Azure Subscription ID for the bootstrap resources (e.g. storage account, identities, etc). Leave empty to use the az login subscription
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
-bootstrap_subscription_id: "00000000-0000-0000-0000-000000000000"
+bootstrap_subscription_id: "<subscription id>"
 
 # Used to build up the default resource names (e.g. rg-<service_name>-mgmt-uksouth-001) (A valid Azure name with no hyphens and limited
 # length e.g. 'abcd')
@@ -67,7 +67,7 @@ use_private_networking: "true"
 allow_storage_access_from_my_ip: "false"
 
 # Apply stage approvers to the action / pipeline, must be a list of SPNs separate by a comma (e.g. abcdef@microsoft.com,ghijklm@microsoft.com)
-apply_approvers: "user@contoso.com"
+apply_approvers: "<email address>"
 
 # The root parent management group display name. This will default to 'Tenant Root Group' if not supplied
 root_parent_management_group_display_name: "Tenant Root Group"
@@ -88,15 +88,15 @@ root_parent_management_group_id: ""
 
 # The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
-subscription_id_connectivity: "00000000-0000-0000-0000-000000000000"
+subscription_id_connectivity: "<subscription id>"
 
 # The identifier of the Identity Subscription. (e.g '00000000-0000-0000-0000-000000000000')
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
-subscription_id_identity: "00000000-0000-0000-0000-000000000000"
+subscription_id_identity: "<subscription id>"
 
 # The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
-subscription_id_management: "00000000-0000-0000-0000-000000000000"
+subscription_id_management: "<subscription id>"
 
 # The path of the configuration file
 # (A valid yaml or json configuration file path e.g. './my-folder/my-config-file.yaml' or `c:\\my-folder\\my-config-file.yaml`)
