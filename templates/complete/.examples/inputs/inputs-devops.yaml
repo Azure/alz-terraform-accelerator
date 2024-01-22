@@ -82,7 +82,7 @@ default_location: "<region>"
 # (A valid Azure name e.g. 'my-azure-name')
 default_postfix: ""
 
-# This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group 
+# This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group
 # (A valid Azure name e.g. 'my-azure-name')
 root_parent_management_group_id: ""
 
