@@ -228,7 +228,7 @@ New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoAp
 
 [wiki_yaml_schema_reference]: %5BUser-Guide%5D-YAML-Schema-Reference "Wiki - YAML Schema Reference"
 [wiki_frequently_asked_questions]: Frequently-Asked-Questions "Wiki - Frequently Asked Questions"
-[example_powershell_inputs_azure_devops]: /docs/wiki/examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
-[example_powershell_inputs_github]: /docs/wiki/examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
-[example_starter_module_complete_config_hub_spoke]: /docs/wiki/examples/starter-module-complete/config-hub-spoke.yaml "Example - Starter Module Config - Complete - Hub and Spoke"
-[example_starter_module_complete_config_vwan]: /docs/wiki/examples/starter-module-complete/config-vwan.yaml "Example - Starter Module Config - Complete - Virtual WAN"
+[example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
+[example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
+[example_starter_module_complete_config_hub_spoke]: examples/starter-module-complete/config-hub-spoke.yaml "Example - Starter Module Config - Complete - Hub and Spoke"
+[example_starter_module_complete_config_vwan]: examples/starter-module-complete/config-vwan.yaml "Example - Starter Module Config - Complete - Virtual WAN"
