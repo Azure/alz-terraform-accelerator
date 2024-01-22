@@ -3,6 +3,12 @@ variable "starter_module_folder_path" {
   type        = string
 }
 
+variable "starter_module_folder_path_exclusion" {
+  description = "Starter module folder path exclusion"
+  type        = string
+  default     = ".examples"
+}
+
 variable "pipeline_folder_path" {
   description = "Pipeline folder path"
   type        = string

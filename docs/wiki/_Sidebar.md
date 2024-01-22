@@ -19,6 +19,10 @@
     - [Hub Networking][wiki_starter_module_hubnetworking]
     - [Complete][wiki_starter_module_complete]
       - [YAML Schema for `config.yaml`][wiki_yaml_schema_reference]
+      - [Example GitHub inputs][example_powershell_inputs_github]
+      - [Example Azure DevOps inputs][example_powershell_inputs_azure_devops]
+      - [Example Hub and Spoke config][example_starter_module_complete_config_hub_spoke]
+      - [Example Virtual WAN config][example_starter_module_complete_config_vwan]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
 - [Upgrade Guide][wiki_upgrade_process]
 - [Advanced Scenarios][wiki_advanced_scenarios]
@@ -58,3 +62,7 @@
 [wiki_contributing_to_documentation]:                                Contributing-to-Documentation "Wiki - Contributing to documentation"
 [wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
 [wiki_advanced_scenarios]:                                           Advanced-Scenarios "Wiki - Advanced Scenarios"
+[example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
+[example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
+[example_starter_module_complete_config_hub_spoke]: examples/starter-module-config/complete/config-hub-spoke.yaml "Example - Starter Module Config - Complete - Hub and Spoke"
+[example_starter_module_complete_config_vwan]: examples/starter-module-config/complete/config-vwan.yaml "Example - Starter Module Config - Complete - Virtual WAN"
