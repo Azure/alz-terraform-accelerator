@@ -57,6 +57,18 @@ root_parent_management_group_display_name: "Tenant Root Group"
 
 # Starter Module Specific Variables
 
+# The location for Azure resources. (e.g 'uksouth')
+# (An Azure deployment location e.g. 'uksouth')
+default_location: "<region>"
+
+# The default postfix for Azure resources. (e.g 'landing-zone') #
+# (A valid Azure name e.g. 'my-azure-name')
+default_postfix: ""
+
+# This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group 
+# (A valid Azure name e.g. 'my-azure-name')
+root_parent_management_group_id: ""
+
 # value of the subscription id for the Management subscription
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
 subscription_id_management: "<subscription id>"

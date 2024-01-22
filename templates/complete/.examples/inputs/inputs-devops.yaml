@@ -76,7 +76,15 @@ root_parent_management_group_display_name: "Tenant Root Group"
 
 # The location for Azure resources. (e.g 'uksouth')
 # (An Azure deployment location e.g. 'uksouth')
-default_location: "eastus"
+default_location: "<region>"
+
+# The default postfix for Azure resources. (e.g 'landing-zone') #
+# (A valid Azure name e.g. 'my-azure-name')
+default_postfix: ""
+
+# This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group 
+# (A valid Azure name e.g. 'my-azure-name')
+root_parent_management_group_id: ""
 
 # The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
@@ -89,14 +97,6 @@ subscription_id_identity: "00000000-0000-0000-0000-000000000000"
 # The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)
 # (A valid subscription id GUID e.g. '12345678-1234-1234-1234-123456789012')
 subscription_id_management: "00000000-0000-0000-0000-000000000000"
-
-# The root id is the identity for the root management group and a prefix applied to all management group identities
-# (A valid Azure name e.g. 'my-azure-name')
-root_id: "contoso"
-
-# The display name for the root management group
-# (A valid Azure name e.g. 'my-azure-name')
-root_name: "Contoso"
 
 # The path of the configuration file
 # (A valid yaml or json configuration file path e.g. './my-folder/my-config-file.yaml' or `c:\\my-folder\\my-config-file.yaml`)
