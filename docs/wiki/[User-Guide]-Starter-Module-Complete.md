@@ -69,7 +69,7 @@ The `config.yaml` file also comes with helpful templated variables such as `defa
 
 > **Note:** We recommend that you use the `caf-enterprise-scale` module for management groups and policies, and the `hubnetworking` module for connectivity resources. However, connectivity resources can be deployed using the `caf-enterprise-scale` module if you desire.
 
-The schema for the `config.yaml` is documented here - [YAML Schema for `config.yaml`][wiki_yaml_schema_reference].
+The schema for the `config.yaml` is documented here - [Configuration YAML Schema][wiki_yaml_schema_reference].
 
 ## High Level Design
 
