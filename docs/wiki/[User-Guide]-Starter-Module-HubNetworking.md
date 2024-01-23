@@ -16,10 +16,10 @@ The `caf-enterprise-scale` has been used to deploy the management group hierarch
 The `hubnetworking` module is used to deploy connectivity resources such as Virtual Networks and Firewalls. By default, the module will deploy a Virtual Network with a Firewall in your `default_location`.
  This module can be extended however to deploy multiple Virtual Networks at scale, Route Tables, and Resource Locks. For more information on the module itself see [here](https://github.com/Azure/terraform-azurerm-hubnetworking).
 
-### `vnet-gateway`
+### `avm-ptn-vnetgateway`
 
-The `vnet-gateway` module is used to deploy a Virtual Network Gateway inside your Virtual Network. By default, the resources of the module will not be deployed unless `virtual_network_gateway_creation_enabled` is set to true, if so, the module will deploy a VPN Gateway with SKU VpnGw1.
- Further configuration can be added depending on requirements to deploy Local Network Gateways, configure Virtual Network Gateway Connections, deploy ExpressRoute Gateways and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-vnet-gateway).
+The `avm-ptn-vnetgateway` module is used to deploy a Virtual Network Gateway inside your Virtual Network. By default, the resources of the module will not be deployed unless `virtual_network_gateway_creation_enabled` is set to true, if so, the module will deploy a VPN Gateway with SKU VpnGw1.
+ Further configuration can be added depending on requirements to deploy Local Network Gateways, configure Virtual Network Gateway Connections, deploy ExpressRoute Gateways and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway).
 
 ## Inputs
 

@@ -18,7 +18,7 @@
     - [Basic][wiki_starter_module_basic]
     - [Hub Networking][wiki_starter_module_hubnetworking]
     - [Complete][wiki_starter_module_complete]
-      - [YAML Schema for `config.yaml`][wiki_yaml_schema_reference]
+      - [Configuration YAML Schema][wiki_yaml_schema_reference]
       - [Example GitHub inputs][example_powershell_inputs_github]
       - [Example Azure DevOps inputs][example_powershell_inputs_azure_devops]
       - [Example Hub and Spoke config][example_starter_module_complete_config_hub_spoke]

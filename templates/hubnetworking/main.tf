@@ -1,4 +1,4 @@
-module "enterprise-scale" {
+module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
@@ -44,11 +44,15 @@ module "hubnetworking" {
   providers = {
     azurerm = azurerm.connectivity
   }
+
+  depends_on = [
+    module.enterprise_scale
+  ]
 }
 
-module "vnet-gateway" {
-  source  = "Azure/vnet-gateway/azurerm"
-  version = "0.1.2"
+module "virtual_network_gateway" {
+  source  = "Azure/avm-ptn-vnetgateway/azurerm"
+  version = "0.2.0"
 
   count = var.virtual_network_gateway_creation_enabled ? 1 : 0
 
@@ -57,6 +61,7 @@ module "vnet-gateway" {
   sku                                 = "VpnGw1"
   subnet_address_prefix               = var.gateway_subnet_address_prefix
   type                                = "Vpn"
+  enable_telemetry                    = false
   virtual_network_name                = module.hubnetworking.virtual_networks["primary-hub"].name
   virtual_network_resource_group_name = "rg-connectivity-${var.default_location}"
 
