@@ -61,7 +61,7 @@
 [wiki_contributing_to_code]:                                         Contributing-to-Code "Wiki - Contributing to code"
 [wiki_contributing_to_documentation]:                                Contributing-to-Documentation "Wiki - Contributing to documentation"
 [wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
-[wiki_advanced_scenarios]:                                           Advanced-Scenarios "Wiki - Advanced Scenarios"
+[wiki_advanced_scenarios]:                                           %5BUser-Guide%5D-Advanced-Scenarios "Wiki - Advanced Scenarios"
 [example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
 [example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
 [example_starter_module_complete_config_hub_spoke]: examples/starter-module-config/complete/config-hub-spoke.yaml "Example - Starter Module Config - Complete - Hub and Spoke"
