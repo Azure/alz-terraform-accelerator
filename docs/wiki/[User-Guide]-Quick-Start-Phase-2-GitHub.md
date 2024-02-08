@@ -4,7 +4,7 @@
 1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -i "terraform" -c "github"`.
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
-    1. `starter_module`: This is the choice of [Starter Module][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
+    1. `starter_module`: This is the choice of [Starter Modules][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone, E.g. `basic` , `hubnetworking` or `complete`. This also determines the second set of inputs you'll be prompted for here.
     1. `github_personal_access_token`: Enter the GitHub PAT you generated in a previous step.
     1. `github_organization_name`: Enter the name of your GitHub organization. This is the section of the url after `github.com`. E.g. enter `my-org` for `https://github.com/my-org`.
     1. `use_separate_repository_for_workflow_templates`: Determine whether to create a separate repository to store pipeline templates as an extra layer of security. Set to `false` if you don't wish to secure you pipeline templates by using a separate repository. This will default to `true`.
