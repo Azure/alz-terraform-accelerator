@@ -4,7 +4,7 @@
 1. In your PowerShell Core (pwsh) terminal type `New-ALZEnvironment -i "terraform" -c "local"`.
 1. The module will download the latest accelerator and then prompt you for inputs.
 1. Fill out the following inputs:
-    1. `starter_module`: This is the choice of [Starter Modules][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone. This also determine the second set of input you'll be prompted for here.
+    1. `starter_module`: This is the choice of [Starter Modules][wiki_starter_modules], which is the baseline configuration you want for your Azure landing zone, E.g. `basic` , `hubnetworking` or `complete`. This also determines the second set of inputs you'll be prompted for here.
     1. `target_directory`: This is the directory where the ALZ module code will be created. This defaults a directory called `local` in the root of the accelerator directory.
     1. `create_bootstrap_resources_in_azure`: This determines whether the bootstrap will create the resources in Azure (e.g storage account for state, identities, etc). This defaults to `true`.
     1. `bootstrap_location`: Enter the Azure region where you would like to deploy the storage account and identity for your continuous delivery pipeline. This field expects the `name` of the region, such as `uksouth`. You can find a full list of names by running `az account list-locations -o table`.
