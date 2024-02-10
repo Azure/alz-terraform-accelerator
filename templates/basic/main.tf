@@ -1,4 +1,4 @@
-module "enterprise-scale" {
+module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "4.2.0"
 
