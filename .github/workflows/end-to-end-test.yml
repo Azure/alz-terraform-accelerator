@@ -17,7 +17,7 @@ permissions:
 jobs:
   e2e-test:
     name: "OS: ${{ matrix.os }}, VCS: ${{ matrix.vcs }}, A: ${{ matrix.as }}, TF: ${{ matrix.tf }}, AG: ${{ matrix.ag }}"
-    environment: $${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
+    environment: ${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
     strategy:
       fail-fast: false
