@@ -7,6 +7,8 @@ on:
       - main
     types: ['opened', 'reopened', 'synchronize', 'labeled']
   workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * 1'
 
 permissions:
   id-token: write
@@ -15,8 +17,8 @@ permissions:
 jobs:
   e2e-test:
     name: "OS: ${{ matrix.os }}, VCS: ${{ matrix.vcs }}, A: ${{ matrix.as }}, TF: ${{ matrix.tf }}, AG: ${{ matrix.ag }}"
-    environment: CSUTF
-    if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch') }}"
+    environment: $${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
+    if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
     strategy:
       fail-fast: false
       matrix:
