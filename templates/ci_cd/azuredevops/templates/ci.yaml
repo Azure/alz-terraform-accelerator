@@ -25,6 +25,7 @@ stages:
         pool:
           ${agent_pool_configuration_plan}
         environment: ${environment_name_plan}
+        timeoutInMinutes: 0
         strategy:
           runOnce:
             deploy:
