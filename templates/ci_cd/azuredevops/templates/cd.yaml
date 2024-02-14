@@ -14,6 +14,7 @@ stages:
         pool:
           ${agent_pool_configuration_plan}
         environment: ${environment_name_plan}
+        timeoutInMinutes: 0
         strategy:
           runOnce:
             deploy:
@@ -64,6 +65,7 @@ stages:
         pool:
           ${agent_pool_configuration_apply}
         environment: ${environment_name_apply}
+        timeoutInMinutes: 0
         strategy:
           runOnce:
             deploy:
