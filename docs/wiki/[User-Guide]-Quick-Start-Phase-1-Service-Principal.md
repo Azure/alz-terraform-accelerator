@@ -34,7 +34,8 @@
     1. Click `Owner` to highlight the row and then click `Next`.
     1. Leave the `User, group or service principal` option checked.
     1. Click `+ Select Members` and search for your SPN in the search box on the right.
-    1. Click on your User to highlight it and then click `Select`.
+    1. Click on your User to highlight it and then click `Select` and then click `Next`.
+    1. Click the `Allow user to assign all roles (highly privileged)` option.
     1. Click `Review + assign`, then click `Review + assign` again when the warning appears.
     1. Wait for the role to be assigned and move onto the next subscription.
 1. Search for `Management Groups` and click to navigate to the management groups view.
