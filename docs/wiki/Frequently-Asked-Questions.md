@@ -98,39 +98,10 @@ json example:
 
 > NOTE: These examples show a partial set of variables. In this scenario, the module will prompt for the remaining variables. You can find the full list of variables in the quick start phase 2 and starter module documentation.
 
-Full yaml example for Azure DevOps with the hub networking starter module:
+Full yaml examples:
 
-```yaml
-# Bootstrap Variables
-starter: "basic"
-azure_location: "uksouth"
-version_control_system_access_token: "**************************************"
-version_control_system_organization: "alz-demo"
-azure_location": "uksouth"
-azure_subscription_id: "12345678-1234-1234-1234-123456789012"
-service_name: "alz"
-environment_name: "mgmt"
-postfix_number: "1"
-azure_devops_use_organisation_legacy_url: "false" # Azure DevOps Only
-azure_devops_create_project: "true" # Azure DevOps Only
-azure_devops_project_name: "alz-demo" # Azure DevOps Only
-azure_devops_authentication_scheme: "WorkloadIdentityFederation" # Azure DevOps Only
-apply_approvers: "a.person@example.com,b.person@example.com"
-root_parent_management_group_id: ""
-additional_files: ""
-
-# Starter Module Specific Variables
-default_location: "uksouth"
-subscription_id_connectivity: "22345678-1234-1234-1234-123456789012"
-subscription_id_identity: "32345678-1234-1234-1234-123456789012"
-subscription_id_management: "42345678-1234-1234-1234-123456789012"
-root_id: "es"
-root_name: "Enterprise-Scale"
-hub_virtual_network_address_prefix: "10.0.0.0/16"
-firewall_subnet_address_prefix: "10.0.0.0/24"
-gateway_subnet_address_prefix: "10.0.1.0/24"
-virtual_network_gateway_creation_enabled: "true"
-```
+- GitHub Example input file: [inputs-github.yaml][example_powershell_inputs_github]
+- Azure DevOps Example input file: [inputs-azure-devops.yaml][example_powershell_inputs_azure_devops]
 
 ### I get prompted to approve the Terraform plan, can I skip that?
 
@@ -185,3 +156,5 @@ Alternatively, if you are also supplying a custom bootstrap module, you can spec
 [//]: # "************************"
 
 [wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
+[example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
+[example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
