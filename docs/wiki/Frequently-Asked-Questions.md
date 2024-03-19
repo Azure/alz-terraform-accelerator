@@ -13,8 +13,8 @@ Follow these steps to customise the resource names:
 
 1. At step 2.2 of the quickstart, you will run the `Deploy-Accelerator` command to start the user input process.
 1. Once the prompt appears for the first question open the relevant bootstrap `terraform.tfvars` file:
-    1. Azure DevOps: `./v#.#.#/bootstrap/azuredevops/terraform.tfvars`
-    1. GitHub: `./v#.#.#/bootstrap/github/terraform.tfvars`
+    1. Azure DevOps: `./bootstrap/v#.#.#/alz/azuredevops/terraform.tfvars`
+    1. GitHub: `./bootstrap/v#.#.#/alz/github/terraform.tfvars`
 1. Look for the variable called `resource_names`.
 1. Update this map to have the names you desire and save it.
 1. Continue with the user input as normal.
