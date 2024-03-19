@@ -5,7 +5,7 @@ If it isn't listed below, let us know about it in our [Issues][Issues] log. We'l
 
 ## PowerShell ALZ Module Failing for non-obvious reasons
 
-For example, when running `New-ALZEnvironment` you may see an error like:
+For example, when running `Deploy-Accelerator` you may see an error like:
 
 - `Parameter cannot be processed because the parameter name 'i' is ambiguous. Possible matches include: -InformationAction -InformationVariable -alzIacProvider -userInputOverridePath.`
 
@@ -24,7 +24,7 @@ Follow these steps to ensure you have a working environment:
 7. If the previous command shows a version of the module is still installed, then repeat the previous step until you no longer see an installed version.
 8. Run `Install-Module -Name ALZ`
 
-You should now be able to successfully run the `New-ALZEnvironment` command and continue.
+You should now be able to successfully run the `Deploy-Accelerator` command and continue.
 
 <!-- markdownlint-enable no-inline-html -->
 

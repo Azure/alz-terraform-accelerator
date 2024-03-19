@@ -5,10 +5,16 @@
 #   2. Review all defaulted variables to ensure they are correct
 #   3. Run the following command:
 #
-#   New-ALZEnvironment -i "terraform" -c "azuredevops" -inputs "C:\\<directories>\\inputs.yaml"
+#   Deploy-Accelerator -inputs "C:\\<directories>\\inputs.yaml"
+
+# The Infrastructure as Code (IaC) tool to use for the deployment. (e.g. 'terraform'). NOTE: Only 'terraform' is relevant here.
+iac: "terraform"
+
+# The bootstrap module to use for version control system to use for the deployment. (e.g. 'alz_github')
+bootstrap: "alz_github"
 
 # The starter module to use for the deployment. (e.g. 'complete')
-starter_module: "complete"
+starter: "complete"
 
 # The personal access token for Azure DevOps
 azure_devops_personal_access_token: "<token>"

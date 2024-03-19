@@ -24,6 +24,7 @@ The `avm-ptn-vnetgateway` module is used to deploy a Virtual Network Gateway ins
 ## Inputs
 
 - `default_location`: The location for Azure resources (e.g 'uksouth').
+- `root_parent_management_group_id`: The parent management group id. Defaults to `Tenant Root Group` if not supplied.
 - `subscription_id_connectivity`: The identifier of the Connectivity Subscription.
 - `subscription_id_identity`: The identifier of the Identity Subscription.
 - `subscription_id_management`: The identifier of the Management Subscription.
