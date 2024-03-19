@@ -1,3 +1,3 @@
 # Test Module
 
-This module is used for testing the bootstrapping without needing elevated permissions or a clean tenant.
+This module is used for testing the bootstrapping without needing a clean tenant.
