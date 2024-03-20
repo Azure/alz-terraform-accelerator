@@ -11,10 +11,10 @@ This article answers frequently asked questions relating to the Azure landing zo
 
 Follow these steps to customise the resource names:
 
-1. At step 2.2 of the quickstart, you will run the `New-ALZEnvironment` command to start the user input process.
+1. At step 2.2 of the quickstart, you will run the `Deploy-Accelerator` command to start the user input process.
 1. Once the prompt appears for the first question open the relevant bootstrap `terraform.tfvars` file:
-    1. Azure DevOps: `./v#.#.#/bootstrap/azuredevops/terraform.tfvars`
-    1. GitHub: `./v#.#.#/bootstrap/github/terraform.tfvars`
+    1. Azure DevOps: `./bootstrap/v#.#.#/alz/azuredevops/terraform.tfvars`
+    1. GitHub: `./bootstrap/v#.#.#/alz/github/terraform.tfvars`
 1. Look for the variable called `resource_names`.
 1. Update this map to have the names you desire and save it.
 1. Continue with the user input as normal.
@@ -29,23 +29,23 @@ After the Terraform apply has been completed there is an opportunity to remove t
 
 1. If you already ran the CD pipeline / action in phase 3 to deploy the ALZ, then you will need to run the pipeline / action again, but this time select the `destroy` option. This will delete the landing zone resources. If you don't do this, those resource will be left orphaned and you will have to clean them up manually.
 1. Wait for the destroy run to complete before moving to the next step, you will need to approve it if you configured approvals.
-1. Now run `New-ALZEnvironment` with the `-destroy` flag. E.g. `New-ALZEnvironment -i "terraform" -c "azuredevops" -o "./my-folder" -destroy`.
+1. Now run `Deploy-Accelerator` with the `-destroy` flag. E.g. `Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -o "./my-folder" -destroy`.
 1. The module will run and ask if you want to use the existing variables, enter `use` to use them.
 1. You can confirm the destroy by typing `yes` when prompted.
 1. To fully clean up, you should now delete the folder that was created for the accelerator. E.g. `./my-folder`.
-1. You'll now be able to run the `New-ALZEnvironment` command again to start fresh.
+1. You'll now be able to run the `Deploy-Accelerator` command again to start fresh.
 
 ## Questions about changing variables
 
 ### I made a mistake in the variables I entered, do I need to re-enter them all?
 
-When you run the PowerShell module, it caches the responses you supply. If you make a mistake, you can re-run the `New-ALZEnvironment` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
+When you run the PowerShell module, it caches the responses you supply. If you make a mistake, you can re-run the `Deploy-Accelerator` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
 
 ### I want to update a variable after the bootstrap has been completed, how do I do that?
 
-When you run the PowerShell module, it caches the responses you supply. If you want to update a variable, you can re-run the `New-ALZEnvironment` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
+When you run the PowerShell module, it caches the responses you supply. If you want to update a variable, you can re-run the `Deploy-Accelerator` command and it will ask you if you want to use the cached variables. If you hit enter here, then you will be able to skip through each variable in turn, check the set value and alter it if desired.
 
-> NOTE: In some cases changing a variable may result in a change to a starter module or CI / CD file. In this scenario you may see an error on Terraform Apply due to branch protection. You can disable branch protection and re-run the `New-ALZEnvironment` command to resolve this.
+> NOTE: In some cases changing a variable may result in a change to a starter module or CI / CD file. In this scenario you may see an error on Terraform Apply due to branch protection. You can disable branch protection and re-run the `Deploy-Accelerator` command to resolve this.
 
 ## Questions about Upgrading to a newer version of the accelerator
 
@@ -61,8 +61,8 @@ After bootstrapping, the PowerShell leaves the folder structure intact, includin
 
 If you want to deploy to a separate environment, the simplest approach is to specify a separate folder for each deployment using the `-Output` parameter. For example:
 
-- Deployment 1: `New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Output "./deployment1"`
-- Deployment 2: `New-ALZEnvironment -IaC "terraform" -Cicd "azuredevops" -Output "./deployment2"`
+- Deployment 1: `Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -Output "./deployment1"`
+- Deployment 2: `Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -Output "./deployment2"`
 
 You can then deploy as many times as you like without interferring with a previous deployment.
 
@@ -77,13 +77,13 @@ The module will accept inputs as in json or yaml format. `.json,`, `.yaml` or `.
 To call the module, you then specify the `-inputs` parameter with the path to the file containing the inputs. For example:
 
 ```powershell
-New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.json"
+Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -Inputs "~/config/inputs.json"
 ```
 
 yaml example:
 
 ```yaml
-starter_module: "basic"
+starter: "basic"
 azure_location: "uksouth"
 ```
 
@@ -91,47 +91,17 @@ json example:
 
 ```json
 {
-  "starter_module": "basic",
+  "starter": "basic",
   "azure_location": "uksouth"
 }
 ```
 
 > NOTE: These examples show a partial set of variables. In this scenario, the module will prompt for the remaining variables. You can find the full list of variables in the quick start phase 2 and starter module documentation.
 
-Full yaml example for Azure DevOps with the hub networking starter module:
+Full yaml examples:
 
-```yaml
-# Bootstrap Variables
-starter_module: "basic"
-azure_location: "uksouth"
-version_control_system_access_token: "**************************************"
-version_control_system_organization: "alz-demo"
-azure_location": "uksouth"
-azure_subscription_id: "12345678-1234-1234-1234-123456789012"
-service_name: "alz"
-environment_name: "mgmt"
-postfix_number: "1"
-# repository_visibility: "public" # GitHub Only
-azure_devops_use_organisation_legacy_url: "false" # Azure DevOps Only
-azure_devops_create_project: "true" # Azure DevOps Only
-azure_devops_project_name: "alz-demo" # Azure DevOps Only
-azure_devops_authentication_scheme: "WorkloadIdentityFederation" # Azure DevOps Only
-apply_approvers: "a.person@example.com,b.person@example.com"
-root_parent_management_group_display_name: "Tenant Root Group"
-additional_files: ""
-
-# Starter Module Specific Variables
-default_location: "uksouth"
-subscription_id_connectivity: "22345678-1234-1234-1234-123456789012"
-subscription_id_identity: "32345678-1234-1234-1234-123456789012"
-subscription_id_management: "42345678-1234-1234-1234-123456789012"
-root_id: "es"
-root_name: "Enterprise-Scale"
-hub_virtual_network_address_prefix: "10.0.0.0/16"
-firewall_subnet_address_prefix: "10.0.0.0/24"
-gateway_subnet_address_prefix: "10.0.1.0/24"
-virtual_network_gateway_creation_enabled: "true"
-```
+- GitHub Example input file: [inputs-github.yaml][example_powershell_inputs_github]
+- Azure DevOps Example input file: [inputs-azure-devops.yaml][example_powershell_inputs_azure_devops]
 
 ### I get prompted to approve the Terraform plan, can I skip that?
 
@@ -140,7 +110,7 @@ Yes, you can skip the approval of the Terraform plan by using the `-autoApprove`
 For example:
 
 ```powershell
-New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.json" -autoApprove
+Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -Inputs "~/config/inputs.json" -autoApprove
 ```
 
 ## Questions about adding more subscriptions post initial deployment
@@ -159,78 +129,32 @@ There are some steps you need to take:
 
 ## Questions about using custom starter modules
 
-### I want to use my own custom starter modules, how do I do that?
+### I want to use my own custom bootstrap module(s), how do I do that?
 
-First you'll need to create a folder structure to hold your custom starter modules. The folder structure should follow this pattern:
-
-```text
-📦my-custom-starter-modules #1
- ┣ 📂my-ci-cd #2
- ┃ ┣ 📂azuredevops #3
- ┃ ┃ ┣ 📜cd.yaml
- ┃ ┃ ┣ 📜ci.yaml
- ┃ ┃ ┗ 📂templates #4
- ┃ ┃   ┣ 📜cd.yaml
- ┃ ┃   ┣ 📜ci.yaml
- ┃ ┃   ┗ 📂helpers
- ┃ ┃     ┗ 📜helper.yaml
- ┃ ┗ 📂github
- ┃   ┣ 📜cd.yaml
- ┃   ┣ 📜ci.yaml
- ┃   ┗ 📂templates
- ┃     ┣ 📜cd.yaml
- ┃     ┗ 📜ci.yaml
- ┣ 📂my-starter-module-1 #5
- ┃ ┣ 📜main.tf
- ┃ ┣ 📜outputs.tf
- ┃ ┣ 📜providers.tf
- ┃ ┣ 📜README.md
- ┃ ┣ 📜terraform.tfvars
- ┃ ┗ 📜variables.tf #6
- ┗ 📂my-starter-module-2
-   ┣ 📜data.tf
-   ┣ 📜main.tf
-   ┣ 📜variables.tf
-   ┗ 📜versions.tf
-```
-
-Notes on the folder structure:
-
-1. This is the enclosing folder path as specified in the `module_folder_path` variable (see below).
-2. This is the CI / CD actions / pipelines folder path as specified in `pipeline_folder_path` variable (see below). This folder can be outside the module folder if desired.
-3. You only need to supply one of either `azuredevops` or `github` folder if you are only using one VCS system. The folder and file names can't be altered at present.
-4. This is the templates folder used for the cd, cd, plan and apply templates.
-5. This is an example starter module folder. This will also the name of the starter module as supplied to the `starter_module` input.
-6. Variables must be stored in a file called `variables.tf`. If you need validation, etc, please follow our examples. These variables are translated into inputs to the PowerShell module.
-
-Next, you'll need to override the starter template folder location in the PowerShell module. To do that, create yaml or json file that provides values for the `module_folder_path` and the `pipeline_folder_path` variables. For example:
-
-```yaml
-module_folder_path: "C:/my-config/my-custom-starter-modules" # This is the folder you created in the last step
-module_folder_path_relative: false # You must specifiy this as false if you are using a custom starter module folder
-pipeline_folder_path: "C:/my-config/my-custom-starter-modules/my_ci_cd" # This is the pipeline folder you created in the last step (NOTE: This does not need to be nested under the module folder, it could be in a separate location)
-pipeline_folder_path_relative: false # You must specifiy this as false if you are using a custom pipeline module folder
-```
-
-```json
-{
-  "module_folder_path": "~/my-config/my-custom-starter-modules",
-  "module_folder_path_relative": false,
-  "pipeline_folder_path": "~/my-config/my-custom-starter-modules/my_ci_cd",
-  "pipeline_folder_path_relative": false
-}
-```
-
-Then, when you call the PowerShell module, specify the `-inputs` parameter with the path to the file containing the inputs. For example:
+Follow the structure and json schema in the [Azure/accelerator-bootstrap-modules](https://github.com/Azure/accelerator-bootstrap-modules). You can then target your custom bootstrap module by using the `bootstrapModuleUrl` or `bootstrapModuleOverrideFolderPath` parameters in the PowerShell module. For example:
 
 ```powershell
-New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "~/config/inputs.yaml"
+Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -bootstrapModuleUrl "https://github.com/my-org/my-boostrap-modules"
 ```
 
-Now when the PowerShell runs it will accept the name of your customer starter module in the `starter_module` variable. e.g. `my-starter-module-1`.
+```powershell
+Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -bootstrapModuleOverrideFolderPath "./my-bootstrap-modules"
+```
+
+### I want to use my own custom starter modules, how do I do that?
+
+Follow the folder structure in this repository and create your own custom starter module(s). You can then target your custom starter module by using the `starterModuleOverrideFolderPath` parameters in the PowerShell module. For example:
+
+```powershell
+Deploy-Accelerator -i "terraform" -b "alz_azuredevops" -starterModuleOverrideFolderPath "~/my-custom-starter-modules"
+```
+
+Alternatively, if you are also supplying a custom bootstrap module, you can specify the starter module repo url in the `json` config file in the bootstrap module.
 
 [//]: # "************************"
 [//]: # "INSERT LINK LABELS BELOW"
 [//]: # "************************"
 
 [wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
+[example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
+[example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"

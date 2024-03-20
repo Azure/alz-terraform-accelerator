@@ -5,7 +5,7 @@ module "enterprise_scale" {
   disable_telemetry = true
 
   default_location = var.default_location
-  root_parent_id   = data.azurerm_client_config.core.tenant_id
+  root_parent_id   = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
 
   deploy_corp_landing_zones    = true
   deploy_management_resources  = true

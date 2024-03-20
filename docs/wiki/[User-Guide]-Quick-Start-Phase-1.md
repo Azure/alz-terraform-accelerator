@@ -121,6 +121,11 @@ The accelerator does not support GitHub personal accounts, since they don't supp
 1. If your organization uses single sign on, then click the `Configure SSO` link next to your new PAT.
 1. Select your organization and click `Authorize`, then follow the prompts to allow SSO.
 
+If you are using self-hosted runners, you will need to create a second PAT for them. You can do this by following the steps above with the following differences:
+
+1. Select `No expiration` for the `Expiration` field. NOTE: You may want to set an expiration date for security reasons, but you will need to have a process in place to regenerate the token in that scenario.
+1. Select only the `repo` scope.
+
 ### 1.4.3 Local File System
 
 You just need to ensure that you have a folder on your local file system that you can use to store the files, which your current session has access to.

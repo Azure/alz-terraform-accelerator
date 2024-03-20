@@ -2,7 +2,7 @@ data "azurerm_client_config" "current" {}
 data "azurerm_subscription" "current" {}
 
 data "azurerm_management_group" "example_parent" {
-  display_name = var.parent_management_group_display_name
+  name = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
 }
 
 resource "random_string" "example" {

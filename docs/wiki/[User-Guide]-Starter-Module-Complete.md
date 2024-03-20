@@ -149,7 +149,7 @@ connectivity:
 
 ### Use the ALZ PowerShell Module to prepare your Azure Landing Zone for deployment
 
-Set your inputs.yaml file (See [Frequently Asked Questions][wiki_frequently_asked_questions] for more information on the `inputs.yaml` file.) for the `New-ALZEnvironment` command as follows:
+Set your inputs.yaml file (See [Frequently Asked Questions][wiki_frequently_asked_questions] for more information on the `inputs.yaml` file.) for the `Deploy-Accelerator` command as follows:
 
 > **Note:** This is an alternative way of supplying the input arguments to the ALZ PowerShell Module, you can still run it as documented in the Quick Start guide and be prompted for inputs.
 
@@ -160,7 +160,9 @@ GitHub Example:
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
 
-starter_module: "complete"
+iac: "terraform"
+bootstrap: "alz_github"
+starter: "complete"
 azure_location: "uksouth"
 github_personal_system_access_token: "xxxxxxxxxx"
 github_organization_name: "contoso"
@@ -169,13 +171,13 @@ azure_subscription_id: "00000000-0000-0000-0000-000000000000"
 service_name: "alz"
 environment_name: "mgmt"
 postfix_number: "1"
-root_parent_management_group_display_name: "Tenant Root Group"
 version_control_system_use_separate_repository_for_templates: "true"
 use_self_hosted_agents: "true"
 use_private_networking: "true"
 allow_storage_access_from_my_ip: "false"
 
 # Starter Module Specific Variables
+root_parent_management_group_id: ""
 subscription_id_connectivity: "00000000-0000-0000-0000-000000000000"
 subscription_id_identity: "00000000-0000-0000-0000-000000000000"
 subscription_id_management: "00000000-0000-0000-0000-000000000000"
@@ -189,7 +191,9 @@ Azure DevOps Example:
 ```yaml
 # Path of file: C:\users\johndoe\inputs.yaml
 
-starter_module: "complete"
+iac: "terraform"
+bootstrap: "alz_azuredevops"
+starter: "complete"
 azure_location: "uksouth"
 azure_devops_personal_system_access_token: "xxxxxxxxxx"
 azure_devops_organization_name: "contoso"
@@ -202,13 +206,13 @@ azure_devops_use_organisation_legacy_url: "false"
 azure_devops_create_project: "true"
 azure_devops_project_name: "alz-demo"
 azure_devops_authentication_scheme: "WorkloadIdentityFederation"
-root_parent_management_group_display_name: "Tenant Root Group"
 version_control_system_use_separate_repository_for_templates: "true"
 use_self_hosted_agents: "true"
 use_private_networking: "true"
 allow_storage_access_from_my_ip: "false"
 
-# Starter Module Specific Variables
+# Bootstrap and Starter Module Specific Variables
+root_parent_management_group_id: ""
 subscription_id_connectivity: "00000000-0000-0000-0000-000000000000"
 subscription_id_identity: "00000000-0000-0000-0000-000000000000"
 subscription_id_management: "00000000-0000-0000-0000-000000000000"
@@ -219,7 +223,7 @@ Run the accelerator:
 
 ```powershell
 # Working Directory: C:\users\johndoe
-New-ALZEnvironment -i "terraform" -c "azuredevops" -Inputs "inputs.yaml" -autoApprove -v "v0.4.0"
+Deploy-Accelerator -Inputs "inputs.yaml" -autoApprove
 ```
 
  [//]: # (************************)
