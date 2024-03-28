@@ -91,6 +91,11 @@ If you choose the billing option, you'll then need to purchase at least one para
 1. Copy the token and save it somewhere safe.
 1. Click `Close`.
 
+If you are using self-hosted runners, you will need to create a second PAT for them. You can do this by following the steps above with the following differences:
+
+1. Select the maximum value for the `Expiration` field (this allows up to 1 year). NOTE: You may want to set a shorter expiration date for security reasons. In either case, you will need to have a process in place to extend expiration the token before it expires.
+1. Select only the `Agent Pools`: `Read & manage` scope.
+
 ### 1.4.2 GitHub
 
 #### 1.4.2.1 GitHub Pre-Requisites

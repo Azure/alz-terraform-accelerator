@@ -19,9 +19,6 @@ starter: "complete"
 # Personal access token for GitHub bootstrapping
 github_personal_access_token: "<token1>"
 
-# Personal access token for GitHub Runners to register themselves
-github_runners_personal_access_token: "<token2>"
-
 # The name of your GitHub organization. This is the section of the url after 'github.com'. E.g. enter 'my-org' for 'https://github.com/my-org'
 github_organization_name: "<GitHub organization>"
 
@@ -51,6 +48,9 @@ postfix_number: "1"
 
 # Controls whether to use self-hosted runners for the actions
 use_self_hosted_runners: "true"
+
+# Personal access token for GitHub Runners to register themselves
+github_runners_personal_access_token: "<token2>"
 
 # Controls whether to use private networking for the runner to storage account communication
 use_private_networking: "true"

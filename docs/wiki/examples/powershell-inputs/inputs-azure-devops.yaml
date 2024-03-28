@@ -66,6 +66,9 @@ azure_devops_authentication_scheme: "WorkloadIdentityFederation"
 # Controls whether to use self-hosted agents for the pipelines
 use_self_hosted_agents: "true"
 
+# Personal access token for Azure DevOps Agents to register themselves
+azure_devops_agents_personal_access_token: "<token2>"
+
 # Controls whether to use private networking for the agent to storage account communication
 use_private_networking: "true"
 
