@@ -26,7 +26,7 @@ If you want to upgrade to a newer version of the accelerator bootstrap and / or 
 6. If the new version of the accelerator has any new variables, you will be prompted to enter those manually.
 7. The module will then run the Terraform `init` and `apply` and you will see a success message once it completes.
 
-> NOTE: If the new version of the accelerator bootstrap has any changes to the files it creates, it may fail due to branch protection rules. If this happens, you will need to manually disable the branch protection rules and then re-run the `Deploy-Accelerator` command.
+> NOTE: If the new version of the accelerator starter module has any changes to the files it creates, it may fail due to branch protection rules. If this happens, you will need to manually disable the branch protection rules and then re-run the `Deploy-Accelerator` command.
 
  [//]: # (************************)
  [//]: # (INSERT LINK LABELS BELOW)
