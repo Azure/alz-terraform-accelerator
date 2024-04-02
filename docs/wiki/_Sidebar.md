@@ -24,7 +24,7 @@
       - [Example Hub and Spoke config][example_starter_module_complete_config_hub_spoke]
       - [Example Virtual WAN config][example_starter_module_complete_config_vwan]
 - [Frequently Asked Questions][wiki_frequently_asked_questions]
-- [Upgrade Guide][wiki_upgrade_process]
+- [Upgrade Guide][wiki_upgrade_guide]
 - [Advanced Scenarios][wiki_advanced_scenarios]
 - [Troubleshooting][wiki_troubleshooting]
 - [Contributing][wiki_contributing]
@@ -60,7 +60,7 @@
 [wiki_feature_requests]:                                             Feature-Requests "Wiki - Feature requests"
 [wiki_contributing_to_code]:                                         Contributing-to-Code "Wiki - Contributing to code"
 [wiki_contributing_to_documentation]:                                Contributing-to-Documentation "Wiki - Contributing to documentation"
-[wiki_upgrade_process]:                                              Upgrade-Process "Wiki - Upgrade Process"
+[wiki_upgrade_guide]:                                              Upgrade-Guide "Wiki - Upgrade Guide"
 [wiki_advanced_scenarios]:                                           %5BUser-Guide%5D-Advanced-Scenarios "Wiki - Advanced Scenarios"
 [example_powershell_inputs_azure_devops]: examples/powershell-inputs/inputs-azure-devops.yaml "Example - PowerShell Inputs - Azure DevOps"
 [example_powershell_inputs_github]: examples/powershell-inputs/inputs-github.yaml "Example - PowerShell Inputs - GitHub"
