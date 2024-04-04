@@ -102,10 +102,6 @@ module "management_resources" {
   providers = {
     azurerm = azurerm.management
   }
-
-  depends_on = [
-    module.management_groups_layer_7
-  ]
 }
 
 module "hubnetworking" {
@@ -135,8 +131,7 @@ module "virtual_network_gateway" {
   name                                = each.value.name
   sku                                 = each.value.sku
   type                                = each.value.type
-  virtual_network_name                = each.value.virtual_network_name
-  virtual_network_resource_group_name = each.value.virtual_network_resource_group_name
+  virtual_network_id                  = each.value.virtual_network_id
   default_tags                        = try(each.value.default_tags, null)
   edge_zone                           = try(each.value.edge_zone, null)
   enable_telemetry                    = false
@@ -144,7 +139,6 @@ module "virtual_network_gateway" {
   ip_configurations                   = try(each.value.ip_configurations, null)
   local_network_gateways              = try(each.value.local_network_gateways, null)
   subnet_address_prefix               = try(each.value.subnet_address_prefix, null)
-  subnet_id                           = try(each.value.subnet_id, null)
   tags                                = try(each.value.tags, null)
   vpn_active_active_enabled           = try(each.value.vpn_active_active_enabled, null)
   vpn_bgp_enabled                     = try(each.value.vpn_bgp_enabled, null)
