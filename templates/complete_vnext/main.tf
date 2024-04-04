@@ -16,12 +16,12 @@ module "management_groups_layer_2" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_2
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_1[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_groups_layer_3" {
@@ -29,12 +29,12 @@ module "management_groups_layer_3" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_3
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_2[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_groups_layer_4" {
@@ -42,12 +42,12 @@ module "management_groups_layer_4" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_4
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_3[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_groups_layer_5" {
@@ -55,12 +55,12 @@ module "management_groups_layer_5" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_5
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_4[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_groups_layer_6" {
@@ -68,12 +68,12 @@ module "management_groups_layer_6" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_6
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_5[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_groups_layer_7" {
@@ -81,12 +81,12 @@ module "management_groups_layer_7" {
   version                            = "~> 0.6.0"
   for_each                           = local.management_groups_layer_7
   id                                 = each.value.id
-  display_name                       = try(each.value.display_name, each.value.id)
+  display_name                       = each.value.display_name
   parent_resource_id                 = module.management_groups_layer_6[each.value.parent].management_group_resource_id
   base_archetype                     = each.value.base_archetype
   default_location                   = var.default_location
   default_log_analytics_workspace_id = local.log_analytics_workspace_id
-  subscription_ids                   = try(each.value.subscriptions, [])
+  subscription_ids                   = each.value.subscriptions
 }
 
 module "management_resources" {
