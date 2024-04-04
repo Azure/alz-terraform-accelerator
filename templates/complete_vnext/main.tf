@@ -104,7 +104,7 @@ module "management_resources" {
   }
 
   depends_on = [
-    module.management_groups_layer_1
+    module.management_groups_layer_7
   ]
 }
 
