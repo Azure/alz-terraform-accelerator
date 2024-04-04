@@ -1,3 +1,4 @@
+
 output "test" {
   value = {
     management_groups_layer_1 = local.management_groups_layer_1
@@ -8,4 +9,4 @@ output "test" {
     management_groups_layer_6 = local.management_groups_layer_6
     management_groups_layer_7 = local.management_groups_layer_7
   }
-}
+} 
