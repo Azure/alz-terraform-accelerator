@@ -1,3 +1,4 @@
+
 output "test" {
   value = {
     management_groups_layer_1 = local.management_groups_layer_1

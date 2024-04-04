@@ -22,15 +22,25 @@ locals {
   )
 }
 locals {
-  root_parent_management_group_id = local.config_template_file_variables.root_parent_management_group_id
-  management_groups               = local.config.management_groups
-  management_groups_layer_1       = { for k, v in local.management_groups : k => v if v.parent == local.root_parent_management_group_id }
-  management_groups_layer_2       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_1), v.parent) }
-  management_groups_layer_3       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_2), v.parent) }
-  management_groups_layer_4       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_3), v.parent) }
-  management_groups_layer_5       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_4), v.parent) }
-  management_groups_layer_6       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_5), v.parent) }
-  management_groups_layer_7       = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_6), v.parent) }
+  management_group_resource_id_format = "/providers/Microsoft.Management/managementGroups/%s"
+  root_parent_management_group_id     = local.config_template_file_variables.root_parent_management_group_id
+  management_groups = { for k, v in local.config.management_groups : k => {
+    id                 = v.id
+    display_name       = try(v.display_name, v.id)
+    parent             = v.parent
+    parent_resource_id = v.parent == local.root_parent_management_group_id ? data.azurerm_management_group.root.id : format(local.management_group_resource_id_format, local.config.management_groups[v.parent].id)
+    base_archetype     = v.base_archetype
+    subscriptions      = try(v.subscriptions, [])
+    is_root            = v.parent == local.root_parent_management_group_id
+    }
+  }
+  management_groups_layer_1 = { for k, v in local.management_groups : k => v if v.is_root }
+  management_groups_layer_2 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_1), v.parent) }
+  management_groups_layer_3 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_2), v.parent) }
+  management_groups_layer_4 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_3), v.parent) }
+  management_groups_layer_5 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_4), v.parent) }
+  management_groups_layer_6 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_5), v.parent) }
+  management_groups_layer_7 = { for k, v in local.management_groups : k => v if contains(keys(local.management_groups_layer_6), v.parent) }
 }
 locals {
   management                 = local.config.management

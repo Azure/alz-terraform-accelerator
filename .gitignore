@@ -37,3 +37,4 @@ templates/.test_azuredevops
 templates/.test_github
 .vscode/settings.json
 .vs
+.alzlib
