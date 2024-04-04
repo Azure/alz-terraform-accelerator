@@ -127,7 +127,7 @@ module "hubnetworking" {
 
 module "virtual_network_gateway" {
   source  = "Azure/avm-ptn-vnetgateway/azurerm"
-  version = "~> 0.2.0"
+  version = "~> 0.3.1"
 
   for_each = local.module_virtual_network_gateway
 
