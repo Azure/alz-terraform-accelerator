@@ -1,6 +1,6 @@
 module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "4.2.0"
+  version = "~> 5.2.0"
 
   disable_telemetry = true
 
@@ -25,7 +25,7 @@ module "enterprise_scale" {
 
 module "hubnetworking" {
   source  = "Azure/hubnetworking/azurerm"
-  version = "1.1.0"
+  version = "~> 1.1.0"
 
   hub_virtual_networks = {
     primary-hub = {
@@ -37,6 +37,13 @@ module "hubnetworking" {
         subnet_address_prefix = var.firewall_subnet_address_prefix
         sku_tier              = "Standard"
         sku_name              = "AZFW_VNet"
+        zones                 = ["1", "2", "3"]
+        default_ip_configuration = {
+          public_ip_config = {
+            zones = ["1", "2", "3"]
+            name  = "pip-hub-${var.default_location}"
+          }
+        }
       }
     }
   }
@@ -52,18 +59,15 @@ module "hubnetworking" {
 
 module "virtual_network_gateway" {
   source  = "Azure/avm-ptn-vnetgateway/azurerm"
-  version = "0.2.0"
+  version = "~> 0.3.0"
 
   count = var.virtual_network_gateway_creation_enabled ? 1 : 0
 
-  location                            = var.default_location
-  name                                = "vgw-hub-${var.default_location}"
-  sku                                 = "VpnGw1"
-  subnet_address_prefix               = var.gateway_subnet_address_prefix
-  type                                = "Vpn"
-  enable_telemetry                    = false
-  virtual_network_name                = module.hubnetworking.virtual_networks["primary-hub"].name
-  virtual_network_resource_group_name = "rg-connectivity-${var.default_location}"
+  location              = var.default_location
+  name                  = "vgw-hub-${var.default_location}"
+  subnet_address_prefix = var.gateway_subnet_address_prefix
+  enable_telemetry      = false
+  virtual_network_id    = module.hubnetworking.virtual_networks["primary-hub"].name
 
   providers = {
     azurerm = azurerm.connectivity

@@ -3,10 +3,11 @@ The `complete` starter module provides full customization of the Azure Landing Z
 A custom `config.yaml` file can be passed to the `additional_files` argument of the ALZ PowerShell Module. This allows you to firstly design your Azure Landing Zone, and then deploy it.
 If not specified, the default `config.yaml` file will be used, which is as follows:
   
-  ```yaml
+```yaml
 # This file contains templated variables to avoid repeating the same hard-coded values.
 # Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
 # `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
 # `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 # `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
@@ -15,7 +16,6 @@ If not specified, the default `config.yaml` file will be used, which is as follo
 archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
   root_name: es
   root_id: Enterprise-Scale
-
   subscription_id_connectivity: ${subscription_id_connectivity}
   subscription_id_identity: ${subscription_id_identity}
   subscription_id_management: ${subscription_id_management}
@@ -57,13 +57,17 @@ connectivity:
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
+          zones: ["1", "2", "3"]
+          default_ip_configuration:
+            public_ip_config:
+              zones: ["1", "2", "3"]
+              name: "pip-hub"
+        virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub
-          sku: VpnGw1
-          type: Vpn
           subnet_address_prefix: 10.0.2.0/24
+  vwan: # `avm-ptn-vwan` module, add inputs as listed on the module registry where necessary.
 
-  ```
+```
 
 The `config.yaml` file also comes with helpful templated variables such as `default_location` and `root_parent_management_group_id` which get prompted for during the ALZ PowerShell Module run. Alternatively, you can opt to not use the templated variables and hard-code the values in the `config.yaml` file.
 
@@ -89,6 +93,10 @@ This module can be extended to deploy multiple Virtual Networks at scale, Route 
 ### `avm-ptn-vnetgateway`
 
 The `avm-ptn-vnetgateway` module is used to deploy a Virtual Network Gateway inside your Virtual Network. Further configuration can be added (depending on requirements) to deploy Local Network Gateways, configure Virtual Network Gateway Connections, deploy ExpressRoute Gateways, and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway).
+
+### `avm-ptn-vwan`
+
+The `avm-ptn-vwan` module is used to deploy a Virtual WAN. Further configuration can be added (depending on requirements) to deploy VPN Sites, configure VPN Connections, and more. Additional information on the module can be found [here](https://github.com/Azure/terraform-azurerm-avm-ptn-vwan).
 
 ## Inputs
 
