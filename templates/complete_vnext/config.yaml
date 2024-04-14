@@ -72,21 +72,25 @@ management_groups:
     base_archetype: decommissioned
 
 connectivity:
-  hub_networking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       primary:
-        name: vnet-hub-${default_postfix}
-        resource_group_name: rg-connectivity-${default_postfix}
+        name: vnet-hub
+        resource_group_name: rg-connectivity
         location: ${default_location}
         address_space:
           - 10.0.0.0/16
         firewall:
-          name: fw-hub-${default_postfix}
+          name: fw-hub
           sku_name: AZFW_VNet
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
-        virtual_network_gateway: # `vnet-gateway` module, add inputs as listed on the module registry where necessary.
-          name: vgw-hub-${default_postfix}
-          sku: VpnGw1
-          type: Vpn
+          zones: ["1", "2", "3"]
+          default_ip_configuration:
+            public_ip_config:
+              zones: ["1", "2", "3"]
+              name: "pip-hub"
+        virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
+          name: vgw-hub
           subnet_address_prefix: 10.0.2.0/24
+  vwan: # `avm-ptn-virtualwan` module, add inputs as listed on the module registry where necessary.

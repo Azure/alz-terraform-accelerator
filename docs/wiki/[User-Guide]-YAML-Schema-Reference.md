@@ -133,11 +133,11 @@ connectivity:
         resource_group_name: # string
         location: # string
         address_space: # list
-        virtual_network_gateway: # Arguments from https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway/blob/v0.2.0/variables.tf converted to YAML.
+        virtual_network_gateway: # Arguments from https://github.com/Azure/terraform-azurerm-avm-ptn-vnetgateway/blob/v0.3.0/variables.tf converted to YAML.
           name: # string
           sku: # string
           subnet_address_prefix: # string
-          subnet_id: # string
+          subnet_creation_enabled: # boolean
           type: # string
           default_tags: # object
           edge_zone: # string
@@ -151,6 +151,11 @@ connectivity:
           vpn_generation: # string
           vpn_point_to_site: # object
           vpn_type: # string
+          vpn_private_ip_address_enabled: # boolean
+          route_table_bgp_route_propagation_enabled: # boolean
+          route_table_creation_enabled: # boolean
+          route_table_name: # string
+          route_table_tags: # object
 
 ```
 
@@ -176,6 +181,40 @@ connectivity:
           sku: VpnGw1
           type: Vpn
           subnet_address_prefix: 10.0.2.0/24
+```
+
+## `connectivity.vwan`
+
+Specifies the hub networking configuration to be used from the `terraform-azurerm-avm-ptn-virtualwan` module.
+
+```yaml
+
+connectivity:
+  vwan: # Arguments from https://github.com/Azure/terraform-azurerm-avm-ptn-virtualwan/blob/v0.4.0/variables.tf converted to YAML.
+    allow_branch_to_branch_traffic: # boolean
+    create_resource_group: # boolean
+    disable_vpn_encryption: # boolean
+    enable_telemetry: # boolean
+    er_circuit_connections: # object
+    expressroute_gateways: # object
+    firewalls: # object
+    location: # string
+    office365_local_breakout_category
+    p2s_gateway_vpn_server_configurations: # object
+    p2s_gateways: # object
+    resource_group_name: # string
+    resource_group_tags: # object
+    routing_intents: # object
+    telemetry_resource_group_name: # string
+    type: # string
+    virtual_hubs: # object
+    virtual_network_connections: # object
+    virtual_wan_name: # string
+    virtual_wan_tags: # object
+    vpn_gateways: # object
+    vpn_site_connections: # object
+    vpn_sites: # object
+    tags: # object
 ```
 
  [//]: # (************************)
