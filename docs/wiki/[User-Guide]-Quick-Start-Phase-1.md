@@ -106,6 +106,8 @@ The accelerator does not support GitHub personal accounts, since they don't supp
 
 #### 1.4.2.2 GitHub Personal Access Token (PAT)
 
+> NOTE: The following instructions refer to `classic` personal access tokens. You can also use `fine-grained` access tokens which are still in beta to provide more granular permissions. These docs will be updated to reflect this in the future.
+
 1. Navigate to [github.com](https://github.com).
 1. Click on your user icon in the top right and select `Settings`.
 1. Scroll down and click on `Developer Settings` in the left navigation.
@@ -129,7 +131,9 @@ The accelerator does not support GitHub personal accounts, since they don't supp
 If you are using self-hosted runners, you will need to create a second PAT for them. You can do this by following the steps above with the following differences:
 
 1. Select `No expiration` for the `Expiration` field. NOTE: You may want to set an expiration date for security reasons, but you will need to have a process in place to regenerate the token in that scenario.
-1. Select only the `repo` scope.
+1. The scope required depends on the type of organization you are using:
+    1. If you are using a Free organization or an Enterprise orgnization without a runner group, select only the `repo` scope.
+    1. If you are using an Enterprise organization and a runner group, select the `admin:org` scope for classic tokens (or `organization_self_hosted_runners:write` for fine-grained tokens).
 
 ### 1.4.3 Local File System
 

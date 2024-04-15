@@ -55,6 +55,9 @@ github_runners_personal_access_token: "<token2>"
 # Controls whether to use private networking for the runner to storage account communication
 use_private_networking: "true"
 
+# Controls whether to use a runner group. This is only relevant if using a GitHub Enterprise licensed organization
+use_runner_group: "true"
+
 # Allow access to the storage account from the current IP address. We recommend this is kept off for security
 allow_storage_access_from_my_ip: "false"
 
