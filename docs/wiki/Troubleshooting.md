@@ -36,7 +36,7 @@ Unfortunately, this requires manual intervantion at the moment. The runners do n
 
 To resolve this, you can manually delete the runners from Runner Group in the GitHub UI. You can then re-run the destroy to complete the clean up.
 
-This only affects you if you have Enterprise licensing and have chosen to use a Runner Group. More details can be found here: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/removing-self-hosted-runners
+This only affects you if you have Enterprise licensing and have chosen to use a Runner Group. More details can be found here: <https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/removing-self-hosted-runners>
 
 <!-- markdownlint-enable no-inline-html -->
 
