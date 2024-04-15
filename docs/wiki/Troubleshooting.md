@@ -26,6 +26,18 @@ Follow these steps to ensure you have a working environment:
 
 You should now be able to successfully run the `Deploy-Accelerator` command and continue.
 
+## 422 Error when deleting Runner Group
+
+When trying to destroy a GitHub environment with a runner group you may see an error like:
+
+`Error: DELETE https://api.github.com/orgs/<org>/actions/runner-groups/3: 422 This group cannot be deleted because it contains runners. Please remove or move them to another group before proceeding. []`
+
+Unfortunately, this requires manual intervantion at the moment. The runners do not delete themselves when the container instance is delete, so they will show in the offline state for 14 days prior to being deleted.
+
+To resolve this, you can manually delete the runners from Runner Group in the GitHub UI. You can then re-run the destroy to complete the clean up.
+
+This only affects you if you have Enterprise licensing and have chosen to use a Runner Group. More details can be found here: https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners/removing-self-hosted-runners
+
 <!-- markdownlint-enable no-inline-html -->
 
 [Issues]:     https://github.com/Azure/alz-terraform-accelerator/issues "Our issues log"
