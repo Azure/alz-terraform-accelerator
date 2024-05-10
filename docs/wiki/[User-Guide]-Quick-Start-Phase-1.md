@@ -62,7 +62,7 @@ You'll need to decide if you are using GitHub, Azure DevOps or the Local File Sy
 
 When you first create an Azure DevOps organization, it will not have any Microsoft-hosted agents available. If you intend to use Microsoft-hosted agents, you must either license your org or request a free pipeline.
 
-1. Setup billing with your MCAPS External Subscription: [Set up billing for your organization](https://learn.microsoft.com/en-us/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops)
+1. Setup billing for your organization: [Set up billing for your organization](https://learn.microsoft.com/en-us/azure/devops/organizations/billing/set-up-billing-for-your-organization-vs?view=azure-devops)
 2. Check for and request a free pipeline via the form here: [Configure and pay for parallel jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted#how-much-do-parallel-jobs-cost)
 
 If you choose the billing option, you'll then need to purchase at least one parallel pipeline. You can do this by following the instructions here: [Configure and pay for parallel jobs](https://learn.microsoft.com/en-us/azure/devops/pipelines/licensing/concurrent-jobs?view=azure-devops&tabs=ms-hosted#how-do-i-buy-more-parallel-jobs).
