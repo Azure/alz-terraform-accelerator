@@ -10,8 +10,8 @@
 # The Infrastructure as Code (IaC) tool to use for the deployment. (e.g. 'terraform'). NOTE: Only 'terraform' is relevant here.
 iac: "terraform"
 
-# The bootstrap module to use for version control system to use for the deployment. (e.g. 'alz_github')
-bootstrap: "alz_github"
+# The bootstrap module to use for version control system to use for the deployment. (e.g. 'alz_azuredevops')
+bootstrap: "alz_azuredevops"
 
 # The starter module to use for the deployment. (e.g. 'complete')
 starter: "complete"
