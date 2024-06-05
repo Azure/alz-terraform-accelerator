@@ -22,14 +22,10 @@ jobs:
     - name: Upload Artefacts Tar
       uses: actions/upload-artifact@v4
       with:
-        name: starter_modules.tar.gz
-        path: starter_modules.tar.gz
-
-    - name: Upload Artefacts Zip
-      uses: actions/upload-artifact@v4
-      with:
-        name: starter_modules.zip
-        path: starter_modules.zip
+        name: starter_modules
+        path: |
+          starter_modules.tar.gz
+          starter_modules.zip
 
     - name: Release
       uses: softprops/action-gh-release@v2
