@@ -161,7 +161,7 @@ module "virtual_network_gateway" {
 
 module "vwan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
-  version = "~> 0.4.0"
+  version = "~> 0.5.0"
 
   count = length(local.module_vwan) > 0 ? 1 : 0
 
@@ -183,7 +183,6 @@ module "vwan" {
   type                                  = try(local.module_vwan.type, null)
   routing_intents                       = try(local.module_vwan.routing_intents, null)
   resource_group_tags                   = try(local.module_vwan.resource_group_tags, null)
-  telemetry_resource_group_name         = try(local.module_vwan.telemetry_resource_group_name, null)
   virtual_wan_tags                      = try(local.module_vwan.virtual_wan_tags, null)
   vpn_gateways                          = try(local.module_vwan.vpn_gateways, null)
   vpn_site_connections                  = try(local.module_vwan.vpn_site_connections, null)
