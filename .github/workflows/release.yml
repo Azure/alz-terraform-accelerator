@@ -9,17 +9,18 @@ permissions:
   contents: write  
 
 jobs:
-  build:
+  release:
+    name: Generate Release
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
      
-    - name: Publish Windows
+    - name: Zip and Tar
       run: |
         tar -cvzf starter_modules.tar.gz templates
         zip -r starter_modules.zip templates
     
-    - name: Upload Artefacts Tar
+    - name: Upload Artefacts
       uses: actions/upload-artifact@v4
       with:
         name: starter_modules
