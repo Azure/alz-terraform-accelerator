@@ -1,0 +1,40 @@
+name: Release
+
+on:
+  push:
+    tags: [ "*" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+     
+    - name: Publish Windows
+      run: |
+        tar -cvzf starter_modules.tar.gz templates
+        zip -r starter_modules.zip templates
+    
+    - name: Upload Artefacts Tar
+      uses: actions/upload-artifact@v4
+      with:
+        name: starter_modules.tar.gz
+        path: starter_modules.tar.gz
+
+    - name: Upload Artefacts Zip
+      uses: actions/upload-artifact@v4
+      with:
+        name: starter_modules.zip
+        path: starter_modules.zip
+
+    - name: Release
+      uses: softprops/action-gh-release@v2
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          ./starter_modules.tar.gz
+          ./starter_modules.zip
