@@ -33,8 +33,7 @@ terraform.log
 *.tfvars
 !terraform.tfvars
 templates/basic/terraform.tfvars
-templates/.test_azuredevops
-templates/.test_github
+templates/test_*
 .vscode/settings.json
 .vs
 .alzlib
