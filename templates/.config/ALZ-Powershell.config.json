@@ -2,22 +2,27 @@
     "starter_modules": {
         "complete": {
             "location": "complete",
+            "short_name": "Complete",
             "description": "Complete Azure Landing Zones Configurable Deployment"
         },
         "basic": {
             "location": "basic",
+            "short_name": "Basic",
             "description": "Basic Azure Landing Zones Deployment with Management Groups and Policy"
         },
         "hubnetworking": {
             "location": "hubnetworking",
+            "short_name": "Hub Networking",
             "description": "Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
         },
         "complete_vnet": {
             "location": "complete_vnext",
+            "short_name": "Complete vNext",
             "description": "vNext Complete Azure Landing Zones Configurable Deployment (Warning: This is a work in progress)"
         },
         "test": {
             "location": "test",
+            "short_name": "Test",
             "description": "Test Deployment (Warning: Does not deploy an Azure Landing Zone)"
         }
     }
