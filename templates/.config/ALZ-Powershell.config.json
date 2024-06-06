@@ -18,7 +18,7 @@
         },
         "test": {
             "location": "test",
-            "description": "Test Azure Landing Zones Deployment (Used to Test Basic Functionality of the Accelerator)"
+            "description": "Test Deployment (Warning: Does not deploy an Azure Landing Zone)"
         }
     }
 }
