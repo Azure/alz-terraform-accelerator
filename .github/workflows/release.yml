@@ -17,8 +17,9 @@ jobs:
      
     - name: Zip and Tar
       run: |
-        tar -cvzf starter_modules.tar.gz templates
-        zip -r starter_modules.zip templates
+        cd templates
+        tar -cvzf ../starter_modules.tar.gz .
+        zip -r ../starter_modules.zip .
     
     - name: Upload Artefacts
       uses: actions/upload-artifact@v4
