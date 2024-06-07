@@ -21,7 +21,7 @@ jobs:
         tar -cvzf ../starter_modules.tar.gz .
         zip -r ../starter_modules.zip .
     
-    - name: Upload Artefacts
+    - name: Upload Artifacts
       uses: actions/upload-artifact@v4
       with:
         name: starter_modules
