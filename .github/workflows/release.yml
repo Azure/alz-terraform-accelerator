@@ -28,10 +28,10 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-            name: starter_modules
-            path: |
-              starter_modules.tar.gz
-              starter_modules.zip
+          name: starter_modules
+          path: |
+            starter_modules.tar.gz
+            starter_modules.zip
 
       - name: Release
         uses: softprops/action-gh-release@v2
