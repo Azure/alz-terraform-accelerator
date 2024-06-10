@@ -58,11 +58,6 @@ azure_devops_create_project: "true"
 # The name of the Azure DevOps project to use or create for the deployment
 azure_devops_project_name: "<project name>"
 
-# The authentication scheme to use for the Azure DevOps Pipelines
-# (A valid authentication scheme e.g. 'WorkloadIdentityFederation')
-# [allowed: WorkloadIdentityFederation ManagedServiceIdentity]
-azure_devops_authentication_scheme: "WorkloadIdentityFederation"
-
 # Controls whether to use self-hosted agents for the pipelines
 use_self_hosted_agents: "true"
 

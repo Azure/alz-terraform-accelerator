@@ -23,13 +23,11 @@ The accelerator follows a 3 phase approach:
 
 ![Azure landing zone accelerator process][alz_accelerator_overview]
 
-The components of the environment are similar, but differ depending on your choice of VCS and authentication:
+The components of the environment are similar, but differ depending on your choice of VCS:
 
 ![Components][components]
 
 ### GitHub
-
-We only support federated credentials for GitHub as a best practice.
 
 - Azure:
   - Resource Group for State
@@ -54,9 +52,7 @@ We only support federated credentials for GitHub as a best practice.
   - Customised OIDC Token Subject for governed Actions
   - [Optional] Runner Group
 
-### Azure DevOps with Workload identity federation (WIF / OIDC)
-
-This is the recommended authentication method for Azure DevOps.
+### Azure DevOps
 
 - Azure:
   - Resource Group for State
@@ -82,36 +78,6 @@ This is the recommended authentication method for Azure DevOps.
   - Service Connection Approvals, Template Validation and Concurrency Control
   - Group and Members for Apply Approval
   - [Optional] Agent Pool
-
-### Azure DevOps with Managed identity and self-hosted agents
-
-We include this option as Workload identity federation (WIF) is still in preview, but it will be removed once WIF is generally available to simplify the accelerator and promote best practice.
-
-- Azure:
-  - Resource Group for State
-  - Storage Account and Container for State
-  - Resource Group for Identity
-  - User Assigned Managed Identities (UAMI) for Plan and Apply
-  - Permissions for the UAMI on state storage container, subscriptions and management groups
-  - Resource Group for Agents
-  - Container Instances with UAMI hosting Azure DevOps Agents
-  - [Optional] Virtual network, subnets, private DNS zone and private endpoint.
-
-- Azure DevOps
-  - Project (can be supplied or created)
-  - Repository for the Module
-  - Repository for the Pipeline Templates
-  - Starter Terraform module with tfvars
-  - Branch policy
-  - Pipeline for Continuous Integration
-  - Pipeline for Continuous Delivery
-  - Environment for Plan
-  - Environment for Apply
-  - Variable Group for Backend
-  - Service Connections with Managed identity for Plan and Apply
-  - Service Connection Approvals, Template Validation and Concurrency Control
-  - Group and Members for Apply Approval
-  - Agent Pools for Plan and Apply
 
 ### Local File System
 
