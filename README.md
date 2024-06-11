@@ -1,6 +1,7 @@
 # Azure Landing Zones Terraform Accelerator
 
 [![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Azure/alz-terraform-accelerator/badge)](https://scorecard.dev/viewer/?uri=github.com/Azure/alz-terraform-accelerator)
 ![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/Azure/alz-terraform-accelerator?style=flat&logo=github)
 ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/Azure/alz-terraform-accelerator)
 ![GitHub contributors](https://img.shields.io/github/contributors/Azure/alz-terraform-accelerator)
