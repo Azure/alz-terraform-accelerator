@@ -41,7 +41,10 @@ resource "azapi_resource" "resource_group_management" {
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-management-azapi-${random_string.example.result}"
   location  = var.resource_group_location
-  body      = {}
+  body = {
+    properties = {}
+  }
+  schema_validation_enabled = false
 }
 
 resource "azapi_resource" "resource_group_connectivity" {
@@ -49,7 +52,10 @@ resource "azapi_resource" "resource_group_connectivity" {
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-connectivity-azapi-${random_string.example.result}"
   location  = var.resource_group_location
-  body      = {}
+  body = {
+    properties = {}
+  }
+  schema_validation_enabled = false
 }
 
 resource "azapi_resource" "resource_group_identity" {
@@ -57,5 +63,8 @@ resource "azapi_resource" "resource_group_identity" {
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-identity-azapi-${random_string.example.result}"
   location  = var.resource_group_location
-  body      = {}
+  body = {
+    properties = {}
+  }
+  schema_validation_enabled = false
 }
