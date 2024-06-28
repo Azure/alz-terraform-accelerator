@@ -13,6 +13,9 @@ terraform {
   # backend "azurerm" {}
 }
 
+provider "azapi" {
+}
+
 provider "azurerm" {
   skip_provider_registration = true
   features {}
