@@ -4,6 +4,10 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "3.61.0"
     }
+    azapi = {
+      source  = "Azure/azapi"
+      version = "1.13.1"
+    }
     random = {
       source  = "hashicorp/random"
       version = "3.5.1"
@@ -32,4 +36,7 @@ provider "azurerm" {
   alias           = "identity"
   subscription_id = var.subscription_id_identity
   features {}
+}
+
+provider "azapi" {
 }
