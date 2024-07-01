@@ -1,6 +1,6 @@
 module "enterprise_scale" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "~> 5.2.0"
+  version = "~> 6.0.0"
 
   disable_telemetry = true
 
