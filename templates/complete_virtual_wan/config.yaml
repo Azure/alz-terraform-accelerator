@@ -1,0 +1,102 @@
+# This file contains templated variables to avoid repeating the same hard-coded values.
+# Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
+# `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
+# `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
+# `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
+# `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
+# `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
+---
+archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
+  root_name: es
+  root_id: Enterprise-Scale
+  subscription_id_connectivity: ${subscription_id_connectivity}
+  subscription_id_identity: ${subscription_id_identity}
+  subscription_id_management: ${subscription_id_management}
+  root_parent_id: ${root_parent_management_group_id}
+  deploy_corp_landing_zones: true
+  deploy_online_landing_zones: true
+  default_location: ${default_location}
+  disable_telemetry: true
+  deploy_management_resources: true
+  configure_management_resources:
+    location: ${default_location}
+    settings:
+      security_center:
+        config:
+          email_security_contact: "security_contact@replace_me"
+    advanced:
+      asc_export_resource_group_name: rg-asc-export
+      custom_settings_by_resource_type:
+        azurerm_resource_group:
+          management:
+            name: rg-management
+        azurerm_log_analytics_workspace:
+          management:
+            name: log-management
+        azurerm_automation_account:
+          management:
+            name: aa-management
+connectivity:
+  hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
+    hub_virtual_networks:
+      shared_services:
+        resource_group_lock_enabled: false
+        name: vnet-shared-services
+        resource_group_name: rg-connectivity
+        location: ${default_location}
+        address_space:
+          - 10.5.0.0/16
+        subnets: 
+          AzureBastionSubnet: 
+            name: "AzureBastionSubnet"
+            address_prefixes: ["10.5.1.0/27"]
+            assign_generated_route_table: false
+          SharedSubnet: 
+            name: "SharedSubnet"
+            address_prefixes: ["10.5.2.0/27"]
+            assign_generated_route_table: false
+  vwan: # `avm-ptn-virtualwan` module, add inputs as listed on the module registry where necessary.
+    create_resource_group: false
+    enable_telemetry: false
+    virtual_network_connections: null
+    custom_routing_table: # Define if not already existing in your yaml
+        rt_bastion:
+          name: "rt-bastion"
+          routes:
+            - name: "Internet_Direct"
+              address_prefixes: ["0.0.0.0/0"]
+              next_hop: "Internet"
+            - name: "To_VM_Subnets"
+              address_prefixes: ["11.0.0.0/16"] # Replace with actual VM subnet IP ranges
+              next_hop: "10.0.1.4" # Replace with actual Azure Firewall private IP
+    routing_intents:
+      private-routing-intent:
+        name: "private-routing-intent"
+        virtual_hub_key: "vhub1" # The key used in the virtual_hubs must match
+        routing_policies:
+          - name: "routing-policy-private"
+            destinations: ["PrivateTraffic"]
+            next_hop_firewall_key: "fw_default"
+          - name: "routing-policy-internet"
+            destinations: ["Internet"]
+            next_hop_firewall_key: "fw_default"
+    location: ${default_location}
+    virtual_wan_name: "vwan"
+    resource_group_name: "rg-connectivity"
+    allow_branch_to_branch_traffic: true
+    disable_vpn_encryption: false
+    virtual_hubs:
+      vhub1:
+        location: ${default_location}
+        name: "vhub1"
+        address_prefix: "10.0.0.0/24"
+    firewall: # New firewall configuration
+      fw_default:
+        virtual_hub_key: "vhub1"
+        sku_name: "AZFW_Hub"
+        sku_tier: "Standard"
+        tags:
+          environment: "avm-vwan-testing"
+          deployment: "terraform"
+
