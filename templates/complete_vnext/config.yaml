@@ -14,62 +14,7 @@ management:
   resource_group_name: rg-management-${default_postfix}
 
 management_groups:
-  root: # `key`: the unique identifier for the management group within the Terraform Module this is used in the `parent` field to build the hierarchy
-    id: root-${default_postfix} # `id`: the id the management group will be created with in Azure
-    display_name: Intermediate Root # `display_name`: the name the management group will be created with in Azure
-    parent: ${root_parent_management_group_id} # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
-    base_archetype: root # `archetype`: the archetype to use for this management group
-  landing-zones:
-    id: landing-zones-${default_postfix}
-    display_name: Landing Zones
-    parent: root # Note that `parent` refers to the `key` of it's parent as opposed to the `id` which can be different
-    base_archetype: landing_zones
-  platform:
-    id: platform-${default_postfix}
-    display_name: Platform
-    parent: root
-    base_archetype: platform
-  identity:
-    id: identity-${default_postfix}
-    display_name: Identity
-    parent: platform
-    base_archetype: identity
-    subscriptions:
-      - ${subscription_id_identity}
-  connectivity:
-    id: connectivity-${default_postfix}
-    display_name: Connectivity
-    parent: platform
-    base_archetype: connectivity
-    subscriptions:
-      - ${subscription_id_connectivity}
-  management:
-    id: management-${default_postfix}
-    display_name: Management
-    parent: platform
-    base_archetype: management
-    subscriptions:
-      - ${subscription_id_management}
-  corp:
-    id: corp-${default_postfix}
-    display_name: Corp
-    parent: landing-zones
-    base_archetype: corp
-  online:
-    id: online-${default_postfix}
-    display_name: Online
-    parent: landing-zones
-    base_archetype: online
-  sandboxes:
-    id: sandboxes-${default_postfix}
-    display_name: Sandboxes
-    parent: root
-    base_archetype: sandboxes
-  decommissioned:
-    id: decommissioned-${default_postfix}
-    display_name: Decommissioned
-    parent: root
-    base_archetype: decommissioned
+  root_parent_management_group_id: ${root_parent_management_group_id} # `parent`: for the root management group this should be the id of the tenant root management group or your chosen root management group
 
 connectivity:
   hubnetworking: # `hubnetworking` module, add inputs as listed on the module registry where necessary.
