@@ -4,7 +4,7 @@ module "enterprise_scale" {
 
   disable_telemetry = true
 
-  default_location = var.starter_location
+  default_location = var.starter_locations[0]
   root_parent_id   = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
 
   deploy_corp_landing_zones    = true
@@ -29,10 +29,10 @@ module "hubnetworking" {
 
   hub_virtual_networks = {
     primary-hub = {
-      name                = "vnet-hub-${var.starter_location}"
+      name                = "vnet-hub-${var.starter_locations[0]}"
       address_space       = [var.hub_virtual_network_address_prefix]
-      location            = var.starter_location
-      resource_group_name = "rg-connectivity-${var.starter_location}"
+      location            = var.starter_locations[0]
+      resource_group_name = "rg-connectivity-${var.starter_locations[0]}"
       firewall = {
         subnet_address_prefix = var.firewall_subnet_address_prefix
         sku_tier              = "Standard"
@@ -41,7 +41,7 @@ module "hubnetworking" {
         default_ip_configuration = {
           public_ip_config = {
             zones = ["1", "2", "3"]
-            name  = "pip-hub-${var.starter_location}"
+            name  = "pip-hub-${var.starter_locations[0]}"
           }
         }
       }
@@ -63,8 +63,8 @@ module "virtual_network_gateway" {
 
   count = var.virtual_network_gateway_creation_enabled ? 1 : 0
 
-  location              = var.starter_location
-  name                  = "vgw-hub-${var.starter_location}"
+  location              = var.starter_locations[0]
+  name                  = "vgw-hub-${var.starter_locations[0]}"
   subnet_address_prefix = var.gateway_subnet_address_prefix
   enable_telemetry      = false
   virtual_network_id    = module.hubnetworking.virtual_networks["primary-hub"].name

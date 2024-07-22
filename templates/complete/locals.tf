@@ -11,7 +11,7 @@ locals {
     jsondecode(templatefile("${path.module}/${local.config_file_name}", local.config_template_file_variables))
   )
   config_template_file_variables = {
-    starter_location                = var.starter_location
+    default_location                = var.starter_locations[0]
     default_postfix                 = var.default_postfix
     root_parent_management_group_id = var.root_parent_management_group_id == "" ? data.azurerm_client_config.core.tenant_id : var.root_parent_management_group_id
     subscription_id_connectivity    = var.subscription_id_connectivity

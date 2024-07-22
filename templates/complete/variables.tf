@@ -1,5 +1,5 @@
-variable "starter_location" {
-  type        = string
+variable "starter_locations" {
+  type        = list(string)
   description = "The location for Azure resources. (e.g 'uksouth')|1|azure_location"
 }
 
