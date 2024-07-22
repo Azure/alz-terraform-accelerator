@@ -1,4 +1,4 @@
-variable "default_location" {
+variable "starter_location" {
   type        = string
   description = "The location for Azure resources. (e.g 'uksouth')|1|azure_location"
 }
