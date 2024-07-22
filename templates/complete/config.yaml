@@ -1,6 +1,6 @@
 # This file contains templated variables to avoid repeating the same hard-coded values.
 # Templated variables are denoted by the dollar curly braces token. The following details each templated variable that you can use:
-# `default_location`: This is an Azure location sourced from the `default_location` variable. This can be used to set the location of resources.
+# `starter_location`: This is an Azure location sourced from the `starter_location` variable. This can be used to set the location of resources.
 # `default_postfix`: This is a string sourced from the variable `default_postfix`. This can be used to append to resource names for consistency.
 # `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 # `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
@@ -16,11 +16,11 @@ archetypes: # `caf-enterprise-scale` module, add inputs as listed on the module 
   root_parent_id: ${root_parent_management_group_id}
   deploy_corp_landing_zones: true
   deploy_online_landing_zones: true
-  default_location: ${default_location}
+  default_location: ${starter_location}
   disable_telemetry: true
   deploy_management_resources: true
   configure_management_resources:
-    location: ${default_location}
+    location: ${starter_location}
     settings:
       security_center:
         config:
@@ -43,7 +43,7 @@ connectivity:
       primary:
         name: vnet-hub
         resource_group_name: rg-connectivity
-        location: ${default_location}
+        location: ${starter_location}
         address_space:
           - 10.0.0.0/16
         firewall:
