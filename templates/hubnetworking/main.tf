@@ -67,7 +67,7 @@ module "virtual_network_gateway" {
   name                  = "vgw-hub-${var.starter_location}"
   subnet_address_prefix = var.gateway_subnet_address_prefix
   enable_telemetry      = false
-  virtual_network_id    = module.hubnetworking.virtual_networks["primary-hub"].name
+  virtual_network_id    = module.hubnetworking.virtual_networks["primary-hub"].id
 
   providers = {
     azurerm = azurerm.connectivity
