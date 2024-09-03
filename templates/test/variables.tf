@@ -25,7 +25,7 @@ variable "child_management_group_display_name" {
   default     = "E2E Test"
 }
 
-variable "resource_group_location" {
+variable "starter_location" {
   type        = string
   description = "This is the fourth test variable|6|azure_location"
   default     = "uksouth"

@@ -21,26 +21,26 @@ resource "azurerm_management_group" "example_child" {
 resource "azurerm_resource_group" "management" {
   provider = azurerm.management
   name     = "e2e-test-management-azurerm-${random_string.example.result}"
-  location = var.resource_group_location
+  location = var.starter_location
 }
 
 resource "azurerm_resource_group" "connectivity" {
   provider = azurerm.connectivity
   name     = "e2e-test-connectivity-azurerm-${random_string.example.result}"
-  location = var.resource_group_location
+  location = var.starter_location
 }
 
 resource "azurerm_resource_group" "identity" {
   provider = azurerm.identity
   name     = "e2e-test-identity-azurerm-${random_string.example.result}"
-  location = var.resource_group_location
+  location = var.starter_location
 }
 
 resource "azapi_resource" "resource_group_management" {
   parent_id = "/subscriptions/${var.subscription_id_management}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-management-azapi-${random_string.example.result}"
-  location  = var.resource_group_location
+  location  = var.starter_location
   body = {
     properties = {}
   }
@@ -51,7 +51,7 @@ resource "azapi_resource" "resource_group_connectivity" {
   parent_id = "/subscriptions/${var.subscription_id_connectivity}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-connectivity-azapi-${random_string.example.result}"
-  location  = var.resource_group_location
+  location  = var.starter_location
   body = {
     properties = {}
   }
@@ -62,7 +62,7 @@ resource "azapi_resource" "resource_group_identity" {
   parent_id = "/subscriptions/${var.subscription_id_identity}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-identity-azapi-${random_string.example.result}"
-  location  = var.resource_group_location
+  location  = var.starter_location
   body = {
     properties = {}
   }
