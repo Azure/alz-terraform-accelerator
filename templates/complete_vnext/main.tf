@@ -13,8 +13,6 @@ module "management_resources" {
   }
 }
 
-
-
 module "management_groups_and_policy" {
   source             = "Azure/avm-ptn-alz/azurerm"
   version            = "0.8.0"
