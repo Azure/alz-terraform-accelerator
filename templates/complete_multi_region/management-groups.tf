@@ -6,7 +6,7 @@ module "management_groups" {
 
   disable_telemetry                                       = try(local.management_groups.disable_telemetry, true)
   default_location                                        = try(local.management_groups.default_location, var.starter_locations[0])
-  root_parent_id                                          = try(local.management_groups.root_parent_id, data.azurerm_client_config.core.tenant_id)
+  root_parent_id                                          = try(local.management_groups.root_parent_id, data.azurerm_client_config.current.tenant_id)
   archetype_config_overrides                              = try(local.management_groups.archetype_config_overrides, {})
   configure_connectivity_resources                        = try(local.management_groups.configure_connectivity_resources, {})
   configure_identity_resources                            = try(local.management_groups.configure_identity_resources, {})

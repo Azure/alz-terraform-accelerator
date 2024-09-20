@@ -4,7 +4,7 @@ data "azapi_resource_action" "locations" {
   type                   = "Microsoft.Resources/subscriptions@2022-12-01"
   action                 = "locations"
   method                 = "GET"
-  resource_id            = "/subscriptions/${data.azapi_client_config.current.subscription_id}"
+  resource_id            = "/subscriptions/${data.azurerm_client_config.current.subscription_id}"
   response_export_values = ["value"]
 }
 
