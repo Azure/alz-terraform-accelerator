@@ -88,6 +88,7 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
 connectivity:
   hub_and_spoke_vnet: # `avm-ptn-hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
+      # Primary hub
       primary:
         name: vnet-hub-${starter_location_01}
         resource_group_name: rg-connectivity-${starter_location_01}
@@ -108,6 +109,13 @@ connectivity:
         virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${starter_location_01}
           subnet_address_prefix: 10.0.2.0/24
+          ip_configurations:
+            ipconfig1:
+              name: ipconfig1
+              public_ip:  
+                zones: ${starter_location_01_availability_zones}
+
+      # Secondary hub
       secondary:
         name: vnet-hub-${starter_location_02}
         resource_group_name: rg-connectivity-${starter_location_02}
@@ -128,6 +136,12 @@ connectivity:
         virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${starter_location_02}
           subnet_address_prefix: 10.1.2.0/24
+          ip_configurations:
+            ipconfig1:
+              name: ipconfig1
+              public_ip: 
+                zones: ${starter_location_02_availability_zones}
+
   private_dns: 
     location: ${starter_location_01}
     resource_group_name: rg-dns-${starter_location_01}
