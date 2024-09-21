@@ -23,7 +23,7 @@ module "virtual_network_gateway" {
 
   location                                  = each.value.location
   name                                      = each.value.name
-  sku                                       = try(each.value.sku, null)
+  sku                                       = try(each.value.sku, null) == null ? local.vnet_gateway_default_skus[each.key] : each.value.sku
   type                                      = try(each.value.type, null)
   virtual_network_id                        = each.value.virtual_network_id
   default_tags                              = try(each.value.default_tags, null)
