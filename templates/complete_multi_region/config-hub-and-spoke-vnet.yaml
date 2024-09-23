@@ -144,4 +144,6 @@ connectivity:
 
   private_dns: 
     location: ${starter_location_01}
+    secondary_locations: 
+      - ${starter_location_02}
     resource_group_name: rg-dns-${starter_location_01}
