@@ -5,6 +5,7 @@ module "hub_and_spoke_vnet" {
   count = length(local.hub_virtual_networks) > 0 ? 1 : 0
 
   hub_virtual_networks = local.module_hub_and_spoke_vnet.hub_virtual_networks
+  enable_telemetry     = try(local.module_hub_and_spoke_vnet.enable_telemetry, local.enable_telemetry)
 
   providers = {
     azurerm = azurerm.connectivity
@@ -29,7 +30,6 @@ module "virtual_network_gateway" {
   default_tags                              = try(each.value.default_tags, null)
   subnet_creation_enabled                   = try(each.value.subnet_creation_enabled, null)
   edge_zone                                 = try(each.value.edge_zone, null)
-  enable_telemetry                          = false
   express_route_circuits                    = try(each.value.express_route_circuits, null)
   ip_configurations                         = try(each.value.ip_configurations, null)
   local_network_gateways                    = try(each.value.local_network_gateways, null)
@@ -46,6 +46,7 @@ module "virtual_network_gateway" {
   route_table_creation_enabled              = try(each.value.route_table_creation_enabled, null)
   route_table_name                          = try(each.value.route_table_name, null)
   route_table_tags                          = try(each.value.route_table_tags, null)
+  enable_telemetry                          = try(each.value.enable_telemetry, local.enable_telemetry)
 
   providers = {
     azurerm = azurerm.connectivity

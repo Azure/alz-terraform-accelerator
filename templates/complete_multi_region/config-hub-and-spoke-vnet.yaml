@@ -25,7 +25,6 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
   deploy_management_resources: true
   deploy_connectivity_resources: false # We are using the AVM patterns for connectivity
   deploy_identity_resources: true
-  disable_telemetry: false
 
   # Management resource settings
   configure_management_resources:
@@ -65,7 +64,7 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
             name: rg-management-${starter_location_01}
         azurerm_log_analytics_workspace:
           management:
-            name: log-management-${starter_location_01}
+            name: law-management-${starter_location_01}
         azurerm_automation_account:
           management:
             name: aa-management-${starter_location_01}
@@ -82,7 +81,6 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
           dns:
             ${starter_location_01}:
               name: rg-dns-${starter_location_01}    
-
 
 # Connectivity settings
 connectivity:
@@ -101,18 +99,23 @@ connectivity:
           sku_tier: Standard
           subnet_address_prefix: 10.0.1.0/24
           zones: ${starter_location_01_availability_zones}
+          firewall_policy:
+            name: fwp-hub-${starter_location_01}
+            dns:
+              proxy_enabled: true
           default_ip_configuration:
             public_ip_config:
               zones: ${starter_location_01_availability_zones}
-              name: pip-hub-${starter_location_01}
+              name: pip-hub-fw-${starter_location_01}
               ip_version: "IPv4"
         virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${starter_location_01}
           subnet_address_prefix: 10.0.2.0/24
           ip_configurations:
-            ipconfig1:
-              name: ipconfig1
+            default:
+              name: default
               public_ip:  
+                name: pip-hub-vgw-${starter_location_01}
                 zones: ${starter_location_01_availability_zones}
 
       # Secondary hub
@@ -128,10 +131,14 @@ connectivity:
           sku_tier: Standard
           subnet_address_prefix: 10.1.1.0/24
           zones: ${starter_location_02_availability_zones}
+          firewall_policy:
+            name: fwp-hub-${starter_location_02}
+            dns:
+              proxy_enabled: true
           default_ip_configuration:
             public_ip_config:
               zones: ${starter_location_02_availability_zones}
-              name: pip-hub-${starter_location_02}
+              name: pip-hub-fw-${starter_location_02}
               ip_version: "IPv4"
         virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
           name: vgw-hub-${starter_location_02}
@@ -140,6 +147,7 @@ connectivity:
             ipconfig1:
               name: ipconfig1
               public_ip: 
+                name: pip-hub-vgw-${starter_location_02}
                 zones: ${starter_location_02_availability_zones}
 
   private_dns: 
@@ -147,3 +155,6 @@ connectivity:
     secondary_locations: 
       - ${starter_location_02}
     resource_group_name: rg-dns-${starter_location_01}
+
+# Configure root module settings
+enable_telemetry: false

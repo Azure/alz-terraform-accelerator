@@ -7,7 +7,6 @@ module "virtual_wan" {
   allow_branch_to_branch_traffic        = try(local.module_virtual_wan.allow_branch_to_branch_traffic, null)
   create_resource_group                 = try(local.module_virtual_wan.create_resource_group, null)
   disable_vpn_encryption                = try(local.module_virtual_wan.disable_vpn_encryption, null)
-  enable_telemetry                      = try(local.module_virtual_wan.enable_telemetry, null)
   er_circuit_connections                = try(local.module_virtual_wan.er_circuit_connections, null)
   expressroute_gateways                 = try(local.module_virtual_wan.expressroute_gateways, null)
   firewalls                             = try(local.module_virtual_wan.firewalls, null)
@@ -27,6 +26,7 @@ module "virtual_wan" {
   vpn_site_connections                  = try(local.module_virtual_wan.vpn_site_connections, null)
   vpn_sites                             = try(local.module_virtual_wan.vpn_sites, null)
   tags                                  = try(local.module_virtual_wan.tags, null)
+  enable_telemetry                      = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
 
   providers = {
     azurerm = azurerm.connectivity
@@ -42,9 +42,10 @@ module "virtual_network_private_dns" {
   version = "0.4.0"
 
   count = local.virtual_wan_enabled ? 1 : 0
- 
-  address_space = [ try(local.module_hub_and_spoke_vnet.private_dns_virtual_network_address_space, null) ]
-  location = try(local.module_virtual_wan.private_dns_location, var.starter_locations[0])
-  name = try(local.module_hub_and_spoke_vnet.private_dns_virtual_network_name, "vnet-private-dns")
+
+  address_space       = [try(local.module_hub_and_spoke_vnet.private_dns_virtual_network_address_space, null)]
+  location            = try(local.module_virtual_wan.private_dns_location, var.starter_locations[0])
+  name                = try(local.module_hub_and_spoke_vnet.private_dns_virtual_network_name, "vnet-private-dns")
   resource_group_name = try(local.module_virtual_wan.resource_group_name, null)
+  enable_telemetry    = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
 }

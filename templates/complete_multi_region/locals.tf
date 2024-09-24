@@ -1,4 +1,8 @@
 locals {
+  enable_telemetry = try(local.config.enable_telemetry, true)
+}
+
+locals {
   management_groups = try(merge(local.config.management_groups, {}), {})
 }
 
@@ -33,7 +37,7 @@ locals {
 
 locals {
   management_groups_enabled = length(local.management_groups) > 0
-  hub_networking_enabled = length(local.module_hub_and_spoke_vnet) > 0
-  virtual_wan_enabled   = length(local.module_virtual_wan) > 0
-  private_dns_enabled   = length(local.module_private_dns) > 0
+  hub_networking_enabled    = length(local.module_hub_and_spoke_vnet) > 0
+  virtual_wan_enabled       = length(local.module_virtual_wan) > 0
+  private_dns_enabled       = length(local.module_private_dns) > 0
 }

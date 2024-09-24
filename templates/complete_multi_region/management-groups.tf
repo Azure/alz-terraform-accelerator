@@ -4,7 +4,7 @@ module "management_groups" {
 
   count = length(local.management_groups) > 0 ? 1 : 0
 
-  disable_telemetry                                       = try(local.management_groups.disable_telemetry, true)
+  disable_telemetry                                       = try(local.management_groups.disable_telemetry, !local.enable_telemetry)
   default_location                                        = try(local.management_groups.default_location, var.starter_locations[0])
   root_parent_id                                          = try(local.management_groups.root_parent_id, data.azurerm_client_config.current.tenant_id)
   archetype_config_overrides                              = try(local.management_groups.archetype_config_overrides, {})

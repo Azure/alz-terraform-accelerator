@@ -10,8 +10,8 @@ data "azapi_resource_action" "locations" {
 
 locals {
   regions = { for region in jsondecode(data.azapi_resource_action.locations.output).value : region.name => {
-      display_name = region.displayName
-      zones = try([ for zone in region.availabilityZoneMappings : zone.logicalZone ], [])
+    display_name = region.displayName
+    zones        = try([for zone in region.availabilityZoneMappings : zone.logicalZone], [])
     } if region.metadata.regionType == "Physical"
   }
 }
