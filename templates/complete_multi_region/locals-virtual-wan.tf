@@ -10,7 +10,7 @@ locals {
     name              = value.name
     sku_name          = value.sku_name
     sku_tier          = value.sku_tier
-    firwall_policy_id = module.firewall_policy[key].resource_id
+    firewall_policy_id = module.firewall_policy[key].resource_id
     tags              = try(value.tags, null)
   } }
 }

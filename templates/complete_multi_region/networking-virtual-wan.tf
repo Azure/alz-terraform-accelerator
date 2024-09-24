@@ -25,16 +25,23 @@ module "firewall_policy" {
   firewall_policy_sku                               = try(each.value.firewall_policy.sku, "Standard")
   firewall_policy_auto_learn_private_ranges_enabled = try(each.value.firewall_policy.auto_learn_private_ranges_enabled, null)
   firewall_policy_base_policy_id                    = try(each.value.firewall_policy.base_policy_id, null)
-  firewall_policy_dns                               = try(each.value.firewall_policy.dns, null)
-  firewall_policy_threat_intelligence_mode          = try(each.value.firewall_policy.threat_intelligence_mode, "Alert")
-  firewall_policy_private_ip_ranges                 = try(each.value.firewall_policy.private_ip_ranges, null)
-  firewall_policy_threat_intelligence_allowlist     = try(each.value.firewall_policy.threat_intelligence_allowlist, null)
-  tags                                              = try(each.value.firewall_policy.tags, null)
-  enable_telemetry                                  = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
+  firewall_policy_dns = try(each.value.firewall_policy.dns, {
+    servers       = [module.dns_resolver[each.value.virtual_hub_key].inbound_endpoint_ips["dns"]]
+    proxy_enabled = true
+  })
+  firewall_policy_threat_intelligence_mode      = try(each.value.firewall_policy.threat_intelligence_mode, "Alert")
+  firewall_policy_private_ip_ranges             = try(each.value.firewall_policy.private_ip_ranges, null)
+  firewall_policy_threat_intelligence_allowlist = try(each.value.firewall_policy.threat_intelligence_allowlist, null)
+  tags                                          = try(each.value.firewall_policy.tags, null)
+  enable_telemetry                              = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
 
   depends_on = [
     module.virtual_wan_resource_group
   ]
+
+  providers = {
+    azurerm = azurerm.connectivity
+  }
 }
 
 module "virtual_wan" {
@@ -88,6 +95,48 @@ module "virtual_network_private_dns" {
   name                = try(each.value.private_dns_virtual_network_name, "vnet-private-dns-${each.value.location}")
   resource_group_name = try(local.module_virtual_wan.resource_group_name, module.virtual_wan_resource_group[0].name)
   enable_telemetry    = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
+  subnets = {
+    dns = {
+      address_prefix = try(each.value.private_dns_virtual_network_subnet_address_space, null)
+      name           = try(each.value.private_dns_virtual_network_subnet_name, "subnet-dns")
+      delegation = [{
+        name = "Microsoft.Network.dnsResolvers"
+        service_delegation = {
+          name    = "Microsoft.Network/dnsResolvers"
+          #actions = ["Microsoft.Network/virtualNetworks/subnets/join/action"]
+        }
+      }]
+    }
+  }
 
   depends_on = [module.virtual_wan_resource_group]
+
+  providers = {
+    azurerm = azurerm.connectivity
+  }
+}
+
+module "dns_resolver" {
+  source  = "Azure/avm-res-network-dnsresolver/azurerm"
+  version = "0.2.1"
+
+  for_each = local.virtual_wan_enabled ? try(local.module_virtual_wan.virtual_hubs, {}) : {}
+
+  location                    = try(each.value.location, var.starter_locations[0])
+  name                        = try(each.value.dns_resolver_name, "dpr-hub-${each.value.location}")
+  resource_group_name         = try(local.module_virtual_wan.resource_group_name, module.virtual_wan_resource_group[0].name)
+  virtual_network_resource_id = module.virtual_network_private_dns[each.key].resource_id
+  enable_telemetry            = try(local.module_virtual_wan.enable_telemetry, local.enable_telemetry)
+  inbound_endpoints = {
+    dns = {
+      name        = "dns"
+      subnet_name = module.virtual_network_private_dns[each.key].subnets.dns.name
+    }
+  }
+
+  depends_on = [module.virtual_wan_resource_group]
+
+  providers = {
+    azurerm = azurerm.connectivity
+  }
 }
