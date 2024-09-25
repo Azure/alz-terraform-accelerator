@@ -6,11 +6,11 @@ locals {
   } }
   virtual_wan_virtual_network_connections = local.virtual_wan_enabled ? merge(local.virtual_wan_virtual_network_connections_input, local.virtual_wan_private_dns_virtual_network_connections) : {}
   virtual_wan_firewalls = { for key, value in try(local.module_virtual_wan.firewalls, {}) : key => {
-    virtual_hub_key   = value.virtual_hub_key
-    name              = value.name
-    sku_name          = value.sku_name
-    sku_tier          = value.sku_tier
+    virtual_hub_key    = value.virtual_hub_key
+    name               = value.name
+    sku_name           = value.sku_name
+    sku_tier           = value.sku_tier
     firewall_policy_id = module.firewall_policy[key].resource_id
-    tags              = try(value.tags, null)
+    tags               = try(value.tags, null)
   } }
 }
