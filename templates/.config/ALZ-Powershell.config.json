@@ -1,5 +1,10 @@
 {
     "starter_modules": {
+        "complete_multi_region": {
+            "location": "complete_multi_region",
+            "short_name": "Complete Multi-Region",
+            "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
+        },
         "complete": {
             "location": "complete",
             "short_name": "Complete",
