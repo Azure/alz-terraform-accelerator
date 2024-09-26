@@ -95,16 +95,16 @@ connectivity:
         location: ${starter_location_01}
         address_prefix: 10.0.0.0/16
         private_dns_virtual_network_name: vnet-hub-private-dns-${starter_location_01}
-        private_dns_virtual_network_address_space: 10.0.0.0/24
-        private_dns_virtual_network_subnet_address_space: 10.0.0.0/28
+        private_dns_virtual_network_address_space: 10.2.0.0/24
+        private_dns_virtual_network_subnet_address_space: 10.2.0.0/28
         dns_resolver_name: dpr-hub-${starter_location_01}
       secondary:
         name: vnet-hub-${starter_location_02}
         location: ${starter_location_02}
         address_prefix: 10.1.0.0/16
         private_dns_virtual_network_name: vnet-hub-private-dns-${starter_location_02}
-        private_dns_virtual_network_address_space: 10.1.0.0/24
-        private_dns_virtual_network_subnet_address_space: 10.1.0.0/28
+        private_dns_virtual_network_address_space: 10.3.0.0/24
+        private_dns_virtual_network_subnet_address_space: 10.3.0.0/28
         dns_resolver_name: dpr-hub-${starter_location_02}
 
     firewalls:
