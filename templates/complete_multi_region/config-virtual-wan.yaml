@@ -12,8 +12,8 @@
 management_groups: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
 
   # Base variables
-  root_name: es
-  root_id: Enterprise-Scale
+  root_name: alz
+  root_id: Azure-Landing-Zones
   default_location: ${starter_location_01}
   subscription_id_connectivity: ${subscription_id_connectivity}
   subscription_id_identity: ${subscription_id_identity}
@@ -137,4 +137,4 @@ connectivity:
         is_primary: false  # Only deploys regional zones
 
 # Configure root module settings
-enable_telemetry: false
+enable_telemetry: true
