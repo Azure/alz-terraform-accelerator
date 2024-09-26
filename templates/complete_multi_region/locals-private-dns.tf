@@ -1,6 +1,6 @@
 locals {
   private_dns_virtual_networks_hub_and_spoke_vnet = (local.hub_networking_enabled ?
-    { for key, value in try(module.hub_and_spoke_vnet[0].virtual_networks, {}) : key => { vnet_resource_id = value.id } } :
+    { for key, value in try(local.module_hub_and_spoke_vnet.hub_virtual_networks, {}) : key => { vnet_resource_id = module.hub_and_spoke_vnet[0].virtual_networks[key].id } } :
     {}
   )
   private_dns_virtual_networks_virtual_wan = (local.virtual_wan_enabled ?
