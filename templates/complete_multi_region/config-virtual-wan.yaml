@@ -11,7 +11,7 @@
 ---
 management_groups: # `caf-enterprise-scale` module, add inputs as listed on the module registry where necessary.
 
-  # Base variables  
+  # Base variables
   root_name: es
   root_id: Enterprise-Scale
   default_location: ${starter_location_01}
@@ -68,7 +68,7 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
         azurerm_automation_account:
           management:
             name: aa-management-${starter_location_01}
-  
+
   # Configure Private DNS Zone Resource Ids for Policy Assignments
   configure_connectivity_resources:
     settings:
@@ -80,7 +80,7 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
         azurerm_resource_group:
           dns:
             ${starter_location_01}:
-              name: rg-private-dns-${starter_location_01}    
+              name: rg-private-dns-${starter_location_01}
 
 # Connectivity settings
 connectivity:
@@ -106,7 +106,7 @@ connectivity:
         private_dns_virtual_network_address_space: 10.1.0.0/24
         private_dns_virtual_network_subnet_address_space: 10.1.0.0/28
         dns_resolver_name: dpr-hub-${starter_location_02}
-      
+
     firewalls:
       primary:
         virtual_hub_key: primary

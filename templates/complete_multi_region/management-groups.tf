@@ -2,7 +2,7 @@ module "management_groups" {
   source  = "Azure/caf-enterprise-scale/azurerm"
   version = "6.1.0"
 
-  count = length(local.management_groups) > 0 ? 1 : 0
+  count = local.management_groups_enabled ? 1 : 0
 
   disable_telemetry                                       = try(local.management_groups.disable_telemetry, !local.enable_telemetry)
   default_location                                        = try(local.management_groups.default_location, var.starter_locations[0])

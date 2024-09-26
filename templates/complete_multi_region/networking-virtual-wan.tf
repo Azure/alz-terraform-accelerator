@@ -62,7 +62,7 @@ module "virtual_wan" {
   p2s_gateways                          = try(local.module_virtual_wan.p2s_gateways, {})
   resource_group_name                   = try(local.module_virtual_wan.resource_group_name, module.virtual_wan_resource_group[0].name)
   virtual_hubs                          = try(local.module_virtual_wan.virtual_hubs, null)
-  virtual_network_connections           = try(local.module_virtual_wan.virtual_network_connections, null)
+  virtual_network_connections           = local.virtual_wan_virtual_network_connections
   virtual_wan_name                      = try(local.module_virtual_wan.virtual_wan_name, null)
   type                                  = try(local.module_virtual_wan.type, null)
   routing_intents                       = try(local.module_virtual_wan.routing_intents, null)
