@@ -1,3 +1,0 @@
-subscription_id_connectivity = "00000000-0000-0000-0000-000000000000"
-subscription_id_identity     = "00000000-0000-0000-0000-000000000000"
-subscription_id_management   = "00000000-0000-0000-0000-000000000000"

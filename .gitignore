@@ -37,3 +37,4 @@ templates/test_*
 .vscode/settings.json
 .vs
 .alzlib
+terraform.tfvars
