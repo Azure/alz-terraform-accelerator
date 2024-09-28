@@ -1,4 +1,7 @@
 locals {
+  starter_location = var.starter_locations[0]
+}
+locals {
   config_file_extension = replace(lower(element(local.config_file_split, length(local.config_file_split) - 1)), local.const_yml, local.const_yaml)
   config_file_name      = var.configuration_file_path == "" ? "config.yaml" : basename(var.configuration_file_path)
   config_file_split     = split(".", local.config_file_name)
@@ -11,7 +14,7 @@ locals {
     jsondecode(templatefile("${path.module}/${local.config_file_name}", local.config_template_file_variables))
   )
   config_template_file_variables = {
-    default_location                = var.default_location
+    default_location                = local.starter_location
     default_postfix                 = var.default_postfix
     root_parent_management_group_id = var.root_parent_management_group_id == "" ? data.azurerm_client_config.core.tenant_id : var.root_parent_management_group_id
     subscription_id_connectivity    = var.subscription_id_connectivity
