@@ -28,5 +28,4 @@ variable "child_management_group_display_name" {
 variable "starter_locations" {
   type        = list(string)
   description = "This is the fourth test variable|azure_location"
-  default     = ["uksouth"]
 }
