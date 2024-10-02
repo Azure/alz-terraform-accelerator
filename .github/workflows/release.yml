@@ -3,7 +3,7 @@ name: Release
 
 on:
   release:
-    types: [created]
+    types: [published]
   workflow_dispatch:
   pull_request:
     branches:
