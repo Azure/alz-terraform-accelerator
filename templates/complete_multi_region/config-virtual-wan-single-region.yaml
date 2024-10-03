@@ -99,15 +99,6 @@ connectivity:
         private_dns_virtual_network_subnet_address_space: 10.2.0.0/28
         dns_resolver_name: dpr-hub-${starter_location_01}
 
-      secondary:
-        name: vnet-hub-${starter_location_02}
-        location: ${starter_location_02}
-        address_prefix: 10.1.0.0/16
-        private_dns_virtual_network_name: vnet-hub-private-dns-${starter_location_02}
-        private_dns_virtual_network_address_space: 10.3.0.0/24
-        private_dns_virtual_network_subnet_address_space: 10.3.0.0/28
-        dns_resolver_name: dpr-hub-${starter_location_02}
-
     firewalls:
       primary:
         virtual_hub_key: primary
@@ -118,24 +109,12 @@ connectivity:
         firewall_policy:
           name: fwp-hub-${starter_location_01}
 
-      secondary:
-        virtual_hub_key: secondary
-        name: fw-hub-${starter_location_02}
-        sku_name: AZFW_Hub
-        sku_tier: Standard
-        zones: ${starter_location_02_availability_zones}
-        firewall_policy:
-          name: fwp-hub-${starter_location_02}
-
   private_dns:
     resource_group_name: rg-private-dns-${starter_location_01}
     locations:
       primary:
         location: ${starter_location_01}
         is_primary: true  # Deploys all zones
-      secondary:
-        location: ${starter_location_02}
-        is_primary: false  # Only deploys regional zones
 
 # Configure root module settings
 enable_telemetry: true
