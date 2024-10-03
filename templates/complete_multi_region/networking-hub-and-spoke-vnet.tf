@@ -51,4 +51,8 @@ module "virtual_network_gateway" {
   providers = {
     azurerm = azurerm.connectivity
   }
+
+  depends_on = [ 
+    module.hub_and_spoke_vnet
+  ]
 }
