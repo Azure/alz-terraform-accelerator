@@ -20,7 +20,7 @@ variable "subscription_id_management" {
 
 variable "configuration_file_path" {
   type        = string
-  default     = "config-hub-and-spoke-vnet.yaml"
+  default     = "config-hub-and-spoke-vnet-multi-region.yaml"
   description = "The path of the configuration file|configuration_file_path"
 }
 

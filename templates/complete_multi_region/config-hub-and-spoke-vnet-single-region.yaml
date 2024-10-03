@@ -84,47 +84,39 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
 
 # Connectivity settings
 connectivity:
-  virtual_wan: # `avm-ptn-vwan` module, add inputs as listed on the module registry where necessary.
-    virtual_wan_name: vwan-hub-${starter_location_01}
-    resource_group_name: rg-connectivity-${starter_location_01}
-    location: ${starter_location_01}
-
-    virtual_hubs:
+  hub_and_spoke_vnet: # `avm-ptn-hubnetworking` module, add inputs as listed on the module registry where necessary.
+    hub_virtual_networks:
+      # Primary hub
       primary:
         name: vnet-hub-${starter_location_01}
+        resource_group_name: rg-connectivity-${starter_location_01}
         location: ${starter_location_01}
-        address_prefix: 10.0.0.0/16
-        private_dns_virtual_network_name: vnet-hub-private-dns-${starter_location_01}
-        private_dns_virtual_network_address_space: 10.2.0.0/24
-        private_dns_virtual_network_subnet_address_space: 10.2.0.0/28
-        dns_resolver_name: dpr-hub-${starter_location_01}
-      secondary:
-        name: vnet-hub-${starter_location_02}
-        location: ${starter_location_02}
-        address_prefix: 10.1.0.0/16
-        private_dns_virtual_network_name: vnet-hub-private-dns-${starter_location_02}
-        private_dns_virtual_network_address_space: 10.3.0.0/24
-        private_dns_virtual_network_subnet_address_space: 10.3.0.0/28
-        dns_resolver_name: dpr-hub-${starter_location_02}
-
-    firewalls:
-      primary:
-        virtual_hub_key: primary
-        name: fw-hub-${starter_location_01}
-        sku_name: AZFW_Hub
-        sku_tier: Standard
-        zones: ${starter_location_01_availability_zones}
-        firewall_policy:
-          name: fwp-hub-${starter_location_01}
-
-      secondary:
-        virtual_hub_key: secondary
-        name: fw-hub-${starter_location_02}
-        sku_name: AZFW_Hub
-        sku_tier: Standard
-        zones: ${starter_location_02_availability_zones}
-        firewall_policy:
-          name: fwp-hub-${starter_location_02}
+        address_space:
+          - 10.0.0.0/16
+        firewall:
+          name: fw-hub-${starter_location_01}
+          sku_name: AZFW_VNet
+          sku_tier: Standard
+          subnet_address_prefix: 10.0.1.0/24
+          zones: ${starter_location_01_availability_zones}
+          firewall_policy:
+            name: fwp-hub-${starter_location_01}
+            dns:
+              proxy_enabled: true
+          default_ip_configuration:
+            public_ip_config:
+              zones: ${starter_location_01_availability_zones}
+              name: pip-hub-fw-${starter_location_01}
+              ip_version: "IPv4"
+        virtual_network_gateway: # `avm-ptn-vnetgateway` module, add inputs as listed on the module registry where necessary.
+          name: vgw-hub-${starter_location_01}
+          subnet_address_prefix: 10.0.2.0/24
+          ip_configurations:
+            default:
+              name: default
+              public_ip:
+                name: pip-hub-vgw-${starter_location_01}
+                zones: ${starter_location_01_availability_zones}
 
   private_dns:
     resource_group_name: rg-private-dns-${starter_location_01}
@@ -132,9 +124,6 @@ connectivity:
       primary:
         location: ${starter_location_01}
         is_primary: true  # Deploys all zones
-      secondary:
-        location: ${starter_location_02}
-        is_primary: false  # Only deploys regional zones
 
 # Configure root module settings
 enable_telemetry: true
