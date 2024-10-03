@@ -52,7 +52,7 @@ module "virtual_network_gateway" {
     azurerm = azurerm.connectivity
   }
 
-  depends_on = [ 
+  depends_on = [
     module.hub_and_spoke_vnet
   ]
 }
