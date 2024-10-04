@@ -1,20 +1,10 @@
 variable "hub_virtual_networks" {
   type = map(object({
-    name                = string
     location            = string
-    resource_group_name = string
-    settings            = object
+    hub_virtual_network = any
     virtual_network_gateways = optional(object({
-      express_route = optional(object({
-        name     = string
-        sku      = string
-        settings = object
-      }))
-      vpn = optional(object({
-        name     = string
-        sku      = string
-        settings = object
-      }))
+      express_route = optional(any)
+      vpn = optional(any)
     }))
   }))
   default     = {}

@@ -25,41 +25,36 @@ module "virtual_wan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
   version = "0.5.0"
 
-  allow_branch_to_branch_traffic        = try(local.module_virtual_wan.allow_branch_to_branch_traffic, null)
-  disable_vpn_encryption                = try(local.module_virtual_wan.disable_vpn_encryption, false)
-  er_circuit_connections                = try(local.module_virtual_wan.er_circuit_connections, {})
-  expressroute_gateways                 = try(local.module_virtual_wan.expressroute_gateways, {})
+  allow_branch_to_branch_traffic        = try(var.settings.allow_branch_to_branch_traffic, null)
+  disable_vpn_encryption                = try(var.settings.disable_vpn_encryption, false)
+  er_circuit_connections                = try(var.settings.er_circuit_connections, {})
+  expressroute_gateways                 = try(var.settings.expressroute_gateways, {})
   firewalls                             = local.firewalls
-  office365_local_breakout_category     = try(local.module_virtual_wan.office365_local_breakout_category, null)
+  office365_local_breakout_category     = try(var.settings.office365_local_breakout_category, null)
   location                              = var.location
-  p2s_gateway_vpn_server_configurations = try(local.module_virtual_wan.p2s_gateway_vpn_server_configurations, {})
-  p2s_gateways                          = try(local.module_virtual_wan.p2s_gateways, {})
+  p2s_gateway_vpn_server_configurations = try(var.settings.p2s_gateway_vpn_server_configurations, {})
+  p2s_gateways                          = try(var.settings.p2s_gateways, {})
   resource_group_name                   = var.resource_group_name
   create_resource_group                 = false
   virtual_hubs                          = var.virtual_hubs
   virtual_network_connections           = local.virtual_network_connections
   virtual_wan_name                      = var.name
-  type                                  = try(local.module_virtual_wan.type, null)
-  routing_intents                       = try(local.module_virtual_wan.routing_intents, null)
-  resource_group_tags                   = try(local.module_virtual_wan.resource_group_tags, null)
-  virtual_wan_tags                      = try(local.module_virtual_wan.virtual_wan_tags, null)
-  vpn_gateways                          = try(local.module_virtual_wan.vpn_gateways, {})
-  vpn_site_connections                  = try(local.module_virtual_wan.vpn_site_connections, {})
-  vpn_sites                             = try(local.module_virtual_wan.vpn_sites, null)
-  tags                                  = try(local.module_virtual_wan.tags, null)
+  type                                  = try(var.settings.type, null)
+  routing_intents                       = try(var.settings.routing_intents, null)
+  resource_group_tags                   = try(var.settings.resource_group_tags, null)
+  virtual_wan_tags                      = try(var.settings.virtual_wan_tags, null)
+  vpn_gateways                          = try(var.settings.vpn_gateways, {})
+  vpn_site_connections                  = try(var.settings.vpn_site_connections, {})
+  vpn_sites                             = try(var.settings.vpn_sites, null)
+  tags                                  = try(var.settings.tags, null)
   enable_telemetry                      = var.enable_telemetry
-
-  depends_on = [
-    module.management_groups,
-    module.virtual_wan_resource_group
-  ]
 }
 
 module "virtual_network_private_dns" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm"
   version = "0.4.0"
 
-  for_each            = var.private_dns_zones_enabled ? var.virtual_hubs : {}
+  for_each = var.private_dns_zones_enabled ? var.virtual_hubs : {}
 
   address_space       = each.value.private_dns_zones_networking.virtual_network.address_space
   location            = each.value.location
@@ -79,15 +74,13 @@ module "virtual_network_private_dns" {
       }]
     }
   }
-
-  depends_on = [module.virtual_wan_resource_group]
 }
 
 module "dns_resolver" {
   source  = "Azure/avm-res-network-dnsresolver/azurerm"
   version = "0.2.1"
 
-  for_each            = var.private_dns_zones_enabled ? var.virtual_hubs : {}
+  for_each = var.private_dns_zones_enabled ? var.virtual_hubs : {}
 
   location                    = each.value.location
   name                        = each.value.private_dns_zones_networking.private_dns_resolver.name
@@ -100,6 +93,4 @@ module "dns_resolver" {
       subnet_name = module.virtual_network_private_dns[each.key].subnets.dns.name
     }
   }
-
-  depends_on = [module.virtual_wan_resource_group]
 }

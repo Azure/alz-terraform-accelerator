@@ -1,5 +1,5 @@
 module "hub_and_spoke_vnet" {
-  source  = "./modules/hub-and-spoke-vnet"
+  source = "./modules/hub-and-spoke-vnet"
 
   count = var.connectivity_type == "hub_and_spoke_vnet" ? 1 : 0
 
@@ -11,6 +11,7 @@ module "hub_and_spoke_vnet" {
   }
 
   depends_on = [
-    module.management_groups
+    module.management_groups,
+    module.resource_groups
   ]
 }

@@ -7,13 +7,13 @@ variable "name" {
 variable "resource_group_name" {
   type        = string
   description = "The name of the resource group for the virtual WAN"
-  nullable = false
+  nullable    = false
 }
 
 variable "location" {
-  type = string
+  type        = string
   description = "A map of locations to create the virtual WAN"
-  nullable = false
+  nullable    = false
 }
 
 variable "private_dns_zones_enabled" {
@@ -23,16 +23,16 @@ variable "private_dns_zones_enabled" {
 }
 
 variable "settings" {
-  type = any
+  type        = any
   description = "The settings for the virtual WAN"
-  default = null
+  default     = null
 }
 
 variable "virtual_hubs" {
   type = map(object({
-    name                = string
-    location            = string
-    resource_group_name = string
+    name                        = string
+    location                    = string
+    resource_group_name         = string
     virtual_network_connections = optional(map(any))
     firewall = optional(object({
       name     = string
@@ -45,15 +45,15 @@ variable "virtual_hubs" {
       })
       settings = optional(any)
     }))
-    address_prefix = string
-    tags = optional(map(string))
+    address_prefix         = string
+    tags                   = optional(map(string))
     hub_routing_preference = optional(string)
     private_dns_zone_networking = optional(object({
       virtual_network = object({
-        name = string
+        name          = string
         address_space = string
         private_dns_resolver_subnet = object({
-          name = string
+          name           = string
           address_prefix = string
         })
       })
