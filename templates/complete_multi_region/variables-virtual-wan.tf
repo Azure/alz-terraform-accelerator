@@ -4,8 +4,14 @@ variable "virtual_wan_name" {
   nullable    = false
 }
 
+variable "virtual_wan_resource_group_name" {
+  type        = string
+  description = "The name of the resource group for the virtual WAN"
+  default    = "rg-connectivity-$${location}"
+}
+
 variable "virtual_wan_settings" {
-  type = object
+  type = any
   description = "The settings for the virtual WAN"
   default = null
 }
@@ -15,7 +21,7 @@ variable "virtual_wan_virtual_hubs" {
     name                = optional(string, "vwan-hub-$${location}")
     location            = string
     resource_group_name = optional(string, "rg-vwan-hub-$${location}")
-    virtual_network_connections = optional(object)
+    virtual_network_connections = optional(map(any))
     firewall = optional(object({
       name     = optional(string, "fw-hub-$${location}")
       sku_name = string
@@ -23,9 +29,9 @@ variable "virtual_wan_virtual_hubs" {
       zones    = optional(list(string))
       firewall_policy = object({
         name     = optional(string, "fwp-hub-$${location}")
-        settings = object
+        settings = optional(any)
       })
-      settings = object
+      settings = optional(any)
     }))
     address_prefix = string
     tags = optional(map(string))
@@ -46,10 +52,4 @@ variable "virtual_wan_virtual_hubs" {
   }))
   default     = {}
   description = "A map of virtual hubs to create. Detailed information about the virtual hub can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualhub"
-}
-
-variable "enable_telemetry" {
-  type        = bool
-  default     = true
-  description = "Flag to enable/disable telemetry"
 }

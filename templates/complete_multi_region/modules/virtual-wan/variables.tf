@@ -23,7 +23,7 @@ variable "private_dns_zones_enabled" {
 }
 
 variable "settings" {
-  type = object
+  type = any
   description = "The settings for the virtual WAN"
   default = null
 }
@@ -33,7 +33,7 @@ variable "virtual_hubs" {
     name                = string
     location            = string
     resource_group_name = string
-    virtual_network_connections = optional(object)
+    virtual_network_connections = optional(map(any))
     firewall = optional(object({
       name     = string
       sku_name = string
@@ -41,9 +41,9 @@ variable "virtual_hubs" {
       zones    = optional(list(string))
       firewall_policy = object({
         name     = string
-        settings = object
+        settings = optional(any)
       })
-      settings = object
+      settings = optional(any)
     }))
     address_prefix = string
     tags = optional(map(string))

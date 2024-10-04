@@ -1,11 +1,13 @@
 module "virtual_wan" {
   source = "./modules/virtual-wan"
 
-  count = var.connectity_type == "virtual_wan" ? 1 : 0
+  count = local.connectivity_virtual_wan_enabled ? 1 : 0
 
-  virtual_hubs                          = var.virtual_hubs
+  name = templatestring(var.virtual_wan_name, { location = var.location })
+  location = var.location
+  resource_group_name = module.resource_group_connectivity.name
+  virtual_hubs = local.virtual_wan_virtual_hubs
   
-
   providers = {
     azurerm = azurerm.connectivity
   }

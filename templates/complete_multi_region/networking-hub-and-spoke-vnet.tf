@@ -1,6 +1,5 @@
 module "hub_and_spoke_vnet" {
   source  = "./modules/hub-and-spoke-vnet"
-  version = "0.1.0"
 
   count = var.connectivity_type == "hub_and_spoke_vnet" ? 1 : 0
 
