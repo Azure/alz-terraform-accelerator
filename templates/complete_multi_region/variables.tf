@@ -1,6 +1,6 @@
-variable "starter_locations" {
-  type        = list(string)
-  description = "The location for Azure resources. (e.g 'uksouth')|azure_location"
+variable "location" {
+  type        = string
+  description = "The default for Azure resources. (e.g 'uksouth')|azure_location"
 }
 
 variable "subscription_id_connectivity" {
@@ -34,4 +34,10 @@ variable "root_parent_management_group_id" {
   type        = string
   default     = ""
   description = "This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group|azure_name"
+}
+
+variable "enable_telemetry" {
+  type        = bool
+  default     = true
+  description = "Flag to enable/disable telemetry"
 }

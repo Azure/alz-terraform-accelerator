@@ -84,6 +84,10 @@ management_groups: # `caf-enterprise-scale` module, add inputs as listed on the 
 
 # Connectivity settings
 connectivity:
+  enable_private_dns_zones: true
+  enable_ddos_protection_plan: true
+  private_dns_zone_resource_group_name: rg-private-dns-${starter_location_01}
+  private_dns_zone_resource_group_location: ${starter_location_01}
   hub_and_spoke_vnet: # `avm-ptn-hubnetworking` module, add inputs as listed on the module registry where necessary.
     hub_virtual_networks:
       # Primary hub
@@ -149,16 +153,6 @@ connectivity:
               public_ip:
                 name: pip-hub-vgw-${starter_location_02}
                 zones: ${starter_location_02_availability_zones}
-
-  private_dns:
-    resource_group_name: rg-private-dns-${starter_location_01}
-    locations:
-      primary:
-        location: ${starter_location_01}
-        is_primary: true  # Deploys all zones
-      secondary:
-        location: ${starter_location_02}
-        is_primary: false  # Only deploys regional zones
 
 # Configure root module settings
 enable_telemetry: true
