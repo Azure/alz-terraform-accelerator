@@ -1,6 +1,5 @@
 variable "hub_virtual_networks" {
   type = map(object({
-    location            = string
     hub_virtual_network = any
     virtual_network_gateways = optional(object({
       express_route = optional(any)
