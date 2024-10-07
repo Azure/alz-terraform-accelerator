@@ -8,7 +8,7 @@ module "hub_and_spoke_vnet" {
 
 module "virtual_network_gateway" {
   source  = "Azure/avm-ptn-vnetgateway/azurerm"
-  version = "0.3.1"
+  version = "0.5.0"
 
   for_each = local.virtual_network_gateways
 
@@ -17,14 +17,13 @@ module "virtual_network_gateway" {
   sku                                       = each.value.virtual_network_gateway.sku
   type                                      = each.value.virtual_network_gateway.type
   virtual_network_id                        = module.hub_and_spoke_vnet.virtual_networks[each.value.hub_network_key].id
-  default_tags                              = var.tags
-  subnet_creation_enabled                   = try(each.value.virtual_network_gateway.subnet_creation_enabled, null)
+  tags                                      = var.tags
+  subnet_creation_enabled                   = try(each.value.virtual_network_gateway.subnet_creation_enabled, false)
   edge_zone                                 = try(each.value.virtual_network_gateway.edge_zone, null)
   express_route_circuits                    = try(each.value.virtual_network_gateway.express_route_circuits, null)
   ip_configurations                         = try(each.value.virtual_network_gateway.ip_configurations, null)
   local_network_gateways                    = try(each.value.virtual_network_gateway.local_network_gateways, null)
-  subnet_address_prefix                     = each.value.virtual_network_gateway.subnet_address_prefix
-  tags                                      = try(each.value.virtual_network_gateway.tags, null)
+  subnet_address_prefix                     = try(each.value.virtual_network_gateway.subnet_address_prefix, null)
   vpn_active_active_enabled                 = try(each.value.virtual_network_gateway.vpn_active_active_enabled, null)
   vpn_bgp_enabled                           = try(each.value.virtual_network_gateway.vpn_bgp_enabled, null)
   vpn_bgp_settings                          = try(each.value.virtual_network_gateway.vpn_bgp_settings, null)
