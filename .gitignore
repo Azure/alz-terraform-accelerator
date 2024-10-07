@@ -30,7 +30,6 @@ override.tf.json
 # example: *tfplan*
 .terraform.lock.hcl
 terraform.log
-*.tfvars
 !terraform.tfvars
 templates/basic/terraform.tfvars
 templates/test_*
