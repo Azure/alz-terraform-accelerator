@@ -68,6 +68,7 @@ hub_and_spoke_vnet_virtual_networks:
               zones: ${starter_location_01_availability_zones}
         location: ${starter_location_01}
         name: vgw-hub-expressroute-${starter_location_01}
+        sku: ${starter_location_01_virtual_network_gateway_sku_express_route}
         type: ExpressRoute
       vpn:
         ip_configurations:
@@ -78,6 +79,7 @@ hub_and_spoke_vnet_virtual_networks:
               zones: ${starter_location_01_availability_zones}
         location: ${starter_location_01}
         name: vgw-hub-vpn-${starter_location_01}
+        sku: ${starter_location_01_virtual_network_gateway_sku_vpn}
         type: Vpn
   secondary:
     hub_virtual_network:
@@ -119,6 +121,7 @@ hub_and_spoke_vnet_virtual_networks:
               zones: ${starter_location_02_availability_zones}
         location: ${starter_location_02}
         name: vgw-hub-expressroute-${starter_location_02}
+        sku: ${starter_location_02_virtual_network_gateway_sku_express_route}
         type: ExpressRoute
       vpn:
         ip_configurations:
@@ -129,6 +132,7 @@ hub_and_spoke_vnet_virtual_networks:
               zones: ${starter_location_02_availability_zones}
         location: ${starter_location_02}
         name: vgw-hub-vpn-${starter_location_02}
+        sku: ${starter_location_02_virtual_network_gateway_sku_vpn}
         type: Vpn
 management_settings_es:
   configure_connectivity_resources:

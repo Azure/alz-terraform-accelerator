@@ -3,6 +3,7 @@
 # `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 # `starter_location_02` to `starter_location_10`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
 # `starter_location_01_availability_zones` to `starter_location_10_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
+# `starter_location_01_virtual_network_gateway_sku` to `starter_location_10_virtual_network_gateway_sku`: These are the default SKUs for the virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
 # `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 # `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
@@ -119,8 +120,8 @@ hub_and_spoke_vnet_virtual_networks = {
       address_space                   = ["10.0.0.0/16"]
       subnets = {
         virtual_network_gateway = {
-          name             = "GatewaySubnet"
-          address_prefixes = ["10.0.1.0/24"]
+          name                         = "GatewaySubnet"
+          address_prefixes             = ["10.0.1.0/24"]
           assign_generated_route_table = false
         }
       }
@@ -144,31 +145,31 @@ hub_and_spoke_vnet_virtual_networks = {
     }
     virtual_network_gateways = {
       express_route = {
-        location              = "$${starter_location_01}"
-        name                  = "vgw-hub-expressroute-$${starter_location_01}"
-        type                  = "ExpressRoute"
-        sku                   = "$${starter_location_01_virtual_network_gateway_sku}"
-        ip_configurations     = {
+        location = "$${starter_location_01}"
+        name     = "vgw-hub-expressroute-$${starter_location_01}"
+        type     = "ExpressRoute"
+        sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
+        ip_configurations = {
           default = {
-            name       = "ipconfig-vgw-hub-expressroute-$${starter_location_01}"
+            name = "ipconfig-vgw-hub-expressroute-$${starter_location_01}"
             public_ip = {
-              name       = "pip-vgw-hub-expressroute-$${starter_location_01}"
-              zones      = "$${starter_location_01_availability_zones}"
+              name  = "pip-vgw-hub-expressroute-$${starter_location_01}"
+              zones = "$${starter_location_01_availability_zones}"
             }
           }
         }
       }
       vpn = {
-        location              = "$${starter_location_01}"
-        name                  = "vgw-hub-vpn-$${starter_location_01}"
-        type                  = "Vpn"
-        sku                   = "$${starter_location_01_virtual_network_gateway_sku}"
-        ip_configurations     = {
+        location = "$${starter_location_01}"
+        name     = "vgw-hub-vpn-$${starter_location_01}"
+        type     = "Vpn"
+        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        ip_configurations = {
           default = {
-            name       = "ipconfig-vgw-hub-vpn-$${starter_location_01}"
+            name = "ipconfig-vgw-hub-vpn-$${starter_location_01}"
             public_ip = {
-              name       = "pip-vgw-hub-vpn-$${starter_location_01}"
-              zones      = "$${starter_location_01_availability_zones}"
+              name  = "pip-vgw-hub-vpn-$${starter_location_01}"
+              zones = "$${starter_location_01_availability_zones}"
             }
           }
         }
@@ -188,8 +189,8 @@ hub_and_spoke_vnet_virtual_networks = {
       address_space                   = ["10.1.0.0/16"]
       subnets = {
         virtual_network_gateway = {
-          name             = "GatewaySubnet"
-          address_prefixes = ["10.1.1.0/24"]
+          name                         = "GatewaySubnet"
+          address_prefixes             = ["10.1.1.0/24"]
           assign_generated_route_table = false
         }
       }
@@ -213,31 +214,31 @@ hub_and_spoke_vnet_virtual_networks = {
     }
     virtual_network_gateways = {
       express_route = {
-        location              = "$${starter_location_02}"
-        name                  = "vgw-hub-expressroute-$${starter_location_02}"
-        type                  = "ExpressRoute"
-        sku                   = "$${starter_location_02_virtual_network_gateway_sku}"
-        ip_configurations     = {
+        location = "$${starter_location_02}"
+        name     = "vgw-hub-expressroute-$${starter_location_02}"
+        type     = "ExpressRoute"
+        sku      = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
+        ip_configurations = {
           default = {
-            name       = "ipconfig-vgw-hub-expressroute-$${starter_location_02}"
+            name = "ipconfig-vgw-hub-expressroute-$${starter_location_02}"
             public_ip = {
-              name       = "pip-vgw-hub-expressroute-$${starter_location_02}"
-              zones      = "$${starter_location_02_availability_zones}"
+              name  = "pip-vgw-hub-expressroute-$${starter_location_02}"
+              zones = "$${starter_location_02_availability_zones}"
             }
           }
         }
       }
       vpn = {
-        location              = "$${starter_location_02}"
-        name                  = "vgw-hub-vpn-$${starter_location_02}"
-        type                  = "Vpn"
-        sku                   = "$${starter_location_02_virtual_network_gateway_sku}"
-        ip_configurations     = {
+        location = "$${starter_location_02}"
+        name     = "vgw-hub-vpn-$${starter_location_02}"
+        type     = "Vpn"
+        sku      = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
+        ip_configurations = {
           default = {
-            name       = "ipconfig-vgw-hub-vpn-$${starter_location_02}"
+            name = "ipconfig-vgw-hub-vpn-$${starter_location_02}"
             public_ip = {
-              name       = "pip-vgw-hub-vpn-$${starter_location_02}"
-              zones      = "$${starter_location_02_availability_zones}"
+              name  = "pip-vgw-hub-vpn-$${starter_location_02}"
+              zones = "$${starter_location_02_availability_zones}"
             }
           }
         }
