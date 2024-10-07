@@ -35,7 +35,7 @@ locals {
       servers       = [module.dns_resolver[virtual_hub_key].inbound_endpoint_ips["dns"]]
       proxy_enabled = true
     }
-  }, virtual_hub_value) if can(virtual_hub_value.firewall_policy) }
+  }, virtual_hub_value.firewall.firewall_policy) if can(virtual_hub_value.firewall_policy) }
 
   firewalls = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge(
     {
