@@ -4,8 +4,8 @@ variable "virtual_wan_settings" {
 
 variable "virtual_hubs" {
   type = map(object({
-    hub = any
-    firewall = optional(any)
+    hub             = any
+    firewall        = optional(any)
     firewall_policy = optional(any)
     private_dns_zones = optional(object({
       resource_group_name = string
@@ -25,7 +25,7 @@ variable "virtual_hubs" {
       })
     }))
   }))
-  
+
   default     = {}
   description = "A map of virtual hubs to create. Detailed information about the virtual hub can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualhub"
 }

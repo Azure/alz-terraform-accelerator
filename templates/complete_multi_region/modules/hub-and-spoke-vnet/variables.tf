@@ -7,7 +7,7 @@ variable "hub_virtual_networks" {
     hub_virtual_network = any
     virtual_network_gateways = optional(object({
       express_route = optional(any)
-      vpn = optional(any)
+      vpn           = optional(any)
     }))
     private_dns_zones = optional(object({
       resource_group_name = string

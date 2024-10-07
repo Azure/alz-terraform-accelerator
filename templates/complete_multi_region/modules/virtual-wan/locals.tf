@@ -22,26 +22,26 @@ locals {
     name                      = "private_dns_vnet_${key}"
     virtual_hub_key           = key
     remote_virtual_network_id = module.virtual_network_private_dns[key].resource_id
-  }}
+  } }
 
   virtual_network_connections = merge(local.virtual_network_connections_input, local.virtual_network_connections_private_dns)
 }
 
 locals {
   firewall_policies = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge({
-    location = virtual_hub_value.location
+    location            = virtual_hub_value.location
     resource_group_name = virtual_hub_value.resource_group_name
     firewall_policy_dns = {
       servers       = [module.dns_resolver[virtual_hub_key].inbound_endpoint_ips["dns"]]
       proxy_enabled = true
     }
-  },  virtual_hub_value) if can(virtual_hub_value.firewall_policy) }
-  
+  }, virtual_hub_value) if can(virtual_hub_value.firewall_policy) }
+
   firewalls = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge(
     {
-      virtual_hub_key             = virtual_hub_key
-      location                    = virtual_hub_value.location
-      firewall_policy_id          = module.firewall_policy[virtual_hub_key].resource_id
+      virtual_hub_key    = virtual_hub_key
+      location           = virtual_hub_value.location
+      firewall_policy_id = module.firewall_policy[virtual_hub_key].resource_id
     }, virtual_hub_value.firewall)
     if can(virtual_hub_value.firewall)
   }
@@ -80,6 +80,6 @@ locals {
 }
 
 locals {
-  ddos_protection_plan = can(var.virtual_wan_settings.ddos_protection_plan) ? var.virtual_wan_settings.ddos_protection_plan : null
+  ddos_protection_plan         = can(var.virtual_wan_settings.ddos_protection_plan) ? var.virtual_wan_settings.ddos_protection_plan : null
   ddos_protection_plan_enabled = local.ddos_protection_plan != null
 }

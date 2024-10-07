@@ -7,3 +7,11 @@ variable "connectivity_type" {
     error_message = "The connectivity type must be either 'hub_and_spoke_vnet', 'virtual_wan' or 'none'"
   }
 }
+
+variable "connectivity_resource_groups" {
+  type = map(object({
+    name     = string
+    location = string
+  }))
+  description = "A map of resource groups to create"
+}

@@ -61,10 +61,10 @@ module "private_dns_zones" {
 module "ddos_protection_plan" {
   source  = "Azure/avm-res-network-ddosprotectionplan/azurerm"
   version = "0.2.0"
-  
+
   count = local.ddos_protection_plan_enabled ? 1 : 0
 
-  name              = local.ddos_protection_plan.name
+  name                = local.ddos_protection_plan.name
   resource_group_name = local.ddos_protection_plan.resource_group_name
-  location          = local.ddos_protection_plan.location
+  location            = local.ddos_protection_plan.location
 }

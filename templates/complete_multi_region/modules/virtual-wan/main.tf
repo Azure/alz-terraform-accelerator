@@ -10,12 +10,12 @@ module "firewall_policy" {
   firewall_policy_sku                               = try(each.value.sku, "Standard")
   firewall_policy_auto_learn_private_ranges_enabled = try(each.value.auto_learn_private_ranges_enabled, null)
   firewall_policy_base_policy_id                    = try(each.value.base_policy_id, null)
-  firewall_policy_dns = each.value.settings.dns
-  firewall_policy_threat_intelligence_mode      = try(each.value.threat_intelligence_mode, "Alert")
-  firewall_policy_private_ip_ranges             = try(each.value.private_ip_ranges, null)
-  firewall_policy_threat_intelligence_allowlist = try(each.value.threat_intelligence_allowlist, null)
-  tags                                          = try(each.value.tags, null)
-  enable_telemetry                              = var.enable_telemetry
+  firewall_policy_dns                               = each.value.settings.dns
+  firewall_policy_threat_intelligence_mode          = try(each.value.threat_intelligence_mode, "Alert")
+  firewall_policy_private_ip_ranges                 = try(each.value.private_ip_ranges, null)
+  firewall_policy_threat_intelligence_allowlist     = try(each.value.threat_intelligence_allowlist, null)
+  tags                                              = try(each.value.tags, null)
+  enable_telemetry                                  = var.enable_telemetry
 }
 
 module "virtual_wan" {
@@ -59,7 +59,7 @@ module "virtual_network_private_dns" {
   resource_group_name = each.value.resource_group_name
   enable_telemetry    = var.enable_telemetry
   ddos_protection_plan = local.ddos_protection_plan_enabled ? {
-    id = module.ddos_protection_plan[0].resource.id
+    id     = module.ddos_protection_plan[0].resource.id
     enable = true
   } : null
   subnets = {
@@ -114,10 +114,10 @@ module "private_dns_zones" {
 module "ddos_protection_plan" {
   source  = "Azure/avm-res-network-ddosprotectionplan/azurerm"
   version = "0.2.0"
-  
+
   count = local.ddos_protection_plan_enabled ? 1 : 0
 
-  name              = local.ddos_protection_plan.name
+  name                = local.ddos_protection_plan.name
   resource_group_name = local.ddos_protection_plan.resource_group_name
-  location          = local.ddos_protection_plan.location
+  location            = local.ddos_protection_plan.location
 }
