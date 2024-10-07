@@ -24,10 +24,8 @@ variable "virtual_hubs" {
         })
       })
     }))
-    ddos_protection_plan = any
   }))
   
-
   default     = {}
   description = "A map of virtual hubs to create. Detailed information about the virtual hub can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualhub"
 }

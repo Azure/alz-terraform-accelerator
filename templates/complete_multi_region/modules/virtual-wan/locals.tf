@@ -48,8 +48,10 @@ locals {
 }
 
 locals {
-  private_dns_zones = { for key, value in var.virtual_hubs : key => value if can(value.private_dns_zones) }
-  
+  private_dns_zones = { for key, value in var.virtual_hubs : key => merge({
+    location = value.hub.location
+  }, value.private_dns_zones) if can(value.private_dns_zones) }
+
   private_dns_zones_virtual_network_links = {
     for key, value in module.virtual_network_private_dns : key => {
       vnet_resource_id = value.resource_id

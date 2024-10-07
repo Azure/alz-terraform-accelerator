@@ -1,4 +1,4 @@
-variable "hub_and_spoke_vnet_virtual_networks_settings" {
+variable "hub_and_spoke_vnet_settings" {
   type = any
   default = {
     ddos_protection_plan = {
@@ -36,6 +36,7 @@ variable "hub_and_spoke_vnet_virtual_networks" {
             public_ip_config = {
               name       = "pip-fw-hub-$${starter_location_01}"
               zones      = "$${starter_location_01_availability_zones}"
+              ip_version = "IPv4"
             }
           }
           firewall_policy = {
@@ -80,6 +81,7 @@ variable "hub_and_spoke_vnet_virtual_networks" {
             public_ip_config = {
               name       = "pip-fw-hub-$${starter_location_02}"
               zones      = "$${starter_location_02_availability_zones}"
+              ip_version = "IPv4"
             }
           }
           firewall_policy = {

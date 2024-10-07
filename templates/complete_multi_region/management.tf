@@ -1,5 +1,5 @@
 module "management_groups" {
-  source  = "./modules/management"
+  source  = "./modules/management-es"
 
   count = var.management_use_avm ? 0 : 1
 

@@ -53,9 +53,9 @@ module "virtual_network_private_dns" {
 
   for_each = local.private_dns_zones
 
-  address_space       = each.value.private_dns_zones.networking.virtual_network.address_space
+  address_space       = each.value.networking.virtual_network.address_space
   location            = each.value.location
-  name                = each.value.private_dns_zones.networking.virtual_network.name
+  name                = each.value.networking.virtual_network.name
   resource_group_name = each.value.resource_group_name
   enable_telemetry    = var.enable_telemetry
   ddos_protection_plan = local.ddos_protection_plan_enabled ? {
@@ -64,8 +64,8 @@ module "virtual_network_private_dns" {
   } : null
   subnets = {
     dns = {
-      address_prefix = each.value.private_dns_zones.networking.virtual_network.private_dns_resolver_subnet.address_prefix
-      name           = each.value.private_dns_zones.networking.virtual_network.private_dns_resolver_subnet.name
+      address_prefix = each.value.networking.virtual_network.private_dns_resolver_subnet.address_prefix
+      name           = each.value.networking.virtual_network.private_dns_resolver_subnet.name
       delegation = [{
         name = "Microsoft.Network.dnsResolvers"
         service_delegation = {
@@ -84,7 +84,7 @@ module "dns_resolver" {
   for_each = local.private_dns_zones
 
   location                    = each.value.location
-  name                        = each.value.private_dns_zones.networking.private_dns_resolver.name
+  name                        = each.value.networking.private_dns_resolver.name
   resource_group_name         = each.value.resource_group_name
   virtual_network_resource_id = module.virtual_network_private_dns[each.key].resource_id
   enable_telemetry            = var.enable_telemetry
@@ -103,10 +103,10 @@ module "private_dns_zones" {
   for_each = local.private_dns_zones
 
   location                                = each.value.location
-  resource_group_name                     = each.value.private_dns_zones.resource_group_name
+  resource_group_name                     = each.value.resource_group_name
   resource_group_creation_enabled         = false
   virtual_network_resource_ids_to_link_to = local.private_dns_zones_virtual_network_links
-  private_link_private_dns_zones          = try(each.value.private_dns_zones.is_primary, false) ? null : local.private_dns_zones_secondary_zones
+  private_link_private_dns_zones          = try(each.value.is_primary, false) ? null : local.private_dns_zones_secondary_zones
   enable_telemetry                        = var.enable_telemetry
   tags                                    = var.tags
 }

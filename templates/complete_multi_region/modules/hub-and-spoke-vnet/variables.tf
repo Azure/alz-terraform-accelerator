@@ -9,11 +9,10 @@ variable "hub_virtual_networks" {
       express_route = optional(any)
       vpn = optional(any)
     }))
-    private_dns_zones = object({
+    private_dns_zones = optional(object({
       resource_group_name = string
       is_primary          = optional(bool, false)
-    })
-    ddos_protection_plan = any
+    }))
   }))
   default     = {}
   description = "A map of hub networks to create. Detailed information about the hub network can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-hubnetworking"

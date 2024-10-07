@@ -10,6 +10,11 @@ locals {
 }
 
 locals {
+  hub_and_spoke_vnet_settings_json = tostring(jsonencode(var.hub_and_spoke_vnet_settings))
+  hub_and_spoke_vnet_settings_json_templated = templatestring(local.hub_and_spoke_vnet_settings_json, local.config_template_file_variables)
+  hub_and_spoke_vnet_settings_json_final = replace(replace(local.hub_and_spoke_vnet_settings_json_templated, "\"[", "["), "]\"", "]")
+  hub_and_spoke_vnet_settings = jsondecode(local.hub_and_spoke_vnet_settings_json_final)
+
   hub_and_spoke_vnet_virtual_json = tostring(jsonencode(var.hub_and_spoke_vnet_virtual_networks))
   hub_and_spoke_vnet_virtual_json_templated = templatestring(local.hub_and_spoke_vnet_virtual_json, local.config_template_file_variables)
   hub_and_spoke_vnet_virtual_json_final = replace(replace(local.hub_and_spoke_vnet_virtual_json_templated, "\"[", "["), "]\"", "]")

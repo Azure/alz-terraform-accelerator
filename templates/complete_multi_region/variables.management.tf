@@ -19,9 +19,15 @@ variable "management_settings_es" {
     subscription_id_connectivity                            = "$${subscription_id_connectivity}"
     subscription_id_identity                                = "$${subscription_id_identity}"
     subscription_id_management                              = "$${subscription_id_management}"
-        configure_connectivity_resources = {
+    deploy_connectivity_resources                           = false
+    configure_connectivity_resources = {
       settings = {
         dns = {
+          config = {
+            location = "$${starter_location_01}"
+          }
+        }
+        ddos_protection_plan = {
           config = {
             location = "$${starter_location_01}"
           }
@@ -31,7 +37,21 @@ variable "management_settings_es" {
         custom_settings_by_resource_type = {
           azurerm_resource_group = {
             dns = {
-              name = "rg-private-dns-$${starter_location_01}"
+              ("$${starter_location_01}") = {
+                name = "rg-dns-$${starter_location_01}"
+              }
+            }
+            ddos = {
+              ("$${starter_location_01}") = {
+                name = "rg-ddos-$${starter_location_01}"
+              }
+            }
+          }
+          azurerm_network_ddos_protection_plan = {
+            ddos = {
+              ("$${starter_location_01}") = {
+                name = "ddos-$${starter_location_01}"
+              }
             }
           }
         }

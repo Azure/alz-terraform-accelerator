@@ -20,7 +20,9 @@ locals {
 }
 
 locals {
-  private_dns_zones = { for key, value in var.hub_virtual_networks : key => value if can(value.private_dns_zones) }
+  private_dns_zones = { for key, value in var.hub_virtual_networks : key => merge({
+    location = value.hub_virtual_network.location
+  }, value.private_dns_zones) if can(value.private_dns_zones) }
   
   private_dns_zones_virtual_network_links = {
     for key, value in module.hub_and_spoke_vnet.virtual_networks : key => {
