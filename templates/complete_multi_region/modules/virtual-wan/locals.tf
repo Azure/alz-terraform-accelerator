@@ -32,7 +32,7 @@ locals {
     location = virtual_hub_value.location
     resource_group_name = virtual_hub_value.resource_group_name
     firewall_policy_dns = {
-      servers       = [module.dns_resolver[each.value.virtual_hub_key].inbound_endpoint_ips["dns"]]
+      servers       = [module.dns_resolver[virtual_hub_key].inbound_endpoint_ips["dns"]]
       proxy_enabled = true
     }
   },  virtual_hub_value) if can(virtual_hub_value.firewall_policy) }

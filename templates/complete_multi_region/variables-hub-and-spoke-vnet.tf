@@ -16,8 +16,7 @@ variable "hub_and_spoke_vnet_virtual_networks" {
       express_route = optional(any)
       vpn = optional(any)
     }))
-    private_dns_zones = any
-    ddos_protection_plan = any
+    private_dns_zones = optional(any)
   }))
   description = "A map of hub networks to create. Detailed information about the hub network can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-hubnetworking"
   default = {

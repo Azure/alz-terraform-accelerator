@@ -1,12 +1,12 @@
 locals {
   resource_groups_hub_and_spoke_vnet = local.connectivity_hub_and_spoke_vnet_enabled ? merge({
     for key, value in local.hub_and_spoke_vnet_virtual_networks : key => {
-      name     = value.resource_group_name
-      location = value.location
+      name     = value.hub_virtual_network.resource_group_name
+      location = value.hub_virtual_network.location
     }},{
       for key, value in local.virtual_wan_virtual_hubs : key => {
         name     = value.private_dns_zones.resource_group_name
-        location = value.location
+        location = value.hub_virtual_network.location
       } if can(value.private_dns_zones.resource_group_name)
     }
   ) : {}
