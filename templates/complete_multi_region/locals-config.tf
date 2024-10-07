@@ -21,16 +21,6 @@ locals {
     starter_location_08_availability_zones          = jsonencode(try(local.regions[var.starter_locations[7]].zones, null))
     starter_location_09_availability_zones          = jsonencode(try(local.regions[var.starter_locations[8]].zones, null))
     starter_location_10_availability_zones          = jsonencode(try(local.regions[var.starter_locations[9]].zones, null))
-    starter_location_01_virtual_network_gateway_sku = local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[0]].express_route
-    starter_location_02_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[1]].express_route, null)
-    starter_location_03_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[2]].express_route, null)
-    starter_location_04_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[3]].express_route, null)
-    starter_location_05_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[4]].express_route, null)
-    starter_location_06_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[5]].express_route, null)
-    starter_location_07_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[6]].express_route, null)
-    starter_location_08_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[7]].express_route, null)
-    starter_location_09_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[8]].express_route, null)
-    starter_location_10_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[9]].express_route, null)
     root_parent_management_group_id                 = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
     subscription_id_connectivity                    = var.subscription_id_connectivity
     subscription_id_identity                        = var.subscription_id_identity
