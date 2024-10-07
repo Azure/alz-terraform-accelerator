@@ -1,55 +1,61 @@
-variable "virtual_wan_name" {
-  type        = string
-  description = "The name of the virtual WAN"
-  default     = "vwan-$${location}"
-}
-
-variable "virtual_wan_resource_group_name" {
-  type        = string
-  description = "The name of the resource group for the virtual WAN"
-  default     = "rg-connectivity-$${location}"
-}
-
 variable "virtual_wan_settings" {
-  type        = any
-  description = "The settings for the virtual WAN"
-  default     = null
+  type = any
+  default = {
+    name = "vwan-$${starter_location_01}"
+    resource_group_name = "rg-vwan-$${starter_location_01}"
+    location = "$${starter_location_01}"
+    ddos_protection_plan = {
+      name = "ddos-$${starter_location_01}"
+      resource_group_name = "rg-ddos-$${starter_location_01}"
+      location = "$${starter_location_01}"
+    }
+  }
 }
 
 variable "virtual_wan_virtual_hubs" {
   type = map(object({
-    name                        = optional(string, "vwan-hub-$${location}")
-    location                    = string
-    resource_group_name         = optional(string, "rg-vwan-hub-$${location}")
-    virtual_network_connections = optional(map(any))
-    firewall = optional(object({
-      name     = optional(string, "fw-hub-$${location}")
-      sku_name = optional(string, null)
-      sku_tier = optional(string, null)
-      zones    = optional(list(string))
-      firewall_policy = optional(object({
-        name     = optional(string, "fwp-hub-$${location}")
-        settings = optional(any)
-      }))
-      settings = optional(any)
-    }))
-    address_prefix         = string
-    tags                   = optional(map(string))
-    hub_routing_preference = optional(string)
-    private_dns_zone_networking = optional(object({
-      virtual_network = object({
-        name          = optional(string, "vnet-hub-dns-$${location}")
-        address_space = string
-        private_dns_resolver_subnet = object({
-          name           = optional(string, "subnet-hub-dns-$${location}")
-          address_prefix = string
-        })
-      })
-      private_dns_resolver = object({
-        name = optional(string, "pdr-hub-dns-$${location}")
-      })
-    }))
+    hub = any
+    firewall = any
+    private_dns_zones = any
   }))
-  default     = {}
+  default     = {
+    primary = {
+      hub = {
+        name                = "vwan-hub-$${starter_location_01}"
+        resource_group_name = "rg-vwan-hub-$${starter_location_01}"
+        location            = "$${starter_location_01}"
+        address_prefix      = "10.0.0.0/16"
+      }
+      firewall = {
+        name     = "fw-hub-$${starter_location_01}"
+        sku_name = "AZFW_Hub"
+        sku_tier = "Standard"
+        zones    = "$${starter_location_01_availability_zones}"
+        firewall_policy = {
+          name = "fwp-hub-$${starter_location_01}"
+        }
+      }
+      private_dns_zones = {
+        resource_group_name = "rg-vwan-dns-$${starter_location_01}"
+        is_primary          = true
+        networking = {
+          virtual_network = {
+            name          = "vnet-hub-dns-$${starter_location_01}"
+            address_space = "10.10.0.0/24"
+            private_dns_resolver_subnet = object({
+              name           = "subnet-hub-dns-$${starter_location_01}"
+              address_prefix = "10.10.0.0/28"
+            })
+          }
+          private_dns_resolver = object({
+            name = "pdr-hub-dns-$${starter_location_01}"
+          })
+        }
+      }
+      ddos_protection_plan = {
+        name = "ddos-$${starter_location_01}"
+      }
+    }
+  }
   description = "A map of virtual hubs to create. Detailed information about the virtual hub can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualhub"
 }

@@ -24,12 +24,6 @@ variable "configuration_file_path" {
   description = "The path of the configuration file|configuration_file_path"
 }
 
-variable "default_postfix" {
-  type        = string
-  default     = "landing-zone"
-  description = "The default postfix for Azure resources. (e.g 'landing-zone')|azure_name"
-}
-
 variable "root_parent_management_group_id" {
   type        = string
   default     = ""

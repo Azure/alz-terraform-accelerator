@@ -1,7 +1,3 @@
-output "debug" {
-  value = local.hub_and_spoke_vnet_virtual_networks
-}
-
 locals {
   hub_and_spoke_vnet_gateway_default_skus = { for key, value in local.regions : key => length(value.zones) == 0 ? {
     express_route = "Standard"

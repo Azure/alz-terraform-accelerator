@@ -3,10 +3,9 @@ module "virtual_wan" {
 
   count = local.connectivity_virtual_wan_enabled ? 1 : 0
 
-  name                = local.virtual_wan_name
-  location            = var.location
-  resource_group_name = local.virtual_wan_resource_group_name
+  virtual_wan_settings = local.virtual_wan_settings
   virtual_hubs        = local.virtual_wan_virtual_hubs
+  enable_telemetry = var.enable_telemetry
 
   providers = {
     azurerm = azurerm.connectivity

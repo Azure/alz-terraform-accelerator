@@ -1,4 +1,8 @@
 locals {
+  virtual_hubs = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => virtual_hub_value.hub }
+}
+
+locals {
   virtual_network_connections_input = { for virtual_network_connection in flatten([for virtual_hub_key, virtual_hub_value in var.virtual_hubs :
     [for virtual_network_connection_key, virtual_network_connection_value in virtual_hub_value.virtual_network_connections : {
       unique_key                = "${virtual_hub_key}-${virtual_network_connection_key}"
@@ -14,40 +18,66 @@ locals {
     settings                  = virtual_network_connection.settings
   } }
 
-  virtual_network_connections_private_dns = var.private_dns_zones_enabled ? { for key, value in var.virtual_hubs : "private_dns_vnet_${key}" => {
+  virtual_network_connections_private_dns = { for key, value in local.private_dns_zones : "private_dns_vnet_${key}" => {
     name                      = "private_dns_vnet_${key}"
     virtual_hub_key           = key
     remote_virtual_network_id = module.virtual_network_private_dns[key].resource_id
-  } } : {}
+  }}
 
   virtual_network_connections = merge(local.virtual_network_connections_input, local.virtual_network_connections_private_dns)
 }
 
 locals {
-  firewall_policies = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => {
-    virtual_hub_key     = virtual_hub_value.firewall.virtual_hub_key
-    name                = virtual_hub_value.firewall.firewall_policy.name
-    location            = virtual_hub_value.location
-    resource_group_name = virtual_hub_value.resource_group == null ? var.resource_group_name : virtual_hub_value.resource_group
-    settings            = virtual_hub_value.firewall.firewall_policysettings
-    } if can(virtual_hub_value.firewall.firewall_policy)
+  firewall_policies = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge({
+    location = virtual_hub_value.location
+    resource_group_name = virtual_hub_value.resource_group_name
+    firewall_policy_dns = {
+      servers       = [module.dns_resolver[each.value.virtual_hub_key].inbound_endpoint_ips["dns"]]
+      proxy_enabled = true
+    }
+  },  virtual_hub_value) if can(virtual_hub_value.firewall_policy) }
+  
+  firewalls = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge(
+    {
+      virtual_hub_key             = virtual_hub_key
+      location                    = virtual_hub_value.location
+      firewall_policy_id          = module.firewall_policy[virtual_hub_key].resource_id
+    }, virtual_hub_value.firewall)
+    if can(virtual_hub_value.firewall)
   }
+}
 
-  firewalls = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => {
-    virtual_hub_key             = virtual_hub_value.firewall.virtual_hub_key
-    name                        = virtual_hub_value.firewall.name
-    sku_name                    = virtual_hub_value.firewall.sku_name
-    sku_tier                    = virtual_hub_value.firewall.sku_tier
-    dns_servers                 = try(virtual_hub_value.firewall.settings.dns_servers, null)
-    private_ip_ranges           = try(virtual_hub_value.firewall.settings.private_ip_ranges, null)
-    threat_intel_mode           = try(virtual_hub_value.firewall.settings.threat_intel_mode, null)
-    zones                       = virtual_hub_value.firewall.zones
-    vhub_public_ip_count        = try(virtual_hub_value.firewall.settings.vhub_public_ip_count, null)
-    tags                        = try(virtual_hub_value.firewall.settings.tags, null)
-    default_ip_configuration    = try(virtual_hub_value.firewall.default_ip_configuration, null)
-    management_ip_configuration = try(virtual_hub_value.firewall.management_ip_configuration, null)
-    ip_configuration            = try(virtual_hub_value.firewall.ip_configuration, null)
-    firewall_policy_id          = module.firewall_policy[virtual_hub_key].resource_id
-    } if can(virtual_hub_value.firewall)
+locals {
+  private_dns_zones = { for key, value in var.virtual_hubs : key => value if can(value.private_dns_zones) }
+  
+  private_dns_zones_virtual_network_links = {
+    for key, value in module.virtual_network_private_dns : key => {
+      vnet_resource_id = value.resource_id
+    }
   }
+  private_dns_zones_secondary_zones = {
+    azure_data_explorer = {
+      zone_name = "privatelink.{regionName}.kusto.windows.net"
+    }
+    azure_batch_account = {
+      zone_name = "{regionName}.privatelink.batch.azure.com"
+    }
+    azure_batch_node_mgmt = {
+      zone_name = "{regionName}.service.privatelink.batch.azure.com"
+    }
+    azure_aks_mgmt = {
+      zone_name = "privatelink.{regionName}.azmk8s.io"
+    }
+    azure_acr_data = {
+      zone_name = "{regionName}.data.privatelink.azurecr.io"
+    }
+    azure_backup = {
+      zone_name = "privatelink.{regionCode}.backup.windowsazure.com"
+    }
+  }
+}
+
+locals {
+  ddos_protection_plan = can(var.virtual_wan_settings.ddos_protection_plan) ? var.virtual_wan_settings.ddos_protection_plan : null
+  ddos_protection_plan_enabled = local.ddos_protection_plan != null
 }

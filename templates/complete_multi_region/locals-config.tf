@@ -1,4 +1,5 @@
 locals {
+  primary_location = var.starter_locations[0]
   config_template_file_variables = {
     starter_location_01                    = var.starter_locations[0]
     starter_location_02                    = try(var.starter_locations[1], null)
@@ -30,7 +31,6 @@ locals {
     starter_location_08_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[7]].express_route, null)
     starter_location_09_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[8]].express_route, null)
     starter_location_10_virtual_network_gateway_sku = try(local.hub_and_spoke_vnet_gateway_default_skus[var.starter_locations[9]].express_route, null)
-    default_postfix                        = var.default_postfix
     root_parent_management_group_id        = var.root_parent_management_group_id == "" ? data.azapi_client_config.current.tenant_id : var.root_parent_management_group_id
     subscription_id_connectivity           = var.subscription_id_connectivity
     subscription_id_identity               = var.subscription_id_identity

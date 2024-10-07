@@ -1,3 +1,14 @@
+variable "hub_and_spoke_vnet_virtual_networks_settings" {
+  type = any
+  default = {
+    ddos_protection_plan = {
+      name = "ddos-$${starter_location_01}"
+      resource_group_name = "rg-ddos-$${starter_location_01}"
+      location = "$${starter_location_01}"
+    }
+  }
+}
+
 variable "hub_and_spoke_vnet_virtual_networks" {
   type = map(object({
     hub_virtual_network = any
@@ -5,6 +16,8 @@ variable "hub_and_spoke_vnet_virtual_networks" {
       express_route = optional(any)
       vpn = optional(any)
     }))
+    private_dns_zones = any
+    ddos_protection_plan = any
   }))
   description = "A map of hub networks to create. Detailed information about the hub network can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-hubnetworking"
   default = {
@@ -47,6 +60,10 @@ variable "hub_and_spoke_vnet_virtual_networks" {
           sku                   = "$${starter_location_01_virtual_network_gateway_sku}"
         }
       }
+      private_dns_zones = {
+        resource_group_name = "rg-hub-dns-$${starter_location_01}"
+        is_primary          = true
+      }
     }
     secondary = {
       hub_virtual_network = {
@@ -86,6 +103,9 @@ variable "hub_and_spoke_vnet_virtual_networks" {
           type                 = "Vpn"
           sku                   = "$${starter_location_02_virtual_network_gateway_sku}"
         }
+      }
+      private_dns_zones = {
+        resource_group_name = "rg-hub-dns-$${starter_location_01}"
       }
     }
   }
