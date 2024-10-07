@@ -39,6 +39,8 @@ hub_and_spoke_vnet_virtual_networks:
             name: pip-fw-hub-${starter_location_01}
             zones: ${starter_location_01_availability_zones}
         firewall_policy:
+          dns:
+            proxy_enabled: true
           name: fwp-hub-${starter_location_01}
         name: fw-hub-${starter_location_01}
         sku_name: AZFW_VNet
@@ -92,6 +94,8 @@ hub_and_spoke_vnet_virtual_networks:
             name: pip-fw-hub-${starter_location_02}
             zones: ${starter_location_02_availability_zones}
         firewall_policy:
+          dns:
+            proxy_enabled: true
           name: fwp-hub-${starter_location_01}
         name: fw-hub-${starter_location_02}
         sku_name: AZFW_VNet
