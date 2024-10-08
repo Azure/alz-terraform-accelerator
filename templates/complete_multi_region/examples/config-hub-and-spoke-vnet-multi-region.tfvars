@@ -141,7 +141,7 @@ hub_and_spoke_vnet_virtual_networks = {
         }
         firewall_policy = {
           name = "fwp-hub-$${starter_location_01}"
-          dns  = {
+          dns = {
             proxy_enabled = true
           }
         }
@@ -213,7 +213,7 @@ hub_and_spoke_vnet_virtual_networks = {
         }
         firewall_policy = {
           name = "fwp-hub-$${starter_location_01}"
-          dns  = {
+          dns = {
             proxy_enabled = true
           }
         }

@@ -12,15 +12,17 @@ variable "virtual_hubs" {
       is_primary          = optional(bool, false)
       networking = object({
         virtual_network = object({
-          name          = string
-          address_space = string
+          name                = string
+          address_space       = string
+          resource_group_name = string
           private_dns_resolver_subnet = object({
             name           = string
             address_prefix = string
           })
         })
         private_dns_resolver = object({
-          name = string
+          name                = string
+          resource_group_name = string
         })
       })
     }))

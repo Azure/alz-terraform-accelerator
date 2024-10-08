@@ -4,7 +4,7 @@ locals {
 
 locals {
   virtual_network_connections_input = { for virtual_network_connection in flatten([for virtual_hub_key, virtual_hub_value in var.virtual_hubs :
-    [for virtual_network_connection_key, virtual_network_connection_value in virtual_hub_value.virtual_network_connections : {
+    [for virtual_network_connection_key, virtual_network_connection_value in try(virtual_hub_value.virtual_network_connections, {}) : {
       unique_key                = "${virtual_hub_key}-${virtual_network_connection_key}"
       name                      = virtual_network_connection_value.settings.name
       virtual_hub_key           = virtual_hub_key
@@ -29,9 +29,9 @@ locals {
 
 locals {
   firewall_policies = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge({
-    location            = virtual_hub_value.location
-    resource_group_name = virtual_hub_value.resource_group_name
-    firewall_policy_dns = {
+    location            = try(virtual_hub_value.firewall.firewall_policy.location, virtual_hub_value.hub.location)
+    resource_group_name = try(virtual_hub_value.firewall.firewall_policy.resource_group_name, virtual_hub_value.hub.resource_group_name)
+    dns = {
       servers       = [module.dns_resolver[virtual_hub_key].inbound_endpoint_ips["dns"]]
       proxy_enabled = true
     }
@@ -40,7 +40,7 @@ locals {
   firewalls = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge(
     {
       virtual_hub_key    = virtual_hub_key
-      location           = virtual_hub_value.location
+      location           = try(virtual_hub_value.firewall.location, virtual_hub_value.hub.location)
       firewall_policy_id = module.firewall_policy[virtual_hub_key].resource_id
     }, virtual_hub_value.firewall)
     if can(virtual_hub_value.firewall)

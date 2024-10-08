@@ -10,7 +10,7 @@ module "firewall_policy" {
   firewall_policy_sku                               = try(each.value.sku, "Standard")
   firewall_policy_auto_learn_private_ranges_enabled = try(each.value.auto_learn_private_ranges_enabled, null)
   firewall_policy_base_policy_id                    = try(each.value.base_policy_id, null)
-  firewall_policy_dns                               = each.value.settings.dns
+  firewall_policy_dns                               = each.value.dns
   firewall_policy_threat_intelligence_mode          = try(each.value.threat_intelligence_mode, "Alert")
   firewall_policy_private_ip_ranges                 = try(each.value.private_ip_ranges, null)
   firewall_policy_threat_intelligence_allowlist     = try(each.value.threat_intelligence_allowlist, null)
@@ -53,10 +53,10 @@ module "virtual_network_private_dns" {
 
   for_each = local.private_dns_zones
 
-  address_space       = each.value.networking.virtual_network.address_space
+  address_space       = [each.value.networking.virtual_network.address_space]
   location            = each.value.location
   name                = each.value.networking.virtual_network.name
-  resource_group_name = each.value.resource_group_name
+  resource_group_name = each.value.networking.virtual_network.resource_group_name
   enable_telemetry    = var.enable_telemetry
   ddos_protection_plan = local.ddos_protection_plan_enabled ? {
     id     = module.ddos_protection_plan[0].resource.id
@@ -85,7 +85,7 @@ module "dns_resolver" {
 
   location                    = each.value.location
   name                        = each.value.networking.private_dns_resolver.name
-  resource_group_name         = each.value.resource_group_name
+  resource_group_name         = each.value.networking.private_dns_resolver.resource_group_name
   virtual_network_resource_id = module.virtual_network_private_dns[each.key].resource_id
   enable_telemetry            = var.enable_telemetry
   inbound_endpoints = {
