@@ -50,7 +50,7 @@ locals {
 locals {
   private_dns_zones = { for key, value in var.virtual_hubs : key => merge({
     location = value.hub.location
-  }, value.private_dns_zones) if can(value.private_dns_zones) }
+  }, value.private_dns_zones) if can(value.private_dns_zones.resource_group_name) }
 
   private_dns_zones_virtual_network_links = {
     for key, value in module.virtual_network_private_dns : key => {
@@ -80,6 +80,6 @@ locals {
 }
 
 locals {
-  ddos_protection_plan         = can(var.virtual_wan_settings.ddos_protection_plan) ? var.virtual_wan_settings.ddos_protection_plan : null
+  ddos_protection_plan         = can(var.virtual_wan_settings.ddos_protection_plan.name) ? var.virtual_wan_settings.ddos_protection_plan : null
   ddos_protection_plan_enabled = local.ddos_protection_plan != null
 }

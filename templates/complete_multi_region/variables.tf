@@ -35,3 +35,9 @@ variable "enable_telemetry" {
   default     = true
   description = "Flag to enable/disable telemetry"
 }
+
+variable "skip_deploy" {
+  type        = bool
+  default     = false
+  description = "Flag to skip deployment. This is used for testing and documentation generation purposes."
+}

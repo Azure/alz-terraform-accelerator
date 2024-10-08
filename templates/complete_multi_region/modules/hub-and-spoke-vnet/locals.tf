@@ -22,7 +22,7 @@ locals {
 locals {
   private_dns_zones = { for key, value in var.hub_virtual_networks : key => merge({
     location = value.hub_virtual_network.location
-  }, value.private_dns_zones) if can(value.private_dns_zones) }
+  }, value.private_dns_zones) if can(value.private_dns_zones.resource_group_name) }
 
   private_dns_zones_virtual_network_links = {
     for key, value in module.hub_and_spoke_vnet.virtual_networks : key => {
@@ -52,6 +52,6 @@ locals {
 }
 
 locals {
-  ddos_protection_plan         = can(var.hub_and_spoke_networks_settings.ddos_protection_plan) ? var.hub_and_spoke_networks_settings.ddos_protection_plan : null
+  ddos_protection_plan         = can(var.hub_and_spoke_networks_settings.ddos_protection_plan.name) ? var.hub_and_spoke_networks_settings.ddos_protection_plan : null
   ddos_protection_plan_enabled = local.ddos_protection_plan != null
 }
