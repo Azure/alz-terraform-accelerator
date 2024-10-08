@@ -18,12 +18,6 @@ variable "subscription_id_management" {
   description = "value of the subscription id for the Management subscription|azure_subscription_id"
 }
 
-variable "configuration_file_path" {
-  type        = string
-  default     = "config-hub-and-spoke-vnet-multi-region.yaml"
-  description = "The path of the configuration file|configuration_file_path"
-}
-
 variable "root_parent_management_group_id" {
   type        = string
   default     = ""
