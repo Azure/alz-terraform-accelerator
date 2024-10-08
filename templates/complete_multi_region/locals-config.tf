@@ -1,5 +1,4 @@
 locals {
-  primary_location = var.starter_locations[0]
   config_template_file_variables = {
     starter_location_01                                           = var.starter_locations[0]
     starter_location_02                                           = try(var.starter_locations[1], null)

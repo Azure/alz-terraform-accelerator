@@ -19,7 +19,7 @@ module "management_avm" {
   count = var.skip_deploy ? 0 : (var.management_use_avm ? 1 : 0)
 
   enable_telemetry = var.enable_telemetry
-  settings         = local.management_settings_es
+  settings         = local.management_settings_avm
 
   providers = {
     azurerm              = azurerm
