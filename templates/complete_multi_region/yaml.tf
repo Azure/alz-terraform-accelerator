@@ -1,3 +1,6 @@
+# NOTE: This file is for development puposese only. It is used in the generation of documentation and examples. 
+# When deployed with the ALZ Accelerator PowerShell module, this file is removed.
+
 locals {
   yaml_file_header = <<YAML
 # This file contains templated variables to avoid repeating the same hard-coded values.

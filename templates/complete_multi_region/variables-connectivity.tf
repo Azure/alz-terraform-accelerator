@@ -1,6 +1,6 @@
 variable "connectivity_type" {
   type        = string
-  description = "The type of connectivity to use for the private DNS zones"
+  description = "The type of network connectivity technology to use for the private DNS zones"
   default     = "hub_and_spoke_vnet"
   validation {
     condition     = contains(values(local.const.connectivity), var.connectivity_type)
@@ -13,5 +13,13 @@ variable "connectivity_resource_groups" {
     name     = string
     location = string
   }))
-  description = "A map of resource groups to create"
+  description = <<DESCRIPTION
+A map of resource groups to create. These must be created before the connectivity module is applied.
+
+The following attributes are supported:
+
+  - name: The name of the resource group
+  - location: The location of the resource group
+
+DESCRIPTION
 }
