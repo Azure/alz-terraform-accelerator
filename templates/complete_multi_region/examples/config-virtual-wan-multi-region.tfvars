@@ -144,12 +144,12 @@ virtual_wan_virtual_hubs = {
           resource_group_name = "rg-vwan-hub-$${starter_location_01}"
           address_space       = "10.10.0.0/24"
           private_dns_resolver_subnet = {
-            name                = "subnet-hub-dns-$${starter_location_01}"
-            address_prefix      = "10.10.0.0/28"
+            name           = "subnet-hub-dns-$${starter_location_01}"
+            address_prefix = "10.10.0.0/28"
           }
         }
         private_dns_resolver = {
-          name = "pdr-hub-dns-$${starter_location_01}"
+          name                = "pdr-hub-dns-$${starter_location_01}"
           resource_group_name = "rg-vwan-hub-$${starter_location_01}"
         }
       }
@@ -180,12 +180,12 @@ virtual_wan_virtual_hubs = {
           resource_group_name = "rg-vwan-hub-$${starter_location_02}"
           address_space       = "10.11.0.0/24"
           private_dns_resolver_subnet = {
-            name                = "subnet-hub-dns-$${starter_location_02}"
-            address_prefix      = "10.11.0.0/28"
+            name           = "subnet-hub-dns-$${starter_location_02}"
+            address_prefix = "10.11.0.0/28"
           }
         }
         private_dns_resolver = {
-          name = "pdr-hub-dns-$${starter_location_02}"
+          name                = "pdr-hub-dns-$${starter_location_02}"
           resource_group_name = "rg-vwan-hub-$${starter_location_02}"
         }
       }
