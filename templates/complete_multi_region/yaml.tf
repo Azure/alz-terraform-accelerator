@@ -12,6 +12,7 @@ locals {
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 
+---
 YAML
 
   yaml_file_hub_and_spoke_vnet_es = yamlencode({
@@ -33,7 +34,7 @@ YAML
   })
 
   yaml_file_content = local.connectivity_hub_and_spoke_vnet_enabled ? local.yaml_file_hub_and_spoke_vnet_es : local.yaml_file_virtual_wan_es
-  yaml_file_final   = replace("${local.yaml_file_header}${local.yaml_file_content}", "\"", "")
+  yaml_file_final   = replace(replace("${local.yaml_file_header}${local.yaml_file_content}", "\"", ""), "  - ", "    - ")
 
   yaml_file_name = "config-${replace(var.connectivity_type, "_", "-")}-multi-region.yaml"
 }
