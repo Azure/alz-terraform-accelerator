@@ -22,7 +22,7 @@ module "avm_res_portal_dashboard" {
   name                    = local.dashboard_name
   resource_group_name     = module.dashboard_rg.name
   template_file_path      = local.dashboard_template_file_path
-  template_file_variables = local.template_file_variables
+  template_file_variables = local.all_template_file_variables
   enable_telemetry        = var.enable_telemetry
 
   depends_on = [module.subscription_management_creation, module.dashboard_rg]

@@ -31,6 +31,7 @@ terraform {
 
 # Include the additional policies and override archetypes
 provider "alz" {
+  library_overwrite_enabled = true
   library_references = [
     {
       path = "platform/slz",

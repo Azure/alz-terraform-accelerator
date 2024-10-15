@@ -365,7 +365,6 @@ locals {
 
   policy_exemptions                  = merge(local.default_policy_exemptions, local.custom_policy_exemptions)
   policy_assignment_resource_ids     = module.slz_management_groups.policy_assignment_resource_ids
-  policy_set_definition_resource_ids = module.slz_management_groups.policy_set_definition_resource_ids
   policy_set_definition_name         = ["deploy-diag-logs", "deploy-mdfc-config-h224"]
 
   slz_default_policy_values = {
@@ -420,18 +419,13 @@ locals {
   management_group_link = "${local.az_portal_link}/#view/Microsoft_Azure_Resources/ManagmentGroupDrilldownMenuBlade/~/overview/tenantId/${local.tenant_id}/mgId/${var.default_prefix}${var.default_postfix}/mgDisplayName/Sovereign%20Landing%20Zone/mgCanAddOrMoveSubscription~/true/mgParentAccessLevel/Owner/defaultMenuItemId/overview/drillDownMode~/true"
   management_group_info = "If you want to learn more about your management group, please click the following link.\n\n${local.management_group_link}\n\n"
 
-  signed_in_user                  = data.azurerm_client_config.current.client_id
   dashboard_resource_group_name   = "${var.default_prefix}-rg-dashboards-${var.default_location}${var.default_postfix}"
   dashboard_name                  = "${var.default_prefix}-Sovereign-Landing-Zone-Dashboard-${var.default_location}${var.default_postfix}"
   dashboard_template_file_path    = "${path.root}/templates/default_dashboard.tpl"
-  template_file_variables         = { root_prefix = var.default_prefix, root_postfix = var.default_postfix, customer = "${var.customer}" }
-  dashboard_display_name          = local.dashboard_name
-  dashboard_tags                  = null
+  template_file_variables         = { root_prefix = var.default_prefix, root_postfix = var.default_postfix, customer = var.customer }
   default_template_file_variables = { name = local.dashboard_name }
   all_template_file_variables     = merge(local.default_template_file_variables, local.template_file_variables)
-  template_file_path              = "./lib/templates/default_dashboard.tpl"
-
-  domain_name    = data.azuread_domains.default.domains.0.domain_name
+  domain_name    = data.azuread_domains.default.domains[0].domain_name
   dashboard_link = "${local.az_portal_link}/#@${local.domain_name}/dashboard/arm/subscriptions/${var.subscription_id_management}/resourceGroups/${local.dashboard_resource_group_name}/providers/Microsoft.Portal/dashboards/${local.dashboard_name}"
   dashboard_info = "Now your compliance dashboard is ready for you to get insights. If you want to learn more, please click the following link.\n\n${local.dashboard_link}\n\n"
 }
