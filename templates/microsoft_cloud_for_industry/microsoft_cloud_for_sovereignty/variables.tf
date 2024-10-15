@@ -270,18 +270,21 @@ variable "landing_zone_management_group_children" {
   description = "(Optional) array of child management groups to deploy under the SLZ Landing Zones management group."
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "architecture_definition_template_path" {
   type        = string
   default     = ""
   description = "The path to the architecture definition template file to use."
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "architecture_definition_override_path" {
   type        = string
   default     = ""
   description = "The path to the architecture definition file to use instead of the default."
 }
 
+# tflint-ignore: terraform_unused_declarations
 variable "apply_alz_archetypes_via_architecture_definition_template" {
   type        = bool
   default     = true
