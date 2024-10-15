@@ -156,10 +156,7 @@ express_route_gateway_config: {
   enableDnsForwarding: false,
   asn: 65515,
   bgpPeeringAddress: "",
-  peerWeight: 5,
-  vpnClientConfiguration: {
-    vpnAddressSpace: ["10.2.0.0/24"]
-  }
+  peerWeight: 5
 }
 ```
 

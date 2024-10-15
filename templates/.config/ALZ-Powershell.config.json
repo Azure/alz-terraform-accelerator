@@ -24,6 +24,11 @@
             "location": "complete_vnext",
             "short_name": "Complete vNext",
             "description": "vNext Complete Azure Landing Zones Configurable Deployment (Warning: This is a work in progress)"
+        },  
+        "microsoft_cloud_for_sovereignty": {
+            "location": "microsoft_cloud_for_industry/microsoft_cloud_for_sovereignty",
+            "short_name": "Microsoft Cloud for Sovereignty",
+            "description": "Complete Sovereign Landing Zones Configurable Deployment (Warning: This is a work in progress)"
         },
         "test": {
             "location": "test",
