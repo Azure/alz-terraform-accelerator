@@ -184,13 +184,6 @@ locals {
 }
 
 locals {
-  route = {
-    name                   = "udr-default-azfw"
-    address_prefix         = "0.0.0.0/0"
-    next_hop_type          = "VirtualAppliance"
-    next_hop_in_ip_address = "10.20.254.4"
-  }
-
   ddos_protection_plan_id = var.deploy_ddos_protection ? module.ddos_protection_plan[0].resource.id : null
   hubnetworks_subnets = { for k, v in var.custom_subnets :
     k => {
@@ -363,9 +356,9 @@ locals {
     }
   }
 
-  policy_exemptions                  = merge(local.default_policy_exemptions, local.custom_policy_exemptions)
-  policy_assignment_resource_ids     = module.slz_management_groups.policy_assignment_resource_ids
-  policy_set_definition_name         = ["deploy-diag-logs", "deploy-mdfc-config-h224"]
+  policy_exemptions              = merge(local.default_policy_exemptions, local.custom_policy_exemptions)
+  policy_assignment_resource_ids = module.slz_management_groups.policy_assignment_resource_ids
+  policy_set_definition_name     = ["deploy-diag-logs", "deploy-mdfc-config-h224"]
 
   slz_default_policy_values = {
     policyEffect                             = jsonencode({ value = var.policy_effect })
@@ -425,7 +418,7 @@ locals {
   template_file_variables         = { root_prefix = var.default_prefix, root_postfix = var.default_postfix, customer = var.customer }
   default_template_file_variables = { name = local.dashboard_name }
   all_template_file_variables     = merge(local.default_template_file_variables, local.template_file_variables)
-  domain_name    = data.azuread_domains.default.domains[0].domain_name
-  dashboard_link = "${local.az_portal_link}/#@${local.domain_name}/dashboard/arm/subscriptions/${var.subscription_id_management}/resourceGroups/${local.dashboard_resource_group_name}/providers/Microsoft.Portal/dashboards/${local.dashboard_name}"
-  dashboard_info = "Now your compliance dashboard is ready for you to get insights. If you want to learn more, please click the following link.\n\n${local.dashboard_link}\n\n"
+  domain_name                     = data.azuread_domains.default.domains[0].domain_name
+  dashboard_link                  = "${local.az_portal_link}/#@${local.domain_name}/dashboard/arm/subscriptions/${var.subscription_id_management}/resourceGroups/${local.dashboard_resource_group_name}/providers/Microsoft.Portal/dashboards/${local.dashboard_name}"
+  dashboard_info                  = "Now your compliance dashboard is ready for you to get insights. If you want to learn more, please click the following link.\n\n${local.dashboard_link}\n\n"
 }
