@@ -4,8 +4,7 @@
 SUMMARY : Deploys the Management Groups and Subscriptions for the Sovereign Landing Zone
 AUTHOR/S: Cloud for Sovereignty
 */
-resource "random_uuid" "partner_data_uuid" {
-}
+resource "random_uuid" "partner_data_uuid" {}
 
 module "slz_management_groups" {
   source                = "Azure/avm-ptn-alz/azurerm"
