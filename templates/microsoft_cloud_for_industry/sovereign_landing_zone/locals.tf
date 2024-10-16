@@ -1,4 +1,5 @@
 locals {
+  default_location             = var.starter_locations[0]
   subscription_id_management   = var.subscription_id_management != "" ? var.subscription_id_management : module.subscription_management_creation[0].subscription_id
   subscription_id_connectivity = var.subscription_id_connectivity != "" ? var.subscription_id_connectivity : module.subscription_connectivity_creation[0].subscription_id
   subscription_id_identity     = var.subscription_id_identity != "" ? var.subscription_id_identity : module.subscription_identity_creation[0].subscription_id
@@ -41,21 +42,21 @@ locals {
   confidential_online_management_group_id = format(local.management_group_resource_id_format, "${var.default_prefix}-landingzones-confidential-online${var.default_postfix}")
 
   architecture_name                 = "slz"
-  azure_bastion_public_ip_name      = "${var.default_prefix}-bas-${var.default_location}${var.default_postfix}-PublicIP${var.default_postfix}"
-  azure_bastion_name                = "${var.default_prefix}-bas-${var.default_location}${var.default_postfix}"
-  automation_account_name           = "${var.default_prefix}-automation-account-${var.default_location}${var.default_postfix}"
+  azure_bastion_public_ip_name      = "${var.default_prefix}-bas-${local.default_location}${var.default_postfix}-PublicIP${var.default_postfix}"
+  azure_bastion_name                = "${var.default_prefix}-bas-${local.default_location}${var.default_postfix}"
+  automation_account_name           = "${var.default_prefix}-automation-account-${local.default_location}${var.default_postfix}"
   ddos_plan_name                    = "${var.default_prefix}-ddos-plan${var.default_postfix}"
-  firewall_policy_name              = "${var.default_prefix}-azfwpolicy-${var.default_location}"
+  firewall_policy_name              = "${var.default_prefix}-azfwpolicy-${local.default_location}"
   firewall_policy_id                = var.az_firewall_policies_enabled ? "/subscriptions/${local.subscription_id_connectivity}/resourceGroups/${local.hub_rg_name}/providers/Microsoft.Network/firewallPolicies/${local.firewall_policy_name}" : null
   firewall_sku_name                 = "AZFW_VNet"
   gateway_public_ip_name            = "${var.default_prefix}-%s-PublicIP${var.default_postfix}"
-  hub_rg_name                       = "${var.default_prefix}-rg-hub-network-${var.default_location}${var.default_postfix}"
-  hub_vnet_name                     = "${var.default_prefix}-hub-${var.default_location}${var.default_postfix}"
+  hub_rg_name                       = "${var.default_prefix}-rg-hub-network-${local.default_location}${var.default_postfix}"
+  hub_vnet_name                     = "${var.default_prefix}-hub-${local.default_location}${var.default_postfix}"
   hub_vnet_resource_id              = "/subscriptions/${local.subscription_id_connectivity}/resourceGroups/${local.hub_rg_name}/providers/Microsoft.Network/virtualNetworks/${local.hub_vnet_name}"
-  log_analytics_workspace_name      = "${var.default_prefix}-log-analytics-${var.default_location}${var.default_postfix}"
-  log_analytics_resource_group_name = "${var.default_prefix}-rg-logging-${var.default_location}${var.default_postfix}"
-  nsg_name                          = "${var.default_prefix}-nsg-AzureBastionSubnet-${var.default_location}${var.default_postfix}"
-  route_table_name                  = "${var.default_prefix}-rt-${var.default_location}${var.default_postfix}"
+  log_analytics_workspace_name      = "${var.default_prefix}-log-analytics-${local.default_location}${var.default_postfix}"
+  log_analytics_resource_group_name = "${var.default_prefix}-rg-logging-${local.default_location}${var.default_postfix}"
+  nsg_name                          = "${var.default_prefix}-nsg-AzureBastionSubnet-${local.default_location}${var.default_postfix}"
+  route_table_name                  = "${var.default_prefix}-rt-${local.default_location}${var.default_postfix}"
 
   # Telemetry partner ID <PARTNER_ID_UUID>:<PARTNER_DATA_UUID>
   partner_id_uuid             = "2c12b9d4-df50-4186-bd31-ae6686b633d2" # static uuid generated for SLZ
@@ -412,8 +413,8 @@ locals {
   management_group_link = "${local.az_portal_link}/#view/Microsoft_Azure_Resources/ManagmentGroupDrilldownMenuBlade/~/overview/tenantId/${local.tenant_id}/mgId/${var.default_prefix}${var.default_postfix}/mgDisplayName/Sovereign%20Landing%20Zone/mgCanAddOrMoveSubscription~/true/mgParentAccessLevel/Owner/defaultMenuItemId/overview/drillDownMode~/true"
   management_group_info = "If you want to learn more about your management group, please click the following link.\n\n${local.management_group_link}\n\n"
 
-  dashboard_resource_group_name   = "${var.default_prefix}-rg-dashboards-${var.default_location}${var.default_postfix}"
-  dashboard_name                  = "${var.default_prefix}-Sovereign-Landing-Zone-Dashboard-${var.default_location}${var.default_postfix}"
+  dashboard_resource_group_name   = "${var.default_prefix}-rg-dashboards-${local.default_location}${var.default_postfix}"
+  dashboard_name                  = "${var.default_prefix}-Sovereign-Landing-Zone-Dashboard-${local.default_location}${var.default_postfix}"
   dashboard_template_file_path    = "${path.root}/templates/default_dashboard.tpl"
   template_file_variables         = { root_prefix = var.default_prefix, root_postfix = var.default_postfix, customer = var.customer }
   default_template_file_variables = { name = local.dashboard_name }

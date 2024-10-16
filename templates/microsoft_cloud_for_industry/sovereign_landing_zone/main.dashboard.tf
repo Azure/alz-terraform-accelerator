@@ -7,7 +7,7 @@ AUTHOR/S: Cloud for Sovereignty
 module "dashboard_rg" {
   source           = "Azure/avm-res-resources-resourcegroup/azurerm"
   version          = "0.1.0"
-  location         = var.default_location
+  location         = local.default_location
   name             = local.dashboard_resource_group_name
   enable_telemetry = var.enable_telemetry
   providers = {
@@ -18,7 +18,7 @@ module "dashboard_rg" {
 module "avm_res_portal_dashboard" {
   source                  = "Azure/avm-res-portal-dashboard/azurerm"
   version                 = "0.1.0"
-  location                = var.default_location
+  location                = local.default_location
   name                    = local.dashboard_name
   resource_group_name     = module.dashboard_rg.name
   template_file_path      = local.dashboard_template_file_path

@@ -17,7 +17,7 @@ resource "azurerm_management_group_policy_assignment" "custom_policy" {
   identity {
     type = "SystemAssigned"
   }
-  location = var.default_location
+  location = local.default_location
 
   depends_on = [module.slz_management_groups]
 }

@@ -37,3 +37,7 @@ output "resource_group_names" {
     identity     = azurerm_resource_group.identity.name
   }
 }
+
+output "boolean_test" {
+  value = var.boolean_test
+}

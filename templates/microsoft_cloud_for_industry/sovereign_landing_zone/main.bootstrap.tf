@@ -11,7 +11,7 @@ module "slz_management_groups" {
   version               = "0.9.0-beta2"
   parent_resource_id    = local.root_parent_management_group_id
   architecture_name     = local.architecture_name
-  location              = var.default_location
+  location              = local.default_location
   enable_telemetry      = var.enable_telemetry
   policy_default_values = local.slz_default_policy_values
   partner_id            = local.partner_id

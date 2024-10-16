@@ -10,7 +10,7 @@ module "alz_management" {
   count   = var.deploy_log_analytics_workspace ? 1 : 0
 
   automation_account_name                   = local.automation_account_name
-  location                                  = var.default_location
+  location                                  = local.default_location
   log_analytics_workspace_name              = local.log_analytics_workspace_name
   resource_group_name                       = local.log_analytics_resource_group_name
   enable_telemetry                          = var.enable_telemetry
@@ -28,7 +28,7 @@ module "hub_rg" {
   source  = "Azure/avm-res-resources-resourcegroup/azurerm"
   version = "0.1.0"
 
-  location         = var.default_location
+  location         = local.default_location
   name             = local.hub_rg_name
   enable_telemetry = var.enable_telemetry
   providers = {
@@ -42,7 +42,7 @@ module "firewall_policy" {
   version = "0.2.3"
 
   name                = local.firewall_policy_name
-  location            = var.default_location
+  location            = local.default_location
   resource_group_name = module.hub_rg.name
   enable_telemetry    = var.enable_telemetry
 
@@ -61,7 +61,7 @@ module "hubnetworks" {
     hub = {
       name                            = local.hub_vnet_name
       address_space                   = [var.hub_network_address_prefix]
-      location                        = var.default_location
+      location                        = local.default_location
       resource_group_name             = local.hub_rg_name
       resource_group_creation_enabled = false
       resource_group_lock_enabled     = false
@@ -126,7 +126,7 @@ module "gateway_public_ip" {
   version  = "0.1.2"
 
   allocation_method   = local.public_ip_allocation_method
-  location            = var.default_location
+  location            = local.default_location
   name                = format(local.gateway_public_ip_name, each.value.name)
   resource_group_name = local.hub_rg_name
   sku                 = local.public_ip_sku
@@ -144,7 +144,7 @@ resource "azurerm_virtual_network_gateway" "vnet_gateway" {
 
   resource_group_name    = local.hub_rg_name
   name                   = each.value.name
-  location               = var.default_location
+  location               = local.default_location
   tags                   = var.tags
   active_active          = each.value.activeActive
   enable_bgp             = each.value.enableBgp
@@ -183,7 +183,7 @@ module "private_dns_zones" {
   source  = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
   version = "0.4.0"
 
-  location                        = var.default_location
+  location                        = local.default_location
   resource_group_name             = local.hub_rg_name
   resource_group_creation_enabled = false
   virtual_network_resource_ids_to_link_to = {
@@ -206,7 +206,7 @@ module "ddos_protection_plan" {
 
   resource_group_name = local.hub_rg_name
   name                = local.ddos_plan_name
-  location            = var.default_location
+  location            = local.default_location
   enable_telemetry    = var.enable_telemetry
   tags                = var.tags
 
@@ -223,7 +223,7 @@ module "nsg" {
 
   resource_group_name = local.hub_rg_name
   name                = local.nsg_name
-  location            = var.default_location
+  location            = local.default_location
   security_rules      = local.nsg_rules
   enable_telemetry    = var.enable_telemetry
 
@@ -239,7 +239,7 @@ module "azure_bastion_public_ip" {
   version = "0.1.2"
 
   allocation_method   = local.public_ip_allocation_method
-  location            = var.default_location
+  location            = local.default_location
   name                = local.azure_bastion_public_ip_name
   resource_group_name = local.hub_rg_name
   sku                 = local.public_ip_sku
@@ -258,7 +258,7 @@ module "azure_bastion" {
 
   name                = local.azure_bastion_name
   resource_group_name = local.hub_rg_name
-  location            = var.default_location
+  location            = local.default_location
   copy_paste_enabled  = true
   file_copy_enabled   = false
   sku                 = "Standard"

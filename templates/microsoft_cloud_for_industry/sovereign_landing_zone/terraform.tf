@@ -32,6 +32,7 @@ terraform {
       version = "~> 3.6.3"
     }
   }
+  # backend "azurerm" {}
 }
 
 # Include the additional policies and override archetypes

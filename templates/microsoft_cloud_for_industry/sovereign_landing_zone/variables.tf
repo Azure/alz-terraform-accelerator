@@ -4,8 +4,8 @@
 SUMMARY : Outputs for the Sovereign Landing Zone Depoloyment
 AUTHOR/S: Cloud for Sovereignty
 */
-variable "default_location" {
-  type        = string
+variable "starter_locations" {
+  type        = list(string)
   description = "Location used for deploying Azure resources. (e.g 'uksouth')|azure_location"
 }
 
