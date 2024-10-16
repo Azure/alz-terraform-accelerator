@@ -5,6 +5,11 @@
             "short_name": "Complete Multi-Region",
             "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
         },
+        "sovereign_landing_zone": {
+            "location": "microsoft_cloud_for_industry/sovereign_landing_zone",
+            "short_name": "Sovereign Landing Zone",
+            "description": "Complete Sovereign Landing Zones Configurable Deployment (Warning: This is a work in progress)"
+        },
         "complete": {
             "location": "complete",
             "short_name": "Complete",
@@ -20,11 +25,11 @@
             "short_name": "Hub Networking",
             "description": "Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
         },
-        "complete_vnet": {
+        "complete_vnext": {
             "location": "complete_vnext",
             "short_name": "Complete vNext",
             "description": "vNext Complete Azure Landing Zones Configurable Deployment (Warning: This is a work in progress)"
-        },
+        },  
         "test": {
             "location": "test",
             "short_name": "Test",

@@ -29,3 +29,9 @@ variable "starter_locations" {
   type        = list(string)
   description = "This is the fourth test variable|azure_location"
 }
+
+variable "boolean_test" {
+  type        = bool
+  description = "This is the fifth test variable"
+  default     = true
+}
