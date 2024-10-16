@@ -1,0 +1,11 @@
+{
+  "stringParameterName": {
+    "value": "value"
+  },
+  "objectParameterName": {
+    "value": {}
+  },
+  "arrayParameterName": {
+    "value": []
+  }
+}
