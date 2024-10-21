@@ -58,6 +58,7 @@ module "virtual_network_private_dns" {
   name                = each.value.networking.virtual_network.name
   resource_group_name = each.value.networking.virtual_network.resource_group_name
   enable_telemetry    = var.enable_telemetry
+  tags                = var.tags
   ddos_protection_plan = local.ddos_protection_plan_enabled ? {
     id     = module.ddos_protection_plan[0].resource.id
     enable = true
@@ -88,6 +89,7 @@ module "dns_resolver" {
   resource_group_name         = each.value.networking.private_dns_resolver.resource_group_name
   virtual_network_resource_id = module.virtual_network_private_dns[each.key].resource_id
   enable_telemetry            = var.enable_telemetry
+  tags                        = var.tags
   inbound_endpoints = {
     dns = {
       name        = "dns"
@@ -120,4 +122,6 @@ module "ddos_protection_plan" {
   name                = local.ddos_protection_plan.name
   resource_group_name = local.ddos_protection_plan.resource_group_name
   location            = local.ddos_protection_plan.location
+  enable_telemetry    = var.enable_telemetry
+  tags                = var.tags
 }
