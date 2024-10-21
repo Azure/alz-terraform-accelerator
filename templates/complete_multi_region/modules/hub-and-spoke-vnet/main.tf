@@ -66,4 +66,6 @@ module "ddos_protection_plan" {
   name                = local.ddos_protection_plan.name
   resource_group_name = local.ddos_protection_plan.resource_group_name
   location            = local.ddos_protection_plan.location
+  enable_telemetry    = var.enable_telemetry
+  tags                = var.tags
 }
