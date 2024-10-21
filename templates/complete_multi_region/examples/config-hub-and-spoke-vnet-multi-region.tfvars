@@ -20,6 +20,7 @@ management_settings_es = {
   subscription_id_identity      = "$${subscription_id_identity}"
   subscription_id_management    = "$${subscription_id_management}"
   deploy_connectivity_resources = false
+  deploy_management_resources   = true
   configure_connectivity_resources = {
     settings = {
       dns = {
