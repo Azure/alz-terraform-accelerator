@@ -13,6 +13,7 @@ variable "connectivity_resource_groups" {
     name     = string
     location = string
   }))
+  default     = {}
   description = <<DESCRIPTION
 A map of resource groups to create. These must be created before the connectivity module is applied.
 
