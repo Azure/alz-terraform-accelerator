@@ -75,5 +75,5 @@ resource "azapi_resource" "resource_group_identity" {
 
 module "subscription" {
   source          = "../modules/test_module"
-  subscription_id = data.azurerm_subscription.current.id
+  subscription_id = data.azurerm_subscription.current.subscription_id
 }
