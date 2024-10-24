@@ -32,7 +32,6 @@ override.tf.json
 terraform.log
 !terraform.tfvars
 templates/basic/terraform.tfvars
-templates/test_*
 .vscode/settings.json
 .vs
 .alzlib

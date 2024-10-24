@@ -6,9 +6,13 @@
             "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
         },
         "sovereign_landing_zone": {
-            "location": "microsoft_cloud_for_industry/sovereign_landing_zone",
+            "location": "microsoft_cloud_for_industry",
             "short_name": "Sovereign Landing Zone",
-            "description": "Complete Sovereign Landing Zones Configurable Deployment (Warning: This is a work in progress)"
+            "description": "Complete Sovereign Landing Zones Configurable Deployment (Warning: This is a work in progress)",
+            "root_module_folder": "sovereign_landing_zone",
+            "additional_retained_folders": [
+                "modules"
+            ]
         },
         "complete": {
             "location": "complete",
@@ -29,11 +33,20 @@
             "location": "complete_vnext",
             "short_name": "Complete vNext",
             "description": "vNext Complete Azure Landing Zones Configurable Deployment (Warning: This is a work in progress)"
-        },  
+        },
         "test": {
             "location": "test",
             "short_name": "Test",
             "description": "Test Deployment (Warning: Does not deploy an Azure Landing Zone)"
+        },
+        "test_nested": {
+            "location": "test_nested",
+            "short_name": "Test Nested",
+            "description": "Test Nested Submodule Deployment (Warning: Does not deploy an Azure Landing Zone)",
+            "root_module_folder": "test_root",
+            "additional_retained_folders": [
+                "modules"
+            ]
         }
     }
 }
