@@ -181,7 +181,7 @@ resource "azurerm_virtual_network_gateway" "vnet_gateway" {
 module "private_dns_zones" {
   count   = var.deploy_hub_network ? 1 : 0
   source  = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
-  version = "0.4.0"
+  version = "0.5.0"
 
   location                        = local.default_location
   resource_group_name             = local.hub_rg_name
