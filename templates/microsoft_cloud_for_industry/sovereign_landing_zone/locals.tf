@@ -420,6 +420,6 @@ locals {
   default_template_file_variables = { name = local.dashboard_name }
   all_template_file_variables     = merge(local.default_template_file_variables, local.template_file_variables)
   domain_name                     = data.azuread_domains.default.domains[0].domain_name
-  dashboard_link                  = "${local.az_portal_link}/#@${local.domain_name}/dashboard/arm/subscriptions/${var.subscription_id_management}/resourceGroups/${local.dashboard_resource_group_name}/providers/Microsoft.Portal/dashboards/${local.dashboard_name}"
+  dashboard_link                  = "${local.az_portal_link}/#@${local.domain_name}/dashboard/arm/subscriptions/${local.subscription_id_management}/resourceGroups/${local.dashboard_resource_group_name}/providers/Microsoft.Portal/dashboards/${local.dashboard_name}"
   dashboard_info                  = "Now your compliance dashboard is ready for you to get insights. If you want to learn more, please click the following link.\n\n${local.dashboard_link}\n\n"
 }
