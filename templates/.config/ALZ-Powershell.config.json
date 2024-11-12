@@ -14,6 +14,15 @@
                 "modules"
             ]
         },
+        "financial_services_landing_zone": {
+            "location": "microsoft_cloud_for_industry",
+            "short_name": "Financial Services Landing Zone",
+            "description": "Complete Financial Services Landing Zones Configurable Deployment (Warning: This is a work in progress)",
+            "root_module_folder": "financial_services_landing_zone",
+            "additional_retained_folders": [
+                "modules"
+            ]
+        },
         "complete": {
             "location": "complete",
             "short_name": "Complete",
