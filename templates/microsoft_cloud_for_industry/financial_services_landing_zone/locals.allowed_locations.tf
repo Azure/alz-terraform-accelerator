@@ -1,3 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/*
+SUMMARY : This file contains the allowed locations locals block for the Cloud for Financial Services
+AUTHOR/S: Cloud for Financial Services
+*/
 locals {
   allowed_locations_list = [
     "australiacentral",
