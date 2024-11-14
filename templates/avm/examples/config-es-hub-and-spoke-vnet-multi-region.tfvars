@@ -10,45 +10,8 @@
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 
-management_use_avm = true
-management_settings_avm = {
-  management_resource_settings = {
-    automation_account_name      = "aa-management-$${starter_location_01}"
-    location                     = "$${starter_location_01}"
-    log_analytics_workspace_name = "law-management-$${starter_location_01}"
-    resource_group_name          = "rg-management-$${starter_location_01}"
-    user_assigned_managed_identities = {
-      ama = {
-        name = "uami-management-ama-$${starter_location_01}"
-      }
-    }
-    data_collection_rules = {
-      change_tracking = {
-        name = "dcr-change-tracking"
-      }
-      defender_sql = {
-        name = "dcr-defender-sql"
-      }
-      vm_insights = {
-        name = "dcr-vm-insights"
-      }
-    }
-  }
-  management_groups_settings = {
-    location = "$${starter_location_01}"
-    architecture_name = "alz"
-    parent_resource_id = "$${root_parent_management_group_id}"
-    policy_default_values = {
-      ama_change_tracking_data_collection_rule_id = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/Microsoft.Insights/dataCollectionRules/dcr-change-tracking"
-      ama_mdfc_sql_data_collection_rule_id        = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/Microsoft.Insights/dataCollectionRules/dcr-defender-sql"
-      ama_vm_insights_data_collection_rule_id     = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/icrosoft.Insights/dataCollectionRules/dcr-vm-insights"
-      ama_user_assigned_managed_identity_id       = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/Microsoft.ManagedIdentity/userAssignedIdentities/uami-management-ama-$${starter_location_01}"
-      ama_user_assigned_managed_identity_name     = "uami-management-ama-$${starter_location_01}"
-      log_analytics_workspace_id                  = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/Microsoft.OperationalInsights/workspaces/law-management-$${starter_location_01}"
-      ddos_protection_plan_id                     = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}/providers/Microsoft.Network/ddosProtectionPlans/ddos-hub-$${starter_location_01}"
-    }
-  }
-
+management_use_avm = false
+management_settings_es = {
   default_location              = "$${starter_location_01}"
   root_parent_id                = "$${root_parent_management_group_id}"
   root_id                       = "alz"
