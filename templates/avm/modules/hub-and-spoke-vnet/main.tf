@@ -44,7 +44,7 @@ module "virtual_network_gateway" {
 
 module "private_dns_zones" {
   source  = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
-  version = "0.5.0"
+  version = "0.6.0"
 
   for_each = local.private_dns_zones
 

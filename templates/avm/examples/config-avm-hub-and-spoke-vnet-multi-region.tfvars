@@ -75,6 +75,9 @@ management_group_settings = {
     ama_user_assigned_managed_identity_name     = "uami-management-ama-$${starter_location_01}"
     log_analytics_workspace_id                  = "$${management_resource_group_id}/providers/Microsoft.OperationalInsights/workspaces/$${log_analytics_workspace_name}"
     ddos_protection_plan_id                     = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+    private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
+    private_dns_zone_region                     = "$${starter_location_01}"
+    private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
   }
 
   /*
@@ -146,7 +149,6 @@ hub_and_spoke_vnet_virtual_networks = {
           public_ip_config = {
             name       = "pip-fw-hub-$${starter_location_01}"
             zones      = "$${starter_location_01_availability_zones}"
-            ip_version = "IPv4"
           }
         }
         firewall_policy = {
@@ -219,7 +221,6 @@ hub_and_spoke_vnet_virtual_networks = {
           public_ip_config = {
             name       = "pip-fw-hub-$${starter_location_02}"
             zones      = "$${starter_location_02_availability_zones}"
-            ip_version = "IPv4"
           }
         }
         firewall_policy = {
