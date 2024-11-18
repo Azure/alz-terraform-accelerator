@@ -40,6 +40,8 @@ custom_names = {
   management_resource_group_id = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}"
 }
 
+enable_telemetry = false
+
 management_resource_settings = {
   automation_account_name      = "$${automation_account_name}"
   location                     = "$${starter_location_01}"

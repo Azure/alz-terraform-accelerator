@@ -30,12 +30,6 @@ variable "enable_telemetry" {
   description = "Flag to enable/disable telemetry"
 }
 
-variable "skip_deploy" {
-  type        = bool
-  default     = false
-  description = "Flag to skip deployment. This is used for testing and documentation generation purposes."
-}
-
 variable "custom_names" {
   type        = map(string)
   default     = {}

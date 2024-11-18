@@ -15,7 +15,3 @@ locals {
     }
   }
 }
-
-output "regions" {
-  value = local.regions
-}
