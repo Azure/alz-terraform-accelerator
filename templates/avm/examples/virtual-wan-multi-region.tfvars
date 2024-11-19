@@ -180,7 +180,7 @@ virtual_wan_virtual_hubs = {
   primary = {
     hub = {
       name                = "vwan-hub-$${starter_location_01}"
-      resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+      resource_group      = "$${connectivity_hub_primary_resource_group_name}"
       location            = "$${starter_location_01}"
       address_prefix      = "10.0.0.0/16"
     }
@@ -208,7 +208,7 @@ virtual_wan_virtual_hubs = {
         }
         private_dns_resolver = {
           name                = "pdr-hub-dns-$${starter_location_01}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_01}"
+          resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
         }
       }
     }
@@ -216,7 +216,7 @@ virtual_wan_virtual_hubs = {
   secondary = {
     hub = {
       name                = "vwan-hub-$${starter_location_02}"
-      resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+      resource_group      = "$${connectivity_hub_secondary_resource_group_name}"
       location            = "$${starter_location_02}"
       address_prefix      = "10.1.0.0/16"
     }
@@ -244,7 +244,7 @@ virtual_wan_virtual_hubs = {
         }
         private_dns_resolver = {
           name                = "pdr-hub-dns-$${starter_location_02}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_02}"
+          resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
         }
       }
     }

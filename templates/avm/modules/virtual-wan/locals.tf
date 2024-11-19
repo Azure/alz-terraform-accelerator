@@ -30,7 +30,7 @@ locals {
 locals {
   firewall_policies = { for virtual_hub_key, virtual_hub_value in var.virtual_hubs : virtual_hub_key => merge({
     location            = try(virtual_hub_value.firewall.firewall_policy.location, virtual_hub_value.hub.location)
-    resource_group_name = try(virtual_hub_value.firewall.firewall_policy.resource_group_name, virtual_hub_value.hub.resource_group_name)
+    resource_group_name = try(virtual_hub_value.firewall.firewall_policy.resource_group_name, virtual_hub_value.hub.resource_group)
     dns = {
       servers       = [module.dns_resolver[virtual_hub_key].inbound_endpoint_ips["dns"]]
       proxy_enabled = true
