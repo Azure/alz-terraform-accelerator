@@ -1,6 +1,7 @@
 /*
-This file contains templated variables to avoid repeating the same hard-coded values.
-Templated variables are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each templated variable that you can use:
+--- Built-in Replacements ---
+This file contains built-in replacements to avoid repeating the same hard-coded values.
+Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacemnets that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_02` to `starter_location_10`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_01_availability_zones` to `starter_location_10_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
@@ -12,32 +13,60 @@ Templated variables are denoted by the dollar-dollar curly braces token (e.g. $$
 `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 */
 
-/* 
-Custom Names: Based on any of the above variables, you can create your own custom names to use in the configuration by supplying them in the `custom_names` map variable.
-This avoids repeating the same hard-coded values in the configuration. 
-For example, you can use the custom name `$${management_resource_group_name}` in the configuration instead of hard-coding the value `rg-management-$${starter_location_01}`.
-NOTE: You cannot build a custom name based on another custom name. You can only build a custom name based on the templated variables.
+/*
+--- Custom Replacements ---
+You can define custom replacements to use throughout the configuration.
 */
-custom_names = {
-  # Resource group names
-  management_resource_group_name = "rg-management-$${starter_location_01}"
+custom_replacements = {
+  /* 
+  --- Custom Name Replacements ---
+  You can define custom names and other strings to use throughout the configuration. 
+  You can only use the built in replacements in this section.
+  NOTE: You cannot refer to another custom name in this variable.
+  */
+  names = {
+    # Resource group names
+    management_resource_group_name                 = "rg-management-$${starter_location_01}"
+    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
+    connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
+    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
+    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
 
-  connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
-  connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
-  dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
-  ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    # Resource names
+    log_analytics_workspace_name            = "law-management-$${starter_location_01}"
+    ddos_protection_plan_name               = "ddos-hub-$${starter_location_01}"
+    automation_account_name                 = "aa-management-$${starter_location_01}"
+    ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
+    dcr_change_tracking_name                = "dcr-change-tracking"
+    dcr_defender_sql_name                   = "dcr-defender-sql"
+    dcr_vm_insights_name                    = "dcr-vm-insights"
+  }
 
-  # Resource names
-  log_analytics_workspace_name            = "law-management-$${starter_location_01}"
-  ddos_protection_plan_name               = "ddos-hub-$${starter_location_01}"
-  automation_account_name                 = "aa-management-$${starter_location_01}"
-  ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
-  dcr_change_tracking_name                = "dcr-change-tracking"
-  dcr_defender_sql_name                   = "dcr-defender-sql"
-  dcr_vm_insights_name                    = "dcr-vm-insights"
+  /* 
+  --- Custom Resource Group Identifier Replacements ---
+  You can define custom resource group identifiers to use throughout the configuration. 
+  You can only use the templated variables and custom names in this section.
+  NOTE: You cannot refer to another custom resource group identifier in this variable.
+  */
+  resource_group_identifiers = {
+    management_resource_group_id           = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
+    ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+  }
 
-  # Resource identifiers
-  management_resource_group_id = "/subscriptions/$${subscription_id_management}/resourcegroups/rg-management-$${starter_location_01}"
+  /* 
+  --- Custom Resource Identifier Replacements ---
+  You can define custom resource identifiers to use throughout the configuration. 
+  You can only use the templated variables, custom names and customer resource group identifiers in this variable.
+  NOTE: You cannot refer to another custom resource identifier in this variable.
+  */
+  resource_identifiers = {
+    ama_change_tracking_data_collection_rule_id = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_change_tracking_name}"
+    ama_mdfc_sql_data_collection_rule_id        = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_defender_sql_name}"
+    ama_vm_insights_data_collection_rule_id     = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_vm_insights_name}"
+    ama_user_assigned_managed_identity_id       = "$${management_resource_group_id}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$${ama_user_assigned_managed_identity_name}"
+    log_analytics_workspace_id                  = "$${management_resource_group_id}/providers/Microsoft.OperationalInsights/workspaces/$${log_analytics_workspace_name}"
+    ddos_protection_plan_id                     = "$${ddos_protection_plan_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+  }
 }
 
 enable_telemetry = false
@@ -70,13 +99,13 @@ management_group_settings = {
   architecture_name  = "alz"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
-    ama_change_tracking_data_collection_rule_id = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_change_tracking_name}"
-    ama_mdfc_sql_data_collection_rule_id        = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_defender_sql_name}"
-    ama_vm_insights_data_collection_rule_id     = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_vm_insights_name}"
-    ama_user_assigned_managed_identity_id       = "$${management_resource_group_id}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$${ama_user_assigned_managed_identity_name}"
-    ama_user_assigned_managed_identity_name     = "uami-management-ama-$${starter_location_01}"
-    log_analytics_workspace_id                  = "$${management_resource_group_id}/providers/Microsoft.OperationalInsights/workspaces/$${log_analytics_workspace_name}"
-    ddos_protection_plan_id                     = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+    ama_change_tracking_data_collection_rule_id = "$${ama_change_tracking_data_collection_rule_id}"
+    ama_mdfc_sql_data_collection_rule_id        = "$${ama_mdfc_sql_data_collection_rule_id}"
+    ama_vm_insights_data_collection_rule_id     = "$${ama_vm_insights_data_collection_rule_id}"
+    ama_user_assigned_managed_identity_id       = "$${ama_user_assigned_managed_identity_id}"
+    ama_user_assigned_managed_identity_name     = "$${ama_user_assigned_managed_identity_name}"
+    log_analytics_workspace_id                  = "$${log_analytics_workspace_id}"
+    ddos_protection_plan_id                     = "$${ddos_protection_plan_id}"
     private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
     private_dns_zone_region                     = "$${starter_location_01}"
     private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"

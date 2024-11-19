@@ -1,5 +1,5 @@
 locals {
-  config_template_file_variables = {
+  built_in_replacements = {
     starter_location_01                                           = var.starter_locations[0]
     starter_location_02                                           = try(var.starter_locations[1], null)
     starter_location_03                                           = try(var.starter_locations[2], null)
@@ -47,13 +47,38 @@ locals {
   }
 }
 
+# Custom name replacements
 locals {
-  custom_names_json           = tostring(jsonencode(var.custom_names))
-  custom_names_json_templated = templatestring(local.custom_names_json, local.config_template_file_variables)
+  custom_names_json           = tostring(jsonencode(var.custom_replacements.names))
+  custom_names_json_templated = templatestring(local.custom_names_json, local.built_in_replacements)
   custom_names_json_final     = replace(replace(local.custom_names_json_templated, "\"[", "["), "]\"", "]")
   custom_names                = jsondecode(local.custom_names_json_final)
 }
 
 locals {
-  template_replacements = merge(local.config_template_file_variables, local.custom_names)
+  custom_name_replacements = merge(local.built_in_replacements, local.custom_names)
+}
+
+# Custom resource group identifiers
+locals {
+  custom_resource_group_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_group_identifiers))
+  custom_resource_group_identifiers_json_templated = templatestring(local.custom_resource_group_identifiers_json, local.custom_name_replacements)
+  custom_resource_group_identifiers_json_final     = replace(replace(local.custom_resource_group_identifiers_json_templated, "\"[", "["), "]\"", "]")
+  custom_resource_group_identifiers                = jsondecode(local.custom_resource_group_identifiers_json_final)
+}
+
+locals {
+  custom_resource_group_replacements = merge(local.custom_name_replacements, local.custom_resource_group_identifiers)
+}
+
+# Custom resource identifiers
+locals {
+  custom_resource_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_identifiers))
+  custom_resource_identifiers_json_templated = templatestring(local.custom_resource_identifiers_json, local.custom_resource_group_replacements)
+  custom_resource_identifiers_json_final     = replace(replace(local.custom_resource_identifiers_json_templated, "\"[", "["), "]\"", "]")
+  custom_resource_identifiers                = jsondecode(local.custom_resource_identifiers_json_final)
+}
+
+locals {
+  template_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
 }

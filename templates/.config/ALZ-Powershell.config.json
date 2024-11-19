@@ -1,5 +1,10 @@
 {
     "starter_modules": {
+        "complete_azure_verified_modules": {
+            "location": "avm",
+            "short_name": "Complete Multi-Region with Azure Verified Modules",
+            "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
+        },
         "complete_multi_region": {
             "location": "complete_multi_region",
             "short_name": "Complete Multi-Region",
@@ -37,11 +42,6 @@
             "location": "hubnetworking",
             "short_name": "Hub Networking",
             "description": "Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
-        },
-        "complete_vnext": {
-            "location": "complete_vnext",
-            "short_name": "Complete vNext",
-            "description": "vNext Complete Azure Landing Zones Configurable Deployment (Warning: This is a work in progress)"
         },
         "test": {
             "location": "test",

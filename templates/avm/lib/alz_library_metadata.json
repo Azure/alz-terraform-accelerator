@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/library_metadata.json",
+  "name": "local",
+  "display_name": "Financial Services Industry",
+  "description": "This library provides the reference set of Financial Services Industry (FSI) policies, archetypes, and management group architecture.",
+  "dependencies": [
+    {
+      "path": "platform/alz",
+      "ref": "2024.11.0"
+    }
+  ]
+}
