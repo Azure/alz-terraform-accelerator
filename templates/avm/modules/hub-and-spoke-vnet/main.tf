@@ -52,7 +52,7 @@ module "private_dns_zones" {
   resource_group_name                     = each.value.resource_group_name
   resource_group_creation_enabled         = false
   virtual_network_resource_ids_to_link_to = local.private_dns_zones_virtual_network_links
-  private_link_private_dns_zones          = try(each.value.is_primary, false) ? null : local.private_dns_zones_secondary_zones
+  private_link_private_dns_zones          = each.value.private_link_private_dns_zones == null ? (each.value.is_primary ? null : local.private_dns_zones_secondary_zones) : each.value.private_link_private_dns_zones
   enable_telemetry                        = var.enable_telemetry
   tags                                    = var.tags
 }

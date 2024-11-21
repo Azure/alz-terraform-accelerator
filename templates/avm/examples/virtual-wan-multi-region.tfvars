@@ -202,7 +202,7 @@ virtual_wan_settings = {
 virtual_wan_virtual_hubs = {
   primary = {
     hub = {
-      name           = "vwan-hub-$${starter_location_01}"
+      name = "vwan-hub-$${starter_location_01}"
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
@@ -243,7 +243,7 @@ virtual_wan_virtual_hubs = {
   }
   secondary = {
     hub = {
-      name           = "vwan-hub-$${starter_location_02}"
+      name = "vwan-hub-$${starter_location_02}"
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan

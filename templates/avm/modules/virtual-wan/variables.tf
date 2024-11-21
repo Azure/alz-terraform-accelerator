@@ -21,6 +21,9 @@ variable "virtual_hubs" {
     private_dns_zones = optional(object({
       resource_group_name = string
       is_primary          = optional(bool, false)
+      private_link_private_dns_zones = optional(map(object({
+        zone_name = optional(string, null)
+      })))
       networking = object({
         virtual_network = object({
           name                = string
