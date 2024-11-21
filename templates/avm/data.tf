@@ -4,7 +4,7 @@ module "regions" {
   use_cached_data           = false
   availability_zones_filter = false
   recommended_filter        = false
-  enable_telemetry = var.enable_telemetry
+  enable_telemetry          = var.enable_telemetry
 }
 
 data "azurerm_client_config" "current" {}

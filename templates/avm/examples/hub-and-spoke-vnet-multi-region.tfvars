@@ -112,22 +112,45 @@ management_group_settings = {
   }
   subscription_placement = {
     identity = {
-      subscription_id = "$${subscription_id_identity}"
+      subscription_id       = "$${subscription_id_identity}"
       management_group_name = "identity"
     }
     connectivity = {
-      subscription_id = "$${subscription_id_connectivity}"
+      subscription_id       = "$${subscription_id_connectivity}"
       management_group_name = "connectivity"
     }
     management = {
-      subscription_id = "$${subscription_id_management}"
+      subscription_id       = "$${subscription_id_management}"
       management_group_name = "management"
     }
   }
-
-  /*
-  # Example of how to update a policy assignment enforcement mode
   policy_assignments_to_modify = {
+    alzroot = {
+      policy_assignments = {
+        Deploy-MDFC-Config-H224 = {
+          parameters = {
+            ascExportResourceGroupName                  = "$${management_resource_group_name}"
+            ascExportResourceGroupLocation              = "$${starter_location_01}"
+            emailSecurityContact                        = "security_contact@replace_me"
+            enableAscForServers                         = "DeployIfNotExists"
+            enableAscForServers                         = "DeployIfNotExists"
+            enableAscForServersVulnerabilityAssessments = "DeployIfNotExists"
+            enableAscForSql                             = "DeployIfNotExists"
+            enableAscForAppServices                     = "DeployIfNotExists"
+            enableAscForStorage                         = "DeployIfNotExists"
+            enableAscForContainers                      = "DeployIfNotExists"
+            enableAscForKeyVault                        = "DeployIfNotExists"
+            enableAscForSqlOnVm                         = "DeployIfNotExists"
+            enableAscForArm                             = "DeployIfNotExists"
+            enableAscForOssDb                           = "DeployIfNotExists"
+            enableAscForCosmosDbs                       = "DeployIfNotExists"
+            enableAscForCspm                            = "DeployIfNotExists"
+          }
+        }
+      }
+    }
+    /*
+    # Example of how to update a policy assignment enforcement mode for DDOS Protection Plan
     connectivity = {
       policy_assignments = {
         Enable-DDoS-VNET = {
@@ -135,8 +158,8 @@ management_group_settings = {
         }
       }
     }
+    */
   }
-  */
 }
 
 connectivity_type = "hub_and_spoke_vnet"

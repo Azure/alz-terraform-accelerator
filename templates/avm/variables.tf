@@ -31,15 +31,15 @@ variable "enable_telemetry" {
 }
 
 variable "custom_replacements" {
-  type        = object({
-    names = optional(map(string), {})
+  type = object({
+    names                      = optional(map(string), {})
     resource_group_identifiers = optional(map(string), {})
-    resource_identifiers = optional(map(string), {})
+    resource_identifiers       = optional(map(string), {})
   })
-  default     = {
-    names = {}
+  default = {
+    names                      = {}
     resource_group_identifiers = {}
-    resource_identifiers = {}
+    resource_identifiers       = {}
   }
   description = "Custom replacements"
 }

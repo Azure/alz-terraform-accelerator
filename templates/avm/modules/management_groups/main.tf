@@ -5,7 +5,7 @@ module "management_groups" {
   parent_resource_id                  = var.management_group_settings.parent_resource_id
   location                            = var.management_group_settings.location
   policy_default_values               = local.policy_default_values
-  policy_assignments_to_modify        = try(var.management_group_settings.policy_assignments_to_modify, {})
+  policy_assignments_to_modify        = local.policy_assignments_to_modify
   delays                              = try(var.management_group_settings.delays, {})
   enable_telemetry                    = var.enable_telemetry
   management_group_hierarchy_settings = try(var.management_group_settings.management_group_hierarchy_settings, null)
