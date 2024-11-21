@@ -49,7 +49,7 @@ module "virtual_wan" {
 
 module "virtual_network_private_dns" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm"
-  version = "0.6.0"
+  version = "0.7.1"
 
   for_each = local.private_dns_zones
 
