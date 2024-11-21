@@ -206,7 +206,7 @@ virtual_wan_virtual_hubs = {
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
-      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}"`
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
       */
       resource_group = "$${connectivity_hub_primary_resource_group_name}"
       location       = "$${starter_location_01}"
@@ -247,7 +247,7 @@ virtual_wan_virtual_hubs = {
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
-      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}"`
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
       */
       resource_group = "$${connectivity_hub_secondary_resource_group_name}"
       location       = "$${starter_location_02}"
