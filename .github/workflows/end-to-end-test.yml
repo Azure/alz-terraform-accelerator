@@ -77,9 +77,14 @@
   
         - name: Run Plan
           run: |
-            terraform init -chdir="${{ matrix.rootModuleFolderPath }}"
-            terraform plan -chdir="${{ matrix.rootModuleFolderPath }}" -var-file="${{ matrix.configFilePath }}" -out=tfplan
-            terraform show -chdir="${{ matrix.rootModuleFolderPath }}" -json tfplan > tfplan.json
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" init 
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
+
+            $planJson = Get-Content -Raw tfplan.json
+            $planObject = ConvertFrom-Json $planJson -Depth 100
+
+            Write-Output $planJson
             
           shell: pwsh
           env:
