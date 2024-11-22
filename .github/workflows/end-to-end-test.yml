@@ -84,7 +84,7 @@
             $planJson = Get-Content -Raw tfplan.json
             $planObject = ConvertFrom-Json $planJson -Depth 100
 
-            Write-Output $planJson
+            Write-Host $planJson
             
           shell: pwsh
           env:
