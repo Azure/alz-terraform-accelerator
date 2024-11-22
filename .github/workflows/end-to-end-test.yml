@@ -71,7 +71,7 @@
             subscription_id_management   = "${{ vars.ARM_SUBSCRIPTION_ID }}"
             "@
            
-            $tfvarsFile | Out-File -FilePath terraform.tfvars -Encoding utf8 -Force
+            $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
   
           shell: pwsh
   
