@@ -77,9 +77,9 @@
   
         - name: Run Plan
           run: |
-            terraform init
-            terraform plan -var-file=${{ matrix.configFilePath }} -out=tfplan
-            terraform show -json tfplan > tfplan.json
+            terraform init -chdir="${{ matrix.directory }}"
+            terraform plan -chdir="${{ matrix.directory }}" -var-file="${{ matrix.configFilePath }}" -out=tfplan
+            terraform show -chdir="${{ matrix.directory }}" -json tfplan > tfplan.json
             
           shell: pwsh
           env:
