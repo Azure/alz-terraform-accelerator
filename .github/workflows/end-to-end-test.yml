@@ -92,6 +92,8 @@
               $items[$change.change.actions]++
             }
 
+            Write-Host ""
+            Write-Host "Plan Summary"
             Write-Host (ConvertTo-Json $items -Depth 10)
             
           shell: pwsh
