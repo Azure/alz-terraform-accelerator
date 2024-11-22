@@ -84,7 +84,15 @@
             $planJson = Get-Content -Raw tfplan.json
             $planObject = ConvertFrom-Json $planJson -Depth 100
 
-            Write-Host $planJson
+            $items = @{}
+            foreach($change in $planObject.resource_changes) {
+              if(!$items.ContainsKey($change.change.actions)) {
+                $items[$change.change.actions] = 0
+              }
+              $items[$change.change.actions]++
+            }
+
+            Write-Host (ConvertTo-Json $items -Depth 10)
             
           shell: pwsh
           env:
