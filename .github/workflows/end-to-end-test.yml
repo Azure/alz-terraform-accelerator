@@ -80,7 +80,16 @@
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" init 
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
+            
+          shell: pwsh
+          env:
+            ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+            ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+            ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+            ARM_USE_OIDC: true
 
+        - name: Plan Summary
+          run: |
             $planJson = Get-Content -Raw tfplan.json
             $planObject = ConvertFrom-Json $planJson -Depth 100
 
@@ -97,9 +106,3 @@
             Write-Host (ConvertTo-Json $items -Depth 10)
             
           shell: pwsh
-          env:
-            ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
-            ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
-            ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
-            ARM_USE_OIDC: true
-  
