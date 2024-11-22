@@ -72,6 +72,10 @@ custom_replacements = {
 
 enable_telemetry = false
 
+ /* 
+--- Management Resources ---
+You can use this section to customise the management resources that will be deployed.
+*/
 management_resource_settings = {
   automation_account_name      = "$${automation_account_name}"
   location                     = "$${starter_location_01}"
@@ -95,6 +99,11 @@ management_resource_settings = {
   }
 }
 
+ /* 
+--- Management Groups and Policy ---
+You can use this section to customise the management groups and policies that will be deployed.
+You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
+*/
 management_group_settings = {
   location           = "$${starter_location_01}"
   architecture_name  = "alz"
@@ -163,6 +172,10 @@ management_group_settings = {
   }
 }
 
+ /* 
+--- Virtual WAN ---
+You can use this section to customise the virtual wan networking that will be deployed.
+*/
 connectivity_type = "virtual_wan"
 
 connectivity_resource_groups = {
@@ -177,10 +190,6 @@ connectivity_resource_groups = {
   vwan_hub_primary = {
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
-  }
-  vwan_hub_secondary = {
-    name     = "$${connectivity_hub_secondary_resource_group_name}"
-    location = "$${starter_location_02}"
   }
   dns = {
     name     = "$${dns_resource_group_name}"
@@ -237,47 +246,6 @@ virtual_wan_virtual_hubs = {
         private_dns_resolver = {
           name                = "pdr-hub-dns-$${starter_location_01}"
           resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
-        }
-      }
-    }
-  }
-  secondary = {
-    hub = {
-      name = "vwan-hub-$${starter_location_02}"
-      /*
-      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
-      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
-      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
-      */
-      resource_group = "$${connectivity_hub_secondary_resource_group_name}"
-      location       = "$${starter_location_02}"
-      address_prefix = "10.1.0.0/16"
-    }
-    firewall = {
-      name     = "fw-hub-$${starter_location_02}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_02_availability_zones}"
-      firewall_policy = {
-        name = "fwp-hub-$${starter_location_02}"
-      }
-    }
-    private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
-      is_primary          = false
-      networking = {
-        virtual_network = {
-          name                = "vnet-hub-dns-$${starter_location_02}"
-          resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
-          address_space       = "10.11.0.0/24"
-          private_dns_resolver_subnet = {
-            name           = "subnet-hub-dns-$${starter_location_02}"
-            address_prefix = "10.11.0.0/28"
-          }
-        }
-        private_dns_resolver = {
-          name                = "pdr-hub-dns-$${starter_location_02}"
-          resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
         }
       }
     }

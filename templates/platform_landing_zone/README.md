@@ -1,4 +1,4 @@
-# Azure Landing Zones Accelerator Starter Module for Terraform - Complete Multi-Region
+# Azure Landing Zones Accelerator Starter Module for Terraform - Azure Verified Modules Complete Multi-Region
 
 This module is part of the Azure Landing Zones Accelerator solution. It is a complete multi-region implementation of the Azure Landing Zones Platform Landing Zone for Terraform.
 
@@ -37,12 +37,12 @@ subscription_id_management   = "00000000-0000-0000-0000-000000000000"
 
 ```powershell
 terraform init
-terraform apply -var-file ./examples/config-hub-and-spoke-virtual-networks-multi-region.tfvars
+terraform apply -var-file ./examples/full-multi-region/hub-and-spoke-vnet.tfvars
 ```
 
 ##### Virtual WAN Multi Region
 
 ```powershell
 terraform init
-terraform apply -var-file ./examples/config-virtual-wan-multi-region.tfvars
+terraform apply -var-file ./examples/full-multi-region/virtual-wan.tfvars
 ```

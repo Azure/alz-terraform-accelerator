@@ -1,9 +1,9 @@
 {
     "starter_modules": {
-        "complete_azure_verified_modules": {
-            "location": "avm",
-            "short_name": "Complete Multi-Region with Azure Verified Modules",
-            "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
+        "platform_landing_zone": {
+            "location": "platform_landing_zone",
+            "short_name": "Multi-Region Azure Platform Landing Zone",
+            "description": "Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
         },
         "complete_multi_region": {
             "location": "complete_multi_region",
