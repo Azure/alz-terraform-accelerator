@@ -95,10 +95,11 @@
 
             $items = @{}
             foreach($change in $planObject.resource_changes) {
-              if(!$items.ContainsKey($change.change.actions)) {
-                $items[$change.change.actions] = 0
+              $key = [System.String]::Join("-", $change.change.actions)
+              if(!$items.ContainsKey($key)) {
+                $items[$key] = 0
               }
-              $items[$change.change.actions]++
+              $items[$key]++
             }
 
             Write-Host "Plan Summary"
