@@ -31,6 +31,7 @@ custom_replacements = {
     connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
     dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
     ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
@@ -138,7 +139,7 @@ management_group_settings = {
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {
-            ascExportResourceGroupName                  = "$${management_resource_group_name}"
+            ascExportResourceGroupName                  = "$${asc_export_resource_group_name}"
             ascExportResourceGroupLocation              = "$${starter_location_01}"
             emailSecurityContact                        = "security_contact@replace_me"
             enableAscForServers                         = "DeployIfNotExists"

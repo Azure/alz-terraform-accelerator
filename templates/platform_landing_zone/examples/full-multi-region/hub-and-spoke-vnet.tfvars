@@ -31,6 +31,7 @@ custom_replacements = {
     connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
     dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
     ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
@@ -138,7 +139,7 @@ management_group_settings = {
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {
-            ascExportResourceGroupName                  = "$${management_resource_group_name}"
+            ascExportResourceGroupName                  = "$${asc_export_resource_group_name}"
             ascExportResourceGroupLocation              = "$${starter_location_01}"
             emailSecurityContact                        = "security_contact@replace_me"
             enableAscForServers                         = "DeployIfNotExists"
@@ -205,23 +206,26 @@ hub_and_spoke_vnet_settings = {
 }
 
 hub_and_spoke_vnet_virtual_networks = {
+  # The address space for this region is 10.0.0.0/16
   primary = {
     hub_virtual_network = {
       name                            = "vnet-hub-$${starter_location_01}"
       resource_group_name             = "$${connectivity_hub_primary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_01}"
-      address_space                   = ["10.0.0.0/16"]
+      address_space                   = ["10.0.0.0/22"]
+      routing_address_space           = ["10.0.0.0/16"]
+      mesh_peering                    = true
       ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
       subnets = {
         virtual_network_gateway = {
           name                         = "GatewaySubnet"
-          address_prefixes             = ["10.0.1.0/24"]
+          address_prefixes             = ["10.0.0.64/27"]
           assign_generated_route_table = false
         }
       }
       firewall = {
-        subnet_address_prefix = "10.0.0.0/24"
+        subnet_address_prefix = "10.0.0.0/26"
         name                  = "fw-hub-$${starter_location_01}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
@@ -278,22 +282,25 @@ hub_and_spoke_vnet_virtual_networks = {
     }
   }
   secondary = {
+    # The address space for this region is 10.1.0.0/16
     hub_virtual_network = {
       name                            = "vnet-hub-$${starter_location_02}"
       resource_group_name             = "$${connectivity_hub_secondary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_02}"
-      address_space                   = ["10.1.0.0/16"]
+      address_space                   = ["10.1.0.0/22"]
+      routing_address_space           = ["10.1.0.0/16"]
+      mesh_peering                    = true
       ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
       subnets = {
         virtual_network_gateway = {
           name                         = "GatewaySubnet"
-          address_prefixes             = ["10.1.1.0/24"]
+          address_prefixes             = ["10.1.0.64/27"]
           assign_generated_route_table = false
         }
       }
       firewall = {
-        subnet_address_prefix = "10.1.0.0/24"
+        subnet_address_prefix = "10.1.0.0/26"
         name                  = "fw-hub-$${starter_location_02}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
