@@ -112,6 +112,29 @@ module "private_dns_zones" {
   tags                                    = var.tags
 }
 
+module "private_dns_zone_auto_registration" {
+  source  = "Azure/avm-res-network-privatednszone/azurerm"
+  version = "0.2.1"
+
+  for_each = local.private_dns_zones_auto_registration
+
+  resource_group_name = each.value.resource_group_name
+  domain_name         = each.value.auto_registration_zone_name
+
+  virtual_network_links = { 
+    auto_registration = {
+      vnetlinkname     = "vnet-link-${each.key}-auto-registration"
+      vnetid           = each.value.vnet_resource_id
+      autoregistration = true
+      tags             = var.tags
+    }
+  }
+
+  tags = var.tags
+
+  enable_telemetry = var.enable_telemetry
+}
+
 module "ddos_protection_plan" {
   source  = "Azure/avm-res-network-ddosprotectionplan/azurerm"
   version = "0.2.0"

@@ -236,8 +236,10 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${dns_resource_group_name}"
       is_primary          = true
+      auto_registration_zone_enabled = true
+      auto_registration_zone_name    = "$${starter_location_01}.azure.local"
       networking = {
         virtual_network = {
           name                = "vnet-hub-dns-$${starter_location_01}"
@@ -277,8 +279,10 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${dns_resource_group_name}"
       is_primary          = false
+      auto_registration_zone_enabled = true
+      auto_registration_zone_name    = "$${starter_location_02}.azure.local"
       networking = {
         virtual_network = {
           name                = "vnet-hub-dns-$${starter_location_02}"

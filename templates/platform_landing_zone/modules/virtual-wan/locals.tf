@@ -52,6 +52,11 @@ locals {
     location = value.hub.location
   }, value.private_dns_zones) if can(value.private_dns_zones.resource_group_name) }
 
+  private_dns_zones_auto_registration = { for key, value in var.virtual_hubs : key => merge({
+    location = value.hub_virtual_network.location
+    vnet_resource_id = module.virtual_network_private_dns[key].resource_id
+  }, value.private_dns_zones) if can(value.private_dns_zones.resource_group_name) && value.private_dns_zones.auto_registration_zone_enabled }
+
   private_dns_zones_virtual_network_links = {
     for key, value in module.virtual_network_private_dns : key => {
       vnet_resource_id = value.resource_id

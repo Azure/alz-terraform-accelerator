@@ -24,6 +24,8 @@ variable "hub_virtual_networks" {
       private_link_private_dns_zones = optional(map(object({
         zone_name = optional(string, null)
       })))
+      auto_registration_zone_enabled = optional(bool, false)
+      auto_registration_zone_name    = optional(string, null)
     }))
   }))
   default     = {}
