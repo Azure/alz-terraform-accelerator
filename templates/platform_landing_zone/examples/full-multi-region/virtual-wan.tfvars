@@ -73,6 +73,15 @@ custom_replacements = {
 
 enable_telemetry = false
 
+/*
+--- Tags ---
+This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
+*/
+tags = {
+  deployed_by = "terraform"
+  source      = "Azure Landing Zones Accelerator"
+}
+
  /* 
 --- Management Resources ---
 You can use this section to customise the management resources that will be deployed.

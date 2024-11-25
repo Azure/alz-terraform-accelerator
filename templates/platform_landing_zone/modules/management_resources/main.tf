@@ -27,6 +27,6 @@ module "management_resources" {
   log_analytics_workspace_sku                                = try(var.management_resource_settings.log_analytics_workspace_sku, null)
   resource_group_creation_enabled                            = try(var.management_resource_settings.resource_group_creation_enabled, true)
   sentinel_onboarding                                        = try(var.management_resource_settings.sentinel_onboarding, null)
-  tags                                                       = try(var.management_resource_settings.tags, null)
+  tags                                                       = try(var.management_resource_settings.tags, var.tags)
   user_assigned_managed_identities                           = try(var.management_resource_settings.user_assigned_managed_identities, null)
 }
