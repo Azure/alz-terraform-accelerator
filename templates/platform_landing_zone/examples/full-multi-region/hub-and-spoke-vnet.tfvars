@@ -41,6 +41,22 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
+
+    # IP Ranges Primary
+    primary_hub_address_space = "10.0.0.0/16" # Routing Address Space for the Primary Region
+    primary_hub_virtual_network_address_space = "10.0.0.0/22"
+    primary_firewall_subnet_address_prefix = "10.0.0.0/26"
+    primary_bastion_subnet_address_prefix = "10.0.0.64/26"
+    primary_gateway_subnet_address_prefix = "10.0.0.96/27"
+    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.128/28"
+
+    # IP Ranges Secondary
+    secondary_hub_address_space = "10.1.0.0/16" # Routing Address Space for the Secondary Region
+    secondary_hub_virtual_network_address_space = "10.1.0.0/22"
+    secondary_firewall_subnet_address_prefix = "10.1.0.0/26"
+    secondary_bastion_subnet_address_prefix = "10.1.0.64/26"
+    secondary_gateway_subnet_address_prefix = "10.1.0.96/27"
+    secondary_private_dns_resolver_subnet_address_prefix = "10.1.0.128/28"    
   }
 
   /* 
@@ -215,26 +231,34 @@ hub_and_spoke_vnet_settings = {
 }
 
 hub_and_spoke_vnet_virtual_networks = {
-  # The address space for this region is 10.0.0.0/16
   primary = {
     hub_virtual_network = {
       name                            = "vnet-hub-$${starter_location_01}"
       resource_group_name             = "$${connectivity_hub_primary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_01}"
-      address_space                   = ["10.0.0.0/22"]
-      routing_address_space           = ["10.0.0.0/16"]
+      address_space                   = ["$${primary_hub_virtual_network_address_space}"]
+      routing_address_space           = ["$${primary_hub_address_space}"]
       mesh_peering                    = true
       ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
       subnets = {
+        bastion = {
+          name                         = "AzureBastionSubnet"
+          address_prefixes             = ["$${primary_bastion_subnet_address_prefix}"]
+          route_table = {
+            assign_generated_route_table = false
+          }
+        }
         virtual_network_gateway = {
           name                         = "GatewaySubnet"
-          address_prefixes             = ["10.0.0.64/27"]
-          assign_generated_route_table = false
+          address_prefixes             = ["$${primary_gateway_subnet_address_prefix}"]
+          route_table = {
+            assign_generated_route_table = false
+          }
         }
       }
       firewall = {
-        subnet_address_prefix = "10.0.0.0/26"
+        subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
         name                  = "fw-hub-$${starter_location_01}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
@@ -290,28 +314,48 @@ hub_and_spoke_vnet_virtual_networks = {
       is_primary          = true
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${starter_location_01}.azure.local"
+      networking = {
+        virtual_network = {
+          private_dns_resolver_subnet = {
+            name           = "subnet-hub-dns-$${starter_location_01}"
+            address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
+          }
+        }
+        private_dns_resolver = {
+          name                = "pdr-hub-dns-$${starter_location_01}"
+          resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+        }
+      }
     }
   }
   secondary = {
-    # The address space for this region is 10.1.0.0/16
     hub_virtual_network = {
       name                            = "vnet-hub-$${starter_location_02}"
       resource_group_name             = "$${connectivity_hub_secondary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_02}"
-      address_space                   = ["10.1.0.0/22"]
-      routing_address_space           = ["10.1.0.0/16"]
+      address_space                   = ["$${secondary_hub_virtual_network_address_space}"]
+      routing_address_space           = ["$${secondary_hub_address_space}"]
       mesh_peering                    = true
       ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
       subnets = {
+        bastion = {
+          name                         = "AzureBastionSubnet"
+          address_prefixes             = ["$${secondary_bastion_subnet_address_prefix}"]
+          route_table = {
+            assign_generated_route_table = false
+          }
+        }
         virtual_network_gateway = {
           name                         = "GatewaySubnet"
-          address_prefixes             = ["10.1.0.64/27"]
-          assign_generated_route_table = false
+          address_prefixes             = ["$${secondary_gateway_subnet_address_prefix}"]
+          route_table = {
+            assign_generated_route_table = false
+          }
         }
       }
       firewall = {
-        subnet_address_prefix = "10.1.0.0/26"
+        subnet_address_prefix = "$${secondary_firewall_subnet_address_prefix}"
         name                  = "fw-hub-$${starter_location_02}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
@@ -367,6 +411,18 @@ hub_and_spoke_vnet_virtual_networks = {
       is_primary          = false
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${starter_location_02}.azure.local"
+      networking = {
+        virtual_network = {
+          private_dns_resolver_subnet = {
+            name           = "subnet-hub-dns-$${starter_location_02}"
+            address_prefix = "$${secondary_private_dns_resolver_subnet_address_prefix}"
+          }
+        }
+        private_dns_resolver = {
+          name                = "pdr-hub-dns-$${starter_location_02}"
+          resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+        }
+      }
     }
   }
 }
