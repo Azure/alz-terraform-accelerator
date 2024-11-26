@@ -39,19 +39,19 @@ management_settings_es = {
         azurerm_resource_group = {
           dns = {
             ("$${starter_location_01}") = {
-              name = "rg-dns-$${starter_location_01}"
+              name = "$${connectivity_resource_group_dns}"
             }
           }
           ddos = {
             ("$${starter_location_01}") = {
-              name = "rg-ddos-$${starter_location_01}"
+              name = "$${connectivity_resource_group_ddos}"
             }
           }
         }
         azurerm_network_ddos_protection_plan = {
           ddos = {
             ("$${starter_location_01}") = {
-              name = "ddos-$${starter_location_01}"
+              name = "ddos-hub-$${starter_location_01}"
             }
           }
         }
@@ -110,11 +110,11 @@ connectivity_resource_groups = {
 
 virtual_wan_settings = {
   name                = "vwan-hub-$${starter_location_01}"
-  resource_group_name = "rg-vwan-$${starter_location_01}"
+  resource_group_name = "$${connectivity_resource_group_vwan}"
   location            = "$${starter_location_01}"
   ddos_protection_plan = {
     name                = "ddos-hub-$${starter_location_01}"
-    resource_group_name = "rg-hub-ddos-$${starter_location_01}"
+    resource_group_name = "$${connectivity_resource_group_ddos}"
     location            = "$${starter_location_01}"
   }
 }
@@ -123,7 +123,7 @@ virtual_wan_virtual_hubs = {
   primary = {
     hub = {
       name                = "vwan-hub-$${starter_location_01}"
-      resource_group_name = "rg-vwan-hub-$${starter_location_01}"
+      resource_group_name = "$${connectivity_resource_group_vnet_primary}"
       location            = "$${starter_location_01}"
       address_prefix      = "10.0.0.0/16"
     }
@@ -137,12 +137,12 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${connectivity_resource_group_dns}"
       is_primary          = true
       networking = {
         virtual_network = {
           name                = "vnet-hub-dns-$${starter_location_01}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_01}"
+          resource_group_name = "$${connectivity_resource_group_vnet_primary}"
           address_space       = "10.10.0.0/24"
           private_dns_resolver_subnet = {
             name           = "subnet-hub-dns-$${starter_location_01}"
@@ -151,7 +151,7 @@ virtual_wan_virtual_hubs = {
         }
         private_dns_resolver = {
           name                = "pdr-hub-dns-$${starter_location_01}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_01}"
+          resource_group_name = "$${connectivity_resource_group_vnet_primary}"
         }
       }
     }
@@ -159,7 +159,7 @@ virtual_wan_virtual_hubs = {
   secondary = {
     hub = {
       name                = "vwan-hub-$${starter_location_02}"
-      resource_group_name = "rg-vwan-hub-$${starter_location_02}"
+      resource_group_name = "$${connectivity_resource_group_vnet_secondary}"
       location            = "$${starter_location_02}"
       address_prefix      = "10.1.0.0/16"
     }
@@ -173,12 +173,12 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${connectivity_resource_group_dns}"
       is_primary          = false
       networking = {
         virtual_network = {
           name                = "vnet-hub-dns-$${starter_location_02}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_02}"
+          resource_group_name = "$${connectivity_resource_group_vnet_secondary}"
           address_space       = "10.11.0.0/24"
           private_dns_resolver_subnet = {
             name           = "subnet-hub-dns-$${starter_location_02}"
@@ -187,7 +187,7 @@ virtual_wan_virtual_hubs = {
         }
         private_dns_resolver = {
           name                = "pdr-hub-dns-$${starter_location_02}"
-          resource_group_name = "rg-vwan-hub-$${starter_location_02}"
+          resource_group_name = "$${connectivity_resource_group_vnet_secondary}"
         }
       }
     }
