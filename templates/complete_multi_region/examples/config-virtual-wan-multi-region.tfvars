@@ -10,7 +10,6 @@
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 
-management_use_avm = false
 management_settings_es = {
   default_location              = "$${starter_location_01}"
   root_parent_id                = "$${root_parent_management_group_id}"

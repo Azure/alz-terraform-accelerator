@@ -20,7 +20,7 @@ module "firewall_policy" {
 
 module "virtual_wan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
-  version = "0.5.0"
+  version = "0.5.1"
 
   allow_branch_to_branch_traffic        = try(var.virtual_wan_settings.allow_branch_to_branch_traffic, null)
   disable_vpn_encryption                = try(var.virtual_wan_settings.disable_vpn_encryption, false)
