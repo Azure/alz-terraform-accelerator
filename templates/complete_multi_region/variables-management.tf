@@ -1,11 +1,3 @@
-variable "management_settings_avm" {
-  type        = any
-  default     = {}
-  description = <<DESCRIPTION
-The settings for the management groups and management resources. Details of the settings will be added later.
-DESCRIPTION
-}
-
 variable "management_settings_es" {
   type        = any
   default     = {}
