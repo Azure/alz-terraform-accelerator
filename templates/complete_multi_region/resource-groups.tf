@@ -7,6 +7,7 @@ module "resource_groups" {
   name             = each.value.name
   location         = each.value.location
   enable_telemetry = var.enable_telemetry
+  tags             = var.tags
 
   providers = {
     azurerm = azurerm.connectivity

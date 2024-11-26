@@ -35,3 +35,9 @@ variable "skip_deploy" {
   default     = false
   description = "Flag to skip deployment. This is used for testing and documentation generation purposes."
 }
+
+variable "tags" {
+  type        = map(string)
+  default     = null
+  description = "(Optional) Tags of the resource."
+}

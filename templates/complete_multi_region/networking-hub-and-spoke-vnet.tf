@@ -13,7 +13,6 @@ module "hub_and_spoke_vnet" {
 
   depends_on = [
     module.management_es,
-    module.management_avm,
-    module.resource_groups
+    module.management_avm
   ]
 }
