@@ -15,10 +15,12 @@ variable "hub_and_spoke_vnet_virtual_networks" {
   type = map(object({
     hub_virtual_network = any
     virtual_network_gateways = optional(object({
-      express_route = optional(any)
-      vpn           = optional(any)
+      subnet_address_prefix = string
+      express_route         = optional(any)
+      vpn                   = optional(any)
     }))
     private_dns_zones = optional(any)
+    bastion           = optional(any)
   }))
   default     = {}
   description = <<DESCRIPTION

@@ -11,9 +11,4 @@ module "virtual_wan" {
   providers = {
     azurerm = azurerm.connectivity
   }
-
-  depends_on = [
-    module.resource_groups,
-    module.management_resources
-  ]
 }

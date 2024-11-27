@@ -14,9 +14,15 @@ DESCRIPTION
 variable "hub_virtual_networks" {
   type = map(object({
     hub_virtual_network = any
+    bastion = optional(object({
+      subnet_address_prefix = string
+      bastion_host          = any
+      bastion_public_ip     = any
+    }))
     virtual_network_gateways = optional(object({
-      express_route = optional(any)
-      vpn           = optional(any)
+      subnet_address_prefix = string
+      express_route         = optional(any)
+      vpn                   = optional(any)
     }))
     private_dns_zones = optional(object({
       resource_group_name = string
@@ -26,6 +32,13 @@ variable "hub_virtual_networks" {
       })))
       auto_registration_zone_enabled = optional(bool, false)
       auto_registration_zone_name    = optional(string, null)
+      subnet_address_prefix          = string
+      subnet_name                    = optional(string, "dns-resolver")
+      private_dns_resolver = object({
+        name                = string
+        resource_group_name = string
+        ip_address          = optional(string)
+      })
     }))
   }))
   default     = {}
@@ -35,6 +48,7 @@ A map of hub networks to create.
 The following attributes are supported:
 
   - hub_virtual_network: The hub virtual network settings. Detailed information about the hub virtual network can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-hubnetworking
+  - bastion: (Optional) The bastion host settings. Detailed information about the bastion can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-res-network-bastionhost/
   - virtual_network_gateways: (Optional) The virtual network gateway settings. Detailed information about the virtual network gateway can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-vnetgateway
   - private_dns_zones: (Optional) The private DNS zone settings. Detailed information about the private DNS zone can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-network-private-link-private-dns-zones
 

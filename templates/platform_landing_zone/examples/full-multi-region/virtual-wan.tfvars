@@ -82,7 +82,7 @@ tags = {
   source      = "Azure Landing Zones Accelerator"
 }
 
- /* 
+/* 
 --- Management Resources ---
 You can use this section to customise the management resources that will be deployed.
 */
@@ -109,7 +109,7 @@ management_resource_settings = {
   }
 }
 
- /* 
+/* 
 --- Management Groups and Policy ---
 You can use this section to customise the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
@@ -182,7 +182,7 @@ management_group_settings = {
   }
 }
 
- /* 
+/* 
 --- Virtual WAN ---
 You can use this section to customise the virtual wan networking that will be deployed.
 */
@@ -245,8 +245,8 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "$${dns_resource_group_name}"
-      is_primary          = true
+      resource_group_name            = "$${dns_resource_group_name}"
+      is_primary                     = true
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${starter_location_01}.azure.local"
       networking = {
@@ -263,6 +263,18 @@ virtual_wan_virtual_hubs = {
           name                = "pdr-hub-dns-$${starter_location_01}"
           resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
         }
+      }
+    }
+    bastion = {
+      bastion_host = {
+        name                = "bastion-hub-$${starter_location_01}"
+        location            = "$${starter_location_01}"
+        resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+      }
+      bastion_public_ip = {
+        name                = "pip-bastion-hub-$${starter_location_01}"
+        location            = "$${starter_location_01}"
+        resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
       }
     }
   }
@@ -288,8 +300,8 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "$${dns_resource_group_name}"
-      is_primary          = false
+      resource_group_name            = "$${dns_resource_group_name}"
+      is_primary                     = false
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${starter_location_02}.azure.local"
       networking = {
@@ -306,6 +318,18 @@ virtual_wan_virtual_hubs = {
           name                = "pdr-hub-dns-$${starter_location_02}"
           resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
         }
+      }
+    }
+    bastion = {
+      bastion_host = {
+        name                = "bastion-hub-$${starter_location_02}"
+        location            = "$${starter_location_02}"
+        resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+      }
+      bastion_public_ip = {
+        name                = "pip-bastion-hub-$${starter_location_02}"
+        location            = "$${starter_location_02}"
+        resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
       }
     }
   }

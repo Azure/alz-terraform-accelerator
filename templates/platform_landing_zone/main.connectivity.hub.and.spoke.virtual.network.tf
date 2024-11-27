@@ -11,9 +11,4 @@ module "hub_and_spoke_vnet" {
   providers = {
     azurerm = azurerm.connectivity
   }
-
-  depends_on = [
-    module.resource_groups,
-    module.management_resources
-  ]
 }

@@ -20,7 +20,7 @@ module "firewall_policy" {
 
 module "virtual_wan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
-  version = "0.5.0"
+  version = "0.5.1"
 
   allow_branch_to_branch_traffic        = try(var.virtual_wan_settings.allow_branch_to_branch_traffic, null)
   disable_vpn_encryption                = try(var.virtual_wan_settings.disable_vpn_encryption, false)
@@ -121,7 +121,7 @@ module "private_dns_zone_auto_registration" {
   resource_group_name = each.value.resource_group_name
   domain_name         = each.value.auto_registration_zone_name
 
-  virtual_network_links = { 
+  virtual_network_links = {
     auto_registration = {
       vnetlinkname     = "vnet-link-${each.key}-auto-registration"
       vnetid           = each.value.vnet_resource_id

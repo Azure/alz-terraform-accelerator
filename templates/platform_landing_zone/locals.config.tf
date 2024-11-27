@@ -79,6 +79,12 @@ locals {
   custom_resource_identifiers                = jsondecode(local.custom_resource_identifiers_json_final)
 }
 
+# Resource Group Names
 locals {
-  template_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
+  resource_group_name_replacements = { for key, value in module.resource_groups : "connectivity_resource_group_${key}" => value.name }
+}
+
+locals {
+  interim_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
+  final_replacements   = merge(local.interim_replacements, local.resource_group_name_replacements)
 }
