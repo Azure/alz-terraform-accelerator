@@ -47,34 +47,23 @@ module "virtual_wan" {
   enable_telemetry                      = var.enable_telemetry
 }
 
-module "virtual_network_private_dns" {
+module "virtual_network_side_car" {
   source  = "Azure/avm-res-network-virtualnetwork/azurerm"
   version = "0.7.1"
 
-  for_each = local.private_dns_zones
+  for_each = local.side_car_virtual_networks
 
-  address_space       = [each.value.networking.virtual_network.address_space]
+  address_space       = each.value.address_space
   location            = each.value.location
-  name                = each.value.networking.virtual_network.name
-  resource_group_name = each.value.networking.virtual_network.resource_group_name
+  name                = each.value.name
+  resource_group_name = each.value.resource_group_name
   enable_telemetry    = var.enable_telemetry
   tags                = var.tags
   ddos_protection_plan = local.ddos_protection_plan_enabled ? {
     id     = module.ddos_protection_plan[0].resource.id
     enable = true
-  } : null
-  subnets = {
-    dns = {
-      address_prefix = each.value.networking.virtual_network.private_dns_resolver_subnet.address_prefix
-      name           = each.value.networking.virtual_network.private_dns_resolver_subnet.name
-      delegation = [{
-        name = "Microsoft.Network.dnsResolvers"
-        service_delegation = {
-          name = "Microsoft.Network/dnsResolvers"
-        }
-      }]
-    }
-  }
+  } : try(each.value.ddos_protection_plan, null)
+  subnets = each.value.subnets
 }
 
 module "dns_resolver" {
@@ -92,7 +81,7 @@ module "dns_resolver" {
   inbound_endpoints = {
     dns = {
       name        = "dns"
-      subnet_name = module.virtual_network_private_dns[each.key].subnets.dns.name
+      subnet_name = module.virtual_network_side_car[each.key].subnets["dns_resolver"].name
     }
   }
 }
@@ -146,4 +135,59 @@ module "ddos_protection_plan" {
   location            = local.ddos_protection_plan.location
   enable_telemetry    = var.enable_telemetry
   tags                = var.tags
+}
+
+module "bastion_public_ip" {
+  source  = "Azure/avm-res-network-publicipaddress/azurerm"
+  version = "0.1.2"
+
+  for_each = local.bastion_host_public_ips
+
+  name                    = try(each.value.name, "pip-bastion-${each.key}")
+  resource_group_name     = each.value.resource_group_name
+  location                = each.value.location
+  allocation_method       = try(each.value.allocation_method, "Static")
+  ddos_protection_mode    = try(each.value.ddos_protection_mode, "VirtualNetworkInherited")
+  ddos_protection_plan_id = try(each.value.ddos_protection_plan_id, null)
+  diagnostic_settings     = try(each.value.diagnostic_settings, null)
+  domain_name_label       = try(each.value.domain_name_label, null)
+  edge_zone               = try(each.value.edge_zone, null)
+  enable_telemetry        = var.enable_telemetry
+  idle_timeout_in_minutes = try(each.value.idle_timeout_in_minutes, 4)
+  ip_tags                 = try(each.value.ip_tags, null)
+  ip_version              = try(each.value.ip_version, "IPv4")
+  lock                    = try(each.value.lock, null)
+  public_ip_prefix_id     = try(each.value.public_ip_prefix_id, null)
+  reverse_fqdn            = try(each.value.reverse_fqdn, null)
+  role_assignments        = try(each.value.role_assignments, {})
+  sku                     = try(each.value.sku, "Standard")
+  sku_tier                = try(each.value.sku_tier, "Regional")
+  tags                    = try(each.value.tags, var.tags)
+  zones                   = try(each.value.zones, [1, 2, 3])
+}
+
+module "bastion_host" {
+  source  = "Azure/avm-res-network-bastionhost/azurerm"
+  version = "0.3.1"
+
+  for_each = local.bastion_hosts
+
+  name                   = try(each.value.name, "snap-bastion-${each.key}")
+  resource_group_name    = each.value.resource_group_name
+  location               = each.value.location
+  copy_paste_enabled     = try(each.value.copy_paste_enabled, false)
+  diagnostic_settings    = try(each.value.diagnostic_settings, null)
+  enable_telemetry       = var.enable_telemetry
+  file_copy_enabled      = try(each.value.file_copy_enabled, false)
+  ip_configuration       = each.value.ip_configuration
+  ip_connect_enabled     = try(each.value.ip_connect_enabled, false)
+  kerberos_enabled       = try(each.value.kerberos_enabled, false)
+  lock                   = try(each.value.lock, null)
+  role_assignments       = try(each.value.role_assignments, {})
+  scale_units            = try(each.value.scale_units, 2)
+  shareable_link_enabled = try(each.value.shareable_link_enabled, false)
+  sku                    = try(each.value.sku, "Standard")
+  tags                   = try(each.value.tags, var.tags)
+  tunneling_enabled      = try(each.value.tunneling_enabled, false)
+  virtual_network_id     = try(each.value.virtual_network_id, null)
 }

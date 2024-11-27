@@ -18,7 +18,7 @@ locals {
       hub_network_key  = key
       address_prefixes = [value.bastion.subnet_address_prefix]
       name             = "AzureBastionSubnet"
-    } } if can(value.bastion)
+    } } if local.bastions_enabled[key]
   }
 
   gateway_subnets = { for key, value in var.hub_virtual_networks : key => {

@@ -317,6 +317,7 @@ hub_and_spoke_vnet_virtual_networks = {
         name                = "pip-bastion-hub-$${starter_location_01}"
         location            = "$${starter_location_01}"
         resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+        zones               = "$${starter_location_01_availability_zones}"
       }
     }
   }
@@ -406,6 +407,7 @@ hub_and_spoke_vnet_virtual_networks = {
         name                = "pip-bastion-hub-$${starter_location_02}"
         location            = "$${starter_location_02}"
         resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+        zones               = "$${starter_location_02_availability_zones}"
       }
     }
   }
