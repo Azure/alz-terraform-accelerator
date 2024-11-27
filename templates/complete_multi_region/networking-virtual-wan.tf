@@ -6,14 +6,9 @@ module "virtual_wan" {
   virtual_wan_settings = local.virtual_wan_settings
   virtual_hubs         = local.virtual_wan_virtual_hubs
   enable_telemetry     = var.enable_telemetry
+  tags                 = var.tags
 
   providers = {
     azurerm = azurerm.connectivity
   }
-
-  depends_on = [
-    module.management_es,
-    module.management_avm,
-    module.resource_groups
-  ]
 }

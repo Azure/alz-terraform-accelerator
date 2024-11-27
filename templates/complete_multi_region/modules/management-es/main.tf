@@ -1,6 +1,6 @@
 module "management_groups" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "6.1.0"
+  version = "6.2.0"
 
   disable_telemetry                                       = !var.enable_telemetry
   default_location                                        = var.settings.default_location

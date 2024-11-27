@@ -19,7 +19,6 @@ locals {
 YAML
 
   yaml_file_hub_and_spoke_vnet_es = yamlencode({
-    management_use_avm                  = var.management_use_avm
     management_settings_es              = var.management_settings_es
     connectivity_type                   = var.connectivity_type
     connectivity_resource_groups        = var.connectivity_resource_groups
@@ -28,7 +27,6 @@ YAML
   })
 
   yaml_file_virtual_wan_es = yamlencode({
-    management_use_avm           = var.management_use_avm
     management_settings_es       = var.management_settings_es
     connectivity_type            = var.connectivity_type
     connectivity_resource_groups = var.connectivity_resource_groups

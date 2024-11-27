@@ -45,4 +45,7 @@ locals {
     subscription_id_identity                                      = var.subscription_id_identity
     subscription_id_management                                    = var.subscription_id_management
   }
+
+  resource_group_names = { for key, value in module.resource_groups : "connectivity_resource_group_${key}" => value.name }
+  final_replacements   = merge(local.config_template_file_variables, local.resource_group_names)
 }

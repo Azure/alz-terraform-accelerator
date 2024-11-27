@@ -10,6 +10,11 @@
 # `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 # `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
 
+tags = {
+  source     = "Azure Landing Zones Accelerator"
+  deployment = "terraform"
+}
+
 management_use_avm = false
 management_settings_es = {
   default_location              = "$${starter_location_01}"
@@ -21,6 +26,9 @@ management_settings_es = {
   subscription_id_management    = "$${subscription_id_management}"
   deploy_connectivity_resources = false
   deploy_management_resources   = true
+  deploy_core_landing_zones     = true
+  deploy_corp_landing_zones     = true
+  deploy_online_landing_zones   = true
   configure_connectivity_resources = {
     settings = {
       dns = {
@@ -39,12 +47,12 @@ management_settings_es = {
         azurerm_resource_group = {
           dns = {
             ("$${starter_location_01}") = {
-              name = "rg-hub-dns-$${starter_location_01}"
+              name = "$${connectivity_resource_group_dns}"
             }
           }
           ddos = {
             ("$${starter_location_01}") = {
-              name = "rg-hub-ddos-$${starter_location_01}"
+              name = "$${connectivity_resource_group_ddos}"
             }
           }
         }
@@ -107,7 +115,7 @@ connectivity_resource_groups = {
 hub_and_spoke_vnet_settings = {
   ddos_protection_plan = {
     name                = "ddos-hub-$${starter_location_01}"
-    resource_group_name = "rg-hub-ddos-$${starter_location_01}"
+    resource_group_name = "$${connectivity_resource_group_ddos}"
     location            = "$${starter_location_01}"
   }
 }
@@ -115,8 +123,12 @@ hub_and_spoke_vnet_settings = {
 hub_and_spoke_vnet_virtual_networks = {
   primary = {
     hub_virtual_network = {
+      tags = {
+        source     = "Azure Landing Zones Accelerator"
+        deployment = "terraform"
+      }
       name                            = "vnet-hub-$${starter_location_01}"
-      resource_group_name             = "rg-hub-$${starter_location_01}"
+      resource_group_name             = "$${connectivity_resource_group_vnet_primary}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_01}"
       address_space                   = ["10.0.0.0/16"]
@@ -181,14 +193,18 @@ hub_and_spoke_vnet_virtual_networks = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${connectivity_resource_group_dns}"
       is_primary          = true
     }
   }
   secondary = {
     hub_virtual_network = {
+      tags = {
+        source     = "Azure Landing Zones Accelerator"
+        deployment = "terraform"
+      }
       name                            = "vnet-hub-$${starter_location_02}"
-      resource_group_name             = "rg-hub-$${starter_location_02}"
+      resource_group_name             = "$${connectivity_resource_group_vnet_secondary}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_02}"
       address_space                   = ["10.1.0.0/16"]
@@ -253,7 +269,7 @@ hub_and_spoke_vnet_virtual_networks = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "rg-hub-dns-$${starter_location_01}"
+      resource_group_name = "$${connectivity_resource_group_dns}"
       is_primary          = false
     }
   }
