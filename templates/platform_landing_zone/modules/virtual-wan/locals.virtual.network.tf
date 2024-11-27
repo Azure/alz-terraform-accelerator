@@ -8,6 +8,10 @@ locals {
     location            = value.hub.location
     resource_group_name = value.hub.resource_group_name
     subnets             = local.subnets[key]
+    ddos_protection_plan = local.ddos_protection_plan_enabled ? {
+      id     = module.ddos_protection_plan[0].resource.id
+      enable = true
+    } : try(value.ddos_protection_plan, null)
   }, value.side_car_virtual_network) if local.side_car_virtual_networks_enabled[key] }
 }
 
@@ -56,8 +60,8 @@ locals {
   virtual_network_connections_side_car = { for key, value in local.private_dns_zones : "private_dns_vnet_${key}" => {
     name                      = "private_dns_vnet_${key}"
     virtual_hub_key           = key
-    remote_virtual_network_id = module.virtual_network_private_dns[key].resource_id
-    } if side_car_virtual_networks_enabled[key]
+    remote_virtual_network_id = module.virtual_network_side_car[key].resource_id
+    } if local.side_car_virtual_networks_enabled[key]
   }
 
   virtual_network_connections = merge(local.virtual_network_connections_input, local.virtual_network_connections_side_car)

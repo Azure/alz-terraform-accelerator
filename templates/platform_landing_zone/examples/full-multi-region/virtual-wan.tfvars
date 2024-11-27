@@ -263,27 +263,21 @@ virtual_wan_virtual_hubs = {
       auto_registration_zone_name    = "$${starter_location_01}.azure.local"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name                = "pdr-hub-dns-$${starter_location_01}"
-        resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+        name = "pdr-hub-dns-$${starter_location_01}"
       }
     }
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name                = "bastion-hub-$${starter_location_02}"
-        location            = "$${starter_location_01}"
-        resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+        name = "bastion-hub-$${starter_location_02}"
       }
       bastion_public_ip = {
-        name                = "pip-bastion-hub-$${starter_location_02}"
-        location            = "$${starter_location_01}"
-        resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
+        name = "pip-bastion-hub-$${starter_location_02}"
       }
     }
     side_car_virtual_network = {
-      name                = "vnet-side-car-$${starter_location_02}"
-      resource_group_name = "$${connectivity_hub_primary_resource_group_name}"
-      address_space       = ["$${primary_side_car_virtual_network_address_space}"]
+      name          = "vnet-side-car-$${starter_location_02}"
+      address_space = ["$${primary_side_car_virtual_network_address_space}"]
     }
   }
   secondary = {
@@ -314,27 +308,21 @@ virtual_wan_virtual_hubs = {
       auto_registration_zone_name    = "$${starter_location_02}.azure.local"
       subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name                = "pdr-hub-dns-$${starter_location_02}"
-        resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+        name = "pdr-hub-dns-$${starter_location_02}"
       }
     }
     bastion = {
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name                = "bastion-hub-$${starter_location_02}"
-        location            = "$${starter_location_02}"
-        resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+        name = "bastion-hub-$${starter_location_02}"
       }
       bastion_public_ip = {
-        name                = "pip-bastion-hub-$${starter_location_02}"
-        location            = "$${starter_location_02}"
-        resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
+        name = "pip-bastion-hub-$${starter_location_02}"
       }
     }
     side_car_virtual_network = {
-      name                = "vnet-side-car-$${starter_location_02}"
-      resource_group_name = "$${connectivity_hub_secondary_resource_group_name}"
-      address_space       = ["$${secondary_side_car_virtual_network_address_space}"]
+      name          = "vnet-side-car-$${starter_location_02}"
+      address_space = ["$${secondary_side_car_virtual_network_address_space}"]
     }
   }
 }

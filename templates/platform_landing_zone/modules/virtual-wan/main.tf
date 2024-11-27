@@ -53,17 +53,14 @@ module "virtual_network_side_car" {
 
   for_each = local.side_car_virtual_networks
 
-  address_space       = each.value.address_space
-  location            = each.value.location
-  name                = each.value.name
-  resource_group_name = each.value.resource_group_name
-  enable_telemetry    = var.enable_telemetry
-  tags                = var.tags
-  ddos_protection_plan = local.ddos_protection_plan_enabled ? {
-    id     = module.ddos_protection_plan[0].resource.id
-    enable = true
-  } : try(each.value.ddos_protection_plan, null)
-  subnets = each.value.subnets
+  address_space        = each.value.address_space
+  location             = each.value.location
+  name                 = each.value.name
+  resource_group_name  = each.value.resource_group_name
+  enable_telemetry     = var.enable_telemetry
+  tags                 = var.tags
+  ddos_protection_plan = each.value.ddos_protection_plan
+  subnets              = each.value.subnets
 }
 
 module "dns_resolver" {
@@ -73,9 +70,9 @@ module "dns_resolver" {
   for_each = local.private_dns_zones
 
   location                    = each.value.location
-  name                        = each.value.networking.private_dns_resolver.name
-  resource_group_name         = each.value.networking.private_dns_resolver.resource_group_name
-  virtual_network_resource_id = module.virtual_network_private_dns[each.key].resource_id
+  name                        = each.value.private_dns_resolver.name
+  resource_group_name         = each.value.private_dns_resolver.resource_group_name == null ? each.value.resource_group_name : each.value.private_dns_resolver.resource_group_name
+  virtual_network_resource_id = module.virtual_network_side_car[each.key].resource_id
   enable_telemetry            = var.enable_telemetry
   tags                        = var.tags
   inbound_endpoints = {

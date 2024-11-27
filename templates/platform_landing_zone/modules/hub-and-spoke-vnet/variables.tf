@@ -36,7 +36,7 @@ variable "hub_virtual_networks" {
       subnet_name                    = optional(string, "dns-resolver")
       private_dns_resolver = object({
         name                = string
-        resource_group_name = string
+        resource_group_name = optional(string)
         ip_address          = optional(string)
       })
     }))

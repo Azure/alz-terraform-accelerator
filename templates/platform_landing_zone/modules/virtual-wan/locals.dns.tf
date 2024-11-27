@@ -9,11 +9,11 @@ locals {
 
   private_dns_zones_auto_registration = { for key, value in var.virtual_hubs : key => merge({
     location         = value.hub_virtual_network.location
-    vnet_resource_id = module.virtual_network_private_dns[key].resource_id
+    vnet_resource_id = module.virtual_network_side_car[key].resource_id
   }, value.private_dns_zones) if local.private_dns_zones_enabled[key] && value.private_dns_zones.auto_registration_zone_enabled }
 
   private_dns_zones_virtual_network_links = {
-    for key, value in module.virtual_network_private_dns : key => {
+    for key, value in module.virtual_network_side_car : key => {
       vnet_resource_id = value.resource_id
     }
   }
