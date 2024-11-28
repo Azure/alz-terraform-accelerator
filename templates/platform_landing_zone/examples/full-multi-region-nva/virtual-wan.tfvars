@@ -26,12 +26,13 @@ custom_replacements = {
   */
   names = {
     # Resource group names
-    management_resource_group_name               = "rg-management-$${starter_location_01}"
-    connectivity_hub_vwan_resource_group_name    = "rg-hub-vwan-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
-    dns_resource_group_name                      = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
-    asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
+    management_resource_group_name                 = "rg-management-$${starter_location_01}"
+    connectivity_hub_vwan_resource_group_name      = "rg-hub-vwan-$${starter_location_01}"
+    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
+    connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
+    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
+    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
@@ -47,7 +48,19 @@ custom_replacements = {
     primary_hub_address_space                          = "10.0.0.0/22"
     primary_side_car_virtual_network_address_space     = "10.0.4.0/22"
     primary_bastion_subnet_address_prefix              = "10.0.4.0/26"
-    primary_private_dns_resolver_subnet_address_prefix = "10.0.4.64/28"
+    primary_nva_subnet_address_prefix                  = "10.0.4.64/26"
+    primary_nva_ip_address                             = "10.0.4.68"
+    primary_private_dns_resolver_subnet_address_prefix = "10.0.4.128/28"
+
+
+    # IP Ranges Secondary
+    # Regional Address Space: 10.1.0.0/16
+    secondary_hub_address_space                          = "10.1.0.0/22"
+    secondary_side_car_virtual_network_address_space     = "10.1.4.0/22"
+    secondary_bastion_subnet_address_prefix              = "10.1.4.0/26"
+    secondary_nva_subnet_address_prefix                  = "10.1.4.64/26"
+    secondary_nva_ip_address                             = "10.1.4.68"
+    secondary_private_dns_resolver_subnet_address_prefix = "10.1.4.128/28"
   }
 
   /* 
@@ -207,6 +220,10 @@ connectivity_resource_groups = {
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
   }
+  vwan_hub_secondary = {
+    name     = "$${connectivity_hub_secondary_resource_group_name}"
+    location = "$${starter_location_02}"
+  }
   dns = {
     name     = "$${dns_resource_group_name}"
     location = "$${starter_location_01}"
@@ -237,15 +254,6 @@ virtual_wan_virtual_hubs = {
       location       = "$${starter_location_01}"
       address_prefix = "$${primary_hub_address_space}"
     }
-    firewall = {
-      name     = "fw-hub-$${starter_location_01}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_01_availability_zones}"
-      firewall_policy = {
-        name = "fwp-hub-$${starter_location_01}"
-      }
-    }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
@@ -269,6 +277,64 @@ virtual_wan_virtual_hubs = {
     side_car_virtual_network = {
       name          = "vnet-side-car-$${starter_location_01}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
+      subnets = {
+        nva = {
+          name           = "subnet-nva-$${starter_location_01}"
+          address_prefix = "$${primary_nva_subnet_address_prefix}"
+        }
+      }
+    }
+  }
+  secondary = {
+    hub = {
+      name = "vwan-hub-$${starter_location_02}"
+      /*
+      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
+      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
+      */
+      resource_group = "$${connectivity_hub_secondary_resource_group_name}"
+      location       = "$${starter_location_02}"
+      address_prefix = "$${secondary_hub_address_space}"
+    }
+    firewall = {
+      name     = "fw-hub-$${starter_location_02}"
+      sku_name = "AZFW_Hub"
+      sku_tier = "Standard"
+      zones    = "$${starter_location_02_availability_zones}"
+      firewall_policy = {
+        name = "fwp-hub-$${starter_location_02}"
+      }
+    }
+    private_dns_zones = {
+      resource_group_name            = "$${dns_resource_group_name}"
+      is_primary                     = false
+      auto_registration_zone_enabled = true
+      auto_registration_zone_name    = "$${starter_location_02}.azure.local"
+      subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
+      private_dns_resolver = {
+        name = "pdr-hub-dns-$${starter_location_02}"
+      }
+    }
+    bastion = {
+      subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
+      bastion_host = {
+        name = "bastion-hub-$${starter_location_02}"
+      }
+      bastion_public_ip = {
+        name  = "pip-bastion-hub-$${starter_location_02}"
+        zones = "$${starter_location_02_availability_zones}"
+      }
+    }
+    side_car_virtual_network = {
+      name          = "vnet-side-car-$${starter_location_02}"
+      address_space = ["$${secondary_side_car_virtual_network_address_space}"]
+      subnets = {
+        nva = {
+          name           = "subnet-nva-$${starter_location_02}"
+          address_prefix = "$${secondary_nva_subnet_address_prefix}"
+        }
+      }
     }
   }
 }

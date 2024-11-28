@@ -26,16 +26,11 @@ custom_replacements = {
   */
   names = {
     # Resource group names
-    management_resource_group_name                 = "rg-management-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
-    connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
-    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
-    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
+    management_resource_group_name = "rg-management-$${starter_location_01}"
+    asc_export_resource_group_name = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
-    ddos_protection_plan_name               = "ddos-hub-$${starter_location_01}"
     automation_account_name                 = "aa-management-$${starter_location_01}"
     ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
     dcr_change_tracking_name                = "dcr-change-tracking"
@@ -50,8 +45,7 @@ custom_replacements = {
   NOTE: You cannot refer to another custom resource group identifier in this variable.
   */
   resource_group_identifiers = {
-    management_resource_group_id           = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
-    ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    management_resource_group_id = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
   }
 
   /* 
@@ -66,11 +60,19 @@ custom_replacements = {
     ama_vm_insights_data_collection_rule_id     = "$${management_resource_group_id}/providers/Microsoft.Insights/dataCollectionRules/$${dcr_vm_insights_name}"
     ama_user_assigned_managed_identity_id       = "$${management_resource_group_id}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/$${ama_user_assigned_managed_identity_name}"
     log_analytics_workspace_id                  = "$${management_resource_group_id}/providers/Microsoft.OperationalInsights/workspaces/$${log_analytics_workspace_name}"
-    ddos_protection_plan_id                     = "$${ddos_protection_plan_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
   }
 }
 
 enable_telemetry = false
+
+/*
+--- Tags ---
+This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
+*/
+tags = {
+  deployed_by = "terraform"
+  source      = "Azure Landing Zones Accelerator"
+}
 
 /* 
 --- Management Resources ---
@@ -115,10 +117,6 @@ management_group_settings = {
     ama_user_assigned_managed_identity_id       = "$${ama_user_assigned_managed_identity_id}"
     ama_user_assigned_managed_identity_name     = "$${ama_user_assigned_managed_identity_name}"
     log_analytics_workspace_id                  = "$${log_analytics_workspace_id}"
-    ddos_protection_plan_id                     = "$${ddos_protection_plan_id}"
-    private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
-    private_dns_zone_region                     = "$${starter_location_01}"
-    private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
   }
   subscription_placement = {
     identity = {

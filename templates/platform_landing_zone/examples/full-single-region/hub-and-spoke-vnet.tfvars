@@ -26,12 +26,11 @@ custom_replacements = {
   */
   names = {
     # Resource group names
-    management_resource_group_name                 = "rg-management-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
-    connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
-    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
-    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
+    management_resource_group_name               = "rg-management-$${starter_location_01}"
+    connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
+    dns_resource_group_name                      = "rg-hub-dns-$${starter_location_01}"
+    ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
@@ -41,6 +40,15 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
+
+    # IP Ranges Primary
+    # Regional Address Space: 10.0.0.0/16
+    primary_hub_address_space                          = "10.0.0.0/16"
+    primary_hub_virtual_network_address_space          = "10.0.0.0/22"
+    primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
+    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
+    primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
+    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
   }
 
   /* 
@@ -71,6 +79,15 @@ custom_replacements = {
 }
 
 enable_telemetry = false
+
+/*
+--- Tags ---
+This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
+*/
+tags = {
+  deployed_by = "terraform"
+  source      = "Azure Landing Zones Accelerator"
+}
 
 /* 
 --- Management Resources ---
@@ -173,7 +190,7 @@ management_group_settings = {
 }
 
 /* 
---- Hub and Spoke Virtual Network ---
+--- Connectivity - Hub and Spoke Virtual Network ---
 You can use this section to customise the hub virtual networking that will be deployed.
 */
 connectivity_type = "hub_and_spoke_vnet"
@@ -208,17 +225,15 @@ hub_and_spoke_vnet_virtual_networks = {
       resource_group_name             = "$${connectivity_hub_primary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_01}"
-      address_space                   = ["10.0.0.0/16"]
+      address_space                   = ["$${primary_hub_virtual_network_address_space}"]
+      routing_address_space           = ["$${primary_hub_address_space}"]
+      route_table_name_firewall       = "rt-hub-fw-$${starter_location_01}"
+      route_table_name_user_subnets   = "rt-hub-std-$${starter_location_01}"
+      mesh_peering                    = true
       ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
-      subnets = {
-        virtual_network_gateway = {
-          name                         = "GatewaySubnet"
-          address_prefixes             = ["10.0.1.0/24"]
-          assign_generated_route_table = false
-        }
-      }
+      subnets                         = {}
       firewall = {
-        subnet_address_prefix = "10.0.0.0/24"
+        subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
         name                  = "fw-hub-$${starter_location_01}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
@@ -231,17 +246,14 @@ hub_and_spoke_vnet_virtual_networks = {
         }
         firewall_policy = {
           name = "fwp-hub-$${starter_location_01}"
-          dns = {
-            proxy_enabled = true
-          }
         }
       }
     }
     virtual_network_gateways = {
+      subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
         location = "$${starter_location_01}"
         name     = "vgw-hub-expressroute-$${starter_location_01}"
-        type     = "ExpressRoute"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
         ip_configurations = {
           default = {
@@ -256,7 +268,6 @@ hub_and_spoke_vnet_virtual_networks = {
       vpn = {
         location = "$${starter_location_01}"
         name     = "vgw-hub-vpn-$${starter_location_01}"
-        type     = "Vpn"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
         ip_configurations = {
           default = {
@@ -270,8 +281,24 @@ hub_and_spoke_vnet_virtual_networks = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "$${dns_resource_group_name}"
-      is_primary          = true
+      resource_group_name            = "$${dns_resource_group_name}"
+      is_primary                     = true
+      auto_registration_zone_enabled = true
+      auto_registration_zone_name    = "$${starter_location_01}.azure.local"
+      subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
+      private_dns_resolver = {
+        name = "pdr-hub-dns-$${starter_location_01}"
+      }
+    }
+    bastion = {
+      subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
+      bastion_host = {
+        name = "bastion-hub-$${starter_location_01}"
+      }
+      bastion_public_ip = {
+        name  = "pip-bastion-hub-$${starter_location_01}"
+        zones = "$${starter_location_01_availability_zones}"
+      }
     }
   }
 }

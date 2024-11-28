@@ -26,12 +26,12 @@ custom_replacements = {
   */
   names = {
     # Resource group names
-    management_resource_group_name               = "rg-management-$${starter_location_01}"
-    connectivity_hub_vwan_resource_group_name    = "rg-hub-vwan-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
-    dns_resource_group_name                      = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
-    asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
+    management_resource_group_name                 = "rg-management-$${starter_location_01}"
+    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
+    connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
+    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
+    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
@@ -44,10 +44,23 @@ custom_replacements = {
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space                          = "10.0.0.0/22"
-    primary_side_car_virtual_network_address_space     = "10.0.4.0/22"
-    primary_bastion_subnet_address_prefix              = "10.0.4.0/26"
-    primary_private_dns_resolver_subnet_address_prefix = "10.0.4.64/28"
+    primary_hub_address_space                          = "10.0.0.0/16"
+    primary_hub_virtual_network_address_space          = "10.0.0.0/22"
+    primary_nva_subnet_address_prefix                  = "10.0.0.0/26"
+    primary_nva_ip_address                             = "10.0.0.4"
+    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
+    primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
+    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
+
+    # IP Ranges Secondary
+    # Regional Address Space: 10.1.0.0/16
+    secondary_hub_address_space                          = "10.1.0.0/16"
+    secondary_hub_virtual_network_address_space          = "10.1.0.0/22"
+    secondary_nva_subnet_address_prefix                  = "10.1.0.0/26"
+    secondary_nva_ip_address                             = "10.1.0.4"
+    secondary_bastion_subnet_address_prefix              = "10.1.0.64/26"
+    secondary_gateway_subnet_address_prefix              = "10.1.0.128/27"
+    secondary_private_dns_resolver_subnet_address_prefix = "10.1.0.160/28"
   }
 
   /* 
@@ -189,23 +202,23 @@ management_group_settings = {
 }
 
 /* 
---- Connectivity - Virtual WAN ---
-You can use this section to customise the virtual wan networking that will be deployed.
+--- Connectivity - Hub and Spoke Virtual Network ---
+You can use this section to customise the hub virtual networking that will be deployed.
 */
-connectivity_type = "virtual_wan"
+connectivity_type = "hub_and_spoke_vnet"
 
 connectivity_resource_groups = {
   ddos = {
     name     = "$${ddos_resource_group_name}"
     location = "$${starter_location_01}"
   }
-  vwan = {
-    name     = "$${connectivity_hub_vwan_resource_group_name}"
-    location = "$${starter_location_01}"
-  }
-  vwan_hub_primary = {
+  vnet_primary = {
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
+  }
+  vnet_secondary = {
+    name     = "$${connectivity_hub_secondary_resource_group_name}"
+    location = "$${starter_location_02}"
   }
   dns = {
     name     = "$${dns_resource_group_name}"
@@ -213,10 +226,7 @@ connectivity_resource_groups = {
   }
 }
 
-virtual_wan_settings = {
-  name                = "vwan-$${starter_location_01}"
-  resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
-  location            = "$${starter_location_01}"
+hub_and_spoke_vnet_settings = {
   ddos_protection_plan = {
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
@@ -224,26 +234,56 @@ virtual_wan_settings = {
   }
 }
 
-virtual_wan_virtual_hubs = {
+hub_and_spoke_vnet_virtual_networks = {
   primary = {
-    hub = {
-      name = "vwan-hub-$${starter_location_01}"
-      /*
-      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
-      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
-      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
-      */
-      resource_group = "$${connectivity_hub_primary_resource_group_name}"
-      location       = "$${starter_location_01}"
-      address_prefix = "$${primary_hub_address_space}"
+    hub_virtual_network = {
+      name                            = "vnet-hub-$${starter_location_01}"
+      resource_group_name             = "$${connectivity_hub_primary_resource_group_name}"
+      resource_group_creation_enabled = false
+      location                        = "$${starter_location_01}"
+      address_space                   = ["$${primary_hub_virtual_network_address_space}"]
+      routing_address_space           = ["$${primary_hub_address_space}"]
+      route_table_name_firewall       = "rt-hub-fw-$${starter_location_01}"
+      route_table_name_user_subnets   = "rt-hub-std-$${starter_location_01}"
+      mesh_peering                    = true
+      ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+      hub_router_ip_address           = "$${primary_nva_ip_address}"
+      subnets = {
+        nva = {
+          name           = "subnet-nva-$${starter_location_01}"
+          address_prefix = "$${primary_nva_subnet_address_prefix}"
+        }
+      }
     }
-    firewall = {
-      name     = "fw-hub-$${starter_location_01}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_01_availability_zones}"
-      firewall_policy = {
-        name = "fwp-hub-$${starter_location_01}"
+    virtual_network_gateways = {
+      subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
+      express_route = {
+        location = "$${starter_location_01}"
+        name     = "vgw-hub-expressroute-$${starter_location_01}"
+        sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
+        ip_configurations = {
+          default = {
+            name = "ipconfig-vgw-hub-expressroute-$${starter_location_01}"
+            public_ip = {
+              name  = "pip-vgw-hub-expressroute-$${starter_location_01}"
+              zones = "$${starter_location_01_availability_zones}"
+            }
+          }
+        }
+      }
+      vpn = {
+        location = "$${starter_location_01}"
+        name     = "vgw-hub-vpn-$${starter_location_01}"
+        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        ip_configurations = {
+          default = {
+            name = "ipconfig-vgw-hub-vpn-$${starter_location_01}"
+            public_ip = {
+              name  = "pip-vgw-hub-vpn-$${starter_location_01}"
+              zones = "$${starter_location_01_availability_zones}"
+            }
+          }
+        }
       }
     }
     private_dns_zones = {
@@ -266,9 +306,77 @@ virtual_wan_virtual_hubs = {
         zones = "$${starter_location_01_availability_zones}"
       }
     }
-    side_car_virtual_network = {
-      name          = "vnet-side-car-$${starter_location_01}"
-      address_space = ["$${primary_side_car_virtual_network_address_space}"]
+  }
+  secondary = {
+    hub_virtual_network = {
+      name                            = "vnet-hub-$${starter_location_02}"
+      resource_group_name             = "$${connectivity_hub_secondary_resource_group_name}"
+      resource_group_creation_enabled = false
+      location                        = "$${starter_location_02}"
+      address_space                   = ["$${secondary_hub_virtual_network_address_space}"]
+      routing_address_space           = ["$${secondary_hub_address_space}"]
+      route_table_name_firewall       = "rt-hub-fw-$${starter_location_02}"
+      route_table_name_user_subnets   = "rt-hub-std-$${starter_location_02}"
+      mesh_peering                    = true
+      ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+      hub_router_ip_address           = "$${secondary_nva_ip_address}"
+      subnets = {
+        nva = {
+          name           = "subnet-nva-$${starter_location_02}"
+          address_prefix = "$${secondary_nva_subnet_address_prefix}"
+        }
+      }
+    }
+    virtual_network_gateways = {
+      subnet_address_prefix = "$${secondary_gateway_subnet_address_prefix}"
+      express_route = {
+        location = "$${starter_location_02}"
+        name     = "vgw-hub-expressroute-$${starter_location_02}"
+        sku      = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
+        ip_configurations = {
+          default = {
+            name = "ipconfig-vgw-hub-expressroute-$${starter_location_02}"
+            public_ip = {
+              name  = "pip-vgw-hub-expressroute-$${starter_location_02}"
+              zones = "$${starter_location_02_availability_zones}"
+            }
+          }
+        }
+      }
+      vpn = {
+        location = "$${starter_location_02}"
+        name     = "vgw-hub-vpn-$${starter_location_02}"
+        sku      = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
+        ip_configurations = {
+          default = {
+            name = "ipconfig-vgw-hub-vpn-$${starter_location_02}"
+            public_ip = {
+              name  = "pip-vgw-hub-vpn-$${starter_location_02}"
+              zones = "$${starter_location_02_availability_zones}"
+            }
+          }
+        }
+      }
+    }
+    private_dns_zones = {
+      resource_group_name            = "$${dns_resource_group_name}"
+      is_primary                     = false
+      auto_registration_zone_enabled = true
+      auto_registration_zone_name    = "$${starter_location_02}.azure.local"
+      subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
+      private_dns_resolver = {
+        name = "pdr-hub-dns-$${starter_location_02}"
+      }
+    }
+    bastion = {
+      subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
+      bastion_host = {
+        name = "bastion-hub-$${starter_location_02}"
+      }
+      bastion_public_ip = {
+        name  = "pip-bastion-hub-$${starter_location_02}"
+        zones = "$${starter_location_02_availability_zones}"
+      }
     }
   }
 }

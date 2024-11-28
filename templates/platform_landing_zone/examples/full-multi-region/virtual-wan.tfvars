@@ -274,7 +274,7 @@ virtual_wan_virtual_hubs = {
         name = "bastion-hub-$${starter_location_01}"
       }
       bastion_public_ip = {
-        name = "pip-bastion-hub-$${starter_location_01}"
+        name  = "pip-bastion-hub-$${starter_location_01}"
         zones = "$${starter_location_01_availability_zones}"
       }
     }
@@ -320,7 +320,7 @@ virtual_wan_virtual_hubs = {
         name = "bastion-hub-$${starter_location_02}"
       }
       bastion_public_ip = {
-        name = "pip-bastion-hub-$${starter_location_02}"
+        name  = "pip-bastion-hub-$${starter_location_02}"
         zones = "$${starter_location_02_availability_zones}"
       }
     }
