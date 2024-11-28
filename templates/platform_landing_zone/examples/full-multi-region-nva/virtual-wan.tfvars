@@ -279,7 +279,7 @@ virtual_wan_virtual_hubs = {
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
       subnets = {
         nva = {
-          name           = "subnet-nva-$${starter_location_01}"
+          name             = "subnet-nva-$${starter_location_01}"
           address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
@@ -322,7 +322,7 @@ virtual_wan_virtual_hubs = {
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
       subnets = {
         nva = {
-          name           = "subnet-nva-$${starter_location_02}"
+          name             = "subnet-nva-$${starter_location_02}"
           address_prefixes = ["$${secondary_nva_subnet_address_prefix}"]
         }
       }

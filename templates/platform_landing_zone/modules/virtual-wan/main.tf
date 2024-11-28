@@ -60,7 +60,7 @@ module "virtual_network_side_car" {
   enable_telemetry     = var.enable_telemetry
   tags                 = var.tags
   ddos_protection_plan = each.value.ddos_protection_plan
-  subnets              = each.value.subnets
+  subnets              = local.subnets[each.key]
 }
 
 module "dns_resolver" {

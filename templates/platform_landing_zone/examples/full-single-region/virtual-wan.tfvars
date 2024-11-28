@@ -242,9 +242,9 @@ virtual_wan_virtual_hubs = {
       sku_name = "AZFW_Hub"
       sku_tier = "Standard"
       zones    = "$${starter_location_01_availability_zones}"
-      firewall_policy = {
-        name = "fwp-hub-$${starter_location_01}"
-      }
+    }
+    firewall_policy = {
+      name = "fwp-hub-$${starter_location_01}"
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"

@@ -17,6 +17,7 @@ variable "virtual_wan_virtual_hubs" {
   type = map(object({
     hub                      = any
     firewall                 = optional(any)
+    firewall_policy          = optional(any)
     private_dns_zones        = optional(any)
     bastion                  = optional(any)
     side_car_virtual_network = optional(any)

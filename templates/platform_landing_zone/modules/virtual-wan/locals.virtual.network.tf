@@ -7,7 +7,6 @@ locals {
     name                = "vnet-side-car-${key}"
     location            = value.hub.location
     resource_group_name = value.hub.resource_group
-    subnets             = local.subnets[key]
     ddos_protection_plan = local.ddos_protection_plan_enabled ? {
       id     = module.ddos_protection_plan[0].resource.id
       enable = true

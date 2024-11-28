@@ -250,7 +250,7 @@ hub_and_spoke_vnet_virtual_networks = {
       hub_router_ip_address           = "$${primary_nva_ip_address}"
       subnets = {
         nva = {
-          name           = "subnet-nva-$${starter_location_01}"
+          name             = "subnet-nva-$${starter_location_01}"
           address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
@@ -322,7 +322,7 @@ hub_and_spoke_vnet_virtual_networks = {
       hub_router_ip_address           = "$${secondary_nva_ip_address}"
       subnets = {
         nva = {
-          name           = "subnet-nva-$${starter_location_02}"
+          name             = "subnet-nva-$${starter_location_02}"
           address_prefixes = ["$${secondary_nva_subnet_address_prefix}"]
         }
       }
