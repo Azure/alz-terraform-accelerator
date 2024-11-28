@@ -195,7 +195,7 @@ management_group_settings = {
 }
 
 /* 
---- Virtual WAN ---
+--- Connectivity - Virtual WAN ---
 You can use this section to customise the virtual wan networking that will be deployed.
 */
 connectivity_type = "virtual_wan"

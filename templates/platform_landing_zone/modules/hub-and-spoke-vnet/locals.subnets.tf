@@ -7,7 +7,7 @@ locals {
       route_table = {
         assign_generated_route_table = false
       }
-      delegation = [{
+      delegations = [{
         name = "Microsoft.Network.dnsResolvers"
         service_delegation = {
           name = "Microsoft.Network/dnsResolvers"
