@@ -2,7 +2,7 @@ locals {
   hub_virtual_networks = {
     for key, value in var.hub_virtual_networks : key => merge(value.hub_virtual_network, {
       ddos_protection_plan_id = local.ddos_protection_plan_enabled ? module.ddos_protection_plan[0].resource.id : try(value.hub_virtual_network.ddos_protection_plan_id, null)
-      firewall = merge(value.hub_virtual_network.firewall, {
+      firewall = try(value.hub_virtual_network.firewall, null) == null ? null : merge(value.hub_virtual_network.firewall, {
         firewall_policy = merge(value.hub_virtual_network.firewall.firewall_policy, {
           dns = merge({
             proxy_enabled = can(value.private_dns_zones.resource_group_name) && can(value.hub_virtual_network.firewall) ? true : try(value.hub_virtual_network.firewall.firewall_policy.dns.proxy_enabled, false)

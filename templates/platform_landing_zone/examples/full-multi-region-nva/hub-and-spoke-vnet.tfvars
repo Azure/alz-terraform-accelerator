@@ -251,7 +251,7 @@ hub_and_spoke_vnet_virtual_networks = {
       subnets = {
         nva = {
           name           = "subnet-nva-$${starter_location_01}"
-          address_prefix = "$${primary_nva_subnet_address_prefix}"
+          address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
     }
@@ -323,7 +323,7 @@ hub_and_spoke_vnet_virtual_networks = {
       subnets = {
         nva = {
           name           = "subnet-nva-$${starter_location_02}"
-          address_prefix = "$${secondary_nva_subnet_address_prefix}"
+          address_prefixes = ["$${secondary_nva_subnet_address_prefix}"]
         }
       }
     }

@@ -280,7 +280,7 @@ virtual_wan_virtual_hubs = {
       subnets = {
         nva = {
           name           = "subnet-nva-$${starter_location_01}"
-          address_prefix = "$${primary_nva_subnet_address_prefix}"
+          address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
     }
@@ -296,15 +296,6 @@ virtual_wan_virtual_hubs = {
       resource_group = "$${connectivity_hub_secondary_resource_group_name}"
       location       = "$${starter_location_02}"
       address_prefix = "$${secondary_hub_address_space}"
-    }
-    firewall = {
-      name     = "fw-hub-$${starter_location_02}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_02_availability_zones}"
-      firewall_policy = {
-        name = "fwp-hub-$${starter_location_02}"
-      }
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
@@ -332,7 +323,7 @@ virtual_wan_virtual_hubs = {
       subnets = {
         nva = {
           name           = "subnet-nva-$${starter_location_02}"
-          address_prefix = "$${secondary_nva_subnet_address_prefix}"
+          address_prefixes = ["$${secondary_nva_subnet_address_prefix}"]
         }
       }
     }
