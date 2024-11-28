@@ -44,16 +44,18 @@ custom_replacements = {
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
     # IP Ranges Primary
-    primary_hub_address_space                          = "10.0.0.0/16" # Routing Address Space for the Primary Region
-    primary_side_car_virtual_network_address_space     = "10.1.0.0/22"
-    primary_bastion_subnet_address_prefix              = "10.1.0.0/26"
-    primary_private_dns_resolver_subnet_address_prefix = "10.1.0.64/28"
+    # Regional Address Space: 10.0.0.0/16
+    primary_hub_address_space                          = "10.0.0.0/22"
+    primary_side_car_virtual_network_address_space     = "10.0.4.0/22"
+    primary_bastion_subnet_address_prefix              = "10.0.4.0/26"
+    primary_private_dns_resolver_subnet_address_prefix = "10.0.4.64/28"
 
     # IP Ranges Secondary
-    secondary_hub_address_space                          = "10.2.0.0/16" # Routing Address Space for the Secondary Region
-    secondary_side_car_virtual_network_address_space     = "10.3.0.0/22"
-    secondary_bastion_subnet_address_prefix              = "10.3.0.0/26"
-    secondary_private_dns_resolver_subnet_address_prefix = "10.3.0.64/28"
+    # Regional Address Space: 10.1.0.0/16
+    secondary_hub_address_space                          = "10.1.0.0/22"
+    secondary_side_car_virtual_network_address_space     = "10.1.4.0/22"
+    secondary_bastion_subnet_address_prefix              = "10.1.4.0/26"
+    secondary_private_dns_resolver_subnet_address_prefix = "10.1.4.64/28"
   }
 
   /* 
@@ -258,7 +260,7 @@ virtual_wan_virtual_hubs = {
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
-      is_primary                     = false
+      is_primary                     = true
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${starter_location_01}.azure.local"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
@@ -269,14 +271,15 @@ virtual_wan_virtual_hubs = {
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "bastion-hub-$${starter_location_02}"
+        name = "bastion-hub-$${starter_location_01}"
       }
       bastion_public_ip = {
-        name = "pip-bastion-hub-$${starter_location_02}"
+        name = "pip-bastion-hub-$${starter_location_01}"
+        zones = "$${starter_location_01_availability_zones}"
       }
     }
     side_car_virtual_network = {
-      name          = "vnet-side-car-$${starter_location_02}"
+      name          = "vnet-side-car-$${starter_location_01}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
     }
   }
@@ -318,6 +321,7 @@ virtual_wan_virtual_hubs = {
       }
       bastion_public_ip = {
         name = "pip-bastion-hub-$${starter_location_02}"
+        zones = "$${starter_location_02_availability_zones}"
       }
     }
     side_car_virtual_network = {

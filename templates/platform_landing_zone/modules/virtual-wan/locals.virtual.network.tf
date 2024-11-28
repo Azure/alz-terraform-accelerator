@@ -6,7 +6,7 @@ locals {
   side_car_virtual_networks = { for key, value in var.virtual_hubs : key => merge({
     name                = "vnet-side-car-${key}"
     location            = value.hub.location
-    resource_group_name = value.hub.resource_group_name
+    resource_group_name = value.hub.resource_group
     subnets             = local.subnets[key]
     ddos_protection_plan = local.ddos_protection_plan_enabled ? {
       id     = module.ddos_protection_plan[0].resource.id

@@ -43,7 +43,8 @@ custom_replacements = {
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
     # IP Ranges Primary
-    primary_hub_address_space                          = "10.0.0.0/16" # Routing Address Space for the Primary Region
+    # Regional Address Space: 10.0.0.0/16
+    primary_hub_address_space                          = "10.0.0.0/16"
     primary_hub_virtual_network_address_space          = "10.0.0.0/22"
     primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
     primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
@@ -51,7 +52,8 @@ custom_replacements = {
     primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
 
     # IP Ranges Secondary
-    secondary_hub_address_space                          = "10.1.0.0/16" # Routing Address Space for the Secondary Region
+    # Regional Address Space: 10.1.0.0/16
+    secondary_hub_address_space                          = "10.1.0.0/16"
     secondary_hub_virtual_network_address_space          = "10.1.0.0/22"
     secondary_firewall_subnet_address_prefix             = "10.1.0.0/26"
     secondary_bastion_subnet_address_prefix              = "10.1.0.64/26"

@@ -8,7 +8,7 @@ locals {
   }, value.private_dns_zones) if local.private_dns_zones_enabled[key] }
 
   private_dns_zones_auto_registration = { for key, value in var.virtual_hubs : key => merge({
-    location         = value.hub_virtual_network.location
+    location         = value.hub.location
     vnet_resource_id = module.virtual_network_side_car[key].resource_id
   }, value.private_dns_zones) if local.private_dns_zones_enabled[key] && value.private_dns_zones.auto_registration_zone_enabled }
 

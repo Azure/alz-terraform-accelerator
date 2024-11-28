@@ -71,7 +71,7 @@ module "dns_resolver" {
 
   location                    = each.value.location
   name                        = each.value.private_dns_resolver.name
-  resource_group_name         = each.value.private_dns_resolver.resource_group_name == null ? each.value.resource_group_name : each.value.private_dns_resolver.resource_group_name
+  resource_group_name         = each.value.private_dns_resolver.resource_group_name == null ? local.virtual_hubs[each.key].resource_group : each.value.private_dns_resolver.resource_group_name
   virtual_network_resource_id = module.virtual_network_side_car[each.key].resource_id
   enable_telemetry            = var.enable_telemetry
   tags                        = var.tags
