@@ -43,9 +43,3 @@ If it is set to false, then no telemetry will be collected.
 DESCRIPTION
   nullable    = false
 }
-
-variable "tags" {
-  type        = map(string)
-  default     = null
-  description = "(Optional) Tags of the resource."
-}

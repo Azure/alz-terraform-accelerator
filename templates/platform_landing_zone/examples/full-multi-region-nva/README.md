@@ -18,7 +18,7 @@ There are two options for deploying the hub networking:
 
 ## Limitations
 
-The vWAN module does not currently support routes, we'll need to add that per this issue: https://github.com/Azure/terraform-azurerm-avm-ptn-virtualwan/issues/119
+The vWAN module does not currently support routes, we'll need to add that per this issue: <https://github.com/Azure/terraform-azurerm-avm-ptn-virtualwan/issues/119>
 
 ## Documentation
 

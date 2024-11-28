@@ -16,5 +16,4 @@ module "management_groups" {
   enable_telemetry          = var.enable_telemetry
   management_group_settings = local.management_group_settings
   dependencies              = local.management_group_dependencies
-  tags                      = var.tags
 }
