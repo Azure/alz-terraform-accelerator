@@ -1,0 +1,104 @@
+---
+name: End to End Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: ['opened', 'reopened', 'synchronize', 'labeled']
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: 'Whether to run the apply and destroy steps'
+        default: false
+        type: boolean
+  schedule:
+    - cron: '0 9 * * 1'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  define-matrix:
+    name: Define Matrix
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Generate Matrix
+        id: matrix
+        run: |
+          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}"
+          $matrixJson = ConvertTo-Json $matrix -Depth 10 -Compress
+          Write-Host (ConvertTo-Json $matrix -Depth 10)
+          Write-Output "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
+        shell: pwsh
+
+  e2e-test:
+    needs: define-matrix
+    name: "${{ matrix.name }} (${{ matrix.ShortName }})"
+    environment: ${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
+    if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
+
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
+        with:
+          terraform_version: 1.9.7
+          terraform_wrapper: false
+
+      - name: Setup Module Inputs
+        run: |
+          $tfvarsFile = @"
+          starter_locations            = ["uksouth", "ukwest"]
+          subscription_id_connectivity = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          subscription_id_identity     = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          subscription_id_management   = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          "@
+
+          $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
+        shell: pwsh
+
+      - name: Run Plan
+        run: |
+          terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
+          terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
+        env:
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_USE_OIDC: true
+
+      - name: Plan Summary
+        if: always()
+        run: |
+          terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
+          $planJson = Get-Content -Raw tfplan.json
+          $planObject = ConvertFrom-Json $planJson -Depth 100
+
+          $items = @{}
+          foreach($change in $planObject.resource_changes) {
+            $key = [System.String]::Join("-", $change.change.actions)
+            if(!$items.ContainsKey($key)) {
+              $items[$key] = 0
+            }
+            $items[$key]++
+          }
+
+          Write-Host "Plan Summary"
+          Write-Host (ConvertTo-Json $items -Depth 10)
+        shell: pwsh
