@@ -1,5 +1,5 @@
 locals {
-  private_dns_zones_enabled = { for key, value in var.virtual_hubs : key => can(value.private_dns_zones) }
+  private_dns_zones_enabled = { for key, value in var.virtual_hubs : key => try(value.private_dns_zones, null) != null }
 }
 
 locals {

@@ -35,7 +35,7 @@ locals {
       route_table = {
         assign_generated_route_table = false
       }
-    } } if can(value.virtual_network_gateways.express_route) || can(value.virtual_network_gateways.vpn)
+    } } if try(value.virtual_network_gateways, null) != null && (can(value.virtual_network_gateways.express_route) || can(value.virtual_network_gateways.vpn))
   }
 
   subnets = { for key, value in var.hub_virtual_networks : key => merge(local.private_dns_resolver_subnets[key], local.bastion_subnets[key], local.gateway_subnets[key]) }

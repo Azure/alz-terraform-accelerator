@@ -1,5 +1,5 @@
 locals {
-  bastions_enabled = { for key, value in var.virtual_hubs : key => can(value.bastion) }
+  bastions_enabled = { for key, value in var.virtual_hubs : key => try(value.bastion, null) != null }
 }
 
 locals {
