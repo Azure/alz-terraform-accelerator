@@ -2,8 +2,8 @@
     "starter_modules": {
         "platform_landing_zone": {
             "location": "platform_landing_zone",
-            "short_name": "Preview (Do Not Use for Production) - Azure Verified Modules for ALZ Platform Landing Zone",
-            "description": "Preview (Do Not Use for Production) - Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
+            "short_name": "Preview - Azure Verified Modules for ALZ Platform Landing Zone",
+            "description": "Preview - Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
         },
         "complete_multi_region": {
             "location": "complete_multi_region",
