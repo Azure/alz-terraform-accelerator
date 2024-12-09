@@ -35,7 +35,7 @@ module "management_groups" {
   resource_custom_timeouts                                = try(var.settings.resource_custom_timeouts, {})
   root_id                                                 = try(var.settings.root_id, "alz")
   root_name                                               = try(var.settings.root_name, "Azure-Landing-Zones")
-  strict_subscription_association                         = try(var.settings.strict_subscription_association, true)
+  strict_subscription_association                         = try(var.settings.strict_subscription_association, false)
   subscription_id_connectivity                            = var.settings.subscription_id_connectivity
   subscription_id_identity                                = var.settings.subscription_id_identity
   subscription_id_management                              = var.settings.subscription_id_management
@@ -48,3 +48,4 @@ module "management_groups" {
     azurerm.management   = azurerm.management
   }
 }
+
