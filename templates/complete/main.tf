@@ -37,7 +37,7 @@ module "enterprise_scale" {
   resource_custom_timeouts                                = try(local.archetypes.resource_custom_timeouts, {})
   root_id                                                 = try(local.archetypes.root_id, "es")
   root_name                                               = try(local.archetypes.root_name, "Enterprise-Scale")
-  strict_subscription_association                         = try(local.archetypes.strict_subscription_association, true)
+  strict_subscription_association                         = try(local.archetypes.strict_subscription_association, false)
   subscription_id_connectivity                            = try(local.archetypes.subscription_id_connectivity, var.subscription_id_connectivity)
   subscription_id_identity                                = try(local.archetypes.subscription_id_identity, var.subscription_id_identity)
   subscription_id_management                              = try(local.archetypes.subscription_id_management, var.subscription_id_management)
