@@ -59,7 +59,7 @@ management_settings_es = {
         azurerm_network_ddos_protection_plan = {
           ddos = {
             ("$${starter_location_01}") = {
-              name = "ddos-hub-$${starter_location_01}"
+              name = "ddos-$${starter_location_01}"
             }
           }
         }
@@ -114,7 +114,7 @@ connectivity_resource_groups = {
 
 hub_and_spoke_vnet_settings = {
   ddos_protection_plan = {
-    name                = "ddos-hub-$${starter_location_01}"
+    name                = "ddos-$${starter_location_01}"
     resource_group_name = "$${connectivity_resource_group_ddos}"
     location            = "$${starter_location_01}"
   }
