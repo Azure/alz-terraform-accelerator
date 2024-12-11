@@ -327,18 +327,18 @@ locals {
 
 locals {
   default_policy_exemptions = {
-    "Confidential-Online-Location-Exemption" = {
-      name                            = "Confidential-Online-Location-Exemption"
-      display_name                    = "Confidential-Online-Location-Exemption"
+    "Confidential-Online-Global-Location-Exemption" = {
+      name                            = "Confidential-Online-Global-Location-Exemption"
+      display_name                    = "Confidential-Online-Global-Location-Exemption"
       description                     = "Exempt the confidential online management group from the SLZ Global location policies. The confidential management groups have their own location restrictions and this may result in a conflict if both sets are included."
       management_group_id             = local.confidential_online_management_group_id
       policy_assignment_id            = "${local.root_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-global"
       policy_definition_reference_ids = ["AllowedLocationsForResourceGroups", "AllowedLocations"]
       exemption_category              = "Waiver"
     }
-    "Confidential-Corp-Location-Exemption" = {
-      name                            = "Confidential-Corp-Location-Exemption"
-      display_name                    = "Confidential-Corp-Location-Exemption"
+    "Confidential-Corp-Global-Location-Exemption" = {
+      name                            = "Confidential-Corp-Global-Location-Exemption"
+      display_name                    = "Confidential-Corp-Global-Location-Exemption"
       description                     = "Exempt the confidential corp management group from the SLZ Global Policies location policies. The confidential management groups have their own location restrictions and this may result in a conflict if both sets are included."
       management_group_id             = local.confidential_corp_management_group_id
       policy_assignment_id            = "${local.root_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-global"
@@ -366,7 +366,7 @@ locals {
     policyEffect                             = jsonencode({ value = var.policy_effect })
     listOfAllowedLocations                   = jsonencode({ value = var.allowed_locations })
     allowedLocationsForConfidentialComputing = jsonencode({ value = var.allowed_locations_for_confidential_computing })
-    ddos_protection_plan_id                  = jsonencode({ value = "" })
+    ddos_protection_plan_id                  = jsonencode({ value = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/placeholder/providers/Microsoft.Network/ddosProtectionPlans/placeholder" })
     ddos_protection_plan_effect              = jsonencode({ value = var.deploy_ddos_protection ? "Audit" : "Disabled" })
     emailSecurityContact                     = jsonencode({ value = var.ms_defender_for_cloud_email_security_contact })
   }
