@@ -366,7 +366,7 @@ locals {
     policyEffect                             = jsonencode({ value = var.policy_effect })
     listOfAllowedLocations                   = jsonencode({ value = var.allowed_locations })
     allowedLocationsForConfidentialComputing = jsonencode({ value = var.allowed_locations_for_confidential_computing })
-    ddos_protection_plan_id                  = jsonencode({ value = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/placeholder/providers/Microsoft.Network/ddosProtectionPlans/placeholder" })
+    ddos_protection_plan_id                  = jsonencode({ value = "" })
     ddos_protection_plan_effect              = jsonencode({ value = var.deploy_ddos_protection ? "Audit" : "Disabled" })
     emailSecurityContact                     = jsonencode({ value = var.ms_defender_for_cloud_email_security_contact })
   }
