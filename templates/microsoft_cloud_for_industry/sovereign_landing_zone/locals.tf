@@ -27,6 +27,7 @@ locals {
   tenant_id                           = data.azurerm_client_config.current.tenant_id
   root_parent_management_group_id     = var.root_parent_management_group_id == "" ? local.tenant_id : var.root_parent_management_group_id
   management_group_resource_id_format = "/providers/Microsoft.Management/managementGroups/%s"
+  root_management_group_id            = format(local.management_group_resource_id_format, "${var.default_prefix}${var.default_postfix}")
   landingzones_management_group_id    = module.slz_management_groups.management_group_resource_ids["${var.default_prefix}-landingzones${var.default_postfix}"]
 
   management_management_group_id       = "${var.default_prefix}-platform-management${var.default_postfix}"
@@ -326,21 +327,21 @@ locals {
 
 locals {
   default_policy_exemptions = {
-    "Confidential-Online-Location-Exemption" = {
-      name                            = "Confidential-Online-Location-Exemption"
-      display_name                    = "Confidential-Online-Location-Exemption"
+    "Confidential-Online-Global-Location-Exemption" = {
+      name                            = "Confidential-Online-Global-Location-Exemption"
+      display_name                    = "Confidential-Online-Global-Location-Exemption"
       description                     = "Exempt the confidential online management group from the SLZ Global location policies. The confidential management groups have their own location restrictions and this may result in a conflict if both sets are included."
       management_group_id             = local.confidential_online_management_group_id
-      policy_assignment_id            = "${local.confidential_online_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-conf"
+      policy_assignment_id            = "${local.root_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-global"
       policy_definition_reference_ids = ["AllowedLocationsForResourceGroups", "AllowedLocations"]
       exemption_category              = "Waiver"
     }
-    "Confidential-Corp-Location-Exemption" = {
-      name                            = "Confidential-Corp-Location-Exemption"
-      display_name                    = "Confidential-Corp-Location-Exemption"
+    "Confidential-Corp-Global-Location-Exemption" = {
+      name                            = "Confidential-Corp-Global-Location-Exemption"
+      display_name                    = "Confidential-Corp-Global-Location-Exemption"
       description                     = "Exempt the confidential corp management group from the SLZ Global Policies location policies. The confidential management groups have their own location restrictions and this may result in a conflict if both sets are included."
       management_group_id             = local.confidential_corp_management_group_id
-      policy_assignment_id            = "${local.confidential_corp_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-conf"
+      policy_assignment_id            = "${local.root_management_group_id}/providers/microsoft.authorization/policyassignments/enforce-sovereign-global"
       policy_definition_reference_ids = ["AllowedLocationsForResourceGroups", "AllowedLocations"]
       exemption_category              = "Waiver"
     }
