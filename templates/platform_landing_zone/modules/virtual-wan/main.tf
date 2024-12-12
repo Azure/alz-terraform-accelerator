@@ -20,12 +20,12 @@ module "firewall_policy" {
 
 module "virtual_wan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
-  version = "0.5.1"
+  version = "0.5.3"
 
   allow_branch_to_branch_traffic        = try(var.virtual_wan_settings.allow_branch_to_branch_traffic, null)
   disable_vpn_encryption                = try(var.virtual_wan_settings.disable_vpn_encryption, false)
   er_circuit_connections                = try(var.virtual_wan_settings.er_circuit_connections, {})
-  expressroute_gateways                 = try(var.virtual_wan_settings.expressroute_gateways, {})
+  expressroute_gateways                 = local.virtual_network_gateways_express_route
   firewalls                             = local.firewalls
   office365_local_breakout_category     = try(var.virtual_wan_settings.office365_local_breakout_category, null)
   location                              = var.virtual_wan_settings.location
@@ -40,7 +40,7 @@ module "virtual_wan" {
   routing_intents                       = try(var.virtual_wan_settings.routing_intents, null)
   resource_group_tags                   = try(var.virtual_wan_settings.resource_group_tags, null)
   virtual_wan_tags                      = try(var.virtual_wan_settings.virtual_wan_tags, null)
-  vpn_gateways                          = try(var.virtual_wan_settings.vpn_gateways, {})
+  vpn_gateways                          = local.virtual_network_gateways_vpn
   vpn_site_connections                  = try(var.virtual_wan_settings.vpn_site_connections, {})
   vpn_sites                             = try(var.virtual_wan_settings.vpn_sites, null)
   tags                                  = try(var.virtual_wan_settings.tags, null)

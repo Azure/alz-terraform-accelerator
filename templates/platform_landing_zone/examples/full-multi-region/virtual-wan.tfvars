@@ -36,7 +36,7 @@ custom_replacements = {
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
-    ddos_protection_plan_name               = "ddos-hub-$${starter_location_01}"
+    ddos_protection_plan_name               = "ddos-$${starter_location_01}"
     automation_account_name                 = "aa-management-$${starter_location_01}"
     ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
     dcr_change_tracking_name                = "dcr-change-tracking"
@@ -258,6 +258,14 @@ virtual_wan_virtual_hubs = {
     firewall_policy = {
       name = "fwp-hub-$${starter_location_01}"
     }
+    virtual_network_gateways = {
+      express_route = {
+        name = "vgw-hub-expressroute-$${starter_location_01}"
+      }
+      vpn = {
+        name = "vgw-hub-vpn-$${starter_location_01}"
+      }
+    }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
@@ -303,6 +311,14 @@ virtual_wan_virtual_hubs = {
     }
     firewall_policy = {
       name = "fwp-hub-$${starter_location_02}"
+    }
+    virtual_network_gateways = {
+      express_route = {
+        name = "vgw-hub-expressroute-$${starter_location_02}"
+      }
+      vpn = {
+        name = "vgw-hub-vpn-$${starter_location_02}"
+      }
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
