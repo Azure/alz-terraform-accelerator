@@ -1,0 +1,82 @@
+---
+# Basic Inputs
+iac: "terraform"
+bootstrap: "alz_github"
+starter: "financial_services_landing_zone"
+
+# Shared Interface Inputs
+bootstrap_location: "<region-1>"
+starter_locations: ["<region-1>"]  # NOTE: FSI only support a single region by design
+root_parent_management_group_id: ""
+subscription_id_management: "<management-subscription-id>"
+subscription_id_identity: "<identity-subscription-id>"
+subscription_id_connectivity: "<connectivity-subscription-id>"
+
+# Bootstrap Inputs
+github_personal_access_token: "<token-1>"
+github_runners_personal_access_token: "<token-2>"
+github_organization_name: "<github-organization>"
+use_separate_repository_for_templates: true
+bootstrap_subscription_id: ""
+service_name: "fsi"
+environment_name: "mgmt"
+postfix_number: 1
+use_self_hosted_runners: true
+use_private_networking: true
+allow_storage_access_from_my_ip: false
+apply_approvers: ["<email-address>"]
+create_branch_policies: true
+architecture_definition_name: "fsi"
+apply_alz_archetypes_via_architecture_definition_template: true
+
+# Starter Module Specific Variables
+allowed_locations: []
+allowed_locations_for_confidential_computing: []
+az_firewall_policies_enabled: true
+bastion_outbound_ssh_rdp_ports: ["22", "3389"]
+custom_subnets: {
+  AzureBastionSubnet: {
+    address_prefixes: "10.20.15.0/24",
+    name: "AzureBastionSubnet",
+    networkSecurityGroupId: "",
+    routeTableId: ""
+  },
+  AzureFirewallSubnet: {
+    address_prefixes: "10.20.254.0/24",
+    name: "AzureFirewallSubnet",
+    networkSecurityGroupId: "",
+    routeTableId: ""
+  },
+  GatewaySubnet: {
+    address_prefixes: "10.20.252.0/24",
+    name: "GatewaySubnet",
+    networkSecurityGroupId: "",
+    routeTableId: ""
+  }
+}
+customer: "Country/Region"
+customer_policy_sets: {}
+default_postfix: ""
+default_prefix: "fsi"
+deploy_bastion: true
+deploy_ddos_protection: true
+deploy_hub_network: true
+deploy_log_analytics_workspace: true
+enable_firewall: true
+enable_telemetry: true
+express_route_gateway_config: {name: "noconfigEr"}
+hub_network_address_prefix: "10.20.0.0/16"
+landing_zone_management_group_children: {}
+log_analytics_workspace_retention_in_days: "365"
+ms_defender_for_cloud_email_security_contact: "security_contact@replaceme.com"
+policy_assignment_enforcement_mode: "Default"
+policy_effect: "Deny"
+policy_exemptions: {}
+subscription_billing_scope: ""
+tags: {}
+use_premium_firewall: true
+vpn_gateway_config: {name: "noconfigVpn"}
+
+# Advanced Inputs
+bootstrap_module_version: "v4.1.3"
+starter_module_version: "latest"

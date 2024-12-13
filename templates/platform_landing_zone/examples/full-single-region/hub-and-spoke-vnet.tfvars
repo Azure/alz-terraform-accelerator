@@ -186,6 +186,16 @@ management_group_settings = {
       }
     }
     */
+    /*
+    # Example of how to update a policy assignment enforcement mode for Private Link DNS Zones
+    corp = {
+      policy_assignments = {
+        Deploy-Private-DNS-Zones = {
+          enforcement_mode = "DoNotEnforce"
+        }
+      }
+    }
+    */
   }
 }
 
