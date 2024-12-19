@@ -13,4 +13,12 @@ locals {
       overrides               = try(policy_assignment_value.overrides, null)
     } }
   } }
+  default_retries = {
+    policy_definitions = {
+      error_message_regex = ["AuthorizationFailed"]
+    }
+    policy_set_definitions = {
+      error_message_regex = ["AuthorizationFailed"]
+    }
+  }
 }
