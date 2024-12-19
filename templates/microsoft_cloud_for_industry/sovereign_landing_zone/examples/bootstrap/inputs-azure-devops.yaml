@@ -85,5 +85,5 @@ use_premium_firewall: true
 vpn_gateway_config: {name: "noconfigVpn"}
 
 # Advanced Inputs
-bootstrap_module_version: "latest"
+bootstrap_module_version: "v4.1.2"
 starter_module_version: "latest"
