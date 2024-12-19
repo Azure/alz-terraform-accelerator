@@ -10,7 +10,7 @@ module "management_groups" {
   enable_telemetry                    = var.enable_telemetry
   management_group_hierarchy_settings = try(var.management_group_settings.management_group_hierarchy_settings, null)
   partner_id                          = try(var.management_group_settings.partner_id, null)
-  retries                             = try(var.management_group_settings.retries, {})
+  retries                             = try(var.management_group_settings.retries, local.default_retries)
   subscription_placement              = try(var.management_group_settings.subscription_placement, {})
   timeouts                            = try(var.management_group_settings.timeouts, {})
   dependencies                        = var.dependencies
