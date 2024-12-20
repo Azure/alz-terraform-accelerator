@@ -294,7 +294,7 @@ hub_and_spoke_vnet_virtual_networks = {
       }
       vpn = {
         location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_vpn_route_name}"
+        name     = "$${primary_virtual_network_gateway_vpn_route_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
         ip_configurations = {
           default = {
