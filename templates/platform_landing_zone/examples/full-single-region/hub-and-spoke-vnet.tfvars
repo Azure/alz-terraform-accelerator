@@ -32,7 +32,7 @@ custom_replacements = {
     ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
     asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
 
-    # Resource names
+    # Resource names management
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
     ddos_protection_plan_name               = "ddos-$${starter_location_01}"
     automation_account_name                 = "aa-management-$${starter_location_01}"
@@ -40,6 +40,24 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
+
+    # Resource names primary connectivity
+    primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
+    primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
+    primary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
+    primary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_01}"
+    primary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_01}"
+    primary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_01}"
+    primary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_01}"
+    primary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_01}"
+    primary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_01}"
+    primary_virtual_network_gateway_vpn_public_ip_name           = "pip-vgw-hub-vpn-$${starter_location_01}"
+    primary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_01}"
+    primary_bastion_host_name                                    = "btn-hub-$${starter_location_01}"
+    primary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_01}"
+
+    # Private DNS Zones primary
+    primary_auto_registration_zone_name = "$${starter_location_01}.azure.local"
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
@@ -91,7 +109,7 @@ tags = {
 
 /* 
 --- Management Resources ---
-You can use this section to customise the management resources that will be deployed.
+You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
   automation_account_name      = "$${automation_account_name}"
@@ -118,7 +136,7 @@ management_resource_settings = {
 
 /* 
 --- Management Groups and Policy ---
-You can use this section to customise the management groups and policies that will be deployed.
+You can use this section to customize the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
@@ -201,7 +219,7 @@ management_group_settings = {
 
 /* 
 --- Connectivity - Hub and Spoke Virtual Network ---
-You can use this section to customise the hub virtual networking that will be deployed.
+You can use this section to customize the hub virtual networking that will be deployed.
 */
 connectivity_type = "hub_and_spoke_vnet"
 
@@ -231,31 +249,31 @@ hub_and_spoke_vnet_settings = {
 hub_and_spoke_vnet_virtual_networks = {
   primary = {
     hub_virtual_network = {
-      name                            = "vnet-hub-$${starter_location_01}"
+      name                            = "$${primary_virtual_network_name}"
       resource_group_name             = "$${connectivity_hub_primary_resource_group_name}"
       resource_group_creation_enabled = false
       location                        = "$${starter_location_01}"
       address_space                   = ["$${primary_hub_virtual_network_address_space}"]
       routing_address_space           = ["$${primary_hub_address_space}"]
-      route_table_name_firewall       = "rt-hub-fw-$${starter_location_01}"
-      route_table_name_user_subnets   = "rt-hub-std-$${starter_location_01}"
+      route_table_name_firewall       = "$${primary_route_table_firewall_name}"
+      route_table_name_user_subnets   = "$${primary_route_table_user_subnets_name}"
       mesh_peering                    = true
-      ddos_protection_plan_id         = "$${management_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
+      ddos_protection_plan_id         = "$${ddos_protection_plan_id}"
       subnets                         = {}
       firewall = {
         subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
-        name                  = "fw-hub-$${starter_location_01}"
+        name                  = "$${primary_firewall_name}"
         sku_name              = "AZFW_VNet"
         sku_tier              = "Standard"
         zones                 = "$${starter_location_01_availability_zones}"
         default_ip_configuration = {
           public_ip_config = {
-            name  = "pip-fw-hub-$${starter_location_01}"
+            name  = "$${primary_firewall_public_ip_name}"
             zones = "$${starter_location_01_availability_zones}"
           }
         }
         firewall_policy = {
-          name = "fwp-hub-$${starter_location_01}"
+          name = "$${primary_firewall_policy_name}"
         }
       }
     }
@@ -263,13 +281,12 @@ hub_and_spoke_vnet_virtual_networks = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
         location = "$${starter_location_01}"
-        name     = "vgw-hub-expressroute-$${starter_location_01}"
+        name     = "$${primary_virtual_network_gateway_express_route_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
         ip_configurations = {
           default = {
-            name = "ipconfig-vgw-hub-expressroute-$${starter_location_01}"
             public_ip = {
-              name  = "pip-vgw-hub-expressroute-$${starter_location_01}"
+              name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
               zones = "$${starter_location_01_availability_zones}"
             }
           }
@@ -277,13 +294,12 @@ hub_and_spoke_vnet_virtual_networks = {
       }
       vpn = {
         location = "$${starter_location_01}"
-        name     = "vgw-hub-vpn-$${starter_location_01}"
+        name     = "$${primary_virtual_network_gateway_vpn_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
         ip_configurations = {
           default = {
-            name = "ipconfig-vgw-hub-vpn-$${starter_location_01}"
             public_ip = {
-              name  = "pip-vgw-hub-vpn-$${starter_location_01}"
+              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name}"
               zones = "$${starter_location_01_availability_zones}"
             }
           }
@@ -294,19 +310,19 @@ hub_and_spoke_vnet_virtual_networks = {
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
       auto_registration_zone_enabled = true
-      auto_registration_zone_name    = "$${starter_location_01}.azure.local"
+      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "pdr-hub-dns-$${starter_location_01}"
+        name = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "bastion-hub-$${starter_location_01}"
+        name = "$${primary_bastion_host_name}"
       }
       bastion_public_ip = {
-        name  = "pip-bastion-hub-$${starter_location_01}"
+        name  = "$${primary_bastion_host_public_ip_name}"
         zones = "$${starter_location_01_availability_zones}"
       }
     }
