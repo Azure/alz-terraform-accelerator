@@ -43,6 +43,32 @@ custom_replacements = {
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
+    # Resource names primary connectivity
+    primary_hub_name                                   = "vwan-hub-$${starter_location_01}"
+    primary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_01}"
+    primary_subnet_nva_name                            = "subnet-nva-$${starter_location_01}"
+    primary_virtual_network_gateway_express_route_name = "vgw-hub-er-$${starter_location_01}"
+    primary_virtual_network_gateway_vpn_name           = "vgw-hub-vpn-$${starter_location_01}"
+    primary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_01}"
+    primary_bastion_host_name                          = "btn-hub-$${starter_location_01}"
+    primary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_01}"
+
+    # Resource names secondary connectivity
+    secondary_hub_name                                   = "vwan-hub-$${starter_location_02}"
+    secondary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_02}"
+    secondary_subnet_nva_name                            = "subnet-nva-$${starter_location_02}"
+    secondary_virtual_network_gateway_express_route_name = "vgw-hub-er-$${starter_location_02}"
+    secondary_virtual_network_gateway_vpn_name           = "vgw-hub-vpn-$${starter_location_02}"
+    secondary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_02}"
+    secondary_bastion_host_name                          = "btn-hub-$${starter_location_02}"
+    secondary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_02}"
+
+    # Private DNS Zones primary
+    primary_auto_registration_zone_name = "$${starter_location_01}.azure.local"
+
+    # Private DNS Zones secondary
+    secondary_auto_registration_zone_name = "$${starter_location_02}.azure.local"
+
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
     primary_hub_address_space                          = "10.0.0.0/22"
@@ -103,7 +129,7 @@ tags = {
 
 /* 
 --- Management Resources ---
-You can use this section to customise the management resources that will be deployed.
+You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
   automation_account_name      = "$${automation_account_name}"
@@ -130,7 +156,7 @@ management_resource_settings = {
 
 /* 
 --- Management Groups and Policy ---
-You can use this section to customise the management groups and policies that will be deployed.
+You can use this section to customize the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
@@ -213,7 +239,7 @@ management_group_settings = {
 
 /* 
 --- Connectivity - Virtual WAN ---
-You can use this section to customise the virtual wan networking that will be deployed.
+You can use this section to customize the virtual wan networking that will be deployed.
 */
 connectivity_type = "virtual_wan"
 
@@ -254,7 +280,7 @@ virtual_wan_settings = {
 virtual_wan_virtual_hubs = {
   primary = {
     hub = {
-      name = "vwan-hub-$${starter_location_01}"
+      name = "$${primary_hub_name}"
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
@@ -266,38 +292,38 @@ virtual_wan_virtual_hubs = {
     }
     virtual_network_gateways = {
       express_route = {
-        name = "vgw-hub-expressroute-$${starter_location_01}"
+        name = "$${primary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        name = "vgw-hub-vpn-$${starter_location_01}"
+        name = "$${primary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
       auto_registration_zone_enabled = true
-      auto_registration_zone_name    = "$${starter_location_01}.azure.local"
+      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "pdr-hub-dns-$${starter_location_01}"
+        name = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "bastion-hub-$${starter_location_01}"
+        name = "$${primary_bastion_host_name}"
       }
       bastion_public_ip = {
-        name  = "pip-bastion-hub-$${starter_location_01}"
+        name  = "$${primary_bastion_host_public_ip_name}"
         zones = "$${starter_location_01_availability_zones}"
       }
     }
     side_car_virtual_network = {
-      name          = "vnet-side-car-$${starter_location_01}"
+      name          = "$${primary_sidecar_virtual_network_name}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
       subnets = {
         nva = {
-          name             = "subnet-nva-$${starter_location_01}"
+          name             = "$${primary_subnet_nva_name}"
           address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
@@ -305,7 +331,7 @@ virtual_wan_virtual_hubs = {
   }
   secondary = {
     hub = {
-      name = "vwan-hub-$${starter_location_02}"
+      name = "$${secondary_hub_name}"
       /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
@@ -317,38 +343,38 @@ virtual_wan_virtual_hubs = {
     }
     virtual_network_gateways = {
       express_route = {
-        name = "vgw-hub-expressroute-$${starter_location_02}"
+        name = "$${secondary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        name = "vgw-hub-vpn-$${starter_location_02}"
+        name = "$${secondary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = false
       auto_registration_zone_enabled = true
-      auto_registration_zone_name    = "$${starter_location_02}.azure.local"
+      auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "pdr-hub-dns-$${starter_location_02}"
+        name = "$${secondary_private_dns_resolver_name}"
       }
     }
     bastion = {
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "bastion-hub-$${starter_location_02}"
+        name = "$${secondary_bastion_host_name}"
       }
       bastion_public_ip = {
-        name  = "pip-bastion-hub-$${starter_location_02}"
+        name  = "$${secondary_bastion_host_public_ip_name}"
         zones = "$${starter_location_02_availability_zones}"
       }
     }
     side_car_virtual_network = {
-      name          = "vnet-side-car-$${starter_location_02}"
+      name          = "$${secondary_sidecar_virtual_network_name}"
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
       subnets = {
         nva = {
-          name             = "subnet-nva-$${starter_location_02}"
+          name             = "$${secondary_subnet_nva_name}"
           address_prefixes = ["$${secondary_nva_subnet_address_prefix}"]
         }
       }

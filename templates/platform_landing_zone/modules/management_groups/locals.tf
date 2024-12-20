@@ -14,11 +14,31 @@ locals {
     } }
   } }
   default_retries = {
+    policy_assignments = {
+      error_message_regex = ["AuthorizationFailed", "The policy definition specified in policy assignment '.+' is out of scope"]
+    }
     policy_definitions = {
       error_message_regex = ["AuthorizationFailed"]
     }
     policy_set_definitions = {
       error_message_regex = ["AuthorizationFailed"]
+    }
+    policy_role_assignments = {
+      error_message_regex = ["AuthorizationFailed", "ResourceNotFound"]
+    }
+  }
+  default_timeouts = {
+    policy_assignments = {
+      create = "10m"
+    }
+    policy_definitions = {
+      create = "10m"
+    }
+    policy_set_definitions = {
+      create = "10m"
+    }
+    policy_role_assignments = {
+      create = "10m"
     }
   }
 }
