@@ -43,7 +43,7 @@ custom_replacements = {
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
-     # Resource names primary connectivity
+    # Resource names primary connectivity
     primary_hub_name                                   = "vwan-hub-$${starter_location_01}"
     primary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_01}"
     primary_subnet_nva_name                            = "subnet-nva-$${starter_location_01}"

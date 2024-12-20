@@ -26,11 +26,11 @@ custom_replacements = {
   */
   names = {
     # Resource group names
-    management_resource_group_name                 = "rg-management-$${starter_location_01}"
-    connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
-    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
-    asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
+    management_resource_group_name               = "rg-management-$${starter_location_01}"
+    connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
+    dns_resource_group_name                      = "rg-hub-dns-$${starter_location_01}"
+    ddos_resource_group_name                     = "rg-hub-ddos-$${starter_location_01}"
+    asc_export_resource_group_name               = "rg-asc-export-$${starter_location_01}"
 
     # Resource names management
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
