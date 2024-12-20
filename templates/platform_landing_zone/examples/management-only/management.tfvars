@@ -76,7 +76,7 @@ tags = {
 
 /* 
 --- Management Resources ---
-You can use this section to customise the management resources that will be deployed.
+You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
   automation_account_name      = "$${automation_account_name}"
@@ -103,7 +103,7 @@ management_resource_settings = {
 
 /* 
 --- Management Groups and Policy ---
-You can use this section to customise the management groups and policies that will be deployed.
+You can use this section to customize the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
