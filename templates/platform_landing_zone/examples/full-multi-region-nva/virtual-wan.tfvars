@@ -305,7 +305,7 @@ virtual_wan_virtual_hubs = {
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "$${primary_dns_resolver_name}"
+        name = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {

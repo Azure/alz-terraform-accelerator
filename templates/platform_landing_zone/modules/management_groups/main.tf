@@ -12,6 +12,6 @@ module "management_groups" {
   partner_id                          = try(var.management_group_settings.partner_id, null)
   retries                             = try(var.management_group_settings.retries, local.default_retries)
   subscription_placement              = try(var.management_group_settings.subscription_placement, {})
-  timeouts                            = try(var.management_group_settings.timeouts, {})
+  timeouts                            = try(var.management_group_settings.timeouts, local.default_timeouts)
   dependencies                        = var.dependencies
 }
