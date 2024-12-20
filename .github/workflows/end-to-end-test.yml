@@ -75,6 +75,7 @@ jobs:
 
       - name: Run Plan
         run: |
+          set +e
           terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
           terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
         env:

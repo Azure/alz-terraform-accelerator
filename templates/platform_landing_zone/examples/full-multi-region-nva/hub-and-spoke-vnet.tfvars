@@ -403,7 +403,7 @@ hub_and_spoke_vnet_virtual_networks = {
       auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}.azure.local"
       subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "$${secondary_dns_resolver_name}"
+        name = "$${secondary_private_dns_resolver_name}"
       }
     }
     bastion = {
