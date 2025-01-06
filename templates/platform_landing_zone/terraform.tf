@@ -37,19 +37,31 @@ provider "azapi" {
 
 provider "azurerm" {
   skip_provider_registration = true
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "management"
   subscription_id            = var.subscription_id_management
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "connectivity"
   subscription_id            = var.subscription_id_connectivity
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
