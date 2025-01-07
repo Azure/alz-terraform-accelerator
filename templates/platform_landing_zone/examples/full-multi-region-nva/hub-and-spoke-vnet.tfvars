@@ -204,7 +204,6 @@ management_group_settings = {
             ascExportResourceGroupLocation              = "$${starter_location_01}"
             emailSecurityContact                        = "security_contact@replace_me"
             enableAscForServers                         = "DeployIfNotExists"
-            enableAscForServers                         = "DeployIfNotExists"
             enableAscForServersVulnerabilityAssessments = "DeployIfNotExists"
             enableAscForSql                             = "DeployIfNotExists"
             enableAscForAppServices                     = "DeployIfNotExists"
