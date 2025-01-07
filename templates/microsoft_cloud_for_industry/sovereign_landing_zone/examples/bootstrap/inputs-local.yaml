@@ -71,9 +71,10 @@ policy_effect: "Deny"
 policy_exemptions: {}
 subscription_billing_scope: ""
 tags: {}
+top_level_management_group_name: "Sovereign Landing Zone"
 use_premium_firewall: true
 vpn_gateway_config: {name: "noconfigVpn"}
 
 # Advanced Inputs
-bootstrap_module_version: "v4.1.2"
+bootstrap_module_version: "v4.1.8"
 starter_module_version: "latest"
