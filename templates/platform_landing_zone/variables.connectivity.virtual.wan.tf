@@ -20,7 +20,10 @@ variable "virtual_wan_virtual_hubs" {
     firewall_policy          = optional(any)
     private_dns_zones        = optional(any)
     bastion                  = optional(any)
-    virtual_network_gateways = optional(any)
+    virtual_network_gateways = optional(object({
+      express_route         = optional(any)
+      vpn                   = optional(any)
+    }))
     side_car_virtual_network = optional(any)
   }))
   default     = {}
