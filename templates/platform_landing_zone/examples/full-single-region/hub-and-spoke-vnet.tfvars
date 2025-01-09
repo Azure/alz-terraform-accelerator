@@ -53,7 +53,7 @@ custom_replacements = {
     primary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_01}"
     primary_virtual_network_gateway_vpn_public_ip_name           = "pip-vgw-hub-vpn-$${starter_location_01}"
     primary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_01}"
-    primary_bastion_host_name                                    = "btn-hub-$${starter_location_01}"
+    primary_bastion_host_name                                    = "bas-hub-$${starter_location_01}"
     primary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_01}"
 
     # Private DNS Zones primary
