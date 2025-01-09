@@ -51,7 +51,7 @@ custom_replacements = {
     primary_virtual_network_gateway_express_route_name = "vgw-hub-er-$${starter_location_01}"
     primary_virtual_network_gateway_vpn_name           = "vgw-hub-vpn-$${starter_location_01}"
     primary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_01}"
-    primary_bastion_host_name                          = "btn-hub-$${starter_location_01}"
+    primary_bastion_host_name                          = "bas-hub-$${starter_location_01}"
     primary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_01}"
 
     # Resource names secondary connectivity
@@ -62,7 +62,7 @@ custom_replacements = {
     secondary_virtual_network_gateway_express_route_name = "vgw-hub-er-$${starter_location_02}"
     secondary_virtual_network_gateway_vpn_name           = "vgw-hub-vpn-$${starter_location_02}"
     secondary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_02}"
-    secondary_bastion_host_name                          = "btn-hub-$${starter_location_02}"
+    secondary_bastion_host_name                          = "bas-hub-$${starter_location_02}"
     secondary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_02}"
 
     # Private DNS Zones primary
