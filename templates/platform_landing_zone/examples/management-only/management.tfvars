@@ -25,6 +25,9 @@ custom_replacements = {
   NOTE: You cannot refer to another custom name in this variable.
   */
   names = {
+    # Defender email security contact
+    defender_email_security_contact = "replace_me@replace_me.com"
+
     # Resource group names
     management_resource_group_name = "rg-management-$${starter_location_01}"
     asc_export_resource_group_name = "rg-asc-export-$${starter_location_01}"
@@ -139,7 +142,7 @@ management_group_settings = {
           parameters = {
             ascExportResourceGroupName                  = "$${asc_export_resource_group_name}"
             ascExportResourceGroupLocation              = "$${starter_location_01}"
-            emailSecurityContact                        = "security_contact@replace_me"
+            emailSecurityContact                        = "$${defender_email_security_contact}"
             enableAscForServers                         = "DeployIfNotExists"
             enableAscForServersVulnerabilityAssessments = "DeployIfNotExists"
             enableAscForSql                             = "DeployIfNotExists"
