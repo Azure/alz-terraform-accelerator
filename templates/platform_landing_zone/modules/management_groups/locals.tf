@@ -14,31 +14,55 @@ locals {
     } }
   } }
   default_retries = {
-    policy_assignments = {
-      error_message_regex = ["AuthorizationFailed", "The policy definition specified in policy assignment '.+' is out of scope"]
+    management_groups = {
+      error_message_regex = ["AuthorizationFailed"]
+    }
+    role_definitions = {
+      error_message_regex = ["AuthorizationFailed"]
     }
     policy_definitions = {
       error_message_regex = ["AuthorizationFailed"]
     }
     policy_set_definitions = {
       error_message_regex = ["AuthorizationFailed"]
+    }
+    policy_assignments = {
+      error_message_regex = ["AuthorizationFailed", "The policy definition specified in policy assignment '.+' is out of scope"]
     }
     policy_role_assignments = {
       error_message_regex = ["AuthorizationFailed", "ResourceNotFound"]
     }
+    hierarchy_settings = {
+      error_message_regex = ["AuthorizationFailed"]
+    }
+    subscription_placement = {
+      error_message_regex = ["AuthorizationFailed"]
+    }
   }
   default_timeouts = {
-    policy_assignments = {
-      create = "10m"
+    management_group = {
+      create = "60m"
+      read   = "60m"
     }
-    policy_definitions = {
-      create = "10m"
+    role_definition = {
+      create = "60m"
+      read   = "60m"
     }
-    policy_set_definitions = {
-      create = "10m"
+    policy_assignment = {
+      create = "60m"
+      read   = "60m"
     }
-    policy_role_assignments = {
-      create = "10m"
+    policy_definition = {
+      create = "60m"
+      read   = "60m"
+    }
+    policy_set_definition = {
+      create = "60m"
+      read   = "60m"
+    }
+    policy_role_assignment = {
+      create = "60m"
+      read   = "60m"
     }
   }
 }
