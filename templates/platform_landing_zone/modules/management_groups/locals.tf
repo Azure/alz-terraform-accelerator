@@ -15,7 +15,7 @@ locals {
   } }
   default_retries = {
     management_groups = {
-      error_message_regex = ["AuthorizationFailed"]
+      error_message_regex = ["AuthorizationFailed", "Permission to Microsoft.Management/managementGroups on resources of type 'Write' is required on the management group or its ancestors."]
     }
     role_definitions = {
       error_message_regex = ["AuthorizationFailed"]
