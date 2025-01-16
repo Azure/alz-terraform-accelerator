@@ -125,7 +125,7 @@ custom_replacements = {
   }
 }
 
-enable_telemetry = false
+enable_telemetry = true
 
 /*
 --- Tags ---
