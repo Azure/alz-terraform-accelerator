@@ -20,7 +20,7 @@ module "firewall_policy" {
 
 module "virtual_wan" {
   source  = "Azure/avm-ptn-virtualwan/azurerm"
-  version = "0.5.3"
+  version = "0.8.0"
 
   allow_branch_to_branch_traffic        = try(var.virtual_wan_settings.allow_branch_to_branch_traffic, null)
   disable_vpn_encryption                = try(var.virtual_wan_settings.disable_vpn_encryption, false)
@@ -65,7 +65,7 @@ module "virtual_network_side_car" {
 
 module "dns_resolver" {
   source  = "Azure/avm-res-network-dnsresolver/azurerm"
-  version = "0.2.1"
+  version = "0.4.0"
 
   for_each = local.private_dns_zones
 
@@ -85,7 +85,7 @@ module "dns_resolver" {
 
 module "private_dns_zones" {
   source  = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
-  version = "0.6.0"
+  version = "0.7.1"
 
   for_each = local.private_dns_zones
 
@@ -100,7 +100,7 @@ module "private_dns_zones" {
 
 module "private_dns_zone_auto_registration" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
-  version = "0.2.1"
+  version = "0.2.2"
 
   for_each = local.private_dns_zones_auto_registration
 
@@ -123,7 +123,7 @@ module "private_dns_zone_auto_registration" {
 
 module "ddos_protection_plan" {
   source  = "Azure/avm-res-network-ddosprotectionplan/azurerm"
-  version = "0.2.0"
+  version = "0.3.0"
 
   count = local.ddos_protection_plan_enabled ? 1 : 0
 
@@ -136,7 +136,7 @@ module "ddos_protection_plan" {
 
 module "bastion_public_ip" {
   source  = "Azure/avm-res-network-publicipaddress/azurerm"
-  version = "0.1.2"
+  version = "0.2.0"
 
   for_each = local.bastion_host_public_ips
 
@@ -165,7 +165,7 @@ module "bastion_public_ip" {
 
 module "bastion_host" {
   source  = "Azure/avm-res-network-bastionhost/azurerm"
-  version = "0.3.1"
+  version = "0.4.0"
 
   for_each = local.bastion_hosts
 

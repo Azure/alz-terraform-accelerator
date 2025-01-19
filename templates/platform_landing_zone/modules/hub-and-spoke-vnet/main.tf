@@ -1,6 +1,6 @@
 module "hub_and_spoke_vnet" {
   source  = "Azure/avm-ptn-hubnetworking/azurerm"
-  version = "0.4.0"
+  version = "0.5.0"
 
   hub_virtual_networks = local.hub_virtual_networks
   enable_telemetry     = var.enable_telemetry
@@ -8,7 +8,7 @@ module "hub_and_spoke_vnet" {
 
 module "virtual_network_gateway" {
   source  = "Azure/avm-ptn-vnetgateway/azurerm"
-  version = "0.5.0"
+  version = "0.6.2"
 
   for_each = local.virtual_network_gateways
 
@@ -44,7 +44,7 @@ module "virtual_network_gateway" {
 
 module "dns_resolver" {
   source  = "Azure/avm-res-network-dnsresolver/azurerm"
-  version = "0.2.1"
+  version = "0.4.0"
 
   for_each = local.private_dns_zones
 
@@ -66,7 +66,7 @@ module "dns_resolver" {
 
 module "private_dns_zones" {
   source  = "Azure/avm-ptn-network-private-link-private-dns-zones/azurerm"
-  version = "0.6.0"
+  version = "0.7.1"
 
   for_each = local.private_dns_zones
 
@@ -81,7 +81,7 @@ module "private_dns_zones" {
 
 module "private_dns_zone_auto_registration" {
   source  = "Azure/avm-res-network-privatednszone/azurerm"
-  version = "0.2.1"
+  version = "0.2.2"
 
   for_each = local.private_dns_zones_auto_registration
 
@@ -104,7 +104,7 @@ module "private_dns_zone_auto_registration" {
 
 module "ddos_protection_plan" {
   source  = "Azure/avm-res-network-ddosprotectionplan/azurerm"
-  version = "0.2.0"
+  version = "0.3.0"
 
   count = local.ddos_protection_plan_enabled ? 1 : 0
 
@@ -117,7 +117,7 @@ module "ddos_protection_plan" {
 
 module "bastion_public_ip" {
   source  = "Azure/avm-res-network-publicipaddress/azurerm"
-  version = "0.1.2"
+  version = "0.2.0"
 
   for_each = local.bastion_host_public_ips
 
@@ -146,7 +146,7 @@ module "bastion_public_ip" {
 
 module "bastion_host" {
   source  = "Azure/avm-res-network-bastionhost/azurerm"
-  version = "0.3.1"
+  version = "0.4.0"
 
   for_each = local.bastion_hosts
 
