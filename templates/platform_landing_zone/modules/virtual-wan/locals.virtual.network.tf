@@ -37,7 +37,7 @@ locals {
     } } if local.bastions_enabled[key]
   }
 
-  subnets = { for key, value in var.virtual_hubs : key => merge(local.private_dns_resolver_subnets[key], local.bastion_subnets[key], try(value.side_car_virtual_network.subnets, {})) }
+  subnets = { for key, value in var.virtual_hubs : key => merge(lookup(local.private_dns_resolver_subnets, key, {}), lookup(local.bastion_subnets, key, {}), try(value.side_car_virtual_network.subnets, {})) }
 }
 
 locals {
