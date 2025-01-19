@@ -36,7 +36,7 @@ provider "azapi" {
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
@@ -45,9 +45,9 @@ provider "azurerm" {
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "management"
-  subscription_id            = var.subscription_id_management
+  resource_provider_registrations = "none"
+  alias                           = "management"
+  subscription_id                 = var.subscription_id_management
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
@@ -56,9 +56,9 @@ provider "azurerm" {
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "connectivity"
-  subscription_id            = var.subscription_id_connectivity
+  resource_provider_registrations = "none"
+  alias                           = "connectivity"
+  subscription_id                 = var.subscription_id_connectivity
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false

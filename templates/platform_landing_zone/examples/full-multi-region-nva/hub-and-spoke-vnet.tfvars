@@ -53,7 +53,8 @@ custom_replacements = {
     primary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_01}"
     primary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_01}"
     primary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_01}"
-    primary_virtual_network_gateway_vpn_public_ip_name           = "pip-vgw-hub-vpn-$${starter_location_01}"
+    primary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_01}-001"
+    primary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_01}-002"
     primary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_01}"
     primary_bastion_host_name                                    = "bas-hub-$${starter_location_01}"
     primary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_01}"
@@ -66,7 +67,8 @@ custom_replacements = {
     secondary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_02}"
     secondary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_02}"
     secondary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_02}"
-    secondary_virtual_network_gateway_vpn_public_ip_name           = "pip-vgw-hub-vpn-$${starter_location_02}"
+    secondary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_02}-001"
+    secondary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_02}-002"
     secondary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_02}"
     secondary_bastion_host_name                                    = "bas-hub-$${starter_location_02}"
     secondary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_02}"
@@ -319,9 +321,15 @@ hub_and_spoke_vnet_virtual_networks = {
         name     = "$${primary_virtual_network_gateway_vpn_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
         ip_configurations = {
-          default = {
+          active_active_1 = {
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name}"
+              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
+              zones = "$${starter_location_01_availability_zones}"
+            }
+          }
+          active_active_2 = {
+            public_ip = {
+              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
               zones = "$${starter_location_01_availability_zones}"
             }
           }
@@ -389,10 +397,16 @@ hub_and_spoke_vnet_virtual_networks = {
         name     = "$${secondary_virtual_network_gateway_vpn_name}"
         sku      = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
         ip_configurations = {
-          default = {
+          active_active_1 = {
             public_ip = {
-              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name}"
-              zones = "$${starter_location_02_availability_zones}"
+              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
+              zones = "$${starter_location_01_availability_zones}"
+            }
+          }
+          active_active_2 = {
+            public_ip = {
+              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_2}"
+              zones = "$${starter_location_01_availability_zones}"
             }
           }
         }
