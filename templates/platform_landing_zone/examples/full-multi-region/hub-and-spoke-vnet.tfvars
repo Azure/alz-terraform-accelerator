@@ -422,13 +422,13 @@ hub_and_spoke_vnet_virtual_networks = {
           active_active_1 = {
             public_ip = {
               name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_01_availability_zones}"
+              zones = "$${starter_location_02_availability_zones}"
             }
           }
           active_active_2 = {
             public_ip = {
               name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_01_availability_zones}"
+              zones = "$${starter_location_02_availability_zones}"
             }
           }
         }
