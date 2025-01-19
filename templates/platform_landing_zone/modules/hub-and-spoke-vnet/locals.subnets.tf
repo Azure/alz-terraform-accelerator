@@ -38,5 +38,5 @@ locals {
     } } if try(value.virtual_network_gateways, null) != null && (can(value.virtual_network_gateways.express_route) || can(value.virtual_network_gateways.vpn))
   }
 
-  subnets = { for key, value in var.hub_virtual_networks : key => merge(local.private_dns_resolver_subnets[key], local.bastion_subnets[key], local.gateway_subnets[key]) }
+  subnets = { for key, value in var.hub_virtual_networks : key => merge(lookup(local.private_dns_resolver_subnets, key, {}), lookup(local.bastion_subnets, key, {}), lookup(local.gateway_subnets, key, {})) }
 }
