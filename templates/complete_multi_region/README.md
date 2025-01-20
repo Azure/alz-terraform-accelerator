@@ -1,5 +1,7 @@
 # Azure Landing Zones Accelerator Starter Module for Terraform - Complete Multi-Region
 
+DEPRECATED: This module is deprecated and will be removed in a future release. Please use the [Azure Verified Modules for Platform Landing Zone (ALZ)](https://aka.ms/alz/acc/starter/avm-plz) module as a replacement.
+
 This module is part of the Azure Landing Zones Accelerator solution. It is a complete multi-region implementation of the Azure Landing Zones Platform Landing Zone for Terraform.
 
 It deploys a hub and spoke virtual network or Virtual WAN architecture across multiple regions.

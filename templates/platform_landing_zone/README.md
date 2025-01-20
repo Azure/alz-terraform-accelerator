@@ -16,9 +16,9 @@ The module deploys the following resources:
 
 ## Usage
 
-The module is intended to be used with the [Azure Landing Zones Accelerator](https://aka.ms/alz/accelerator/docs). Head over there to get started.
+The module is intended to be used with the [Azure Landing Zones Accelerator](https://aka.ms/alz/acc). Head over there to get started.
 
->NOTE: The module can be used independently if needed. Example tfvars files can be found in the `examples` directory for that use case.
+>NOTE: The module can be used independently if needed. Example `tfvars` files can be found in the `examples` directory for that use case.
 
 ### Running Directly
 
