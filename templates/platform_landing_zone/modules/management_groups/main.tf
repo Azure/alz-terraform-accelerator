@@ -1,6 +1,6 @@
 module "management_groups" {
-  source = "git::https://github.com/Azure/terraform-azurerm-avm-ptn-alz.git?ref=feat/assignPermissions" #"Azure/avm-ptn-alz/azurerm"
-  #version                             = "0.10.0"
+  source                              = "Azure/avm-ptn-alz/azurerm"
+  version                             = "0.11.0"
   architecture_name                   = var.management_group_settings.architecture_name
   parent_resource_id                  = var.management_group_settings.parent_resource_id
   location                            = var.management_group_settings.location
