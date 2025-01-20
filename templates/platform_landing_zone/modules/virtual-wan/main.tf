@@ -27,7 +27,7 @@ module "virtual_wan" {
   er_circuit_connections                = try(var.virtual_wan_settings.er_circuit_connections, {})
   expressroute_gateways                 = local.virtual_network_gateways_express_route
   firewalls                             = local.firewalls
-  office365_local_breakout_category     = try(var.virtual_wan_settings.office365_local_breakout_category, null)
+  office365_local_breakout_category     = try(var.virtual_wan_settings.office365_local_breakout_category, "None")
   location                              = var.virtual_wan_settings.location
   p2s_gateway_vpn_server_configurations = try(var.virtual_wan_settings.p2s_gateway_vpn_server_configurations, {})
   p2s_gateways                          = try(var.virtual_wan_settings.p2s_gateways, {})
@@ -36,13 +36,13 @@ module "virtual_wan" {
   virtual_hubs                          = local.virtual_hubs
   virtual_network_connections           = local.virtual_network_connections
   virtual_wan_name                      = var.virtual_wan_settings.name
-  type                                  = try(var.virtual_wan_settings.type, null)
+  type                                  = try(var.virtual_wan_settings.type, "Standard")
   routing_intents                       = try(var.virtual_wan_settings.routing_intents, null)
   resource_group_tags                   = try(var.virtual_wan_settings.resource_group_tags, null)
   virtual_wan_tags                      = try(var.virtual_wan_settings.virtual_wan_tags, null)
   vpn_gateways                          = local.virtual_network_gateways_vpn
   vpn_site_connections                  = try(var.virtual_wan_settings.vpn_site_connections, {})
-  vpn_sites                             = try(var.virtual_wan_settings.vpn_sites, null)
+  vpn_sites                             = try(var.virtual_wan_settings.vpn_sites, {})
   tags                                  = try(var.virtual_wan_settings.tags, null)
   enable_telemetry                      = var.enable_telemetry
 }
