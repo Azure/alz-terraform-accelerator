@@ -2,13 +2,8 @@
     "starter_modules": {
         "platform_landing_zone": {
             "location": "platform_landing_zone",
-            "short_name": "Preview - Azure Verified Modules for ALZ Platform Landing Zone",
-            "description": "Preview - Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
-        },
-        "complete_multi_region": {
-            "location": "complete_multi_region",
-            "short_name": "Complete Multi-Region",
-            "description": "Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
+            "short_name": "Azure Verified Modules for Platform Landing Zone (ALZ)",
+            "description": "Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
         },
         "sovereign_landing_zone": {
             "location": "microsoft_cloud_for_industry",
@@ -28,20 +23,25 @@
                 "modules"
             ]
         },
+        "complete_multi_region": {
+            "location": "complete_multi_region",
+            "short_name": "DEPRECATED Complete Multi-Region",
+            "description": "DEPRECATED Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
+        },
         "complete": {
             "location": "complete",
-            "short_name": "Complete",
-            "description": "Complete Azure Landing Zones Configurable Deployment"
+            "short_name": "DEPRECATED Complete",
+            "description": "DEPRECATED Complete Azure Landing Zones Configurable Deployment"
         },
         "basic": {
             "location": "basic",
-            "short_name": "Basic",
-            "description": "Basic Azure Landing Zones Deployment with Management Groups and Policy"
+            "short_name": "DEPRECATED Basic",
+            "description": "DEPRECATED Basic Azure Landing Zones Deployment with Management Groups and Policy"
         },
         "hubnetworking": {
             "location": "hubnetworking",
-            "short_name": "Hub Networking",
-            "description": "Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
+            "short_name": "DEPRECATED Hub Networking",
+            "description": "DEPRECATED Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
         },
         "test": {
             "location": "test",
