@@ -14,11 +14,14 @@ terraform {
       version = "~> 2.5"
     }
   }
-  # backend "azurerm" {}
+  backend "azurerm" {}
 }
 
 provider "azapi" {
   skip_provider_registration = true
+  client_id                  = var.client_id
+  client_secret              = var.client_secret
+  tenant_id                  = var.tenant_id
   subscription_id            = var.subscription_id_management
 }
 
