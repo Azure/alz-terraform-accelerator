@@ -41,3 +41,18 @@ variable "tags" {
   default     = null
   description = "(Optional) Tags of the resource."
 }
+
+variable "client_id" {
+  type        = string
+  description = "Client ID of SPN used for authentication"
+}
+
+variable "client_secret" {
+  type        = string
+  description = "Client secret of SPN used for authentication"
+}
+
+variable "tenant_id" {
+  type        = string
+  description = "Tenant ID of SPN used for authentication"
+}
