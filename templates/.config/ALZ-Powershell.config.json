@@ -23,26 +23,6 @@
                 "modules"
             ]
         },
-        "complete_multi_region": {
-            "location": "complete_multi_region",
-            "short_name": "DEPRECATED Complete Multi-Region",
-            "description": "DEPRECATED Complete Azure Landing Zones Configurable Deployment with Multi-Region Support"
-        },
-        "complete": {
-            "location": "complete",
-            "short_name": "DEPRECATED Complete",
-            "description": "DEPRECATED Complete Azure Landing Zones Configurable Deployment"
-        },
-        "basic": {
-            "location": "basic",
-            "short_name": "DEPRECATED Basic",
-            "description": "DEPRECATED Basic Azure Landing Zones Deployment with Management Groups and Policy"
-        },
-        "hubnetworking": {
-            "location": "hubnetworking",
-            "short_name": "DEPRECATED Hub Networking",
-            "description": "DEPRECATED Hub Networking Azure Landing Zones Deployment with Management Groups, Policy and Hub Networking"
-        },
         "test": {
             "location": "test",
             "short_name": "Test",
