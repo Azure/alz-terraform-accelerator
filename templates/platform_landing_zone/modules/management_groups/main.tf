@@ -1,7 +1,7 @@
 module "management_groups" {
   source                              = "Azure/avm-ptn-alz/azurerm"
   version                             = "0.11.0"
-  architecture_name                   = var.management_group_settings.architecture_name
+  architecture_name                   = try(var.management_group_settings.architecture_name, "alz")
   parent_resource_id                  = var.management_group_settings.parent_resource_id
   location                            = var.management_group_settings.location
   policy_default_values               = local.policy_default_values

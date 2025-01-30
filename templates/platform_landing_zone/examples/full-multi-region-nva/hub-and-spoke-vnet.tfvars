@@ -172,7 +172,6 @@ You can further configure management groups and policy by supplying a `lib` fold
 */
 management_group_settings = {
   location           = "$${starter_location_01}"
-  architecture_name  = "alz"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
     ama_change_tracking_data_collection_rule_id = "$${ama_change_tracking_data_collection_rule_id}"

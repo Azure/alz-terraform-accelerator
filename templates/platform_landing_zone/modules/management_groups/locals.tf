@@ -30,7 +30,7 @@ locals {
       error_message_regex = ["AuthorizationFailed", "The policy definition specified in policy assignment '.+' is out of scope"]
     }
     policy_role_assignments = {
-      error_message_regex = ["AuthorizationFailed", "ResourceNotFound"]
+      error_message_regex = ["AuthorizationFailed", "ResourceNotFound", "RoleAssignmentNotFound"]
     }
     hierarchy_settings = {
       error_message_regex = ["AuthorizationFailed"]
