@@ -17,7 +17,7 @@ locals {
       vnet_resource_id = value.resource_id
     }
   }
-  
+
   private_dns_zones_secondary_zones = {
     azure_data_explorer = {
       zone_name = "privatelink.{regionName}.kusto.windows.net"
