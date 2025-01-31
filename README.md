@@ -8,9 +8,9 @@
 
 ## Introduction
 
-This repository provides the starter modules for the Azure Landing Zones Terraform Accelerator.
+This repository provides the starter modules for the Azure Landing Zones IaC Terraform Accelerator.
 
-Please head over to [aka.ms/alz/accelerator/docs](https://aka.ms/alz/accelerator/docs) for detailed features and usage instructions.
+Please head over to [aka.ms/alz/acc](https://aka.ms/alz/acc) for detailed features and usage instructions.
 
 ## Contributing
 
