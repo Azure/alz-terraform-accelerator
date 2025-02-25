@@ -36,3 +36,4 @@ templates/basic/terraform.tfvars
 .vs
 .alzlib
 terraform.tfvars
+tfplan
