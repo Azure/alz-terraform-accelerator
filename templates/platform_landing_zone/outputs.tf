@@ -50,22 +50,26 @@ output "virtual_wan_virtual_hub_resource_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].virtual_hub_resource_ids : null
 }
 
-output "virtual_wan_virtual_hub_names" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].virtual_hub_names : null
+output "virtual_wan_virtual_hub_resource_names" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].virtual_hub_resource_names : null
 }
 
 output "virtual_wan_firewall_resource_ids" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_resource_ids_by_hub_key : null
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_resource_ids : null
+}
+
+output "virtual_wan_firewall_resource_names" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_resource_names : null
 }
 
 output "virtual_wan_firewall_private_ip_addresses" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_private_ip_addresses_by_hub_key : null
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_private_ip_addresses : null
 }
 
 output "virtual_wan_firewall_public_ip_addresses" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_public_ip_addresses_by_hub_key : null
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_public_ip_addresses : null
 }
 
 output "virtual_wan_firewall_policy_ids" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_policy_ids : null
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_policy_resource_ids : null
 }

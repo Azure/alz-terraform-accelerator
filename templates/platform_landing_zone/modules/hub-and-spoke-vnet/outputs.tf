@@ -27,7 +27,7 @@ output "firewall_public_ip_addresses" {
 }
 
 output "firewall_policy_ids" {
-  value = { for key, value in var.hub_virtual_networks.hub : key => try(value.hub_virtual_network.firewall_policy_id, "ToDo") }
+  value = { for key, value in var.hub_virtual_networks : key => try(value.hub_virtual_network.firewall_policy_id, "ToDo") }
 }
 
 output "route_tables_firewall" {

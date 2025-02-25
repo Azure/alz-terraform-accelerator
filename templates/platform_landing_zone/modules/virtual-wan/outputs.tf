@@ -14,15 +14,15 @@ output "virtual_hub_resource_ids" {
   value = module.virtual_wan.virtual_hub_resource_ids
 }
 
-output "virtual_hub_names" {
-  value = module.virtual_wan.virtual_hub_names
+output "virtual_hub_resource_names" {
+  value = module.virtual_wan.virtual_hub_resource_names
 }
 
 output "firewall_resource_ids" {
   value = module.virtual_wan.firewall_resource_ids_by_hub_key
 }
 
-output "firewall_names" {
+output "firewall_resource_names" {
   value = module.virtual_wan.firewall_resource_names_by_hub_key
 }
 
