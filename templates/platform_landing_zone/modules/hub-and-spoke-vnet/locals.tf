@@ -5,8 +5,8 @@ locals {
       resource_group_creation_enabled = try(value.hub_virtual_network.resource_group_creation_enabled, false)
       resource_group_lock_enabled     = try(value.hub_virtual_network.resource_group_lock_enabled, false)
       mesh_peering_enabled            = try(value.hub_virtual_network.mesh_peering_enabled, true)
-      firewall = local.firewalls[key]
-      subnets = merge(local.subnets[key], value.hub_virtual_network.subnets)
+      firewall                        = local.firewalls[key]
+      subnets                         = merge(local.subnets[key], value.hub_virtual_network.subnets)
     })
   }
 }
