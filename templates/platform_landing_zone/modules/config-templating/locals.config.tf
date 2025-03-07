@@ -1,4 +1,12 @@
 locals {
+  regions = { for region in module.regions.regions_by_name : region.name => {
+    display_name = region.display_name
+    zones        = region.zones == null ? [] : region.zones
+    }
+  }
+}
+
+locals {
   built_in_replacements = {
     starter_location_01                                           = var.starter_locations[0]
     starter_location_02                                           = try(var.starter_locations[1], null)
@@ -79,12 +87,6 @@ locals {
   custom_resource_identifiers                = jsondecode(local.custom_resource_identifiers_json_final)
 }
 
-# Resource Group Names
 locals {
-  resource_group_name_replacements = { for key, value in module.resource_groups : "connectivity_resource_group_${key}" => value.name }
-}
-
-locals {
-  interim_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
-  final_replacements   = merge(local.interim_replacements, local.resource_group_name_replacements)
+  final_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
 }

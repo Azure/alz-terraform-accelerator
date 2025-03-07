@@ -8,11 +8,3 @@ module "regions" {
 }
 
 data "azurerm_client_config" "current" {}
-
-locals {
-  regions = { for region in module.regions.regions_by_name : region.name => {
-    display_name = region.display_name
-    zones        = region.zones == null ? [] : region.zones
-    }
-  }
-}

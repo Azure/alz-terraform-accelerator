@@ -18,9 +18,9 @@ Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starte
 You can define custom replacements to use throughout the configuration.
 */
 custom_replacements = {
-  /* 
+  /*
   --- Custom Name Replacements ---
-  You can define custom names and other strings to use throughout the configuration. 
+  You can define custom names and other strings to use throughout the configuration.
   You can only use the built in replacements in this section.
   NOTE: You cannot refer to another custom name in this variable.
   */
@@ -100,9 +100,9 @@ custom_replacements = {
     secondary_private_dns_resolver_subnet_address_prefix = "10.1.0.160/28"
   }
 
-  /* 
+  /*
   --- Custom Resource Group Identifier Replacements ---
-  You can define custom resource group identifiers to use throughout the configuration. 
+  You can define custom resource group identifiers to use throughout the configuration.
   You can only use the templated variables and custom names in this section.
   NOTE: You cannot refer to another custom resource group identifier in this variable.
   */
@@ -111,9 +111,9 @@ custom_replacements = {
     ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
   }
 
-  /* 
+  /*
   --- Custom Resource Identifier Replacements ---
-  You can define custom resource identifiers to use throughout the configuration. 
+  You can define custom resource identifiers to use throughout the configuration.
   You can only use the templated variables, custom names and customer resource group identifiers in this variable.
   NOTE: You cannot refer to another custom resource identifier in this variable.
   */
@@ -138,7 +138,7 @@ tags = {
   source      = "Azure Landing Zones Accelerator"
 }
 
-/* 
+/*
 --- Management Resources ---
 You can use this section to customize the management resources that will be deployed.
 */
@@ -165,7 +165,7 @@ management_resource_settings = {
   }
 }
 
-/* 
+/*
 --- Management Groups and Policy ---
 You can use this section to customize the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
@@ -246,7 +246,7 @@ management_group_settings = {
   }
 }
 
-/* 
+/*
 --- Connectivity - Hub and Spoke Virtual Network ---
 You can use this section to customize the hub virtual networking that will be deployed.
 */

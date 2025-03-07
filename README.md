@@ -12,6 +12,10 @@ This repository provides the starter modules for the Azure Landing Zones IaC Ter
 
 Please head over to [aka.ms/alz/acc](https://aka.ms/alz/acc) for detailed features and usage instructions.
 
+## Issues
+
+Please raise an issue over here: [https://aka.ms/alz/acc/issues](https://aka.ms/alz/acc/issues)
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
