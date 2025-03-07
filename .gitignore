@@ -37,3 +37,4 @@ templates/basic/terraform.tfvars
 .alzlib
 terraform.tfvars
 tfplan
+templates/platform_landing_zone/examples/test/*

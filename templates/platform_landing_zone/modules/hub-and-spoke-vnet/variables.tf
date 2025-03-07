@@ -43,7 +43,7 @@ variable "hub_virtual_networks" {
   }))
   default     = {}
   description = <<DESCRIPTION
-A map of hub networks to create. 
+A map of hub networks to create.
 
 The following attributes are supported:
 

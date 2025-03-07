@@ -18,5 +18,5 @@ locals {
   hub_and_spoke_vnet_virtual_networks_json           = tostring(jsonencode(var.hub_and_spoke_vnet_virtual_networks))
   hub_and_spoke_vnet_virtual_networks_json_templated = templatestring(local.hub_and_spoke_vnet_virtual_networks_json, local.final_replacements)
   hub_and_spoke_vnet_virtual_networks_json_final     = replace(replace(local.hub_and_spoke_vnet_virtual_networks_json_templated, "\"[", "["), "]\"", "]")
-  hub_and_spoke_vnet_virtual_networks                = local.connectivity_hub_and_spoke_vnet_enabled ? jsondecode(local.hub_and_spoke_vnet_virtual_networks_json_final) : {}
+  hub_and_spoke_vnet_virtual_networks                = jsondecode(local.hub_and_spoke_vnet_virtual_networks_json_final)
 }
