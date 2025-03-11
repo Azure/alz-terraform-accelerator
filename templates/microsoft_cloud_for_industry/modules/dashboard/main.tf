@@ -11,6 +11,7 @@ module "dashboard_rg" {
   location         = var.location
   name             = local.dashboard_resource_group_name
   enable_telemetry = var.enable_telemetry
+  tags             = var.tags
 }
 
 module "avm_res_portal_dashboard" {
@@ -23,6 +24,6 @@ module "avm_res_portal_dashboard" {
   template_file_path      = local.dashboard_template_file_path
   template_file_variables = local.all_template_file_variables
   enable_telemetry        = var.enable_telemetry
-
-  depends_on = [module.dashboard_rg]
+  tags                    = var.tags
+  depends_on              = [module.dashboard_rg]
 }

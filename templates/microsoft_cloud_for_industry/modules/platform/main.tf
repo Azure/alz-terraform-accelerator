@@ -6,7 +6,7 @@ AUTHOR/S: Cloud for Industry
 */
 module "alz_management" {
   source  = "Azure/avm-ptn-alz-management/azurerm"
-  version = "0.3.0"
+  version = "0.4.0"
   count   = var.deploy_log_analytics_workspace ? 1 : 0
 
   automation_account_name                   = local.automation_account_name
@@ -30,6 +30,7 @@ module "hub_rg" {
   location         = var.location
   name             = local.hub_rg_name
   enable_telemetry = var.enable_telemetry
+  tags             = var.tags
 
   providers = {
     azurerm = azurerm.connectivity
@@ -45,6 +46,7 @@ module "firewall_policy" {
   location            = var.location
   resource_group_name = local.hub_rg_name
   enable_telemetry    = var.enable_telemetry
+  tags                = var.tags
 
   providers = {
     azurerm = azurerm.connectivity
@@ -54,7 +56,7 @@ module "firewall_policy" {
 
 module "hubnetworks" {
   source  = "Azure/avm-ptn-hubnetworking/azurerm"
-  version = "0.1.0"
+  version = "0.2.0"
   count   = var.deploy_hub_network ? 1 : 0
 
   hub_virtual_networks = {
@@ -65,16 +67,19 @@ module "hubnetworks" {
       resource_group_name             = local.hub_rg_name
       resource_group_creation_enabled = false
       resource_group_lock_enabled     = false
+      resource_group_tags             = var.tags
       mesh_peering_enabled            = true
       route_table_name                = local.route_table_name
       routing_address_space           = ["0.0.0.0/0"]
-      ddos_protection_plan_id         = local.ddos_protection_plan_id == "" ? null : local.ddos_protection_plan_id
+      ddos_protection_plan_id         = local.ddos_protection_plan_id
       firewall = var.enable_firewall ? {
         sku_name              = "AZFW_VNet"
         sku_tier              = var.use_premium_firewall ? "Premium" : "Standard"
         subnet_address_prefix = var.custom_subnets["AzureFirewallSubnet"].address_prefixes
         firewall_policy_id    = local.firewall_policy_id
       } : null
+
+      tags = var.tags
     }
   }
 
@@ -96,9 +101,8 @@ resource "azurerm_subnet" "custom_subnets" {
   virtual_network_name = local.hub_vnet_name
   resource_group_name  = local.hub_rg_name
   address_prefixes     = each.value.address_prefixes
-
-  provider   = azurerm.connectivity
-  depends_on = [module.hubnetworks]
+  provider             = azurerm.connectivity
+  depends_on           = [module.hubnetworks]
 }
 
 resource "azurerm_subnet_network_security_group_association" "subnets_to_network_security_group" {
@@ -133,7 +137,7 @@ module "gateway_public_ip" {
   sku                 = local.public_ip_sku
   zones               = lower(each.value.gatewayType) == "vpn" ? [] : [1, 2, 3]
   enable_telemetry    = var.enable_telemetry
-
+  tags                = var.tags
   providers = {
     azurerm = azurerm.connectivity
   }
@@ -193,6 +197,7 @@ module "private_dns_zones" {
     }
   }
 
+  tags             = var.tags
   enable_telemetry = var.enable_telemetry
   providers = {
     azurerm = azurerm.connectivity
@@ -227,7 +232,7 @@ module "nsg" {
   location            = var.location
   security_rules      = local.nsg_rules
   enable_telemetry    = var.enable_telemetry
-
+  tags                = var.tags
   providers = {
     azurerm = azurerm.connectivity
   }
@@ -245,7 +250,7 @@ module "azure_bastion_public_ip" {
   resource_group_name = local.hub_rg_name
   sku                 = local.public_ip_sku
   enable_telemetry    = var.enable_telemetry
-
+  tags                = var.tags
   providers = {
     azurerm = azurerm.connectivity
   }
@@ -274,7 +279,7 @@ module "azure_bastion" {
   tunneling_enabled      = true
   kerberos_enabled       = true
   enable_telemetry       = var.enable_telemetry
-
+  tags                   = var.tags
   providers = {
     azurerm = azurerm.connectivity
   }
