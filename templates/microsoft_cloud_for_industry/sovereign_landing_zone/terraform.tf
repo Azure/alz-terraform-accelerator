@@ -35,6 +35,10 @@ provider "alz" {
   library_overwrite_enabled = true
   library_references = [
     {
+      path = "platform/slz"
+      tag  = "2025.03.0"
+    },
+    {
       custom_url = "${path.root}/lib"
     }
   ]
