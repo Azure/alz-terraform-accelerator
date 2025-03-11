@@ -15,7 +15,7 @@ variable "default_prefix" {
   description = "Prefix added to all Azure resources created by FSI. (e.g 'fsi')"
 }
 
-variable "default_postfix" {
+variable "optional_postfix" {
   type        = string
   default     = ""
   description = "The deployment postfix for Azure resources. (e.g 'dev')"
@@ -25,11 +25,6 @@ variable "root_parent_management_group_id" {
   type        = string
   default     = ""
   description = "(Optional) parent for Management Group hierarchy, used as intermediate root Management Group parent, if specified. If empty (default) will deploy beneath Tenant Root Management Group. (e.g 'fsi')|azure_name"
-}
-
-variable "subscription_billing_scope" {
-  type        = string
-  description = "The subscription billing scope. (e.g '/providers/Microsoft.Billing/billingAccounts/1234567/enrollmentAccounts/123456')"
 }
 
 variable "customer" {
@@ -230,32 +225,38 @@ variable "deploy_bastion" {
 
 variable "landing_zone_management_group_children" {
   type = map(object({
-    id          = string
-    displayName = string
+    id              = string
+    display_name    = string
+    archetypes      = optional(set(string), [])
+    subscription_id = optional(string, "")
   }))
   default     = {}
-  description = "(Optional) array of child management groups to deploy under the FSI Landing Zone's management group."
+  description = <<DESCRIPTION
+Optional map of Management Groups to create under the landing zone Management Group. The key of the map is the name of the Management Group. The value of the map is an object with the following attributes:
+
+- `id` - (Required) The id of the Management Group.
+- `display_name` - (Required) The display name of the Management Group.
+- `archetypes` - (Optional) The set of archetypes to apply to the Management Group.
+- `subscription_id` - (Optional) The subscription ID to move into the Management Group.
+DESCRIPTION
 }
 
-# tflint-ignore: terraform_unused_declarations
-variable "architecture_definition_template_path" {
-  type        = string
-  default     = ""
-  description = "The path to the architecture definition template file to use."
-}
+variable "platform_management_group_children" {
+  type = map(object({
+    id              = string
+    display_name    = string
+    archetypes      = optional(set(string), [])
+    subscription_id = optional(string, "")
+  }))
+  default     = {}
+  description = <<DESCRIPTION
+Optional map of Management Groups to create under the platform Management Group. The key of the map is the name of the Management Group. The value of the map is an object with the following attributes:
 
-# tflint-ignore: terraform_unused_declarations
-variable "architecture_definition_override_path" {
-  type        = string
-  default     = ""
-  description = "The path to the architecture definition file to use instead of the default."
-}
-
-# tflint-ignore: terraform_unused_declarations
-variable "apply_alz_archetypes_via_architecture_definition_template" {
-  type        = bool
-  default     = true
-  description = "Toggles assignment of ALZ policies. True to deploy, otherwise false. (e.g true)"
+- `id` - (Required) The id of the Management Group.
+- `display_name` - (Required) The display name of the Management Group.
+- `archetypes` - (Optional) The set of archetypes to apply to the Management Group.
+- `subscription_id` - (Optional) The subscription ID to move into the Management Group.
+DESCRIPTION
 }
 
 variable "ms_defender_for_cloud_email_security_contact" {
@@ -284,29 +285,16 @@ variable "policy_effect" {
   }
 }
 
-variable "policy_assignment_enforcement_mode" {
-  type        = string
-  default     = "Default"
-  description = "The enforcement mode used in all policy and initiative assignments."
-}
-
 variable "deploy_log_analytics_workspace" {
   type        = bool
   default     = true
   description = "True to deploy LogAnalyticsWorkspace, otherwise false. (e.g true)"
 }
 
-variable "customer_policy_sets" {
-  type = map(object({
-    policySetDefinitionId                   = string
-    policySetAssignmentName                 = string
-    policySetAssignmentDisplayName          = string
-    policySetAssignmentDescription          = string
-    policySetManagementGroupAssignmentScope = string
-    policyParameterFilePath                 = optional(string, "")
-  }))
-  default     = {}
-  description = "(Optional) array of customer specified policy assignments to the mentioned scope with the optional input parameter file. If scope is empty assigned at root."
+variable "log_analytics_workspace_resource_id" {
+  type        = string
+  default     = "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/placeholder/providers/Microsoft.OperationalInsights/workspaces/placeholder-la"
+  description = "The resource ID of the Log Analytics workspace to use for the deployment. (e.g '/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/placeholder/providers/Microsoft.OperationalInsights/workspaces/placeholder-la')"
 }
 
 variable "tags" {
@@ -324,4 +312,94 @@ For more information see https://aka.ms/avm/telemetryinfo.
 If it is set to false, then no telemetry will be collected.
 DESCRIPTION
   nullable    = false
+}
+
+variable "management_group_configuration" {
+  type = object({
+    root = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    platform = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    landingzones = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    sandbox = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    decommissioned = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    management = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    connectivity = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    identity = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    corp = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    online = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    confidential_corp = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+    confidential_online = object({
+      id           = string
+      display_name = string
+      archetypes   = optional(set(string), [])
+    })
+  })
+  description = "Management Group configuration for the Management Group hierarchy."
+}
+
+variable "default_security_groups" {
+  type        = set(string)
+  default     = []
+  description = "Array of default security groups. Default to be empty."
+}
+
+variable "deploy_bootstrap" {
+  type        = bool
+  default     = true
+  description = "Toggles deployment of bootstrap module."
+}
+
+variable "deploy_platform" {
+  type        = bool
+  default     = true
+  description = "Toggles deployment of platform module."
+}
+
+variable "deploy_dashboard" {
+  type        = bool
+  default     = true
+  description = "Toggles deployment of dashboard module."
 }

@@ -10,22 +10,22 @@ terraform {
   required_providers {
     alz = {
       source  = "azure/alz"
-      version = ">= 0.15.1"
+      version = "~> 0.17"
     }
 
     azapi = {
       source  = "azure/azapi"
-      version = ">= 2.0.0-beta"
-    }
-
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.107"
+      version = "~> 2.2"
     }
 
     random = {
       source  = "hashicorp/random"
       version = "~> 3.6.3"
+    }
+
+    azuread = {
+      source  = "hashicorp/azuread"
+      version = "~> 2.15.0"
     }
   }
 }

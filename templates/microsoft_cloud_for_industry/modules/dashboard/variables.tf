@@ -18,12 +18,12 @@ variable "default_prefix" {
   }
 }
 
-variable "default_postfix" {
+variable "optional_postfix" {
   type        = string
   default     = ""
   description = "The deployment postfix for Azure resources. (e.g 'dev')"
   validation {
-    condition     = length(var.default_postfix) >= 0 && length(var.default_postfix) <= 5
+    condition     = length(var.optional_postfix) >= 0 && length(var.optional_postfix) <= 5
     error_message = "The prefix must be between 0 and 5 characters long."
   }
 }
@@ -53,4 +53,10 @@ variable "subscription_id_management" {
 variable "dashboard_name" {
   type        = string
   description = "The name of the dashboard. (e.g 'sovereign-landing-zone-dashboard' or 'financial-services-industry-dashboard')"
+}
+
+variable "tags" {
+  type        = map(string)
+  default     = null
+  description = "(Optional) Tags that will be assigned to subscription and resources created by this deployment script."
 }
