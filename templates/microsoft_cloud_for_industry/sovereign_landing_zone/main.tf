@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /*
-SUMMARY : This file contains the main for the Cloud for Financial Services
-AUTHOR/S: Cloud for Financial Services
+SUMMARY : This file contains the main for the Sovereign Landing Zone
+AUTHOR/S: Cloud for Sovereignty
 */
 module "bootstrap" {
   count  = var.deploy_bootstrap ? 1 : 0
@@ -23,7 +23,7 @@ module "bootstrap" {
   management_management_group_id         = local.management_management_group_id
   connectivity_management_group_id       = local.connectivity_management_group_id
   identity_management_group_id           = local.identity_management_group_id
-  policy_default_values                  = local.fsi_policy_default_values
+  policy_default_values                  = local.slz_policy_default_values
   tenant_id                              = local.tenant_id
   top_level_management_group_name        = local.top_level_management_group_name
   default_policy_exemptions              = local.default_policy_exemptions

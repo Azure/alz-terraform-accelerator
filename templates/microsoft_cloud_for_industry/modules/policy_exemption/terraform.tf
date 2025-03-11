@@ -7,9 +7,9 @@ AUTHOR/S: Cloud for Industry
 terraform {
   required_version = "~> 1.9"
   required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 3.107"
+    azapi = {
+      source  = "azure/azapi"
+      version = "~> 2.2"
     }
   }
 }

@@ -23,8 +23,8 @@ architecture_definition_name: "fsi"
 apply_alz_archetypes_via_architecture_definition_template: true
 
 # Starter Module Specific Variables
-allowed_locations: []
-allowed_locations_for_confidential_computing: []
+allowed_locations: ["<region-1>"]
+allowed_locations_for_confidential_computing: ["<region-1>"]
 az_firewall_policies_enabled: true
 bastion_outbound_ssh_rdp_ports: ["22", "3389"]
 custom_subnets: {
@@ -48,29 +48,93 @@ custom_subnets: {
   }
 }
 customer: "Country/Region"
-customer_policy_sets: {}
-default_postfix: ""
+optional_postfix: ""
 default_prefix: "fsi"
 deploy_bastion: true
+deploy_bootstrap: true
+deploy_dashboard: true
 deploy_ddos_protection: true
 deploy_hub_network: true
 deploy_log_analytics_workspace: true
+deploy_platform: true
 enable_firewall: true
 enable_telemetry: true
 express_route_gateway_config: {name: "noconfigEr"}
 hub_network_address_prefix: "10.20.0.0/16"
 landing_zone_management_group_children: {}
+log_analytics_workspace_resource_id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/placeholder/providers/Microsoft.OperationalInsights/workspaces/placeholder-la"
 log_analytics_workspace_retention_in_days: "365"
+management_group_configuration: {
+  root: {
+    id: "${default_prefix}${optional_postfix}",
+    display_name: "FSI Landing Zone",
+    archetypes: ["fsi_root", "tr_01_logging", "re_01_zonal_residency", "so_04_cmk", "so_01_data_residency"]
+  },
+  platform: {
+    id: "${default_prefix}-platform${optional_postfix}",
+    display_name: "Platform",
+    archetypes: []
+  },
+  landingzones: {
+    id: "${default_prefix}-landingzones${optional_postfix}",
+    display_name: "Landing Zones",
+    archetypes: []
+  },
+  decommissioned: {
+    id: "${default_prefix}-decommissioned${optional_postfix}",
+    display_name: "Decommissioned",
+    archetypes: []
+  },
+  sandbox: {
+    id: "${default_prefix}-sandbox${optional_postfix}",
+    display_name: "Sandbox",
+    archetypes: []
+  },
+  management: {
+    id: "${default_prefix}-platform-management${optional_postfix}",
+    display_name: "Management",
+    archetypes: []
+  },
+  connectivity: {
+    id: "${default_prefix}-platform-connectivity${optional_postfix}",
+    display_name: "Connectivity",
+    archetypes: []
+  },
+  identity: {
+    id: "${default_prefix}-platform-identity${optional_postfix}",
+    display_name: "Identity",
+    archetypes: []
+  },
+  corp: {
+    id: "${default_prefix}-landingzones-corp${optional_postfix}",
+    display_name: "Corp",
+    archetypes: []
+  },
+  online: {
+    id: "${default_prefix}-landingzones-online${optional_postfix}",
+    display_name: "Online",
+    archetypes: []
+  },
+  confidential_corp: {
+    id: "${default_prefix}-landingzones-confidential-corp${optional_postfix}",
+    display_name: "Confidential Corp",
+    archetypes: ["confidential"]
+  },
+  confidential_online: {
+    id: "${default_prefix}-landingzones-confidential-online${optional_postfix}",
+    display_name: "Confidential Online",
+    archetypes: ["confidential"]
+  }
+}
+default_security_groups: []
 ms_defender_for_cloud_email_security_contact: "security_contact@replaceme.com"
-policy_assignment_enforcement_mode: "Default"
+platform_management_group_children: {}
 policy_effect: "Deny"
 policy_exemptions: {}
-subscription_billing_scope: ""
-tags: {}
-top_level_management_group_name: "Financial Services Landing Zone"
+tags: {serviceName: "fsi"}
 use_premium_firewall: true
 vpn_gateway_config: {name: "noconfigVpn"}
 
 # Advanced Inputs
-bootstrap_module_version: "v4.1.8"
+bootstrap_module_version: "v4.3.4"
 starter_module_version: "latest"

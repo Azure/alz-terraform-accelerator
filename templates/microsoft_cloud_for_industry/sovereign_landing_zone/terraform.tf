@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /*
-SUMMARY : Outputs for the Sovereign Landing Zone Depoloyment
+SUMMARY : This file contains the providers for the Sovereign Landing Zone Deployment
 AUTHOR/S: Cloud for Sovereignty
 */
 terraform {
@@ -9,17 +9,12 @@ terraform {
   required_providers {
     alz = {
       source  = "azure/alz"
-      version = "0.15.1"
+      version = "~> 0.17"
     }
 
     azapi = {
       source  = "azure/azapi"
-      version = "2.0.0-beta"
-    }
-
-    azuread = {
-      source  = "hashicorp/azuread"
-      version = "2.41.0"
+      version = "~> 2.2"
     }
 
     azurerm = {
@@ -40,10 +35,6 @@ provider "alz" {
   library_overwrite_enabled = true
   library_references = [
     {
-      path = "platform/slz",
-      ref  = "2024.10.0"
-    },
-    {
       custom_url = "${path.root}/lib"
     }
   ]
@@ -53,22 +44,24 @@ provider "azurerm" {
   features {}
 }
 
-provider "azuread" {}
-
 provider "azurerm" {
   alias           = "management"
-  subscription_id = local.subscription_id_management
+  subscription_id = var.subscription_id_management
   features {}
 }
 
 provider "azurerm" {
   alias           = "connectivity"
-  subscription_id = local.subscription_id_connectivity
+  subscription_id = var.subscription_id_connectivity
   features {}
 }
 
 provider "azurerm" {
   alias           = "identity"
-  subscription_id = local.subscription_id_identity
+  subscription_id = var.subscription_id_identity
   features {}
+}
+
+provider "azapi" {
+  disable_default_output = true
 }
