@@ -14,7 +14,7 @@ module "management_resources" {
   automation_account_sku_name                                = try(var.management_resource_settings.automation_account_sku_name, null)
   data_collection_rules                                      = try(var.management_resource_settings.data_collection_rules, null)
   enable_telemetry                                           = var.enable_telemetry
-  linked_automation_account_creation_enabled                 = try(var.management_resource_settings.linked_automation_account_creation_enabled, true)
+  linked_automation_account_creation_enabled                 = try(var.management_resource_settings.linked_automation_account_creation_enabled, false)
   log_analytics_solution_plans                               = try(var.management_resource_settings.log_analytics_solution_plans, null)
   log_analytics_workspace_allow_resource_only_permissions    = try(var.management_resource_settings.log_analytics_workspace_allow_resource_only_permissions, true)
   log_analytics_workspace_cmk_for_query_forced               = try(var.management_resource_settings.log_analytics_workspace_cmk_for_query_forced, null)
