@@ -1,5 +1,6 @@
 module "virtual_wan" {
-  source = "./modules/virtual-wan"
+  source  = "Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm"
+  version = "0.1.0"
 
   count = local.connectivity_virtual_wan_enabled ? 1 : 0
 
