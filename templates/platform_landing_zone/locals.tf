@@ -10,8 +10,8 @@ locals {
 
 locals {
   connectivity_enabled                    = var.connectivity_type != local.const.connectivity.none
-  connectivity_virtual_wan_enabled        = var.connectivity_type == local.const.connectivity.virtual_wan && local.connectivity_enabled
-  connectivity_hub_and_spoke_vnet_enabled = var.connectivity_type == local.const.connectivity.hub_and_spoke_vnet && local.connectivity_enabled
+  connectivity_virtual_wan_enabled        = var.connectivity_type == local.const.connectivity.virtual_wan
+  connectivity_hub_and_spoke_vnet_enabled = var.connectivity_type == local.const.connectivity.hub_and_spoke_vnet
 }
 
 # Build an implicit dependency on the resource groups
