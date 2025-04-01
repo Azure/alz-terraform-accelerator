@@ -1,5 +1,5 @@
-output "dns_server_ip_addresses" {
-  value = local.connectivity_enabled ? (local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_server_ip_addresses : module.virtual_wan[0].dns_server_ip_addresses) : null
+output "dns_server_ip_address" {
+  value = local.connectivity_enabled ? (local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_server_ip_addresses : module.virtual_wan[0].dns_server_ip_address) : null
 }
 
 output "hub_and_spoke_vnet_virtual_network_resource_ids" {
@@ -18,7 +18,7 @@ output "hub_and_spoke_vnet_firewall_resource_names" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_resource_names : null
 }
 
-output "hub_and_spoke_vnet_firewall_private_ip_addresses" {
+output "hub_and_spoke_vnet_firewall_private_ip_address" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_private_ip_addresses : null
 }
 
@@ -62,8 +62,8 @@ output "virtual_wan_firewall_resource_names" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_resource_names : null
 }
 
-output "virtual_wan_firewall_private_ip_addresses" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_private_ip_addresses : null
+output "virtual_wan_firewall_private_ip_address" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_private_ip_address : null
 }
 
 output "virtual_wan_firewall_public_ip_addresses" {
