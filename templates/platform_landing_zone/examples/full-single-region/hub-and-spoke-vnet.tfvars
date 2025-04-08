@@ -217,6 +217,16 @@ management_group_settings = {
     }
     */
   }
+  /*
+  # Example of how to add management group role assignments
+  management_group_role_assignments = {
+    root_owner_role_assignment = {
+      management_group_name      = "root"
+      role_definition_id_or_name = "Owner"
+      principal_id               = "00000000-0000-0000-0000-000000000000"
+    }
+  }
+  */
 }
 
 /*
