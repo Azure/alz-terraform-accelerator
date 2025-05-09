@@ -64,7 +64,7 @@ custom_replacements = {
     # Resource names secondary connectivity
     secondary_virtual_network_name                                 = "vnet-hub-$${starter_location_02}"
     secondary_firewall_name                                        = "fw-hub-$${starter_location_02}"
-    secondary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
+    secondary_firewall_policy_name                                 = "fwp-hub-$${starter_location_02}"
     secondary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_02}"
     secondary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_02}"
     secondary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_02}"
