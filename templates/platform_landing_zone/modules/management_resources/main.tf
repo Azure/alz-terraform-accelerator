@@ -1,6 +1,6 @@
 module "management_resources" {
   source  = "Azure/avm-ptn-alz-management/azurerm"
-  version = "0.6.0"
+  version = "0.7.0"
 
   automation_account_name                                    = try(var.management_resource_settings.automation_account_name, "aa-management-${var.management_resource_settings.location}")
   location                                                   = var.management_resource_settings.location
