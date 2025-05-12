@@ -375,7 +375,8 @@ hub_and_spoke_vnet_virtual_networks = {
       enabled               = true
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "$${primary_bastion_host_name}"
+        name  = "$${primary_bastion_host_name}"
+        zones = "$${starter_location_01_availability_zones}"
       }
       bastion_public_ip = {
         name  = "$${primary_bastion_host_public_ip_name}"
@@ -464,7 +465,8 @@ hub_and_spoke_vnet_virtual_networks = {
       enabled               = true
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "$${secondary_bastion_host_name}"
+        name  = "$${secondary_bastion_host_name}"
+        zones = "$${starter_location_02_availability_zones}"
       }
       bastion_public_ip = {
         name  = "$${secondary_bastion_host_public_ip_name}"
