@@ -38,3 +38,4 @@ templates/basic/terraform.tfvars
 terraform.tfvars
 tfplan
 templates/platform_landing_zone/examples/test/*
+tfplan.txt

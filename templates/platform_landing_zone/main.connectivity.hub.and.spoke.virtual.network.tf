@@ -1,6 +1,6 @@
 module "hub_and_spoke_vnet" {
   source  = "Azure/avm-ptn-alz-connectivity-hub-and-spoke-vnet/azurerm"
-  version = "0.1.0"
+  version = "0.3.0"
 
   count = local.connectivity_hub_and_spoke_vnet_enabled ? 1 : 0
 

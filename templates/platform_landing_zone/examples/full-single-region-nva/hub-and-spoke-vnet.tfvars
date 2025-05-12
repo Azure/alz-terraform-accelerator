@@ -38,7 +38,6 @@ custom_replacements = {
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
     ddos_protection_plan_name               = "ddos-$${starter_location_01}"
-    automation_account_name                 = "aa-management-$${starter_location_01}"
     ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
@@ -115,7 +114,7 @@ tags = {
 You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
-  automation_account_name      = "$${automation_account_name}"
+  enabled                      = true
   location                     = "$${starter_location_01}"
   log_analytics_workspace_name = "$${log_analytics_workspace_name}"
   resource_group_name          = "$${management_resource_group_name}"
@@ -143,6 +142,7 @@ You can use this section to customize the management groups and policies that wi
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
+  enabled            = true
   location           = "$${starter_location_01}"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
@@ -251,6 +251,7 @@ connectivity_resource_groups = {
 
 hub_and_spoke_vnet_settings = {
   ddos_protection_plan = {
+    enabled             = true
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
@@ -279,6 +280,7 @@ hub_and_spoke_vnet_virtual_networks = {
     virtual_network_gateways = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
+        enabled  = true
         location = "$${starter_location_01}"
         name     = "$${primary_virtual_network_gateway_express_route_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
@@ -292,6 +294,7 @@ hub_and_spoke_vnet_virtual_networks = {
         }
       }
       vpn = {
+        enabled  = true
         location = "$${starter_location_01}"
         name     = "$${primary_virtual_network_gateway_vpn_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
@@ -312,19 +315,23 @@ hub_and_spoke_vnet_virtual_networks = {
       }
     }
     private_dns_zones = {
+      enabled                        = true
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
       auto_registration_zone_enabled = true
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}.azure.local"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        name = "$${primary_private_dns_resolver_name}"
+        enabled = true
+        name    = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
+      enabled               = true
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
-        name = "$${primary_bastion_host_name}"
+        name  = "$${primary_bastion_host_name}"
+        zones = "$${starter_location_01_availability_zones}"
       }
       bastion_public_ip = {
         name  = "$${primary_bastion_host_public_ip_name}"

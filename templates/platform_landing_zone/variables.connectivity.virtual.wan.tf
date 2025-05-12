@@ -7,7 +7,7 @@ The shared settings for the Virtual WAN. This is where global resources are defi
 The following attributes are supported:
 
   - ddos_protection_plan: (Optional) The DDoS protection plan settings. Detailed information about the DDoS protection plan can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-ddosprotectionplan
-  
+
 The Virtual WAN module attributes are also supported. Detailed information about the Virtual WAN module variables can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-virtualwan
 
 DESCRIPTION

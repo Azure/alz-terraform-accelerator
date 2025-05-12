@@ -34,7 +34,6 @@ custom_replacements = {
 
     # Resource names
     log_analytics_workspace_name            = "law-management-$${starter_location_01}"
-    automation_account_name                 = "aa-management-$${starter_location_01}"
     ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
@@ -82,7 +81,7 @@ tags = {
 You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
-  automation_account_name      = "$${automation_account_name}"
+  enabled                      = true
   location                     = "$${starter_location_01}"
   log_analytics_workspace_name = "$${log_analytics_workspace_name}"
   resource_group_name          = "$${management_resource_group_name}"
@@ -110,6 +109,7 @@ You can use this section to customize the management groups and policies that wi
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
+  enabled            = true
   location           = "$${starter_location_01}"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {

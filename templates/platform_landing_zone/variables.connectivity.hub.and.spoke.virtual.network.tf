@@ -24,7 +24,7 @@ variable "hub_and_spoke_vnet_virtual_networks" {
   }))
   default     = {}
   description = <<DESCRIPTION
-A map of hub networks to create. 
+A map of hub networks to create.
 
 The following attributes are supported:
 
@@ -32,6 +32,6 @@ The following attributes are supported:
   - virtual_network_gateways: (Optional) The virtual network gateway settings. Detailed information about the virtual network gateway can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-vnetgateway
   - private_dns_zones: (Optional) The private DNS zone settings. Detailed information about the private DNS zone can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-network-private-link-private-dns-zones
   - bastion: (Optional) The bastion host settings. Detailed information about the bastion can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-res-network-bastionhost/
-  
+
 DESCRIPTION
 }
