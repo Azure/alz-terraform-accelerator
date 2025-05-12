@@ -385,6 +385,7 @@ virtual_wan_virtual_hubs = {
     }
     bastion = {
       enabled               = true
+      resource_group        = "$${connectivity_hub_secondary_resource_group_name}"
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       bastion_host = {
         name  = "$${secondary_bastion_host_name}"
