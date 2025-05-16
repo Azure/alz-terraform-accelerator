@@ -73,3 +73,7 @@ output "virtual_wan_firewall_public_ip_addresses" {
 output "virtual_wan_firewall_policy_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_policy_resource_ids : null
 }
+
+output "templated_inputs" {
+  value = module.config
+}
