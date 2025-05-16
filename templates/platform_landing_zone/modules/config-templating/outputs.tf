@@ -29,3 +29,7 @@ output "virtual_wan_virtual_hubs" {
 output "tags" {
   value = local.tags
 }
+
+output "custom_replacements" {
+  value = local.final_replacements
+}
