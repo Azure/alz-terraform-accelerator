@@ -277,22 +277,27 @@ connectivity_type = "virtual_wan"
 
 connectivity_resource_groups = {
   ddos = {
+    enabled  = "$${ddos_protection_plan_enabled}"
     name     = "$${ddos_resource_group_name}"
     location = "$${starter_location_01}"
   }
   vwan = {
+    enabled  = true
     name     = "$${connectivity_hub_vwan_resource_group_name}"
     location = "$${starter_location_01}"
   }
   vwan_hub_primary = {
+    enabled  = true
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
   }
   vwan_hub_secondary = {
+    enabled  = true
     name     = "$${connectivity_hub_secondary_resource_group_name}"
     location = "$${starter_location_02}"
   }
   dns = {
+    enabled  = "$${primary_private_dns_zones_enabled}"
     name     = "$${dns_resource_group_name}"
     location = "$${starter_location_01}"
   }
