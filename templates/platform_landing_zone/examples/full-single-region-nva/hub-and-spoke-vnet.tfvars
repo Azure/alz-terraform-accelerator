@@ -247,19 +247,25 @@ connectivity_type = "hub_and_spoke_vnet"
 
 connectivity_resource_groups = {
   ddos = {
-    enabled  = "$${ddos_protection_plan_enabled}"
     name     = "$${ddos_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = "$${ddos_protection_plan_enabled}"
+    }
   }
   vnet_primary = {
-    enabled  = true
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
   }
   dns = {
-    enabled  = "$${primary_private_dns_zones_enabled}"
     name     = "$${dns_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = "$${primary_private_dns_zones_enabled}"
+    }
   }
 }
 
