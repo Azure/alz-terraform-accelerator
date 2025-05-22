@@ -45,6 +45,29 @@ custom_replacements = {
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
+    # Resource provisioning global connectivity
+    ddos_protection_plan_enabled = true
+
+    # Resource provisioning primary connectivity
+    primary_firewall_enabled                              = true
+    primary_virtual_network_gateway_express_route_enabled = true
+    primary_virtual_network_gateway_vpn_enabled           = true
+    primary_private_dns_zones_enabled                     = true
+    primary_private_dns_auto_registration_zone_enabled    = true
+    primary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `primary_private_dns_zones_enabled` setting to `false`.
+    primary_bastion_enabled                               = true
+    primary_sidecar_virtual_network_enabled               = true
+
+    # Resource provisioning secondary connectivity
+    secondary_firewall_enabled                              = true
+    secondary_virtual_network_gateway_express_route_enabled = true
+    secondary_virtual_network_gateway_vpn_enabled           = true
+    secondary_private_dns_zones_enabled                     = true
+    secondary_private_dns_auto_registration_zone_enabled    = true
+    secondary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `secondary_private_dns_zones_enabled` setting to `false`.
+    secondary_bastion_enabled                               = true
+    secondary_sidecar_virtual_network_enabled               = true
+
     # Resource names primary connectivity
     primary_hub_name                                   = "vwan-hub-$${starter_location_01}"
     primary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_01}"
@@ -255,22 +278,37 @@ connectivity_resource_groups = {
   ddos = {
     name     = "$${ddos_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = "$${ddos_protection_plan_enabled}"
+    }
   }
   vwan = {
     name     = "$${connectivity_hub_vwan_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
   }
   vwan_hub_primary = {
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
   }
   vwan_hub_secondary = {
     name     = "$${connectivity_hub_secondary_resource_group_name}"
     location = "$${starter_location_02}"
+    settings = {
+      enabled = true
+    }
   }
   dns = {
     name     = "$${dns_resource_group_name}"
     location = "$${starter_location_01}"
+    settings = {
+      enabled = "$${primary_private_dns_zones_enabled}"
+    }
   }
 }
 
@@ -279,7 +317,7 @@ virtual_wan_settings = {
   resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
   location            = "$${starter_location_01}"
   ddos_protection_plan = {
-    enabled             = true
+    enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
@@ -300,7 +338,7 @@ virtual_wan_virtual_hubs = {
       address_prefix = "$${primary_hub_address_space}"
     }
     firewall = {
-      enabled  = true
+      enabled  = "$${primary_firewall_enabled}"
       name     = "$${primary_firewall_name}"
       sku_name = "AZFW_Hub"
       sku_tier = "Standard"
@@ -310,30 +348,29 @@ virtual_wan_virtual_hubs = {
       name = "$${primary_firewall_policy_name}"
     }
     virtual_network_gateways = {
-      enabled = true
       express_route = {
-        enabled = true
+        enabled = "$${primary_virtual_network_gateway_express_route_enabled}"
         name    = "$${primary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled = true
+        enabled = "$${primary_virtual_network_gateway_vpn_enabled}"
         name    = "$${primary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
-      enabled                        = true
+      enabled                        = "$${primary_private_dns_zones_enabled}"
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
-      auto_registration_zone_enabled = true
+      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        enabled = true
+        enabled = "$${primary_private_dns_resolver_enabled}"
         name    = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
-      enabled               = true
+      enabled               = "$${primary_bastion_enabled}"
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
         name  = "$${primary_bastion_host_name}"
@@ -345,7 +382,7 @@ virtual_wan_virtual_hubs = {
       }
     }
     side_car_virtual_network = {
-      enabled       = true
+      enabled       = "$${primary_sidecar_virtual_network_enabled}"
       name          = "$${primary_sidecar_virtual_network_name}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
     }
@@ -363,7 +400,7 @@ virtual_wan_virtual_hubs = {
       address_prefix = "$${secondary_hub_address_space}"
     }
     firewall = {
-      enabled  = true
+      enabled  = "$${secondary_firewall_enabled}"
       name     = "$${secondary_firewall_name}"
       sku_name = "AZFW_Hub"
       sku_tier = "Standard"
@@ -374,28 +411,28 @@ virtual_wan_virtual_hubs = {
     }
     virtual_network_gateways = {
       express_route = {
-        enabled = true
+        enabled = "$${secondary_virtual_network_gateway_express_route_enabled}"
         name    = "$${secondary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled = true
+        enabled = "$${secondary_virtual_network_gateway_vpn_enabled}"
         name    = "$${secondary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
-      enabled                        = true
+      enabled                        = "$${secondary_private_dns_zones_enabled}"
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = false
-      auto_registration_zone_enabled = true
+      auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${secondary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        enabled = true
+        enabled = "$${secondary_private_dns_resolver_enabled}"
         name    = "$${secondary_private_dns_resolver_name}"
       }
     }
     bastion = {
-      enabled               = true
+      enabled               = "$${secondary_bastion_enabled}"
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       bastion_host = {
         name  = "$${secondary_bastion_host_name}"
@@ -407,7 +444,7 @@ virtual_wan_virtual_hubs = {
       }
     }
     side_car_virtual_network = {
-      enabled       = true
+      enabled       = "$${secondary_sidecar_virtual_network_enabled}"
       name          = "$${secondary_sidecar_virtual_network_name}"
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
     }

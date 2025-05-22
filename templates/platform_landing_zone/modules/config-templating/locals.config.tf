@@ -59,7 +59,7 @@ locals {
 locals {
   custom_names_json           = tostring(jsonencode(var.custom_replacements.names))
   custom_names_json_templated = templatestring(local.custom_names_json, local.built_in_replacements)
-  custom_names_json_final     = replace(replace(local.custom_names_json_templated, "\"[", "["), "]\"", "]")
+  custom_names_json_final     = replace(replace(replace(replace(local.custom_names_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
   custom_names                = jsondecode(local.custom_names_json_final)
 }
 
@@ -71,7 +71,7 @@ locals {
 locals {
   custom_resource_group_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_group_identifiers))
   custom_resource_group_identifiers_json_templated = templatestring(local.custom_resource_group_identifiers_json, local.custom_name_replacements)
-  custom_resource_group_identifiers_json_final     = replace(replace(local.custom_resource_group_identifiers_json_templated, "\"[", "["), "]\"", "]")
+  custom_resource_group_identifiers_json_final     = replace(replace(replace(replace(local.custom_resource_group_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
   custom_resource_group_identifiers                = jsondecode(local.custom_resource_group_identifiers_json_final)
 }
 
@@ -83,7 +83,7 @@ locals {
 locals {
   custom_resource_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_identifiers))
   custom_resource_identifiers_json_templated = templatestring(local.custom_resource_identifiers_json, local.custom_resource_group_replacements)
-  custom_resource_identifiers_json_final     = replace(replace(local.custom_resource_identifiers_json_templated, "\"[", "["), "]\"", "]")
+  custom_resource_identifiers_json_final     = replace(replace(replace(replace(local.custom_resource_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
   custom_resource_identifiers                = jsondecode(local.custom_resource_identifiers_json_final)
 }
 
