@@ -22,4 +22,4 @@ The vWAN module does not currently support routes, we'll need to add that per th
 
 ## Documentation
 
-The full documentation for this example can be found over at our [Azure Landing Zones documentation site](https://tbc.com).
+The full documentation for this example can be found over at our [Azure Landing Zones documentation site](https://azure.github.io/Azure-Landing-Zones/accelerator/startermodules/terraform-platform-landing-zone/scenarios/).
