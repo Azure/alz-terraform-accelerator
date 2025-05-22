@@ -43,6 +43,18 @@ custom_replacements = {
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
+    # Resource provisioning global connectivity
+    ddos_protection_plan_enabled = true
+
+    # Resource provisioning primary connectivity
+    primary_firewall_enabled                              = true
+    primary_virtual_network_gateway_express_route_enabled = true
+    primary_virtual_network_gateway_vpn_enabled           = true
+    primary_private_dns_zones_enabled                     = true
+    primary_private_dns_auto_registration_zone_enabled    = true
+    primary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `primary_private_dns_zones_enabled` setting to `false`.
+    primary_bastion_enabled                               = true
+
     # Resource names primary connectivity
     primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
     primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
@@ -252,7 +264,7 @@ connectivity_resource_groups = {
 
 hub_and_spoke_vnet_settings = {
   ddos_protection_plan = {
-    enabled             = true
+    enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
@@ -272,7 +284,7 @@ hub_and_spoke_vnet_virtual_networks = {
       ddos_protection_plan_id       = "$${ddos_protection_plan_id}"
       subnets                       = {}
       firewall = {
-        enabled               = true
+        enabled               = "$${primary_firewall_enabled}"
         subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
         name                  = "$${primary_firewall_name}"
         sku_name              = "AZFW_VNet"
@@ -292,7 +304,7 @@ hub_and_spoke_vnet_virtual_networks = {
     virtual_network_gateways = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
-        enabled  = true
+        enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
         location = "$${starter_location_01}"
         name     = "$${primary_virtual_network_gateway_express_route_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
@@ -306,7 +318,7 @@ hub_and_spoke_vnet_virtual_networks = {
         }
       }
       vpn = {
-        enabled  = true
+        enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
         location = "$${starter_location_01}"
         name     = "$${primary_virtual_network_gateway_vpn_name}"
         sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
@@ -327,19 +339,19 @@ hub_and_spoke_vnet_virtual_networks = {
       }
     }
     private_dns_zones = {
-      enabled                        = true
+      enabled                        = "$${primary_private_dns_zones_enabled}"
       resource_group_name            = "$${dns_resource_group_name}"
       is_primary                     = true
-      auto_registration_zone_enabled = true
+      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
       private_dns_resolver = {
-        enabled = true
+        enabled = "$${primary_private_dns_resolver_enabled}"
         name    = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
-      enabled               = true
+      enabled               = "$${primary_bastion_enabled}"
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       bastion_host = {
         name  = "$${primary_bastion_host_name}"
