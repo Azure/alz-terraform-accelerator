@@ -15,4 +15,4 @@ There is one option for deploying:
 
 ## Documentation
 
-The full documentation for this example can be found over at out [Azure Landing Zones documentation site](https://tbc.com).
+The full documentation for this example can be found over at out [Azure Landing Zones documentation site](https://azure.github.io/Azure-Landing-Zones/accelerator/startermodules/terraform-platform-landing-zone/scenarios/).
