@@ -12,6 +12,7 @@ variable "connectivity_resource_groups" {
   type = map(object({
     name     = string
     location = string
+    tags     = optional(map(string))
     settings = optional(any)
   }))
   default     = {}
