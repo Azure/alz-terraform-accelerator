@@ -288,7 +288,6 @@ hub_and_spoke_vnet_virtual_networks = {
       routing_address_space         = ["$${primary_hub_address_space}"]
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      ddos_protection_plan_id       = "$${ddos_protection_plan_id}"
       hub_router_ip_address         = "$${primary_nva_ip_address}"
       subnets = {
         nva = {
