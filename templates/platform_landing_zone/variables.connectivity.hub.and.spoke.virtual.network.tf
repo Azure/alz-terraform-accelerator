@@ -20,8 +20,9 @@ variable "hub_and_spoke_vnet_virtual_networks" {
       express_route                          = optional(any)
       vpn                                    = optional(any)
     }))
-    private_dns_zones = optional(any)
-    bastion           = optional(any)
+    private_dns_zones    = optional(any)
+    private_dns_resolver = optional(any)
+    bastion              = optional(any)
   }))
   default     = {}
   description = <<DESCRIPTION
@@ -32,6 +33,7 @@ The following attributes are supported:
   - hub_virtual_network: The hub virtual network settings. Detailed information about the hub virtual network can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-hubnetworking
   - virtual_network_gateways: (Optional) The virtual network gateway settings. Detailed information about the virtual network gateway can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-vnetgateway
   - private_dns_zones: (Optional) The private DNS zone settings. Detailed information about the private DNS zone can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-ptn-network-private-link-private-dns-zones
+  - private_dns_resolver: (Optional) The private DNS resolver settings. Detailed information about the private DNS resolver can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-res-network-dnsresolver/
   - bastion: (Optional) The bastion host settings. Detailed information about the bastion can be found in the module's README: https://registry.terraform.io/modules/Azure/avm-res-network-bastionhost/
 
 DESCRIPTION
