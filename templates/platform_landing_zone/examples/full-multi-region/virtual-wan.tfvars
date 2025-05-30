@@ -54,7 +54,7 @@ custom_replacements = {
     primary_virtual_network_gateway_vpn_enabled           = true
     primary_private_dns_zones_enabled                     = true
     primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `primary_private_dns_zones_enabled` setting to `false`.
+    primary_private_dns_resolver_enabled                  = true
     primary_bastion_enabled                               = true
     primary_sidecar_virtual_network_enabled               = true
 
@@ -64,7 +64,7 @@ custom_replacements = {
     secondary_virtual_network_gateway_vpn_enabled           = true
     secondary_private_dns_zones_enabled                     = true
     secondary_private_dns_auto_registration_zone_enabled    = true
-    secondary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `secondary_private_dns_zones_enabled` setting to `false`.
+    secondary_private_dns_resolver_enabled                  = true
     secondary_bastion_enabled                               = true
     secondary_sidecar_virtual_network_enabled               = true
 
