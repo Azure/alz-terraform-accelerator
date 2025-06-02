@@ -244,6 +244,13 @@ management_group_settings = {
         }
       }
     }
+    landingzones = {
+      policy_assignments = {
+        Enable-DDoS-VNET = {
+          enforcement_mode = "DoNotEnforce"
+        }
+      }
+    }
     */
     /*
     # Example of how to update a policy assignment enforcement mode for Private Link DNS Zones
