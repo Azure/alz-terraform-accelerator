@@ -53,7 +53,7 @@ custom_replacements = {
     primary_virtual_network_gateway_vpn_enabled           = true
     primary_private_dns_zones_enabled                     = true
     primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true # This setting currently has no effect, but will be implemented in a future release. To turn off the private DNS resolver, set the `primary_private_dns_zones_enabled` setting to `false`.
+    primary_private_dns_resolver_enabled                  = true
     primary_bastion_enabled                               = true
     primary_sidecar_virtual_network_enabled               = true
 
@@ -319,15 +319,21 @@ virtual_wan_virtual_hubs = {
       }
     }
     private_dns_zones = {
-      enabled                        = "$${primary_private_dns_zones_enabled}"
-      resource_group_name            = "$${dns_resource_group_name}"
-      is_primary                     = true
+      enabled = "$${primary_private_dns_zones_enabled}"
+      dns_zones = {
+        resource_group_name = "$${dns_resource_group_name}"
+        private_link_private_dns_zones_regex_filter = {
+          enabled = true
+        }
+      }
       auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
-      subnet_address_prefix          = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      private_dns_resolver = {
-        enabled = "$${primary_private_dns_resolver_enabled}"
-        name    = "$${primary_private_dns_resolver_name}"
+    }
+    private_dns_resolver = {
+      enabled               = "$${primary_private_dns_resolver_enabled}"
+      subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
+      dns_resolver = {
+        name = "$${primary_private_dns_resolver_name}"
       }
     }
     bastion = {
