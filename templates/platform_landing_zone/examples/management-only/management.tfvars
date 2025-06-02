@@ -165,6 +165,13 @@ management_group_settings = {
         }
       }
     }
+    landingzones = {
+      policy_assignments = {
+        Enable-DDoS-VNET = {
+          enforcement_mode = "DoNotEnforce"
+        }
+      }
+    }
     corp = {
       policy_assignments = {
         Deploy-Private-DNS-Zones = {
