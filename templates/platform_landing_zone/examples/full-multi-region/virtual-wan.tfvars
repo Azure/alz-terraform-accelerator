@@ -369,7 +369,7 @@ virtual_wan_virtual_hubs = {
       dns_zones = {
         resource_group_name = "$${dns_resource_group_name}"
         private_link_private_dns_zones_regex_filter = {
-          enabled = true
+          enabled = false
         }
       }
       auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
@@ -437,7 +437,7 @@ virtual_wan_virtual_hubs = {
       dns_zones = {
         resource_group_name = "$${dns_resource_group_name}"
         private_link_private_dns_zones_regex_filter = {
-          enabled = false
+          enabled = true
         }
       }
       auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
