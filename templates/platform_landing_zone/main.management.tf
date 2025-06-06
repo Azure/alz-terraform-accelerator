@@ -18,7 +18,7 @@ module "management_groups" {
   count = local.management_groups_enabled ? 1 : 0
 
   enable_telemetry          = var.enable_telemetry
-  management_group_settings = module.config.management_group_settings
+  management_group_settings = local.management_group_settings
   dependencies              = local.management_group_dependencies
 }
 
