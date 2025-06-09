@@ -82,7 +82,7 @@ output "virtual_wan_express_route_gateway_resource_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].express_route_gateway_resource_ids : null
 }
 
-output "virtual_wan_bastion_host_public_ip address" {
+output "virtual_wan_bastion_host_public_ip_address" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_public_ip_addresses : null
 }
 
@@ -106,7 +106,7 @@ output "virtual_wan_sidecar_virtual_network_resource_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].sidecar_virtual_network_resource_ids : null
 }
 
-output "virtual_wan_sidecar_virtual_network_resource_ids" {
+output "virtual_wan_sidecar_virtual_network_resources" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].sidecar_virtual_network_resources : null
 }
 
