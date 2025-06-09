@@ -83,7 +83,7 @@ output "virtual_wan_express_route_gateway_resource_ids" {
 }
 
 output "virtual_wan_bastion_host_public_ip_address" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_public_ip_addresses : null
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_public_ip_address : null
 }
 
 output "virtual_wan_bastion_host_resource_ids" {
