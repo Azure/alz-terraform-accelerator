@@ -14,7 +14,7 @@ management_groups:
     exists: false
     parent_id: alz
 
-  - id: landing_zones
+  - id: landingzones
     display_name: Landing Zones
     archetypes:
       - landing_zones_custom
@@ -26,14 +26,14 @@ management_groups:
     archetypes:
       - corp_custom
     exists: false
-    parent_id: landing_zones
+    parent_id: landingzones
 
   - id: online
     display_name: Online
     archetypes:
       - online_custom
     exists: false
-    parent_id: landing_zones
+    parent_id: landingzones
 
   - id: sandbox
     display_name: Sandbox
