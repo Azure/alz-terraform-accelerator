@@ -249,9 +249,10 @@ management_group_settings = {
   }
 
   /*
---- Connectivity - Hub and Spoke Virtual Network ---
-You can use this section to customize the hub virtual networking that will be deployed.
-*/
+  --- Connectivity - Hub and Spoke Virtual Network ---
+  You can use this section to customize the hub virtual networking that will be deployed.
+  */
+
   connectivity_type = "hub_and_spoke_vnet"
 
   connectivity_resource_groups = {
