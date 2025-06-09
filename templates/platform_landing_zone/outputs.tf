@@ -38,6 +38,10 @@ output "hub_and_spoke_vnet_route_tables_user_subnets" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].route_tables_user_subnets : null
 }
 
+output "hub_and_spoke_vnet_full_output" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0] : null
+}
+
 output "virtual_wan_resource_id" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].resource_id : null
 }
@@ -76,6 +80,38 @@ output "virtual_wan_firewall_policy_ids" {
 
 output "virtual_wan_express_route_gateway_resource_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].express_route_gateway_resource_ids : null
+}
+
+output "virtual_wan_bastion_host_public_ip address" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_public_ip_addresses : null
+}
+
+output "virtual_wan_bastion_host_resource_ids" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_resource_ids : null
+}
+
+output "virtual_wan_bastion_host_resources" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_resources : null
+}
+
+output "virtual_wan_private_dns_resolver_resource_ids" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].private_dns_resolver_resource_ids : null
+}
+
+output "virtual_wan_private_dns_resolver_resources" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].private_dns_resolver_resources : null
+}
+
+output "virtual_wan_sidecar_virtual_network_resource_ids" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].sidecar_virtual_network_resource_ids : null
+}
+
+output "virtual_wan_sidecar_virtual_network_resource_ids" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].sidecar_virtual_network_resources : null
+}
+
+output "virtual_wan_full_output" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0] : null
 }
 
 output "templated_inputs" {
