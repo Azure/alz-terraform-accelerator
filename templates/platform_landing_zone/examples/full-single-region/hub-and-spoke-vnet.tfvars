@@ -60,6 +60,7 @@ custom_replacements = {
     primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
     primary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
     primary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_01}"
+    primary_firewall_management_public_ip_name                   = "pip-fw-hub-mgmt-$${starter_location_01}"
     primary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_01}"
     primary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_01}"
     primary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_01}"
@@ -79,6 +80,7 @@ custom_replacements = {
     primary_hub_address_space                          = "10.0.0.0/16"
     primary_hub_virtual_network_address_space          = "10.0.0.0/22"
     primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
+    primary_firewall_management_subnet_address_prefix  = "10.0.0.192/26"
     primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
     primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
     primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
@@ -277,15 +279,22 @@ hub_and_spoke_vnet_virtual_networks = {
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
       subnets                       = {}
       firewall = {
-        enabled               = "$${primary_firewall_enabled}"
-        subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
-        name                  = "$${primary_firewall_name}"
-        sku_name              = "AZFW_VNet"
-        sku_tier              = "Standard"
-        zones                 = "$${starter_location_01_availability_zones}"
+        enabled                          = "$${primary_firewall_enabled}"
+        subnet_address_prefix            = "$${primary_firewall_subnet_address_prefix}"
+        management_subnet_address_prefix = "$${primary_firewall_management_subnet_address_prefix}"
+        name                             = "$${primary_firewall_name}"
+        sku_name                         = "AZFW_VNet"
+        sku_tier                         = "Standard"
+        zones                            = "$${starter_location_01_availability_zones}"
         default_ip_configuration = {
           public_ip_config = {
             name  = "$${primary_firewall_public_ip_name}"
+            zones = "$${starter_location_01_availability_zones}"
+          }
+        }
+        management_ip_configuration = {
+          public_ip_config = {
+            name  = "$${primary_firewall_management_public_ip_name}"
             zones = "$${starter_location_01_availability_zones}"
           }
         }
