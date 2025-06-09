@@ -45,17 +45,3 @@ locals {
     ]
   }
 }
-
-# Handle Policy Assignment Role Assignments
-locals {
-  policy_assignments_to_modify = { for assignment_key, assignment_value in var.policy_default_values_filtering.policy_assignment_names_to_check : assignment_key => flatten([for policy_assignments_to_modify_key, policy_assignments_to_modify_value in try(module.config.management_group_settings.policy_assignments_to_modify, {}) : [for ef in values(policy_assignments_to_modify_value.policy_assignments) : try(ef.enforcement_mode, "Unknown") != "DoNotEnforce"] if contains(keys(policy_assignments_to_modify_value.policy_assignments), assignment_value)]) }
-  policy_assignment_enforced   = { for assignment_key, assignment_value in var.policy_default_values_filtering.policy_assignment_names_to_check : assignment_key => length(local.policy_assignments_to_modify[assignment_key]) == 0 || alltrue(local.policy_assignments_to_modify[assignment_key]) }
-
-  policy_default_values = { for policy_default_value_key, policy_default_value_value in try(module.config.management_group_settings.policy_default_values, {}) : policy_default_value_key => policy_default_value_value if try(local.policy_assignment_enforced[var.policy_default_values_filtering.policy_default_values_to_remove[policy_default_value_key]], true) }
-  management_group_settings = var.policy_default_values_filtering.enabled ? merge(
-    try(module.config.management_group_settings, {}),
-    {
-      policy_default_values = local.policy_default_values
-    }
-  ) : module.config.management_group_settings
-}

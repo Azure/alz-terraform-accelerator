@@ -193,7 +193,12 @@ You can use this section to customize the management groups and policies that wi
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
-  enabled            = true
+  enabled = true
+  # This is the name of the architecture that will be used to deploy the management resources.
+  # It refers to the alz_custom.alz_architecture_definition.yaml file in the lib folder.
+  # Do not change this value unless you have created another architecture definition
+  # with the name value specified below.
+  architecture_name  = "alz_custom"
   location           = "$${starter_location_01}"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
@@ -246,33 +251,6 @@ management_group_settings = {
         }
       }
     }
-    /*
-    # Example of how to update a policy assignment enforcement mode for DDOS Protection Plan
-    connectivity = {
-      policy_assignments = {
-        Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    landingzones = {
-      policy_assignments = {
-        Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    */
-    /*
-    # Example of how to update a policy assignment enforcement mode for Private Link DNS Zones
-    corp = {
-      policy_assignments = {
-        Deploy-Private-DNS-Zones = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    */
   }
   /*
   # Example of how to add management group role assignments
@@ -287,9 +265,9 @@ management_group_settings = {
 }
 
 /*
---- Connectivity - Hub and Spoke Virtual Network ---
-You can use this section to customize the hub virtual networking that will be deployed.
-*/
+  --- Connectivity - Hub and Spoke Virtual Network ---
+  You can use this section to customize the hub virtual networking that will be deployed.
+  */
 connectivity_type = "hub_and_spoke_vnet"
 
 connectivity_resource_groups = {
