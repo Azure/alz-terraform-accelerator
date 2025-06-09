@@ -236,44 +236,7 @@ management_group_settings = {
         }
       }
     }
-    /*
-    # Example of how to update a policy assignment enforcement mode for DDOS Protection Plan
-    connectivity = {
-      policy_assignments = {
-        Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    landingzones = {
-      policy_assignments = {
-        Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    */
-    /*
-    # Example of how to update a policy assignment enforcement mode for Private Link DNS Zones
-    corp = {
-      policy_assignments = {
-        Deploy-Private-DNS-Zones = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    */
   }
-  /*
-  # Example of how to add management group role assignments
-  management_group_role_assignments = {
-    root_owner_role_assignment = {
-      management_group_name      = "root"
-      role_definition_id_or_name = "Owner"
-      principal_id               = "00000000-0000-0000-0000-000000000000"
-    }
-  }
-  */
 }
 
 /*
