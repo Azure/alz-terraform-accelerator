@@ -210,139 +210,140 @@ management_group_settings = {
     }
   }
 
-/*
+  /*
 --- Connectivity - Hub and Spoke Virtual Network ---
 You can use this section to customize the hub virtual networking that will be deployed.
 */
-connectivity_type = "hub_and_spoke_vnet"
+  connectivity_type = "hub_and_spoke_vnet"
 
-connectivity_resource_groups = {
-  ddos = {
-    name     = "$${ddos_resource_group_name}"
-    location = "$${starter_location_01}"
-    settings = {
-      enabled = "$${ddos_protection_plan_enabled}"
-    }
-  }
-  vnet_primary = {
-    name     = "$${connectivity_hub_primary_resource_group_name}"
-    location = "$${starter_location_01}"
-    settings = {
-      enabled = true
-    }
-  }
-  dns = {
-    name     = "$${dns_resource_group_name}"
-    location = "$${starter_location_01}"
-    settings = {
-      enabled = "$${primary_private_dns_zones_enabled}"
-    }
-  }
-}
-
-hub_and_spoke_vnet_settings = {
-  ddos_protection_plan = {
-    enabled             = "$${ddos_protection_plan_enabled}"
-    name                = "$${ddos_protection_plan_name}"
-    resource_group_name = "$${ddos_resource_group_name}"
-    location            = "$${starter_location_01}"
-  }
-}
-
-hub_and_spoke_vnet_virtual_networks = {
-  primary = {
-    hub_virtual_network = {
-      name                          = "$${primary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_primary_resource_group_name}"
-      location                      = "$${starter_location_01}"
-      address_space                 = ["$${primary_hub_virtual_network_address_space}"]
-      routing_address_space         = ["$${primary_hub_address_space}"]
-      route_table_name_firewall     = "$${primary_route_table_firewall_name}"
-      route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      subnets                       = {}
-      firewall = {
-        enabled               = "$${primary_firewall_enabled}"
-        subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
-        name                  = "$${primary_firewall_name}"
-        sku_name              = "AZFW_VNet"
-        sku_tier              = "Standard"
-        zones                 = "$${starter_location_01_availability_zones}"
-        default_ip_configuration = {
-          public_ip_config = {
-            name  = "$${primary_firewall_public_ip_name}"
-            zones = "$${starter_location_01_availability_zones}"
-          }
-        }
-        firewall_policy = {
-          name = "$${primary_firewall_policy_name}"
-        }
+  connectivity_resource_groups = {
+    ddos = {
+      name     = "$${ddos_resource_group_name}"
+      location = "$${starter_location_01}"
+      settings = {
+        enabled = "$${ddos_protection_plan_enabled}"
       }
     }
-    virtual_network_gateways = {
-      subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
-      express_route = {
-        enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_express_route_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
-        ip_configurations = {
-          default = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
+    vnet_primary = {
+      name     = "$${connectivity_hub_primary_resource_group_name}"
+      location = "$${starter_location_01}"
+      settings = {
+        enabled = true
+      }
+    }
+    dns = {
+      name     = "$${dns_resource_group_name}"
+      location = "$${starter_location_01}"
+      settings = {
+        enabled = "$${primary_private_dns_zones_enabled}"
+      }
+    }
+  }
+
+  hub_and_spoke_vnet_settings = {
+    ddos_protection_plan = {
+      enabled             = "$${ddos_protection_plan_enabled}"
+      name                = "$${ddos_protection_plan_name}"
+      resource_group_name = "$${ddos_resource_group_name}"
+      location            = "$${starter_location_01}"
+    }
+  }
+
+  hub_and_spoke_vnet_virtual_networks = {
+    primary = {
+      hub_virtual_network = {
+        name                          = "$${primary_virtual_network_name}"
+        resource_group_name           = "$${connectivity_hub_primary_resource_group_name}"
+        location                      = "$${starter_location_01}"
+        address_space                 = ["$${primary_hub_virtual_network_address_space}"]
+        routing_address_space         = ["$${primary_hub_address_space}"]
+        route_table_name_firewall     = "$${primary_route_table_firewall_name}"
+        route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
+        subnets                       = {}
+        firewall = {
+          enabled               = "$${primary_firewall_enabled}"
+          subnet_address_prefix = "$${primary_firewall_subnet_address_prefix}"
+          name                  = "$${primary_firewall_name}"
+          sku_name              = "AZFW_VNet"
+          sku_tier              = "Standard"
+          zones                 = "$${starter_location_01_availability_zones}"
+          default_ip_configuration = {
+            public_ip_config = {
+              name  = "$${primary_firewall_public_ip_name}"
               zones = "$${starter_location_01_availability_zones}"
+            }
+          }
+          firewall_policy = {
+            name = "$${primary_firewall_policy_name}"
+          }
+        }
+      }
+      virtual_network_gateways = {
+        subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
+        express_route = {
+          enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
+          location = "$${starter_location_01}"
+          name     = "$${primary_virtual_network_gateway_express_route_name}"
+          sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
+          ip_configurations = {
+            default = {
+              public_ip = {
+                name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
+                zones = "$${starter_location_01_availability_zones}"
+              }
+            }
+          }
+        }
+        vpn = {
+          enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
+          location = "$${starter_location_01}"
+          name     = "$${primary_virtual_network_gateway_vpn_name}"
+          sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+          ip_configurations = {
+            active_active_1 = {
+              public_ip = {
+                name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
+                zones = "$${starter_location_01_availability_zones}"
+              }
+            }
+            active_active_2 = {
+              public_ip = {
+                name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
+                zones = "$${starter_location_01_availability_zones}"
+              }
             }
           }
         }
       }
-      vpn = {
-        enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
-        ip_configurations = {
-          active_active_1 = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_01_availability_zones}"
-            }
-          }
-          active_active_2 = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_01_availability_zones}"
-            }
+      private_dns_zones = {
+        enabled = "$${primary_private_dns_zones_enabled}"
+        dns_zones = {
+          resource_group_name = "$${dns_resource_group_name}"
+          private_link_private_dns_zones_regex_filter = {
+            enabled = false
           }
         }
+        auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
+        auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
       }
-    }
-    private_dns_zones = {
-      enabled = "$${primary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = false
+      private_dns_resolver = {
+        enabled               = "$${primary_private_dns_resolver_enabled}"
+        subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
+        dns_resolver = {
+          name = "$${primary_private_dns_resolver_name}"
         }
       }
-      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
-    }
-    private_dns_resolver = {
-      enabled               = "$${primary_private_dns_resolver_enabled}"
-      subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${primary_private_dns_resolver_name}"
-      }
-    }
-    bastion = {
-      enabled               = "$${primary_bastion_enabled}"
-      subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${primary_bastion_host_name}"
-        zones = "$${starter_location_01_availability_zones}"
-      }
-      bastion_public_ip = {
-        name  = "$${primary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_01_availability_zones}"
+      bastion = {
+        enabled               = "$${primary_bastion_enabled}"
+        subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
+        bastion_host = {
+          name  = "$${primary_bastion_host_name}"
+          zones = "$${starter_location_01_availability_zones}"
+        }
+        bastion_public_ip = {
+          name  = "$${primary_bastion_host_public_ip_name}"
+          zones = "$${starter_location_01_availability_zones}"
+        }
       }
     }
   }
