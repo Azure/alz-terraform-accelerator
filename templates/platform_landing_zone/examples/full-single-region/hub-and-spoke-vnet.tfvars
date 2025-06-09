@@ -155,7 +155,12 @@ You can use this section to customize the management groups and policies that wi
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
 management_group_settings = {
-  enable_telemetry   = true
+  enable_telemetry = true
+  # This is the name of the architecture that will be used to deploy the management resources.
+  # It refers to the alz_custom.alz_architecture_definition.yaml file in the lib folder.
+  # Do not change this value unless you have created another architecture definition
+  # with the name value specified below.
+  architecture_name  = "alz_custom"
   location           = "$${starter_location_01}"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
