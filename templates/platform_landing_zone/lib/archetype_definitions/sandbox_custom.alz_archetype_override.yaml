@@ -1,8 +1,3 @@
-# Example of how to add items to the lists below:
-#
-# policy_assignments_to_remove:
-#   - example_policy_assignment
-#   - example_policy_assignment_2
 base_archetype: sandbox
 name: sandbox_custom
 policy_assignments_to_add: []
