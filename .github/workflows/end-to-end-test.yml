@@ -75,9 +75,35 @@ jobs:
 
       - name: Run Plan
         run: |
-          set +e
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
+          $ErrorActionPreference = "Stop"
+
+          $combinations = "${{ matrix.combinations }}" | ConvertFrom-Json
+          $sourceVarFilePath = "${{ matrix.configFilePath }}"
+          $destinationVarFilePath = "${{ matrix.rootModuleFolderPath }}/test.auto.tfvars"
+
+          foreach ($combination in $combinations) {
+            $content = Get-Content -Path $sourceVarFilePath -Raw
+            $testContent = @()
+            $updatedLines = @()
+
+            foreach ($line in $content) {
+              $updatedLine = $line
+              if($combination.ContainsKey($line)) {
+                $setting = $combination[$line].ToString().ToLower()
+                $updatedLine = $line -replace "true", $setting
+                $updatedLines += $updatedLine
+              }
+              $testContent += $updatedLine
+            }
+
+            $testContent | Out-File -FilePath $destinationVarFilePath -Encoding utf8 -Force
+
+            Write-Host "Running plan for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
+
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -out=tfplan
+          }
+        shell: pwsh
         env:
           ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
