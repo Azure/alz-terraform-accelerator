@@ -172,7 +172,6 @@ jobs:
               Get-Content -Path $errorLog | Write-Host
               exit 1
             }
-            Write-Host "Terraform plan completed successfully for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
 
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
             $planJson = Get-Content -Raw tfplan.json
@@ -189,6 +188,7 @@ jobs:
 
             Write-Host "Plan Summary"
             Write-Host (ConvertTo-Json $items -Depth 10)
+            Write-Host "Terraform plan completed successfully for combination $combinationNumber of $($combinations.Count)."
             $combinationNumber++
           }
         shell: pwsh
