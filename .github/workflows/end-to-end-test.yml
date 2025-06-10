@@ -75,8 +75,6 @@ jobs:
 
       - name: Run Plan
         run: |
-          $ErrorActionPreference = "Stop"
-
           $sourceVarFilePath = "${{ matrix.configFilePath }}"
           $destinationVarFilePath = "${{ matrix.rootModuleFolderPath }}/test.auto.tfvars"
 
@@ -132,8 +130,47 @@ jobs:
 
             Write-Host "Running plan for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
 
-            terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
-            terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -out=tfplan
+            $outputLog = "output.log"
+            $errorLog = "error.log"
+
+            $initArguments = @("-chdir="${{ matrix.rootModuleFolderPath }}", "init")
+            $process = Start-Process `
+              -FilePath "terraform" `
+              -ArgumentList $initArguments `
+              -RedirectStandardOutput $outputLog `
+              -RedirectStandardError $errorLog `
+              -PassThru `
+              -NoNewWindow `
+              -Wait
+
+            if ($process.ExitCode -ne 0) {
+              Write-Host "Terraform init failed with exit code $($process.ExitCode). Check the logs for details."
+              Write-Host "Output Log:"
+              Get-Content -Path $outputLog | Write-Host
+              Write-Host "Error Log:"
+              Get-Content -Path $errorLog | Write-Host
+              exit 1
+            }
+
+            $planArguments = @("-chdir="${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
+            $process = Start-Process `
+              -FilePath "terraform" `
+              -ArgumentList $planArguments `
+              -RedirectStandardOutput $outputLog `
+              -RedirectStandardError $errorLog `
+              -PassThru `
+              -NoNewWindow `
+              -Wait
+
+            if ($process.ExitCode -ne 0) {
+              Write-Host "Terraform plan failed with exit code $($process.ExitCode). Check the logs for details."
+              Write-Host "Output Log:"
+              Get-Content -Path $outputLog | Write-Host
+              Write-Host "Error Log:"
+              Get-Content -Path $errorLog | Write-Host
+              exit 1
+            }
+            Write-Host "Terraform plan completed successfully for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
           }
         shell: pwsh
         env:

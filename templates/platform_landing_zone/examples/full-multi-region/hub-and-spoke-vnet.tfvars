@@ -49,6 +49,7 @@ custom_replacements = {
 
     # Resource provisioning primary connectivity
     primary_firewall_enabled                              = true
+    primary_firewall_management_ip_enabled                = true
     primary_virtual_network_gateway_express_route_enabled = true
     primary_virtual_network_gateway_vpn_enabled           = true
     primary_private_dns_zones_enabled                     = true
@@ -58,6 +59,7 @@ custom_replacements = {
 
     # Resource provisioning secondary connectivity
     secondary_firewall_enabled                              = true
+    secondary_firewall_management_ip_enabled                = true
     secondary_virtual_network_gateway_express_route_enabled = true
     secondary_virtual_network_gateway_vpn_enabled           = true
     secondary_private_dns_zones_enabled                     = true
@@ -339,6 +341,7 @@ hub_and_spoke_vnet_virtual_networks = {
             zones = "$${starter_location_01_availability_zones}"
           }
         }
+        management_ip_enabled = "$${primary_firewall_management_ip_enabled}"
         management_ip_configuration = {
           public_ip_config = {
             name  = "$${primary_firewall_management_public_ip_name}"
@@ -442,6 +445,7 @@ hub_and_spoke_vnet_virtual_networks = {
             zones = "$${starter_location_02_availability_zones}"
           }
         }
+        management_ip_enabled = "$${secondary_firewall_management_ip_enabled}"
         management_ip_configuration = {
           public_ip_config = {
             name  = "$${secondary_firewall_management_public_ip_name}"

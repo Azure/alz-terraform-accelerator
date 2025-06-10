@@ -8,12 +8,6 @@ $configFiles = Get-ChildItem -Path $exampleFolders -Recurse -Filter "*.tfvars" -
 
 $matrix = @()
 
-function Recurse-Config {
-  param (
-    [array]$booleanConfigs
-  )
-}
-
 foreach($configFile in $configFiles) {
 
   $directory = $configFile.Directory.Name
