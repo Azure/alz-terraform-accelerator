@@ -133,7 +133,7 @@ jobs:
             $outputLog = "output.log"
             $errorLog = "error.log"
 
-            $initArguments = @("-chdir="${{ matrix.rootModuleFolderPath }}", "init")
+            $initArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "init")
             $process = Start-Process `
               -FilePath "terraform" `
               -ArgumentList $initArguments `
@@ -152,7 +152,7 @@ jobs:
               exit 1
             }
 
-            $planArguments = @("-chdir="${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
+            $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
             $process = Start-Process `
               -FilePath "terraform" `
               -ArgumentList $planArguments `
