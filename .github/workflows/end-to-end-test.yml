@@ -112,6 +112,7 @@ jobs:
 
           Write-Host "Found $($combinations.Count) combinations for $sourceVarFilePath"
 
+          $combinationNumber = 1
           foreach ($combination in $combinations) {
             $testContent = @()
             $updatedLines = @()
@@ -128,7 +129,8 @@ jobs:
 
             $testContent | Out-File -FilePath $destinationVarFilePath -Encoding utf8 -Force
 
-            Write-Host "Running plan for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
+            Write-Host "Running plan for combination $combinationNumber of $($combinations.Count) with settings:"
+            Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
 
             $outputLog = "output.log"
             $errorLog = "error.log"
@@ -187,6 +189,7 @@ jobs:
 
             Write-Host "Plan Summary"
             Write-Host (ConvertTo-Json $items -Depth 10)
+            $combinationNumber++
           }
         shell: pwsh
         env:
