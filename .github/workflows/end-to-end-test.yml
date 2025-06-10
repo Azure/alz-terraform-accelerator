@@ -171,6 +171,22 @@ jobs:
               exit 1
             }
             Write-Host "Terraform plan completed successfully for combination: $($updatedLines | ConvertTo-Json -Depth 10)"
+
+            terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
+            $planJson = Get-Content -Raw tfplan.json
+            $planObject = ConvertFrom-Json $planJson -Depth 100
+
+            $items = @{}
+            foreach($change in $planObject.resource_changes) {
+              $key = [System.String]::Join("-", $change.change.actions)
+              if(!$items.ContainsKey($key)) {
+                $items[$key] = 0
+              }
+              $items[$key]++
+            }
+
+            Write-Host "Plan Summary"
+            Write-Host (ConvertTo-Json $items -Depth 10)
           }
         shell: pwsh
         env:
@@ -179,27 +195,3 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
-      - name: Plan Summary
-        if: always()
-        run: |
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
-          $planJson = Get-Content -Raw tfplan.json
-          $planObject = ConvertFrom-Json $planJson -Depth 100
-
-          $items = @{}
-          foreach($change in $planObject.resource_changes) {
-            $key = [System.String]::Join("-", $change.change.actions)
-            if(!$items.ContainsKey($key)) {
-              $items[$key] = 0
-            }
-            $items[$key]++
-          }
-
-          Write-Host "Plan Summary"
-          Write-Host (ConvertTo-Json $items -Depth 10)
-        shell: pwsh
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.name }}-tfplan.json
-          path: tfplan.json
