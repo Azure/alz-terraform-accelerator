@@ -77,16 +77,44 @@ jobs:
         run: |
           $ErrorActionPreference = "Stop"
 
-          $combinations = "${{ matrix.combinations }}" | ConvertFrom-Json
           $sourceVarFilePath = "${{ matrix.configFilePath }}"
           $destinationVarFilePath = "${{ matrix.rootModuleFolderPath }}/test.auto.tfvars"
 
+          $fileContent = Get-Content -Path $sourceVarFilePath
+
+          Write-Host "Processing config file: $sourceVarFilePath"
+
+          $booleanConfigs = @()
+          foreach($line in $fileContent) {
+            if($line -match "^.+_enabled\s+=\strue$") {
+              Write-Host "Found boolean config: $($line)"
+              $booleanConfigs += $line
+            }
+          }
+
+          $combinations = @()
+          $configState = @{}
+
+          foreach($config in $booleanConfigs) {
+            $configState[$config] = $true
+          }
+
+          foreach($config in $booleanConfigs) {
+            foreach($childConfig in $booleanConfigs) {
+              $combination = $configState.Clone()
+              $combinations += $combination
+              $configState[$childConfig] = !$configState[$childConfig]
+            }
+            $configState[$config] = !$configState[$config]
+          }
+
+          Write-Host "Found $($combinations.Count) combinations for $sourceVarFilePath"
+
           foreach ($combination in $combinations) {
-            $content = Get-Content -Path $sourceVarFilePath -Raw
             $testContent = @()
             $updatedLines = @()
 
-            foreach ($line in $content) {
+            foreach ($line in $fileContent) {
               $updatedLine = $line
               if($combination.ContainsKey($line)) {
                 $setting = $combination[$line].ToString().ToLower()
