@@ -108,6 +108,10 @@ jobs:
             $configState[$config] = !$configState[$config]
           }
 
+          if($combinations.Count -eq 0) {
+            $combinations += @{}
+          }
+
           Write-Host "Found $($combinations.Count) combinations for $sourceVarFilePath"
 
           foreach ($combination in $combinations) {
