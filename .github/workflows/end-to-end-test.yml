@@ -186,6 +186,7 @@ jobs:
                   Get-Content -Path $errorLog | Write-Host
                   exit 1
                 }
+                break
               }
 
               $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
