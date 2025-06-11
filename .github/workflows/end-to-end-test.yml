@@ -77,6 +77,7 @@ jobs:
         run: |
           $sourceVarFilePath = "${{ matrix.configFilePath }}"
           $destinationVarFilePath = "${{ matrix.rootModuleFolderPath }}/test.auto.tfvars"
+          $splitNumber = ${{ matrix.splitNumber }}
 
           $fileContent = Get-Content -Path $sourceVarFilePath
 
@@ -114,6 +115,11 @@ jobs:
 
           $combinationNumber = 1
           foreach ($combination in $combinations) {
+            if($combinationNumber % $splitNumber -ne 0) {
+              $combinationNumber++
+              continue
+            }
+
             $testContent = @()
             $updatedLines = @()
 

@@ -1,7 +1,8 @@
 param(
   [string]$runNumber = "999",
   [string]$rootModuleFolder = "./templates/platform_landing_zone",
-  [string]$exampleFolders = "./templates/platform_landing_zone/examples"
+  [string]$exampleFolders = "./templates/platform_landing_zone/examples",
+  [int]$splitCount = 10
 )
 
 $configFiles = Get-ChildItem -Path $exampleFolders -Recurse -Filter "*.tfvars" -Force
@@ -16,13 +17,17 @@ foreach($configFile in $configFiles) {
   $shortDirectory = [System.String]::Join("", ($directory.Split("-") | ForEach-Object { $_.Substring(0, 1)}))
   $shortFileName = [System.String]::Join("", ($configFileName.Split("-") | ForEach-Object { $_.Substring(0, 1)}))
 
-  $matrixItem = @{
-    name = $directory + "-" + $configFileName + "-" + $runNumber
-    shortName = $shortDirectory + $shortFileName + "-" + $runNumber
-    configFilePath = $configFile.FullName
-    rootModuleFolderPath = $rootModuleFolder
+  for ($i = 0; $i -lt $splitCount; $i++) {
+    $splitNumber = "{0:D2}" -f ($i + 1)
+    $matrixItem = @{
+      name = $directory + "-" + $configFileName + "-" + $runNumber + "-" + $splitNumber
+      shortName = $shortDirectory + $shortFileName + "-" + $runNumber + "-" + $splitNumber
+      configFilePath = $configFile.FullName
+      rootModuleFolderPath = $rootModuleFolder
+      splitNumber = $i + 1
+    }
+    $matrix += $matrixItem
   }
-  $matrix += $matrixItem
 }
 
 return $matrix
