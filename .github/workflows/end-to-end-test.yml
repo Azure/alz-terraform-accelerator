@@ -136,7 +136,7 @@ jobs:
 
             $testContent | Out-File -FilePath $destinationVarFilePath -Encoding utf8 -Force
 
-            Write-Host "Running plan for combination $combinationNumber of $($combinations.Count) with settings:"
+            Write-Host "Running plan test for combination $combinationNumber of $($combinations.Count) with settings:"
             Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
 
             $outputLog = "output.log"
@@ -148,6 +148,7 @@ jobs:
 
             while ($retryCount -le $maxRetries) {
               $initArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "init")
+              Write-Host "Running Terraform init with arguments: $($initArguments -join ' ')"
               $process = Start-Process `
                 -FilePath "terraform" `
                 -ArgumentList $initArguments `
@@ -188,6 +189,7 @@ jobs:
               }
 
               $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
+              Write-Host "Running Terraform plan with arguments: $($planArguments -join ' ')"
               $process = Start-Process `
                 -FilePath "terraform" `
                 -ArgumentList $planArguments `
