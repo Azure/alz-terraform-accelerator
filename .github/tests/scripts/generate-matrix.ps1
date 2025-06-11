@@ -2,7 +2,11 @@ param(
   [string]$runNumber = "999",
   [string]$rootModuleFolder = "./templates/platform_landing_zone",
   [string]$exampleFolders = "./templates/platform_landing_zone/examples",
-  [int]$splitCount = 10
+  [int]$splitCount = 10,
+  [string]$subscriptionNamePrefix = "alz-acc-avm-test-",
+  [string]$managementGroupIdPrefix = "alz-acc-avm-test-",
+  [string]$subscriptionNameSuffixNumberLength = 2,
+  [string]$managementGroupIdSuffixNumberLength = 2
 )
 
 $configFiles = Get-ChildItem -Path $exampleFolders -Recurse -Filter "*.tfvars" -Force
@@ -18,8 +22,8 @@ foreach($configFile in $configFiles) {
   $shortDirectory = [System.String]::Join("", ($directory.Split("-") | ForEach-Object { $_.Substring(0, 1)}))
   $shortFileName = [System.String]::Join("", ($configFileName.Split("-") | ForEach-Object { $_.Substring(0, 1)}))
 
-  $subscriptionName = "alz-acc-avm-test-" + ("{0:D2}" -f $configFileNumber)
-  $managementGroupId = "alz-acc-avm-test-" + ("{0:D2}" -f $configFileNumber)
+  $subscriptionName = $subscriptionNamePrefix + ("{0:D$subscriptionNameSuffixNumberLength}" -f $configFileNumber)
+  $managementGroupId = $managementGroupIdPrefix + ("{0:D$managementGroupIdSuffixNumberLength}" -f $configFileNumber)
 
   $matrixItem = @{
     name = $directory + "--" + $configFileName + "-" + $runNumber + "-a"
@@ -51,6 +55,6 @@ foreach($configFile in $configFiles) {
   }
 }
 
-$matrix = $matrix | Sort-Object -Property splitNumber, name
+$matrix = $matrix | Sort-Object -Property mode, splitNumber, name
 
 return $matrix

@@ -96,11 +96,6 @@ jobs:
           $splitNumber = ${{ matrix.splitNumber }}
           $splitIncrement = ${{ matrix.splitIncrement }}
 
-          if($mode -eq "apply") {
-            Write-Host "Skipping apply runs until we have the infrastructure in place to support it."
-            exit 0
-          }
-
           .github/tests/scripts/terraform-run.ps1 `
             -mode $mode `
             -rootModuleFolderPath $rootModuleFolderPath `
