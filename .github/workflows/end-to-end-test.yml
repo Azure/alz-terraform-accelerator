@@ -250,7 +250,7 @@ jobs:
             Write-Host (ConvertTo-Json $items -Depth 10)
             Write-Host "Terraform plan completed successfully for combination $combinationNumber of $($combinations.Count)."
             $combinationNumber++
-            $splitCombinationNumber += $splitIncrement
+            $splitCombinationNumber = $splitCombinationNumber + $splitIncrement
           }
         shell: pwsh
         env:
