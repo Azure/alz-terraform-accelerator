@@ -16,7 +16,8 @@ function Invoke-TerraformWithRetry {
     [string]$errorLog = "error.log",
     [int]$maxRetries = 10,
     [string[]]$retryOn = @("429 Too Many Requests"),
-    [switch]$printOutput
+    [switch]$printOutput,
+    [switch]$printOutputOnError
   )
 
   $retryCount = 1
@@ -63,8 +64,10 @@ function Invoke-TerraformWithRetry {
           break
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
-          Write-Host "Output Log:"
-          Get-Content -Path $localLogPath | Write-Host
+          if($printOutputOnError) {
+            Write-Host "Output Log:"
+            Get-Content -Path $localLogPath | Write-Host
+          }
           Write-Host "Error Log:"
           Get-Content -Path $errorLog | Write-Host
           Write-Host "Combination: $combinationNumber of $($combinations.Count)"
@@ -159,7 +162,8 @@ foreach ($combination in $combinations) {
         OutputLog = "init.log"
       }
     ) `
-    -workingDirectory $rootModuleFolderPath
+    -workingDirectory $rootModuleFolderPath `
+    -printOutputOnError
 
   if(-not $success) {
     Write-Host "Failed to initialize Terraform."
@@ -172,7 +176,8 @@ foreach ($combination in $combinations) {
         Command = "plan"
         Arguments = @("-out=tfplan")
       }) `
-      -workingDirectory $rootModuleFolderPath
+      -workingDirectory $rootModuleFolderPath `
+      -printOutputOnError
 
     if(-not $success) {
       Write-Host "Failed to generate plan."
