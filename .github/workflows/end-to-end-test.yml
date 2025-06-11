@@ -64,9 +64,11 @@ jobs:
 
       - name: Setup Module Inputs
         run: |
-          terraform -chdir=./.github/tests/subscription_lookup init
-          terraform -chdir=./.github/tests/subscription_lookup apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
-          $subscriptionId = terraform -chdir=./.github/tests/subscription_lookup output -raw subscription_id
+
+          $subsciptionModulePath = ".github/tests/subscription_lookup"
+          terraform -chdir="$subsciptionModulePath" init
+          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
+          $subscriptionId = (terraform -chdir="$subsciptionModulePath" -raw subscription_id)
 
           Write-Host "Subscription ID: $subscriptionId"
 
