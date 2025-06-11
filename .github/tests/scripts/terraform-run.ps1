@@ -190,7 +190,7 @@ foreach ($combination in $combinations) {
   }
 
   if($mode -eq "apply") {
-    $success = Invoke-TerraformWithRetry `
+    $applySuccess = Invoke-TerraformWithRetry `
       -commands @(
         @{
           Command = "plan"
@@ -203,14 +203,13 @@ foreach ($combination in $combinations) {
       ) `
       -workingDirectory $rootModuleFolderPath
 
-    if(-not $success) {
+    if(-not $applySuccess) {
       Write-Host "Failed to apply Terraform."
-      return $false
+    } else {
+      Write-Host "Terraform apply completed successfully for combination $combinationNumber of $($combinations.Count)."
     }
 
-    Write-Host "Terraform apply completed successfully for combination $combinationNumber of $($combinations.Count)."
-
-    $success = Invoke-TerraformWithRetry `
+    $destroySuccess = Invoke-TerraformWithRetry `
       -commands @(
         @{
           Command = "plan"
@@ -223,12 +222,16 @@ foreach ($combination in $combinations) {
       ) `
       -workingDirectory $rootModuleFolderPath
 
-    if(-not $success) {
+    if(-not $destroySuccess) {
       Write-Host "Failed to destroy Terraform resources."
-      return $false
+    } else {
+      Write-Host "Terraform destroy completed successfully for combination $combinationNumber of $($combinations.Count)."
     }
 
-    Write-Host "Terraform destroy completed successfully for combination $combinationNumber of $($combinations.Count)."
+    if(-not $applySuccess -or -not $destroySuccess) {
+      Write-Host "Test failed for combination $combinationNumber of $($combinations.Count)."
+      return $false
+    }
   }
 
   $combinationNumber++
