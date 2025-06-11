@@ -70,7 +70,7 @@ jobs:
 
           Write-Host "Subscription ID: $subscriptionId"
 
-          $tfvarsFile = @
+          $tfvarsFile = @"
           starter_locations            = ["uksouth", "ukwest"]
           subscription_id_connectivity = "$subscriptionId"
           subscription_id_identity     = "$subscriptionId"
