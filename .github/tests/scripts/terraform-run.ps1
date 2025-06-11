@@ -51,7 +51,7 @@ function Invoke-TerraformWithRetry {
         } else {
           foreach($line in $errorOutput) {
             foreach($retryError in $retryOn) {
-              if ($line -match $retryError) {
+              if ($line -like "*$retryError*") {
                 Write-Host "Retrying Terraform $commandName due to error: $line"
                 $shouldRetry = $true
                 break
