@@ -112,8 +112,6 @@ jobs:
 
           $updatedContent | Out-File -FilePath $architectureFilePath -Encoding utf8 -Force
 
-          Write-Debug $updatedContent
-
         shell: pwsh
 
       - name: Run Terraform
