@@ -80,6 +80,11 @@ jobs:
           "@
 
           $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
+
+          # Register resource providers
+          $env:ARM_SUBSCRIPTION_ID=$subscriptionId
+          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
+
         shell: pwsh
         env:
           ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
@@ -132,7 +137,6 @@ jobs:
         shell: pwsh
         env:
           ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
