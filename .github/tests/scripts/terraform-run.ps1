@@ -67,10 +67,11 @@ function Invoke-TerraformWithRetry {
           return $false
         }
 
-        if($printOutput) {
-          Write-Host "Output Log:"
-          Get-Content -Path $outputLog | Write-Host
-        }
+      }
+
+      if($printOutput) {
+        Write-Host "Output Log:"
+        Get-Content -Path $outputLog | Write-Host
       }
     }
     return $true
