@@ -16,11 +16,11 @@ variable "subscription_display_name" {
   type        = string
 }
 
-data "azurerm_subscription" "lookup" {
-  display_name = var.subscription_display_name
+data "azurerm_subscriptions" "lookup" {
+  display_name_prefix = var.subscription_display_name
 }
 
 output "subscription_id" {
   description = "The ID of the Azure subscription."
-  value       = data.azurerm_subscription.lookup.id
+  value       = data.azurerm_subscriptions.lookup.subscriptions[0].subscription_id
 }
