@@ -79,6 +79,7 @@ jobs:
           $sourceVarFilePath = "${{ matrix.configFilePath }}"
           $destinationVarFilePath = "${{ matrix.rootModuleFolderPath }}/test.auto.tfvars"
           $splitNumber = ${{ matrix.splitNumber }}
+          $splitIncrement = ${{ matrix.splitIncrement }}
 
           $fileContent = Get-Content -Path $sourceVarFilePath
 
@@ -115,8 +116,9 @@ jobs:
           Write-Host "Found $($combinations.Count) combinations for $sourceVarFilePath"
 
           $combinationNumber = 1
+          $splitCombinationNumber = $splitNumber
           foreach ($combination in $combinations) {
-            if($combinationNumber % $splitNumber -ne 0) {
+            if($combinationNumber -ne $splitNumber) {
               $combinationNumber++
               continue
             }
@@ -248,6 +250,7 @@ jobs:
             Write-Host (ConvertTo-Json $items -Depth 10)
             Write-Host "Terraform plan completed successfully for combination $combinationNumber of $($combinations.Count)."
             $combinationNumber++
+            $splitCombinationNumber += $splitIncrement
           }
         shell: pwsh
         env:

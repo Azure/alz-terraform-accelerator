@@ -25,6 +25,7 @@ foreach($configFile in $configFiles) {
       configFilePath = $configFile.FullName
       rootModuleFolderPath = $rootModuleFolder
       splitNumber = $i + 1
+      splitIncrement = $splitCount
     }
     $matrix += $matrixItem
   }
