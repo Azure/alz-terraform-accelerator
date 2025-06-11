@@ -186,7 +186,6 @@ jobs:
                   Get-Content -Path $errorLog | Write-Host
                   exit 1
                 }
-                break
               }
 
               $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
@@ -229,9 +228,8 @@ jobs:
                   exit 1
                 }
               }
+              break
             }
-
-
 
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
             $planJson = Get-Content -Raw tfplan.json
