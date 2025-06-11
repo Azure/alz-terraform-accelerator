@@ -31,4 +31,6 @@ foreach($configFile in $configFiles) {
   }
 }
 
+$matrix = $matrix | Sort-Object -Property splitNumber, name
+
 return $matrix
