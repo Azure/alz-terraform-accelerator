@@ -20,7 +20,7 @@ foreach($configFile in $configFiles) {
   for ($i = 0; $i -lt $splitCount; $i++) {
     $splitNumber = "{0:D2}" -f ($i + 1)
     $matrixItem = @{
-      name = $directory + "-" + $configFileName + "-" + $runNumber + "-" + $splitNumber
+      name = $directory + "--" + $configFileName + "-" + $runNumber + "-" + $splitNumber
       shortName = $shortDirectory + $shortFileName + "-" + $runNumber + "-" + $splitNumber
       configFilePath = $configFile.FullName
       rootModuleFolderPath = $rootModuleFolder
