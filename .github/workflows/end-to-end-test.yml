@@ -96,12 +96,23 @@ jobs:
           $splitNumber = ${{ matrix.splitNumber }}
           $splitIncrement = ${{ matrix.splitIncrement }}
 
-          .github/tests/scripts/terraform-run.ps1 `
+          $command = ".github/tests/scripts/terraform-run.ps1 `
             -mode $mode `
             -rootModuleFolderPath $rootModuleFolderPath `
             -sourceVarFilePath $sourceVarFilePath `
             -splitNumber $splitNumber `
-            -splitIncrement $splitIncrement
+            -splitIncrement $splitIncrement"
+
+          $process = Start-Process `
+            -FilePath "pwsh" `
+            -ArgumentList @("-command", $command) `
+            -PassThru `
+            -NoNewWindow `
+            -Wait
+
+          if ($process.ExitCode -ne 0) {
+            exit $process.ExitCode
+          }
 
         shell: pwsh
         env:
