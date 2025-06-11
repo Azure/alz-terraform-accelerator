@@ -64,7 +64,6 @@ jobs:
 
       - name: Setup Module Inputs
         run: |
-
           $subsciptionModulePath = ".github/tests/subscription_lookup"
           terraform -chdir="$subsciptionModulePath" init
           terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
@@ -88,6 +87,18 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
+      - name: Setup Terraform Lib Folder
+        if: ${{ matrix.mode == 'apply' }}
+        run: |
+          $architectureFilePath = "${{ matrix.rootModuleFolderPath }}/lib/architecture_definitions/alz_custom.alz_architecture_definition.yaml"
+
+          $shortName = "${{ matrix.ShortName }}"
+
+          $content = Get-Content -Path $architectureFilePath -Raw
+          $content = $content.Replace("id: ", "id: $($shortName)_")
+          $content | Set-Content -Path $architectureFilePath -Encoding utf8
+        shell: pwsh
+
       - name: Run Terraform
         run: |
           $mode = "${{ matrix.mode }}"
@@ -95,13 +106,15 @@ jobs:
           $rootModuleFolderPath = "${{ matrix.rootModuleFolderPath }}"
           $splitNumber = ${{ matrix.splitNumber }}
           $splitIncrement = ${{ matrix.splitIncrement }}
+          $shortName = "${{ matrix.ShortName }}"
 
           $success = .github/tests/scripts/terraform-run.ps1 `
             -mode $mode `
             -rootModuleFolderPath $rootModuleFolderPath `
             -sourceVarFilePath $sourceVarFilePath `
             -splitNumber $splitNumber `
-            -splitIncrement $splitIncrement
+            -splitIncrement $splitIncrement `
+            -shortName $shortName
 
           if(-not $success) {
             Write-Host "Terraform run failed."

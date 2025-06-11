@@ -3,7 +3,8 @@ param(
   [string]$rootModuleFolderPath = "./templates/platform_landing_zone",
   [string]$sourceVarFilePath = "./templates/platform_landing_zone/examples/full-multi-region/hub-and-spoke-vnet.tfvars",
   [int]$splitNumber = 1,
-  [int]$splitIncrement = 1
+  [int]$splitIncrement = 1,
+  [string]$shortName = "blah"
 )
 
 function Invoke-TerraformWithRetry {
@@ -123,6 +124,9 @@ foreach ($combination in $combinations) {
       $setting = $combination[$line].ToString().ToLower()
       $updatedLine = $line -replace "true", $setting
       $updatedLines += $updatedLine
+    }
+    if($mode -eq "apply" -and $updatedLine -like "*_resource_group_name*" -and $updatedLine -match "rg-") {
+      $updatedLine = $updatedLine -replace "rg-", "rg-${shortName}-"
     }
     $testContent += $updatedLine
   }
