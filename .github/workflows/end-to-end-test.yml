@@ -118,7 +118,7 @@ jobs:
           $combinationNumber = 1
           $splitCombinationNumber = $splitNumber
           foreach ($combination in $combinations) {
-            if($combinationNumber -ne $splitNumber) {
+            if($combinationNumber -ne $splitCombinationNumber) {
               $combinationNumber++
               continue
             }
@@ -251,7 +251,7 @@ jobs:
             Write-Host "Terraform plan completed successfully for combination $combinationNumber of $($combinations.Count)."
             $combinationNumber++
             $splitCombinationNumber = $splitCombinationNumber + $splitIncrement
-            Write-Host "Next split combination number: $splitCombinationNumber"
+            Write-Debug "Next split combination number: $splitCombinationNumber"
           }
         shell: pwsh
         env:
