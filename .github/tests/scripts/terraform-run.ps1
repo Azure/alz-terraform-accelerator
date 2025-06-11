@@ -45,16 +45,21 @@ function Invoke-TerraformWithRetry {
       if ($process.ExitCode -ne 0) {
         $errorOutput = Get-Content -Path $errorLog -Raw
         $shouldRetry = $false
-        foreach($line in $errorOutput) {
-          foreach($retryError in $retryOn) {
-            if ($line -match $retryError) {
-              Write-Host "Retrying Terraform $commandName due to error: $line"
-              $shouldRetry = $true
+
+        if($retryOn -contains "*") {
+          $shouldRetry = $true
+        } else {
+          foreach($line in $errorOutput) {
+            foreach($retryError in $retryOn) {
+              if ($line -match $retryError) {
+                Write-Host "Retrying Terraform $commandName due to error: $line"
+                $shouldRetry = $true
+                break
+              }
+            }
+            if ($shouldRetry) {
               break
             }
-          }
-          if ($shouldRetry) {
-            break
           }
         }
 
@@ -260,7 +265,8 @@ foreach ($combination in $combinations) {
           OutputLog = "$logFolder/destroy.log"
         }
       ) `
-      -workingDirectory $rootModuleFolderPath
+      -workingDirectory $rootModuleFolderPath `
+      -retryOn @("*")
 
     if(-not $destroySuccess) {
       Write-Host "Failed to destroy Terraform resources."
