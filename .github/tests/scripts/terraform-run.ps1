@@ -53,7 +53,7 @@ function Invoke-TerraformWithRetry {
         if ($shouldRetry) {
           Write-Host "Retrying Terraform $commandName due to error: $errorOutput"
           $retryCount++
-          continue
+          break
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
           Write-Host "Output Log:"
@@ -66,8 +66,8 @@ function Invoke-TerraformWithRetry {
         }
       }
     }
+    return $true
   }
-  return $true
 }
 
 $destinationVarFilePath = "$rootModuleFolderPath/test.auto.tfvars"
