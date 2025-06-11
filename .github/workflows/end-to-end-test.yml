@@ -122,6 +122,10 @@ jobs:
           $splitNumber = ${{ matrix.splitNumber }}
           $splitIncrement = ${{ matrix.splitIncrement }}
           $shortName = "${{ matrix.ShortName }}"
+          $subscriptionName = "${{ matrix.subscriptionName }}"
+          $managementGroupId = "${{ matrix.managementGroupId }}"
+
+          Write-Host "Running on subscription: $subscriptionName, management group: $managementGroupId, split number: $splitNumber, mode: $mode"
 
           $success = .github/tests/scripts/terraform-run.ps1 `
             -mode $mode `
