@@ -14,7 +14,8 @@ function Invoke-TerraformWithRetry {
     [string]$outputLog = "output.log",
     [string]$errorLog = "error.log",
     [int]$maxRetries = 10,
-    [string[]]$retryOn = @("429 Too Many Requests")
+    [string[]]$retryOn = @("429 Too Many Requests"),
+    [switch]$printOutput
   )
 
   $retryCount = 1
@@ -64,6 +65,11 @@ function Invoke-TerraformWithRetry {
           Write-Host "Combination: $combinationNumber of $($combinations.Count)"
           Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
           return $false
+        }
+
+        if($printOutput) {
+          Write-Host "Output Log:"
+          Get-Content -Path $outputLog | Write-Host
         }
       }
     }
@@ -143,7 +149,8 @@ foreach ($combination in $combinations) {
         Arguments = @()
       }
     ) `
-    -workingDirectory $rootModuleFolderPath
+    -workingDirectory $rootModuleFolderPath `
+    -printOutput:($mode -eq "apply")
 
   if(-not $success) {
     Write-Host "Failed to initialize Terraform."
@@ -205,7 +212,8 @@ foreach ($combination in $combinations) {
           Arguments = @("tfplan")
         }
       ) `
-      -workingDirectory $rootModuleFolderPath
+      -workingDirectory $rootModuleFolderPath `
+      -printOutput
 
     if(-not $applySuccess) {
       Write-Host "Failed to apply Terraform."
@@ -224,7 +232,8 @@ foreach ($combination in $combinations) {
           Arguments = @("tfplan")
         }
       ) `
-      -workingDirectory $rootModuleFolderPath
+      -workingDirectory $rootModuleFolderPath `
+      -printOutput
 
     if(-not $destroySuccess) {
       Write-Host "Failed to destroy Terraform resources."
