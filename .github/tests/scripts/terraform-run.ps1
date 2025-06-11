@@ -8,7 +8,7 @@ param(
 
 function Invoke-TerraformWithRetry {
   param(
-    [array]$commands,
+    [hashtable[]]$commands,
     [string]$workingDirectory,
     [string]$outputLog = "output.log",
     [string]$errorLog = "error.log",
@@ -132,11 +132,13 @@ foreach ($combination in $combinations) {
   Write-Host "Running $mode test for combination $combinationNumber of $($combinations.Count) with settings:"
   Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
 
-  $success = Invoke-TerraformWithRetry
-    -commands @{
-      Command = "init"
-      Arguments = @()
-    } `
+  $success = Invoke-TerraformWithRetry `
+    -commands @(
+      @{
+        Command = "init"
+        Arguments = @()
+      }
+    ) `
     -workingDirectory $rootModuleFolderPath
 
   if(-not $success) {
@@ -145,11 +147,11 @@ foreach ($combination in $combinations) {
   }
 
   if($mode -eq "plan") {
-    $success = Invoke-TerraformWithRetry
-      -commands @{
+    $success = Invoke-TerraformWithRetry `
+      -commands @(@{
         Command = "plan"
         Arguments = @("-out=tfplan")
-      } `
+      }) `
       -workingDirectory $rootModuleFolderPath
 
     if(-not $success) {
@@ -157,13 +159,13 @@ foreach ($combination in $combinations) {
       return $false
     }
 
-    $success = Invoke-TerraformWithRetry
-      -commands @{
+    $success = Invoke-TerraformWithRetry `
+      -commands @(@{
         Command = "show"
         Arguments = @("-json", "tfplan")
-      } `
+      }) `
       -workingDirectory $rootModuleFolderPath `
-      -outputLog "tfplan.json" `
+      -outputLog "tfplan.json"
 
     if(-not $success) {
       Write-Host "Failed to generate plan JSON."
@@ -188,7 +190,7 @@ foreach ($combination in $combinations) {
   }
 
   if($mode -eq "apply") {
-    $success = Invoke-TerraformWithRetry
+    $success = Invoke-TerraformWithRetry `
       -commands @(
         @{
           Command = "plan"
@@ -208,7 +210,7 @@ foreach ($combination in $combinations) {
 
     Write-Host "Terraform apply completed successfully for combination $combinationNumber of $($combinations.Count)."
 
-    $success = Invoke-TerraformWithRetry
+    $success = Invoke-TerraformWithRetry `
       -commands @(
         @{
           Command = "plan"
