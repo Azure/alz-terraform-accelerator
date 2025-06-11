@@ -4,7 +4,8 @@ param(
   [string]$sourceVarFilePath = "./templates/platform_landing_zone/examples/full-multi-region/hub-and-spoke-vnet.tfvars",
   [int]$splitNumber = 1,
   [int]$splitIncrement = 1,
-  [string]$shortName = "blah"
+  [string]$shortName = "blah",
+  [string]$logFolder = "./logs"
 )
 
 function Invoke-TerraformWithRetry {
@@ -24,13 +25,17 @@ function Invoke-TerraformWithRetry {
     foreach ($command in $commands) {
       $commandName = $command.Command
       $arguments = $command.Arguments
+      $localLogPath = $outputLog
+      if($command.OutputLog) {
+        $localLogPath = $command.OutputLog
+      }
       $commandArguments = @("-chdir=$workingDirectory", $commandName) + $arguments
 
       Write-Host "Running Terraform $commandName with arguments: $($commandArguments -join ' ')"
       $process = Start-Process `
         -FilePath "terraform" `
         -ArgumentList $commandArguments `
-        -RedirectStandardOutput $outputLog `
+        -RedirectStandardOutput $localLogPath `
         -RedirectStandardError $errorLog `
         -PassThru `
         -NoNewWindow `
@@ -59,19 +64,18 @@ function Invoke-TerraformWithRetry {
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
           Write-Host "Output Log:"
-          Get-Content -Path $outputLog | Write-Host
+          Get-Content -Path $localLogPath | Write-Host
           Write-Host "Error Log:"
           Get-Content -Path $errorLog | Write-Host
           Write-Host "Combination: $combinationNumber of $($combinations.Count)"
           Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
           return $false
         }
-
       }
 
       if($printOutput) {
         Write-Host "Output Log:"
-        Get-Content -Path $outputLog | Write-Host
+        Get-Content -Path $localLogPath | Write-Host
       }
     }
     return $true
@@ -81,6 +85,10 @@ function Invoke-TerraformWithRetry {
 $destinationVarFilePath = "$rootModuleFolderPath/test.auto.tfvars"
 
 $fileContent = Get-Content -Path $sourceVarFilePath
+
+if(-not (Test-Path -Path $logFolder)) {
+  New-Item -ItemType Directory -Path $logFolder | Out-Null
+}
 
 Write-Host "Processing config file: $sourceVarFilePath"
 
@@ -148,10 +156,10 @@ foreach ($combination in $combinations) {
       @{
         Command = "init"
         Arguments = @()
+        OutputLog = "init.log"
       }
     ) `
-    -workingDirectory $rootModuleFolderPath `
-    -printOutput:($mode -eq "apply")
+    -workingDirectory $rootModuleFolderPath
 
   if(-not $success) {
     Write-Host "Failed to initialize Terraform."
@@ -207,14 +215,20 @@ foreach ($combination in $combinations) {
         @{
           Command = "plan"
           Arguments = @("-out=tfplan")
+          OutputLog = "$logFolder/apply-plan.log"
         },
+        @{
+          Command = "show"
+          Arguments = @("-json", "tfplan")
+          OutputLog = "$logFolder/apply-plan.json"
+        }
         @{
           Command = "apply"
           Arguments = @("tfplan")
+          OutputLog = "$logFolder/apply.log"
         }
       ) `
-      -workingDirectory $rootModuleFolderPath `
-      -printOutput
+      -workingDirectory $rootModuleFolderPath
 
     if(-not $applySuccess) {
       Write-Host "Failed to apply Terraform."
@@ -227,14 +241,15 @@ foreach ($combination in $combinations) {
         @{
           Command = "plan"
           Arguments = @("-destroy","-out=tfplan")
+          OutputLog = "$logFolder/destroy-plan.log"
         },
         @{
           Command = "apply"
           Arguments = @("tfplan")
+          OutputLog = "$logFolder/destroy.log"
         }
       ) `
-      -workingDirectory $rootModuleFolderPath `
-      -printOutput
+      -workingDirectory $rootModuleFolderPath
 
     if(-not $destroySuccess) {
       Write-Host "Failed to destroy Terraform resources."

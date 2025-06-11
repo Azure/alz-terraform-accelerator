@@ -53,6 +53,7 @@ foreach($configFile in $configFiles) {
     }
     $matrix += $matrixItem
   }
+  $configFileNumber++
 }
 
 $matrix = $matrix | Sort-Object -Property mode, splitNumber, name

@@ -129,7 +129,8 @@ jobs:
             -sourceVarFilePath $sourceVarFilePath `
             -splitNumber $splitNumber `
             -splitIncrement $splitIncrement `
-            -shortName $shortName
+            -shortName $shortName `
+            -logFolder "./logs"
 
           if(-not $success) {
             Write-Host "Terraform run failed."
@@ -143,3 +144,9 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
+      - uses: actions/upload-artifact@v4
+        if: ${{ always() && matrix.mode == 'apply' }}
+        name: Upload logs
+        with:
+          name: ${{ matrix.name }}-logs
+          path: ./logs
