@@ -45,7 +45,7 @@ jobs:
     environment: ${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
     strategy:
-      max-parallel: 10
+      max-parallel: 20
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
@@ -186,6 +186,8 @@ jobs:
                   Get-Content -Path $outputLog | Write-Host
                   Write-Host "Error Log:"
                   Get-Content -Path $errorLog | Write-Host
+                  Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+                  Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
                   exit 1
                 }
               }
@@ -227,6 +229,8 @@ jobs:
                   Get-Content -Path $outputLog | Write-Host
                   Write-Host "Error Log:"
                   Get-Content -Path $errorLog | Write-Host
+                  Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+                  Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
                   exit 1
                 }
               }
