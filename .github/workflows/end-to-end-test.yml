@@ -102,13 +102,16 @@ jobs:
           $content = Get-Content -Path $architectureFilePath
           $updatedContent = @()
           foreach ($line in $content) {
+            $updatedLine = $line
             if ($line -like "*id: " -and $line -notlike "parent_id: null") {
-              $line = $line -replace "id: ", "id: $($shortName)-"
+              $updatedLine = $line -replace "id: ", "id: $($shortName)-"
             }
-            $updatedContent += $line
+            $updatedContent += $updatedLine
           }
 
           $updatedContent | Out-File -FilePath $architectureFilePath -Encoding utf8 -Force
+
+          Write-Host $updatedContent
 
         shell: pwsh
 
