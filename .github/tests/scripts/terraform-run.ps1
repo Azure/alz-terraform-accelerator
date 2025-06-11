@@ -146,6 +146,12 @@ foreach ($combination in $combinations) {
     if($mode -eq "apply" -and $updatedLine -like "*_resource_group_name*" -and $updatedLine -match "rg-") {
       $updatedLine = $updatedLine -replace "rg-", "rg-${shortName}-"
     }
+    if($mode -eq "apply" -and $updatedLine -like "*management_group_name*") {
+      $updatedLine = $updatedLine -replace " `"", " `"${shortName}-"
+    }
+    if($mode -eq "apply" -and $updatedLine -like "*alz = {*") {
+      $updatedLine = $updatedLine -replace "alz = {", "${shortName}-alz = {"
+    }
     $testContent += $updatedLine
   }
 
