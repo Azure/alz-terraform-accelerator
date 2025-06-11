@@ -251,6 +251,7 @@ jobs:
             Write-Host "Terraform plan completed successfully for combination $combinationNumber of $($combinations.Count)."
             $combinationNumber++
             $splitCombinationNumber = $splitCombinationNumber + $splitIncrement
+            Write-Host "Next split combination number: $splitCombinationNumber"
           }
         shell: pwsh
         env:
