@@ -21,15 +21,20 @@ function Invoke-TerraformWithRetry {
   )
 
   $retryCount = 1
+  $shouldRetry = $true
 
-  while ($retryCount -le $maxRetries) {
+  while ($shouldRetry -and $retryCount -le $maxRetries) {
+    $shouldRetry = $false
+
     foreach ($command in $commands) {
       $commandName = $command.Command
       $arguments = $command.Arguments
+
       $localLogPath = $outputLog
       if($command.OutputLog) {
         $localLogPath = $command.OutputLog
       }
+
       $commandArguments = @("-chdir=$workingDirectory", $commandName) + $arguments
 
       Write-Host "Running Terraform $commandName with arguments: $($commandArguments -join ' ')"
@@ -43,30 +48,26 @@ function Invoke-TerraformWithRetry {
         -Wait
 
       if ($process.ExitCode -ne 0) {
-        $errorOutput = Get-Content -Path $errorLog -Raw
-        $shouldRetry = $false
+        Write-Host "Terraform $commandName failed with exit code $($process.ExitCode)."
 
         if($retryOn -contains "*") {
           $shouldRetry = $true
         } else {
+          $errorOutput = Get-Content -Path $errorLog
           foreach($line in $errorOutput) {
             foreach($retryError in $retryOn) {
               if ($line -like "*$retryError*") {
                 Write-Host "Retrying Terraform $commandName due to error: $line"
                 $shouldRetry = $true
-                break
               }
-            }
-            if ($shouldRetry) {
-              break
             }
           }
         }
 
         if ($shouldRetry) {
-          Write-Host "Retrying Terraform $commandName due to error: $errorOutput"
+          Write-Host "Retrying Terraform $commandName due to error:"
+          Get-Content -Path $errorLog | Write-Host
           $retryCount++
-          break
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
           if($printOutputOnError) {
@@ -74,20 +75,18 @@ function Invoke-TerraformWithRetry {
             Get-Content -Path $localLogPath | Write-Host
           }
           Write-Host "Error Log:"
-          Get-Content -Path $errorLog | Write-Host
-          Write-Host "Combination: $combinationNumber of $($combinations.Count)"
-          Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
+          Get-Content -Path $errorLog | Write-Hos
           return $false
         }
-      }
-
-      if($printOutput) {
-        Write-Host "Output Log:"
-        Get-Content -Path $localLogPath | Write-Host
+      } else {
+        if($printOutput) {
+          Write-Host "Output Log:"
+          Get-Content -Path $localLogPath | Write-Host
+        }
       }
     }
-    return $true
   }
+  return $true
 }
 
 $destinationVarFilePath = "$rootModuleFolderPath/test.auto.tfvars"
@@ -178,6 +177,8 @@ foreach ($combination in $combinations) {
 
   if(-not $success) {
     Write-Host "Failed to initialize Terraform."
+    Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+    Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
     return $false
   }
 
@@ -192,6 +193,8 @@ foreach ($combination in $combinations) {
 
     if(-not $success) {
       Write-Host "Failed to generate plan."
+      Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+      Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
       return $false
     }
 
@@ -205,6 +208,8 @@ foreach ($combination in $combinations) {
 
     if(-not $success) {
       Write-Host "Failed to generate plan JSON."
+      Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+      Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
       return $false
     }
 
@@ -248,6 +253,8 @@ foreach ($combination in $combinations) {
 
     if(-not $applySuccess) {
       Write-Host "Failed to apply Terraform."
+      Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+      Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
     } else {
       Write-Host "Terraform apply completed successfully for combination $combinationNumber of $($combinations.Count)."
     }
@@ -270,6 +277,8 @@ foreach ($combination in $combinations) {
 
     if(-not $destroySuccess) {
       Write-Host "Failed to destroy Terraform resources."
+      Write-Host "Combination: $combinationNumber of $($combinations.Count)"
+      Write-Host "$($updatedLines | ConvertTo-Json -Depth 10)"
     } else {
       Write-Host "Terraform destroy completed successfully for combination $combinationNumber of $($combinations.Count)."
     }
