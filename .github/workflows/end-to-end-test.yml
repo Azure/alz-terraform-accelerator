@@ -33,7 +33,7 @@ jobs:
       - name: Generate Matrix
         id: matrix
         run: |
-          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}"
+          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 10
           $matrixJson = ConvertTo-Json $matrix -Depth 10 -Compress
           Write-Host (ConvertTo-Json $matrix -Depth 10)
           Write-Output "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
@@ -45,6 +45,7 @@ jobs:
     environment: ${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
     strategy:
+      max-parallel: 10
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
@@ -141,43 +142,93 @@ jobs:
             $outputLog = "output.log"
             $errorLog = "error.log"
 
-            $initArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "init")
-            $process = Start-Process `
-              -FilePath "terraform" `
-              -ArgumentList $initArguments `
-              -RedirectStandardOutput $outputLog `
-              -RedirectStandardError $errorLog `
-              -PassThru `
-              -NoNewWindow `
-              -Wait
+            $retryCount = 1
+            $maxRetries = 10
+            $retryOn = @("429 Too Many Requests")
 
-            if ($process.ExitCode -ne 0) {
-              Write-Host "Terraform init failed with exit code $($process.ExitCode). Check the logs for details."
-              Write-Host "Output Log:"
-              Get-Content -Path $outputLog | Write-Host
-              Write-Host "Error Log:"
-              Get-Content -Path $errorLog | Write-Host
-              exit 1
+            while ($retryCount -le $maxRetries) {
+              $initArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "init")
+              $process = Start-Process `
+                -FilePath "terraform" `
+                -ArgumentList $initArguments `
+                -RedirectStandardOutput $outputLog `
+                -RedirectStandardError $errorLog `
+                -PassThru `
+                -NoNewWindow `
+                -Wait
+
+              if ($process.ExitCode -ne 0) {
+                $errorOutput = Get-Content -Path $errorLog -Raw
+                $shouldRetry = $false
+                foreach($line in $errorOutput) {
+                  foreach($retryError in $retryOn) {
+                    if ($line -match $retryError) {
+                      Write-Host "Retrying Terraform plan due to error: $line"
+                      $shouldRetry = $true
+                      break
+                    }
+                  }
+                  if ($shouldRetry) {
+                    break
+                  }
+                }
+
+                if ($retryOn -contains $errorOutput) {
+                  Write-Host "Retrying Terraform init due to error: $errorOutput"
+                  $retryCount++
+                  continue
+                } else {
+                  Write-Host "Terraform init failed with exit code $($process.ExitCode). Check the logs for details."
+                  Write-Host "Output Log:"
+                  Get-Content -Path $outputLog | Write-Host
+                  Write-Host "Error Log:"
+                  Get-Content -Path $errorLog | Write-Host
+                  exit 1
+                }
+              }
+
+              $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
+              $process = Start-Process `
+                -FilePath "terraform" `
+                -ArgumentList $planArguments `
+                -RedirectStandardOutput $outputLog `
+                -RedirectStandardError $errorLog `
+                -PassThru `
+                -NoNewWindow `
+                -Wait
+
+              if ($process.ExitCode -ne 0) {
+                $errorOutput = Get-Content -Path $errorLog
+                $shouldRetry = $false
+                foreach($line in $errorOutput) {
+                  foreach($retryError in $retryOn) {
+                    if ($line -match $retryError) {
+                      Write-Host "Retrying Terraform plan due to error: $line"
+                      $shouldRetry = $true
+                      break
+                    }
+                  }
+                  if ($shouldRetry) {
+                    break
+                  }
+                }
+
+                if ($shouldRetry) {
+                  Write-Host "Retrying Terraform plan due to error: $errorOutput"
+                  $retryCount++
+                  continue
+                } else {
+                  Write-Host "Terraform plan failed with exit code $($process.ExitCode). Check the logs for details."
+                  Write-Host "Output Log:"
+                  Get-Content -Path $outputLog | Write-Host
+                  Write-Host "Error Log:"
+                  Get-Content -Path $errorLog | Write-Host
+                  exit 1
+                }
+              }
             }
 
-            $planArguments = @("-chdir=${{ matrix.rootModuleFolderPath }}", "plan", "-out=tfplan")
-            $process = Start-Process `
-              -FilePath "terraform" `
-              -ArgumentList $planArguments `
-              -RedirectStandardOutput $outputLog `
-              -RedirectStandardError $errorLog `
-              -PassThru `
-              -NoNewWindow `
-              -Wait
 
-            if ($process.ExitCode -ne 0) {
-              Write-Host "Terraform plan failed with exit code $($process.ExitCode). Check the logs for details."
-              Write-Host "Output Log:"
-              Get-Content -Path $outputLog | Write-Host
-              Write-Host "Error Log:"
-              Get-Content -Path $errorLog | Write-Host
-              exit 1
-            }
 
             terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
             $planJson = Get-Content -Raw tfplan.json
