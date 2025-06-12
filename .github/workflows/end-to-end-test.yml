@@ -117,7 +117,7 @@ jobs:
           foreach ($subscription in $subscriptions) {
             Write-Host "Running an apply against the $($subscription.Name) subscription to ensure the resource providers are registered. This may take a few minutes the first time it is run."
             $env:ARM_SUBSCRIPTION_ID = $subscription.ID
-            terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false
+            terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
           }
 
         shell: pwsh
