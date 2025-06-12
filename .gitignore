@@ -39,3 +39,4 @@ terraform.tfvars
 tfplan
 templates/platform_landing_zone/examples/test/*
 tfplan.txt
+test.auto.tfvars

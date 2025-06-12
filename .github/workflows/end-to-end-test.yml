@@ -13,7 +13,7 @@ on:
         default: false
         type: boolean
   schedule:
-    - cron: '0 9 * * 1'
+    - cron: '0 3 * * 1-5' # Runs at 3:00 AM UTC on weekdays
 
 permissions:
   id-token: write
@@ -33,7 +33,7 @@ jobs:
       - name: Generate Matrix
         id: matrix
         run: |
-          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}"
+          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 10
           $matrixJson = ConvertTo-Json $matrix -Depth 10 -Compress
           Write-Host (ConvertTo-Json $matrix -Depth 10)
           Write-Output "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
@@ -45,6 +45,7 @@ jobs:
     environment: ${{ github.event_name == 'schedule' && 'CSUTFAUTO' || 'CSUTF' }}
     if: "${{ github.repository == 'Azure/alz-terraform-accelerator' && (contains(github.event.pull_request.labels.*.name, 'PR: Safe to test 🧪') || github.event_name == 'workflow_dispatch' || github.event_name == 'schedule') }}"
     strategy:
+      max-parallel: 20
       fail-fast: false
       matrix:
         include: ${{ fromJSON(needs.define-matrix.outputs.matrix) }}
@@ -63,48 +64,132 @@ jobs:
 
       - name: Setup Module Inputs
         run: |
+          $mode = "${{ matrix.mode }}"
+          $subscriptionModulePath = ".github/tests/subscription_lookup"
+
+          $subscriptionNameConnectivity = "${{ matrix.subscriptionNameConnectivity }}"
+          $subscriptionNameManagement = "${{ matrix.subscriptionNameManagement }}"
+          $subscriptionNameIdentity = "${{ matrix.subscriptionNameIdentity }}"
+
+          $tfvars = @{
+            subscription_display_name_connectivity = $subscriptionNameConnectivity
+            subscription_display_name_management   = $subscriptionNameManagement
+            subscription_display_name_identity     = $subscriptionNameIdentity
+          }
+
+          $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
+
+          terraform -chdir="$subscriptionModulePath" init
+          terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
+          $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
+          $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
+          $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
+
+          Write-Host "Subscription ID Connectivity: $subscriptionIdConnectivity"
+          Write-Host "Subscription ID Management: $subscriptionIdManagement"
+          Write-Host "Subscription ID Identity: $subscriptionIdIdentity"
+
           $tfvarsFile = @"
-          starter_locations            = ["uksouth", "ukwest"]
-          subscription_id_connectivity = "${{ vars.ARM_SUBSCRIPTION_ID }}"
-          subscription_id_identity     = "${{ vars.ARM_SUBSCRIPTION_ID }}"
-          subscription_id_management   = "${{ vars.ARM_SUBSCRIPTION_ID }}"
+          starter_locations               = ["uksouth", "ukwest"]
+          subscription_id_connectivity    = "$subscriptionIdConnectivity"
+          subscription_id_identity        = "$subscriptionIdManagement"
+          subscription_id_management      = "$subscriptionIdIdentity"
+          root_parent_management_group_id = "${{ matrix.managementGroupId }}"
           "@
 
           $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
-        shell: pwsh
+          Write-Debug $tfvarsFile
 
-      - name: Run Plan
-        run: |
-          set +e
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" init
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" plan -var-file="${{ matrix.configFilePath }}" -out=tfplan
+          if($mode -ne "apply") {
+            exit 0
+          }
+
+          $subscriptions = @(
+            @{
+              ID = $subscriptionIdConnectivity
+              Name = $subscriptionNameConnectivity
+            },
+            @{
+              ID = $subscriptionIdManagement
+              Name = $subscriptionNameManagement
+            },
+            @{
+              ID = $subscriptionIdIdentity
+              Name = $subscriptionNameIdentity
+            }
+          )
+
+          foreach ($subscription in $subscriptions) {
+            Write-Host "Running an apply against the $($subscription.Name) subscription to ensure the resource providers are registered. This may take a few minutes the first time it is run."
+            $env:ARM_SUBSCRIPTION_ID = $subscription.ID
+            terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
+          }
+
+        shell: pwsh
         env:
           ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
-      - name: Plan Summary
-        if: always()
+      - name: Setup Terraform Lib Folder
+        if: ${{ matrix.mode == 'apply' }}
         run: |
-          terraform -chdir="${{ matrix.rootModuleFolderPath }}" show -json tfplan > tfplan.json
-          $planJson = Get-Content -Raw tfplan.json
-          $planObject = ConvertFrom-Json $planJson -Depth 100
+          $architectureFilePath = "${{ matrix.rootModuleFolderPath }}/lib/architecture_definitions/alz_custom.alz_architecture_definition.yaml"
 
-          $items = @{}
-          foreach($change in $planObject.resource_changes) {
-            $key = [System.String]::Join("-", $change.change.actions)
-            if(!$items.ContainsKey($key)) {
-              $items[$key] = 0
+          $shortName = "${{ matrix.ShortName }}"
+
+          $content = Get-Content -Path $architectureFilePath
+          $updatedContent = @()
+          foreach ($line in $content) {
+            $updatedLine = $line
+            if ($line -like "*id: *" -and $line -notlike "*parent_id: null*") {
+              $updatedLine = $line -replace "id: ", "id: $($shortName)-"
             }
-            $items[$key]++
+            $updatedContent += $updatedLine
           }
 
-          Write-Host "Plan Summary"
-          Write-Host (ConvertTo-Json $items -Depth 10)
+          $updatedContent | Out-File -FilePath $architectureFilePath -Encoding utf8 -Force
+
         shell: pwsh
 
+      - name: Run Terraform
+        run: |
+          $mode = "${{ matrix.mode }}"
+          $sourceVarFilePath = "${{ matrix.configFilePath }}"
+          $rootModuleFolderPath = "${{ matrix.rootModuleFolderPath }}"
+          $splitNumber = ${{ matrix.splitNumber }}
+          $splitIncrement = ${{ matrix.splitIncrement }}
+          $shortName = "${{ matrix.ShortName }}"
+          $subscriptionName = "${{ matrix.subscriptionName }}"
+          $managementGroupId = "${{ matrix.managementGroupId }}"
+
+          Write-Host "Running on subscription: $subscriptionName, management group: $managementGroupId, split number: $splitNumber, mode: $mode"
+
+          $success = .github/tests/scripts/terraform-run.ps1 `
+            -mode $mode `
+            -rootModuleFolderPath $rootModuleFolderPath `
+            -sourceVarFilePath $sourceVarFilePath `
+            -splitNumber $splitNumber `
+            -splitIncrement $splitIncrement `
+            -shortName $shortName `
+            -logFolder "./logs"
+
+          if(-not $success) {
+            Write-Host "Terraform run failed."
+            exit 1
+          }
+
+        shell: pwsh
+        env:
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_USE_OIDC: true
+
       - uses: actions/upload-artifact@v4
+        if: ${{ always() && matrix.mode == 'apply' }}
+        name: Upload logs
         with:
-          name: ${{ matrix.name }}-tfplan.json
-          path: tfplan.json
+          name: ${{ matrix.name }}-logs
+          path: ./logs
