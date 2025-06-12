@@ -99,7 +99,7 @@ jobs:
           $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
           Write-Debug $tfvarsFile
 
-          subscriptions = @(
+          $subscriptions = @(
             @{
               ID = $subscriptionIdConnectivity
               Name = $subscriptionNameConnectivity
