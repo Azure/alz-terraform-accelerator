@@ -64,6 +64,7 @@ jobs:
 
       - name: Setup Module Inputs
         run: |
+          $mode = "${{ matrix.mode }}"
           $subscriptionModulePath = ".github/tests/subscription_lookup"
 
           $subscriptionNameConnectivity = "${{ matrix.subscriptionNameConnectivity }}"
@@ -98,6 +99,10 @@ jobs:
 
           $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
           Write-Debug $tfvarsFile
+
+          if($mode -ne "apply") {
+            exit 0
+          }
 
           $subscriptions = @(
             @{

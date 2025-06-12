@@ -20,7 +20,7 @@ function Invoke-TerraformWithRetry {
     [switch]$printOutputOnError
   )
 
-  $retryCount = 1
+  $retryCount = 0
   $shouldRetry = $true
 
   while ($shouldRetry -and $retryCount -le $maxRetries) {
@@ -84,6 +84,9 @@ function Invoke-TerraformWithRetry {
           Get-Content -Path $localLogPath | Write-Host
         }
       }
+    }
+    if ($shouldRetry) {
+      Write-Host "Retrying Terraform commands (attempt $retryCount of $maxRetries)..."
     }
   }
   return $true

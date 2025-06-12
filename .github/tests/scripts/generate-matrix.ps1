@@ -31,7 +31,7 @@ foreach($configFile in $configFiles) {
     configFilePath = $configFile.FullName
     rootModuleFolderPath = $rootModuleFolder
     splitNumber = 1
-    splitIncrement = 1
+    splitIncrement = 0
     mode = "apply"
     subscriptionNameConnectivity = "$subscriptionName-connectivity"
     subscriptionNameManagement = "$subscriptionName-management"
