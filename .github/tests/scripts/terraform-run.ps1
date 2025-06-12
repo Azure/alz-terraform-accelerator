@@ -75,7 +75,7 @@ function Invoke-TerraformWithRetry {
             Get-Content -Path $localLogPath | Write-Host
           }
           Write-Host "Error Log:"
-          Get-Content -Path $errorLog | Write-Hos
+          Get-Content -Path $errorLog | Write-Host
           return $false
         }
       } else {

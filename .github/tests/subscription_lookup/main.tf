@@ -11,16 +11,39 @@ provider "azurerm" {
   features {}
 }
 
-variable "subscription_display_name" {
-  description = "The display name of the Azure subscription to look up."
+variable "subscription_display_name_connectivity" {
   type        = string
 }
 
-data "azurerm_subscriptions" "lookup" {
-  display_name_prefix = var.subscription_display_name
+variable "subscription_display_name_management" {
+  type        = string
 }
 
-output "subscription_id" {
-  description = "The ID of the Azure subscription."
-  value       = data.azurerm_subscriptions.lookup.subscriptions[0].subscription_id
+variable "subscription_display_name_identity" {
+  type        = string
+}
+
+locals {
+  subscription_display_names = {
+    connectivity = var.subscription_display_name_connectivity
+    management   = var.subscription_display_name_management
+    identity     = var.subscription_display_name_identity
+  }
+}
+
+data "azurerm_subscriptions" "lookup" {
+  for_each = local.subscription_display_names
+  display_name_prefix = each.value
+}
+
+output "subscription_id_connectivity" {
+  value       = data.azurerm_subscriptions.lookup["connectivity"].subscriptions[0].subscription_id
+}
+
+output "subscription_id_management" {
+  value       = data.azurerm_subscriptions.lookup["management"].subscriptions[0].subscription_id
+}
+
+output "subscription_id_identity" {
+  value       = data.azurerm_subscriptions.lookup["identity"].subscriptions[0].subscription_id
 }

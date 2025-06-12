@@ -33,7 +33,9 @@ foreach($configFile in $configFiles) {
     splitNumber = 1
     splitIncrement = 1
     mode = "apply"
-    subscriptionName = $subscriptionName
+    subscriptionNameConnectivity = "$subscriptionName-connectivity"
+    subscriptionNameManagement = "$subscriptionName-management"
+    subscriptionNameIdentity = "$subscriptionName-identity"
     managementGroupId = $managementGroupId
   }
   $matrix += $matrixItem
@@ -48,7 +50,9 @@ foreach($configFile in $configFiles) {
       splitNumber = $i + 1
       splitIncrement = $splitCount
       mode = "plan"
-      subscriptionName = $subscriptionName
+      subscriptionNameConnectivity = "$subscriptionName-connectivity"
+      subscriptionNameManagement = "$subscriptionName-management"
+      subscriptionNameIdentity = "$subscriptionName-identity"
       managementGroupId = $managementGroupId
     }
     $matrix += $matrixItem

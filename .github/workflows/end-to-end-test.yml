@@ -65,26 +65,58 @@ jobs:
       - name: Setup Module Inputs
         run: |
           $subsciptionModulePath = ".github/tests/subscription_lookup"
+
+          $subscriptionNameConnectivity = "${{ matrix.subscriptionNameConnectivity }}"
+          $subscriptionNameManagement = "${{ matrix.subscriptionNameManagement }}"
+          $subscriptionNameIdentity = "${{ matrix.subscriptionNameIdentity }}"
+
+          $tfvars = @{
+            subscription_display_name_connectivity = $subscriptionNameConnectivity
+            subscription_display_name_management   = $subscriptionNameManagement
+            subscription_display_name_identity     = $subscriptionNameIdentity
+          }
+
+          $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath $subsciptionModulePath -Encoding utf8 -Force
+
           terraform -chdir="$subsciptionModulePath" init
-          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
-          $subscriptionId = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id)
+          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false"
+          $subscriptionIdConnectivity = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_connectivity)
+          $subscriptionIdManagement = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_management)
+          $subscriptionIdIdentity = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_identity)
 
           Write-Host "Subscription ID: $subscriptionId"
 
           $tfvarsFile = @"
           starter_locations            = ["uksouth", "ukwest"]
-          subscription_id_connectivity = "$subscriptionId"
-          subscription_id_identity     = "$subscriptionId"
-          subscription_id_management   = "$subscriptionId"
+          subscription_id_connectivity = "$subscriptionIdConnectivity"
+          subscription_id_identity     = "$subscriptionIdManagement"
+          subscription_id_management   = "$subscriptionIdIdentity"
           root_parent_management_group_id = "${{ matrix.managementGroupId }}"
           "@
 
           $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
           Write-Debug $tfvarsFile
 
-          Write-Host "Running an apply against the test subscription to ensure the resource providers are registered. This may take a few minutes the first time it is run."
-          $env:ARM_SUBSCRIPTION_ID=$subscriptionId
-          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false -var="subscription_display_name=${{ matrix.subscriptionName }}"
+          subscriptions = @(
+            @{
+              ID = $subscriptionIdConnectivity
+              Name = $subscriptionNameConnectivity
+            },
+            @{
+              ID = $subscriptionIdManagement
+              Name = $subscriptionNameManagement
+            },
+            @{
+              ID = $subscriptionIdIdentity
+              Name = $subscriptionNameIdentity
+            }
+          )
+
+          foreach ($subscription in $subscriptions) {
+            Write-Host "Running an apply against the $($subscription.Name) subscription to ensure the resource providers are registered. This may take a few minutes the first time it is run."
+            $env:ARM_SUBSCRIPTION_ID = $subscription.ID
+            terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false"
+          }
 
         shell: pwsh
         env:
