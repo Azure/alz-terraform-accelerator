@@ -64,7 +64,7 @@ jobs:
 
       - name: Setup Module Inputs
         run: |
-          $subsciptionModulePath = ".github/tests/subscription_lookup"
+          $subscriptionModulePath = ".github/tests/subscription_lookup"
 
           $subscriptionNameConnectivity = "${{ matrix.subscriptionNameConnectivity }}"
           $subscriptionNameManagement = "${{ matrix.subscriptionNameManagement }}"
@@ -76,21 +76,23 @@ jobs:
             subscription_display_name_identity     = $subscriptionNameIdentity
           }
 
-          $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath $subsciptionModulePath -Encoding utf8 -Force
+          $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
 
-          terraform -chdir="$subsciptionModulePath" init
-          terraform -chdir="$subsciptionModulePath" apply -auto-approve -input=false"
-          $subscriptionIdConnectivity = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_connectivity)
-          $subscriptionIdManagement = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_management)
-          $subscriptionIdIdentity = (terraform -chdir="$subsciptionModulePath" output -raw subscription_id_identity)
+          terraform -chdir="$subscriptionModulePath" init
+          terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false"
+          $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
+          $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
+          $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
 
-          Write-Host "Subscription ID: $subscriptionId"
+          Write-Host "Subscription ID Connectivity: $subscriptionIdConnectivity"
+          Write-Host "Subscription ID Management: $subscriptionIdManagement"
+          Write-Host "Subscription ID Identity: $subscriptionIdIdentity"
 
           $tfvarsFile = @"
-          starter_locations            = ["uksouth", "ukwest"]
-          subscription_id_connectivity = "$subscriptionIdConnectivity"
-          subscription_id_identity     = "$subscriptionIdManagement"
-          subscription_id_management   = "$subscriptionIdIdentity"
+          starter_locations               = ["uksouth", "ukwest"]
+          subscription_id_connectivity    = "$subscriptionIdConnectivity"
+          subscription_id_identity        = "$subscriptionIdManagement"
+          subscription_id_management      = "$subscriptionIdIdentity"
           root_parent_management_group_id = "${{ matrix.managementGroupId }}"
           "@
 
