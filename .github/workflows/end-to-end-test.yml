@@ -79,7 +79,7 @@ jobs:
           $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
 
           terraform -chdir="$subscriptionModulePath" init
-          terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false"
+          terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
           $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
           $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
           $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
