@@ -15,14 +15,14 @@ jobs:
     name: super linter
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@f43a0e5ff2bd294095638e18286ca9a3d1956744 # v3.6.0
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2.0.3
         with:
           terraform_version: latest
           terraform_wrapper: false
       - name: Run github/super-linter/slim
-        uses: github/super-linter/slim@v5
+        uses: github/super-linter/slim@45fc0d88288beee4701c62761281edfee85655d7 # v5.0.0
         env:
           # Lint all code
           VALIDATE_ALL_CODEBASE: true
