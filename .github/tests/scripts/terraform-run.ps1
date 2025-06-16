@@ -111,7 +111,6 @@ foreach($line in $fileContent) {
 }
 
 $combinations = @()
-$configState = [ordered]@{}
 
 $configSplits = @("secondary_", "primary_")
 
@@ -125,15 +124,16 @@ foreach($configSplit in $configSplits) {
     $configState[$config] = $true
   }
 
-  $configStateKeys = $configState.Keys
-
   for($i = $filteredConfigsMaxCount; $i -ge 0; $i++) {
     $binaryString = [Convert]::ToString($i, 2).PadLeft($filteredConfigsConfigLength, '0')
     $booleanSplit = $binaryString.ToCharArray() | ForEach-Object { $_ -eq '1' }
-    $combination = $configState.Clone()
+    $combination = [ordered]@{}
+    foreach($config in $booleanConfigs) {
+      $combination[$config] = $true
+    }
 
     for($index = 0; $index -lt $booleanSplit.Count; $index++) {
-      $configKey = $configStateKeys[$index]
+      $configKey = $filteredConfigs[$index]
       $combination[$configKey] = $booleanSplit[$index]
     }
 
