@@ -127,7 +127,7 @@ foreach($configSplit in $configSplits) {
 
   $configStateKeys = $configState.Keys
 
-  for($i = 0; $i -le $filteredConfigsMaxCount; $i++) {
+  for($i = $filteredConfigsMaxCount; $i -ge 0; $i++) {
     $binaryString = [Convert]::ToString($i, 2).PadLeft($filteredConfigsConfigLength, '0')
     $booleanSplit = $binaryString.ToCharArray() | ForEach-Object { $_ -eq '1' }
     $combination = $configState.Clone()
