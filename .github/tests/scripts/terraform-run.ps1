@@ -123,7 +123,7 @@ foreach($configSplit in $configSplits) {
   }
   $filteredConfigsMaxCount = [Convert]::ToInt32(("1" * $filteredConfigsConfigLength), 2)
 
-  for($i = $filteredConfigsMaxCount; $i -ge 0; $i++) {
+  for($i = $filteredConfigsMaxCount; $i -ge 0; $i--) {
     $binaryString = [Convert]::ToString($i, 2).PadLeft($filteredConfigsConfigLength, '0')
     $booleanSplit = $binaryString.ToCharArray() | ForEach-Object { $_ -eq '1' }
     $combination = [ordered]@{}
