@@ -159,7 +159,7 @@ foreach ($combination in $combinations) {
 
   foreach ($line in $fileContent) {
     $updatedLine = $line
-    if($combination.ContainsKey($line)) {
+    if($combination.Contains($line)) {
       $setting = $combination[$line].ToString().ToLower()
       $updatedLine = $line -replace "true", $setting
       $updatedLines += $updatedLine
