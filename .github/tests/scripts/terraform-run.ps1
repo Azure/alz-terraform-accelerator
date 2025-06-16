@@ -117,7 +117,7 @@ $configSplits = @("secondary_", "primary_")
 foreach($configSplit in $configSplits) {
   $filteredConfigs = $booleanConfigs | Where-Object { $_ -notlike "*$configSplit*" }
   $filteredConfigsConfigLength = $filteredConfigs.Count
-  if($filteredConfigsConfigLength -eq 0) {
+  if($filteredConfigsConfigLength -le 1) {
     Write-Host "No boolean configs found for split '$configSplit'. Skipping."
     continue
   }

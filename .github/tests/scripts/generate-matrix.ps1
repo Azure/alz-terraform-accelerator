@@ -6,7 +6,10 @@ param(
   [string]$subscriptionNamePrefix = "alz-acc-avm-test-",
   [string]$managementGroupIdPrefix = "alz-acc-avm-test-",
   [string]$subscriptionNameSuffixNumberLength = 2,
-  [string]$managementGroupIdSuffixNumberLength = 2
+  [string]$managementGroupIdSuffixNumberLength = 2,
+  [string]$primaryTestMode = "apply",
+  [string]$secondaryTestMode = "plan",
+  [switch]$includeSecondaryTests
 )
 
 $configFiles = Get-ChildItem -Path $exampleFolders -Recurse -Filter "*.tfvars" -Force
@@ -32,13 +35,17 @@ foreach($configFile in $configFiles) {
     rootModuleFolderPath = $rootModuleFolder
     splitNumber = 1
     splitIncrement = 0
-    mode = "apply"
+    mode = $primaryTestMode
     subscriptionNameConnectivity = "$subscriptionName-connectivity"
     subscriptionNameManagement = "$subscriptionName-management"
     subscriptionNameIdentity = "$subscriptionName-identity"
     managementGroupId = $managementGroupId
   }
   $matrix += $matrixItem
+
+  if(!$includeSecondaryTests) {
+    continue
+  }
 
   for ($i = 0; $i -lt $splitCount; $i++) {
     $splitNumber = "{0:D2}" -f ($i + 1)
@@ -49,7 +56,7 @@ foreach($configFile in $configFiles) {
       rootModuleFolderPath = $rootModuleFolder
       splitNumber = $i + 1
       splitIncrement = $splitCount
-      mode = "plan"
+      mode = $secondaryTestMode
       subscriptionNameConnectivity = "$subscriptionName-connectivity"
       subscriptionNameManagement = "$subscriptionName-management"
       subscriptionNameIdentity = "$subscriptionName-identity"
