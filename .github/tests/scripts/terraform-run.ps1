@@ -111,19 +111,33 @@ foreach($line in $fileContent) {
 }
 
 $combinations = @()
-$configState = @{}
 
-foreach($config in $booleanConfigs) {
-  $configState[$config] = $true
-}
+$configSplits = @("secondary_", "primary_")
 
-foreach($config in $booleanConfigs) {
-  foreach($childConfig in $booleanConfigs) {
-    $combination = $configState.Clone()
-    $combinations += $combination
-    $configState[$childConfig] = !$configState[$childConfig]
+foreach($configSplit in $configSplits) {
+  $filteredConfigs = $booleanConfigs | Where-Object { $_ -notlike "*$configSplit*" }
+  $filteredConfigsConfigLength = $filteredConfigs.Count
+  if($filteredConfigsConfigLength -le 1) {
+    Write-Host "No boolean configs found for split '$configSplit'. Skipping."
+    continue
   }
-  $configState[$config] = !$configState[$config]
+  $filteredConfigsMaxCount = [Convert]::ToInt32(("1" * $filteredConfigsConfigLength), 2)
+
+  for($i = $filteredConfigsMaxCount; $i -ge 0; $i--) {
+    $binaryString = [Convert]::ToString($i, 2).PadLeft($filteredConfigsConfigLength, '0')
+    $booleanSplit = $binaryString.ToCharArray() | ForEach-Object { $_ -eq '1' }
+    $combination = [ordered]@{}
+    foreach($config in $booleanConfigs) {
+      $combination[$config] = $true
+    }
+
+    for($index = 0; $index -lt $booleanSplit.Count; $index++) {
+      $configKey = $filteredConfigs[$index]
+      $combination[$configKey] = $booleanSplit[$index]
+    }
+
+    $combinations += $combination
+  }
 }
 
 if($combinations.Count -eq 0) {
@@ -145,7 +159,7 @@ foreach ($combination in $combinations) {
 
   foreach ($line in $fileContent) {
     $updatedLine = $line
-    if($combination.ContainsKey($line)) {
+    if($combination.Contains($line)) {
       $setting = $combination[$line].ToString().ToLower()
       $updatedLine = $line -replace "true", $setting
       $updatedLines += $updatedLine
