@@ -111,19 +111,34 @@ foreach($line in $fileContent) {
 }
 
 $combinations = @()
-$configState = @{}
+$configState = [ordered]@{}
 
-foreach($config in $booleanConfigs) {
-  $configState[$config] = $true
-}
+$configSplits = @("secondary_", "primary_")
 
-foreach($config in $booleanConfigs) {
-  foreach($childConfig in $booleanConfigs) {
-    $combination = $configState.Clone()
-    $combinations += $combination
-    $configState[$childConfig] = !$configState[$childConfig]
+foreach($configSplit in $configSplits) {
+
+  $filteredConfigs = $booleanConfigs | Where-Object { $_ -notlike "*$configSplit" }
+  $filteredConfigsConfigLength = $filteredConfigs.Count
+  $filteredConfigsMaxCount = [Convert]::ToInt32(("1" * $filteredConfigsConfigLength), 2)
+
+  foreach($config in $booleanConfigs) {
+    $configState[$config] = $true
   }
-  $configState[$config] = !$configState[$config]
+
+  $configStateKeys = $configState.Keys
+
+  for($i = 0; $i -le $filteredConfigsMaxCount; $i++) {
+    $binaryString = [Convert]::ToString($i, 2).PadLeft($filteredConfigsConfigLength, '0')
+    $booleanSplit = $binaryString.ToCharArray() | ForEach-Object { $_ -eq '1' }
+    $combination = $configState.Clone()
+
+    for($index = 0; $index -lt $booleanSplit.Count; $index++) {
+      $configKey = $configStateKeys[$index]
+      $combination[$configKey] = $booleanSplit[$index]
+    }
+
+    $combinations += $combination
+  }
 }
 
 if($combinations.Count -eq 0) {
