@@ -115,9 +115,12 @@ $combinations = @()
 $configSplits = @("secondary_", "primary_")
 
 foreach($configSplit in $configSplits) {
-
-  $filteredConfigs = $booleanConfigs | Where-Object { $_ -notlike "*$configSplit" }
+  $filteredConfigs = $booleanConfigs | Where-Object { $_ -notlike "*$configSplit*" }
   $filteredConfigsConfigLength = $filteredConfigs.Count
+  if($filteredConfigsConfigLength -eq 0) {
+    Write-Host "No boolean configs found for split '$configSplit'. Skipping."
+    continue
+  }
   $filteredConfigsMaxCount = [Convert]::ToInt32(("1" * $filteredConfigsConfigLength), 2)
 
   for($i = $filteredConfigsMaxCount; $i -ge 0; $i++) {
