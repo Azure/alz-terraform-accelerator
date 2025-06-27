@@ -1,0 +1,96 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/architecture_definition.json",
+  "name": "alz",
+  "management_groups": [
+    {
+      "archetypes": [
+        "root_override"
+      ],
+      "display_name": "Azure Landing Zones",
+      "exists": false,
+      "id": "alz",
+      "parent_id": null
+    },
+    {
+      "archetypes": [
+        "platform"
+      ],
+      "display_name": "Platform",
+      "exists": false,
+      "id": "alz-platform",
+      "parent_id": "alz"
+    },
+    {
+      "archetypes": [
+        "landing_zones"
+      ],
+      "display_name": "Landing Zones",
+      "exists": false,
+      "id": "alz-landing-zones",
+      "parent_id": "alz"
+    },
+    {
+      "archetypes": [
+        "online"
+      ],
+      "display_name": "ALZ Online Example 1",
+      "exists": false,
+      "id": "alz-online-example-1",
+      "parent_id": "alz-landing-zones"
+    },
+    {
+      "archetypes": [
+        "online"
+      ],
+      "display_name": "ALZ Online Example 2",
+      "exists": false,
+      "id": "alz-online-example-2",
+      "parent_id": "alz-landing-zones"
+    },
+    {
+      "archetypes": [
+        "sandbox"
+      ],
+      "display_name": "Sandboxes",
+      "exists": false,
+      "id": "alz-sandboxes",
+      "parent_id": "alz"
+    },
+    {
+      "archetypes": [
+        "management"
+      ],
+      "display_name": "Management",
+      "exists": false,
+      "id": "alz-management",
+      "parent_id": "alz-platform"
+    },
+    {
+      "archetypes": [
+        "connectivity"
+      ],
+      "display_name": "Connectivity",
+      "exists": false,
+      "id": "alz-connectivity",
+      "parent_id": "alz-platform"
+    },
+    {
+      "archetypes": [
+        "identity"
+      ],
+      "display_name": "Identity",
+      "exists": false,
+      "id": "alz-identity",
+      "parent_id": "alz-platform"
+    },
+    {
+      "archetypes": [
+        "decommissioned"
+      ],
+      "display_name": "Decommissioned",
+      "exists": false,
+      "id": "alz-decommissioned",
+      "parent_id": "alz"
+    }
+  ]
+}

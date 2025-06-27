@@ -1,0 +1,28 @@
+{
+    "name": "8a60c97f-9cb6-536b-b5db-9c997ee1de03",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+        "roleName": "[ALZ] Application-Owners",
+        "description": "Contributor role granted for application/operations team at resource group level",
+        "type": "CustomRole",
+        "permissions": [
+            {
+                "actions": [
+                    "*"
+                ],
+                "notActions": [
+                    "Microsoft.Authorization/*/write",
+                    "Microsoft.Network/publicIPAddresses/write",
+                    "Microsoft.Network/virtualNetworks/write",
+                    "Microsoft.KeyVault/locations/deletedVaults/purge/action"
+                ],
+                "dataActions": [],
+                "notDataActions": []
+            }
+        ],
+        "assignableScopes": [
+            "${current_scope_resource_id}"
+        ]
+    }
+}
