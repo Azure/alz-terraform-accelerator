@@ -29,77 +29,66 @@ custom_replacements = {
     defender_email_security_contact = "replace_me@replace_me.com"
 
     # Resource group names
-    management_resource_group_name                 = "rg-management-$${starter_location_01}"
+    management_resource_group_name                 = "alz-mgmt"         # MIGRATION: This had a different default in CAF ES.
+    connectivity_hub_vwan_resource_group_name      = "alz-connectivity" # MIGRATION: This had a different default in CAF ES.
     connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
     connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
-    dns_resource_group_name                        = "rg-hub-dns-$${starter_location_01}"
-    ddos_resource_group_name                       = "rg-hub-ddos-$${starter_location_01}"
+    dns_resource_group_name                        = "alz-dns"  # MIGRATION: This had a different default in CAF ES.
+    ddos_resource_group_name                       = "alz-ddos" # MIGRATION: This had a different default in CAF ES.
     asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
-    # Resource names management
-    log_analytics_workspace_name            = "law-management-$${starter_location_01}"
-    ddos_protection_plan_name               = "ddos-$${starter_location_01}"
-    ama_user_assigned_managed_identity_name = "uami-management-ama-$${starter_location_01}"
-    dcr_change_tracking_name                = "dcr-change-tracking"
-    dcr_defender_sql_name                   = "dcr-defender-sql"
-    dcr_vm_insights_name                    = "dcr-vm-insights"
+    # Resource names
+    log_analytics_workspace_name            = "alz-la"                      # MIGRATION: This had a different default in CAF ES.
+    ddos_protection_plan_name               = "alz-ddos-uksouth"            # MIGRATION: This had a different default in CAF ES.
+    ama_user_assigned_managed_identity_name = "alz-uami"                    # MIGRATION: This had a different default in CAF ES.
+    dcr_change_tracking_name                = "alz-dcr-changetracking-prod" # MIGRATION: This had a different default in CAF ES.
+    dcr_defender_sql_name                   = "alz-dcr-defendersql-prod"    # MIGRATION: This had a different default in CAF ES.
+    dcr_vm_insights_name                    = "alz-dcr-vm-insights"         # MIGRATION: This had a different default in CAF ES.
 
     # Resource provisioning global connectivity
     ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
     primary_firewall_enabled                              = true
-    primary_firewall_management_ip_enabled                = true
     primary_virtual_network_gateway_express_route_enabled = true
     primary_virtual_network_gateway_vpn_enabled           = true
     primary_private_dns_zones_enabled                     = true
     primary_private_dns_auto_registration_zone_enabled    = true
     primary_private_dns_resolver_enabled                  = true
     primary_bastion_enabled                               = true
+    primary_sidecar_virtual_network_enabled               = true
 
     # Resource provisioning secondary connectivity
     secondary_firewall_enabled                              = true
-    secondary_firewall_management_ip_enabled                = true
     secondary_virtual_network_gateway_express_route_enabled = true
     secondary_virtual_network_gateway_vpn_enabled           = true
     secondary_private_dns_zones_enabled                     = true
     secondary_private_dns_auto_registration_zone_enabled    = true
     secondary_private_dns_resolver_enabled                  = true
     secondary_bastion_enabled                               = true
+    secondary_sidecar_virtual_network_enabled               = true
 
     # Resource names primary connectivity
-    primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
-    primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
-    primary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
-    primary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_01}"
-    primary_firewall_management_public_ip_name                   = "pip-fw-hub-mgmt-$${starter_location_01}"
-    primary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_01}"
-    primary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_01}"
-    primary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_01}"
-    primary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_01}"
-    primary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_01}"
-    primary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_01}-001"
-    primary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_01}-002"
-    primary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_01}"
-    primary_bastion_host_name                                    = "bas-hub-$${starter_location_01}"
-    primary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_01}"
+    primary_hub_name                                   = "alz-hub-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
+    primary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_01}"
+    primary_firewall_name                              = "alz-fw-hub-$${starter_location_01}"        # MIGRATION: This had a different default in CAF ES.
+    primary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_01}-policy" # MIGRATION: This had a different default in CAF ES.
+    primary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_01}"          # MIGRATION: This had a different default in CAF ES.
+    primary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_01}"         # MIGRATION: This had a different default in CAF ES.
+    primary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_01}"
+    primary_bastion_host_name                          = "bas-hub-$${starter_location_01}"
+    primary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_01}"
 
     # Resource names secondary connectivity
-    secondary_virtual_network_name                                 = "vnet-hub-$${starter_location_02}"
-    secondary_firewall_name                                        = "fw-hub-$${starter_location_02}"
-    secondary_firewall_policy_name                                 = "fwp-hub-$${starter_location_02}"
-    secondary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_02}"
-    secondary_firewall_management_public_ip_name                   = "pip-fw-hub-mgmt-$${starter_location_02}"
-    secondary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_02}"
-    secondary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_02}"
-    secondary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_02}"
-    secondary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_02}"
-    secondary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_02}"
-    secondary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_02}-001"
-    secondary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_02}-002"
-    secondary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_02}"
-    secondary_bastion_host_name                                    = "bas-hub-$${starter_location_02}"
-    secondary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_02}"
+    secondary_hub_name                                   = "alz-hub-$${starter_location_02}" # MIGRATION: This had a different default in CAF ES.
+    secondary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_02}"
+    secondary_firewall_name                              = "alz-fw-hub-$${starter_location_02}"        # MIGRATION: This had a different default in CAF ES.
+    secondary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_02}-policy" # MIGRATION: This had a different default in CAF ES.
+    secondary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_02}"          # MIGRATION: This had a different default in CAF ES.
+    secondary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_02}"         # MIGRATION: This had a different default in CAF ES.
+    secondary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_02}"
+    secondary_bastion_host_name                          = "bas-hub-$${starter_location_02}"
+    secondary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_02}"
 
     # Private DNS Zones primary
     primary_auto_registration_zone_name = "$${starter_location_01}.azure.local"
@@ -108,24 +97,18 @@ custom_replacements = {
     secondary_auto_registration_zone_name = "$${starter_location_02}.azure.local"
 
     # IP Ranges Primary
-    # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space                          = "10.0.0.0/16"
-    primary_hub_virtual_network_address_space          = "10.0.0.0/22"
-    primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
-    primary_firewall_management_subnet_address_prefix  = "10.0.0.192/26"
-    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
-    primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
-    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
+    # Regional Address Space: 10.100.0.0/16
+    primary_hub_address_space                          = "10.100.0.0/22"  # MIGRATION: This had a different default in CAF ES.
+    primary_side_car_virtual_network_address_space     = "10.100.4.0/22"  # MIGRATION: This had a different default in CAF ES.
+    primary_bastion_subnet_address_prefix              = "10.100.4.0/26"  # MIGRATION: This had a different default in CAF ES.
+    primary_private_dns_resolver_subnet_address_prefix = "10.100.4.64/28" # MIGRATION: This had a different default in CAF ES.
 
     # IP Ranges Secondary
-    # Regional Address Space: 10.1.0.0/16
-    secondary_hub_address_space                          = "10.1.0.0/16"
-    secondary_hub_virtual_network_address_space          = "10.1.0.0/22"
-    secondary_firewall_subnet_address_prefix             = "10.1.0.0/26"
-    secondary_firewall_management_subnet_address_prefix  = "10.1.0.192/26"
-    secondary_bastion_subnet_address_prefix              = "10.1.0.64/26"
-    secondary_gateway_subnet_address_prefix              = "10.1.0.128/27"
-    secondary_private_dns_resolver_subnet_address_prefix = "10.1.0.160/28"
+    # Regional Address Space: 10.101.0.0/16
+    secondary_hub_address_space                          = "10.101.0.0/22"  # MIGRATION: This had a different default in CAF ES.
+    secondary_side_car_virtual_network_address_space     = "10.101.4.0/22"  # MIGRATION: This had a different default in CAF ES.
+    secondary_bastion_subnet_address_prefix              = "10.101.4.0/26"  # MIGRATION: This had a different default in CAF ES.
+    secondary_private_dns_resolver_subnet_address_prefix = "10.101.4.64/28" # MIGRATION: This had a different default in CAF ES.
   }
 
   /*
@@ -161,9 +144,9 @@ enable_telemetry = true
 --- Tags ---
 This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
 */
-tags = {
-  deployed_by = "terraform"
-  source      = "Azure Landing Zones Accelerator"
+tags = { # MIGRATION: This had a different default in CAF ES.
+  demo_type  = "Deploy connectivity resources using multiple module declarations"
+  deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
 }
 
 /*
@@ -171,10 +154,11 @@ tags = {
 You can use this section to customize the management resources that will be deployed.
 */
 management_resource_settings = {
-  enabled                      = true
-  location                     = "$${starter_location_01}"
-  log_analytics_workspace_name = "$${log_analytics_workspace_name}"
-  resource_group_name          = "$${management_resource_group_name}"
+  enabled                                   = true
+  location                                  = "$${starter_location_01}"
+  log_analytics_workspace_name              = "$${log_analytics_workspace_name}"
+  log_analytics_workspace_retention_in_days = 60 # MIGRATION: This had a different default in CAF ES.
+  resource_group_name                       = "$${management_resource_group_name}"
   user_assigned_managed_identities = {
     ama = {
       name = "$${ama_user_assigned_managed_identity_name}"
@@ -190,6 +174,10 @@ management_resource_settings = {
     vm_insights = {
       name = "$${dcr_vm_insights_name}"
     }
+  }
+  tags = { # MIGRATION: This had a different default in CAF ES.
+    demo_type  = "Deploy management resources using multiple module declarations"
+    deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
   }
 }
 
@@ -222,19 +210,19 @@ management_group_settings = {
   subscription_placement = {
     identity = {
       subscription_id       = "$${subscription_id_identity}"
-      management_group_name = "identity"
+      management_group_name = "alz-identity" # MIGRATION: You may need to update this based on your management group IDs
     }
     connectivity = {
       subscription_id       = "$${subscription_id_connectivity}"
-      management_group_name = "connectivity"
+      management_group_name = "alz-connectivity" # MIGRATION: You may need to update this based on your management group IDs
     }
     management = {
       subscription_id       = "$${subscription_id_management}"
-      management_group_name = "management"
+      management_group_name = "alz-management" # MIGRATION: You may need to update this based on your management group IDs
     }
   }
   policy_assignments_to_modify = {
-    alz = {
+    alz = { # MIGRATION: You may need to update this based on your management group IDs
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {
@@ -271,10 +259,10 @@ management_group_settings = {
 }
 
 /*
---- Connectivity - Hub and Spoke Virtual Network ---
-You can use this section to customize the hub virtual networking that will be deployed.
+--- Connectivity - Virtual WAN ---
+You can use this section to customize the virtual wan networking that will be deployed.
 */
-connectivity_type = "hub_and_spoke_vnet"
+connectivity_type = "virtual_wan"
 
 connectivity_resource_groups = {
   ddos = {
@@ -284,14 +272,21 @@ connectivity_resource_groups = {
       enabled = "$${ddos_protection_plan_enabled}"
     }
   }
-  vnet_primary = {
+  vwan = {
+    name     = "$${connectivity_hub_vwan_resource_group_name}"
+    location = "$${starter_location_01}"
+    settings = {
+      enabled = true
+    }
+  }
+  vwan_hub_primary = {
     name     = "$${connectivity_hub_primary_resource_group_name}"
     location = "$${starter_location_01}"
     settings = {
       enabled = true
     }
   }
-  vnet_secondary = {
+  vwan_hub_secondary = {
     name     = "$${connectivity_hub_secondary_resource_group_name}"
     location = "$${starter_location_02}"
     settings = {
@@ -307,7 +302,10 @@ connectivity_resource_groups = {
   }
 }
 
-hub_and_spoke_vnet_settings = {
+virtual_wan_settings = {
+  name                = "alz-vwan-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
+  resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
+  location            = "$${starter_location_01}"
   ddos_protection_plan = {
     enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
@@ -316,78 +314,42 @@ hub_and_spoke_vnet_settings = {
   }
 }
 
-hub_and_spoke_vnet_virtual_networks = {
+virtual_wan_virtual_hubs = {
   primary = {
-    hub_virtual_network = {
-      name                          = "$${primary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_primary_resource_group_name}"
-      location                      = "$${starter_location_01}"
-      address_space                 = ["$${primary_hub_virtual_network_address_space}"]
-      routing_address_space         = ["$${primary_hub_address_space}"]
-      route_table_name_firewall     = "$${primary_route_table_firewall_name}"
-      route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      subnets                       = {}
-      firewall = {
-        enabled                          = "$${primary_firewall_enabled}"
-        subnet_address_prefix            = "$${primary_firewall_subnet_address_prefix}"
-        management_subnet_address_prefix = "$${primary_firewall_management_subnet_address_prefix}"
-        name                             = "$${primary_firewall_name}"
-        sku_name                         = "AZFW_VNet"
-        sku_tier                         = "Standard"
-        zones                            = "$${starter_location_01_availability_zones}"
-        default_ip_configuration = {
-          public_ip_config = {
-            name  = "$${primary_firewall_public_ip_name}"
-            zones = "$${starter_location_01_availability_zones}"
-          }
-        }
-        management_ip_enabled = "$${primary_firewall_management_ip_enabled}"
-        management_ip_configuration = {
-          public_ip_config = {
-            name  = "$${primary_firewall_management_public_ip_name}"
-            zones = "$${starter_location_01_availability_zones}"
-          }
-        }
-        firewall_policy = {
-          name = "$${primary_firewall_policy_name}"
-        }
+    hub = {
+      name = "$${primary_hub_name}"
+      /*
+      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
+      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
+      */
+      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
+      location       = "$${starter_location_01}"
+      address_prefix = "$${primary_hub_address_space}"
+      sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
+    }
+    firewall = {
+      enabled  = "$${primary_firewall_enabled}"
+      name     = "$${primary_firewall_name}"
+      sku_name = "AZFW_Hub"
+      sku_tier = "Standard"
+      zones    = "$${starter_location_01_availability_zones}"
+      tags = { # MIGRATION: This had a different default in CAF ES.
+        demo_type  = "Deploy connectivity resources using multiple module declarations"
+        deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
       }
     }
+    firewall_policy = {
+      name = "$${primary_firewall_policy_name}"
+    }
     virtual_network_gateways = {
-      subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
-        enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_express_route_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
-        ip_configurations = {
-          default = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
-              zones = "$${starter_location_01_availability_zones}"
-            }
-          }
-        }
+        enabled = "$${primary_virtual_network_gateway_express_route_enabled}"
+        name    = "$${primary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
-        ip_configurations = {
-          active_active_1 = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_01_availability_zones}"
-            }
-          }
-          active_active_2 = {
-            public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_01_availability_zones}"
-            }
-          }
-        }
+        enabled = "$${primary_virtual_network_gateway_vpn_enabled}"
+        name    = "$${primary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
@@ -420,78 +382,48 @@ hub_and_spoke_vnet_virtual_networks = {
         zones = "$${starter_location_01_availability_zones}"
       }
     }
+    side_car_virtual_network = {
+      enabled       = "$${primary_sidecar_virtual_network_enabled}"
+      name          = "$${primary_sidecar_virtual_network_name}"
+      address_space = ["$${primary_side_car_virtual_network_address_space}"]
+      # virtual_network_connection_name = "private_dns_vnet_primary"  # Backwards compatibility
+    }
   }
   secondary = {
-    hub_virtual_network = {
-      name                          = "$${secondary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_secondary_resource_group_name}"
-      location                      = "$${starter_location_02}"
-      address_space                 = ["$${secondary_hub_virtual_network_address_space}"]
-      routing_address_space         = ["$${secondary_hub_address_space}"]
-      route_table_name_firewall     = "$${secondary_route_table_firewall_name}"
-      route_table_name_user_subnets = "$${secondary_route_table_user_subnets_name}"
-      subnets                       = {}
-      firewall = {
-        enabled                          = "$${secondary_firewall_enabled}"
-        subnet_address_prefix            = "$${secondary_firewall_subnet_address_prefix}"
-        management_subnet_address_prefix = "$${secondary_firewall_management_subnet_address_prefix}"
-        name                             = "$${secondary_firewall_name}"
-        sku_name                         = "AZFW_VNet"
-        sku_tier                         = "Standard"
-        zones                            = "$${starter_location_02_availability_zones}"
-        default_ip_configuration = {
-          public_ip_config = {
-            name  = "$${secondary_firewall_public_ip_name}"
-            zones = "$${starter_location_02_availability_zones}"
-          }
-        }
-        management_ip_enabled = "$${secondary_firewall_management_ip_enabled}"
-        management_ip_configuration = {
-          public_ip_config = {
-            name  = "$${secondary_firewall_management_public_ip_name}"
-            zones = "$${starter_location_02_availability_zones}"
-          }
-        }
-        firewall_policy = {
-          name = "$${secondary_firewall_policy_name}"
-        }
+    hub = {
+      name = "$${secondary_hub_name}"
+      /*
+      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
+      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
+      */
+      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
+      location       = "$${starter_location_02}"
+      address_prefix = "$${secondary_hub_address_space}"
+      sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
+    }
+    firewall = {
+      enabled  = "$${secondary_firewall_enabled}"
+      name     = "$${secondary_firewall_name}"
+      sku_name = "AZFW_Hub"
+      sku_tier = "Standard"
+      zones    = "$${starter_location_02_availability_zones}"
+      tags = { # MIGRATION: This had a different default in CAF ES.
+        demo_type  = "Deploy connectivity resources using multiple module declarations"
+        deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
       }
     }
+    firewall_policy = {
+      name = "$${secondary_firewall_policy_name}"
+    }
     virtual_network_gateways = {
-      subnet_address_prefix = "$${secondary_gateway_subnet_address_prefix}"
       express_route = {
-        enabled  = "$${secondary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_02}"
-        name     = "$${secondary_virtual_network_gateway_express_route_name}"
-        sku      = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
-        ip_configurations = {
-          default = {
-            public_ip = {
-              name  = "$${secondary_virtual_network_gateway_express_route_public_ip_name}"
-              zones = "$${starter_location_02_availability_zones}"
-            }
-          }
-        }
+        enabled = "$${secondary_virtual_network_gateway_express_route_enabled}"
+        name    = "$${secondary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled  = "$${secondary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_02}"
-        name     = "$${secondary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
-        ip_configurations = {
-          active_active_1 = {
-            public_ip = {
-              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_02_availability_zones}"
-            }
-          }
-          active_active_2 = {
-            public_ip = {
-              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_02_availability_zones}"
-            }
-          }
-        }
+        enabled = "$${secondary_virtual_network_gateway_vpn_enabled}"
+        name    = "$${secondary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
@@ -523,6 +455,12 @@ hub_and_spoke_vnet_virtual_networks = {
         name  = "$${secondary_bastion_host_public_ip_name}"
         zones = "$${starter_location_02_availability_zones}"
       }
+    }
+    side_car_virtual_network = {
+      enabled       = "$${secondary_sidecar_virtual_network_enabled}"
+      name          = "$${secondary_sidecar_virtual_network_name}"
+      address_space = ["$${secondary_side_car_virtual_network_address_space}"]
+      # virtual_network_connection_name = "private_dns_vnet_secondary"  # Backwards compatibility
     }
   }
 }
