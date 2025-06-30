@@ -29,21 +29,21 @@ custom_replacements = {
     defender_email_security_contact = "replace_me@replace_me.com"
 
     # Resource group names
-    management_resource_group_name                 = "alz-mgmt"  # MIGRATION: This had a different default in CAF ES.
-    connectivity_hub_vwan_resource_group_name      = "alz-connectivity"  # MIGRATION: This had a different default in CAF ES.
+    management_resource_group_name                 = "alz-mgmt"         # MIGRATION: This had a different default in CAF ES.
+    connectivity_hub_vwan_resource_group_name      = "alz-connectivity" # MIGRATION: This had a different default in CAF ES.
     connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
     connectivity_hub_secondary_resource_group_name = "rg-hub-$${starter_location_02}"
     dns_resource_group_name                        = "alz-dns"  # MIGRATION: This had a different default in CAF ES.
-    ddos_resource_group_name                       = "alz-ddos"  # MIGRATION: This had a different default in CAF ES.
+    ddos_resource_group_name                       = "alz-ddos" # MIGRATION: This had a different default in CAF ES.
     asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
 
     # Resource names
-    log_analytics_workspace_name            = "alz-la"  # MIGRATION: This had a different default in CAF ES.
-    ddos_protection_plan_name               = "alz-ddos-uksouth"  # MIGRATION: This had a different default in CAF ES.
-    ama_user_assigned_managed_identity_name = "alz-uami"  # MIGRATION: This had a different default in CAF ES.
-    dcr_change_tracking_name                = "alz-dcr-changetracking-prod"  # MIGRATION: This had a different default in CAF ES.
-    dcr_defender_sql_name                   = "alz-dcr-defendersql-prod"  # MIGRATION: This had a different default in CAF ES.
-    dcr_vm_insights_name                    = "alz-dcr-vm-insights"  # MIGRATION: This had a different default in CAF ES.
+    log_analytics_workspace_name            = "alz-la"                      # MIGRATION: This had a different default in CAF ES.
+    ddos_protection_plan_name               = "alz-ddos-uksouth"            # MIGRATION: This had a different default in CAF ES.
+    ama_user_assigned_managed_identity_name = "alz-uami"                    # MIGRATION: This had a different default in CAF ES.
+    dcr_change_tracking_name                = "alz-dcr-changetracking-prod" # MIGRATION: This had a different default in CAF ES.
+    dcr_defender_sql_name                   = "alz-dcr-defendersql-prod"    # MIGRATION: This had a different default in CAF ES.
+    dcr_vm_insights_name                    = "alz-dcr-vm-insights"         # MIGRATION: This had a different default in CAF ES.
 
     # Resource provisioning global connectivity
     ddos_protection_plan_enabled = true
@@ -69,23 +69,23 @@ custom_replacements = {
     secondary_sidecar_virtual_network_enabled               = true
 
     # Resource names primary connectivity
-    primary_hub_name                                   = "alz-hub-$${starter_location_01}"  # MIGRATION: This had a different default in CAF ES.
+    primary_hub_name                                   = "alz-hub-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
     primary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_01}"
-    primary_firewall_name                              = "alz-fw-hub-$${starter_location_01}"  # MIGRATION: This had a different default in CAF ES.
-    primary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_01}-policy"  # MIGRATION: This had a different default in CAF ES.
-    primary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_01}"  # MIGRATION: This had a different default in CAF ES.
-    primary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_01}"  # MIGRATION: This had a different default in CAF ES.
+    primary_firewall_name                              = "alz-fw-hub-$${starter_location_01}"        # MIGRATION: This had a different default in CAF ES.
+    primary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_01}-policy" # MIGRATION: This had a different default in CAF ES.
+    primary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_01}"          # MIGRATION: This had a different default in CAF ES.
+    primary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_01}"         # MIGRATION: This had a different default in CAF ES.
     primary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_01}"
     primary_bastion_host_name                          = "bas-hub-$${starter_location_01}"
     primary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_01}"
 
     # Resource names secondary connectivity
-    secondary_hub_name                                   = "alz-hub-$${starter_location_02}"  # MIGRATION: This had a different default in CAF ES.
+    secondary_hub_name                                   = "alz-hub-$${starter_location_02}" # MIGRATION: This had a different default in CAF ES.
     secondary_sidecar_virtual_network_name               = "vnet-sidecar-$${starter_location_02}"
-    secondary_firewall_name                              = "alz-fw-hub-$${starter_location_02}"  # MIGRATION: This had a different default in CAF ES.
-    secondary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_02}-policy"  # MIGRATION: This had a different default in CAF ES.
-    secondary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_02}"  # MIGRATION: This had a different default in CAF ES.
-    secondary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_02}"  # MIGRATION: This had a different default in CAF ES.
+    secondary_firewall_name                              = "alz-fw-hub-$${starter_location_02}"        # MIGRATION: This had a different default in CAF ES.
+    secondary_firewall_policy_name                       = "alz-fw-hub-$${starter_location_02}-policy" # MIGRATION: This had a different default in CAF ES.
+    secondary_virtual_network_gateway_express_route_name = "alz-ergw-$${starter_location_02}"          # MIGRATION: This had a different default in CAF ES.
+    secondary_virtual_network_gateway_vpn_name           = "alz-vpngw-$${starter_location_02}"         # MIGRATION: This had a different default in CAF ES.
     secondary_private_dns_resolver_name                  = "pdr-hub-dns-$${starter_location_02}"
     secondary_bastion_host_name                          = "bas-hub-$${starter_location_02}"
     secondary_bastion_host_public_ip_name                = "pip-bastion-hub-$${starter_location_02}"
@@ -101,14 +101,14 @@ custom_replacements = {
     primary_hub_address_space                          = "10.100.0.0/22"  # MIGRATION: This had a different default in CAF ES.
     primary_side_car_virtual_network_address_space     = "10.100.4.0/22"  # MIGRATION: This had a different default in CAF ES.
     primary_bastion_subnet_address_prefix              = "10.100.4.0/26"  # MIGRATION: This had a different default in CAF ES.
-    primary_private_dns_resolver_subnet_address_prefix = "10.100.4.64/28"  # MIGRATION: This had a different default in CAF ES.
+    primary_private_dns_resolver_subnet_address_prefix = "10.100.4.64/28" # MIGRATION: This had a different default in CAF ES.
 
     # IP Ranges Secondary
     # Regional Address Space: 10.101.0.0/16
     secondary_hub_address_space                          = "10.101.0.0/22"  # MIGRATION: This had a different default in CAF ES.
     secondary_side_car_virtual_network_address_space     = "10.101.4.0/22"  # MIGRATION: This had a different default in CAF ES.
     secondary_bastion_subnet_address_prefix              = "10.101.4.0/26"  # MIGRATION: This had a different default in CAF ES.
-    secondary_private_dns_resolver_subnet_address_prefix = "10.101.4.64/28"  # MIGRATION: This had a different default in CAF ES.
+    secondary_private_dns_resolver_subnet_address_prefix = "10.101.4.64/28" # MIGRATION: This had a different default in CAF ES.
   }
 
   /*
@@ -144,7 +144,7 @@ enable_telemetry = true
 --- Tags ---
 This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
 */
-tags = {  # MIGRATION: This had a different default in CAF ES.
+tags = { # MIGRATION: This had a different default in CAF ES.
   demo_type  = "Deploy connectivity resources using multiple module declarations"
   deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
 }
@@ -157,7 +157,7 @@ management_resource_settings = {
   enabled                                   = true
   location                                  = "$${starter_location_01}"
   log_analytics_workspace_name              = "$${log_analytics_workspace_name}"
-  log_analytics_workspace_retention_in_days = 60  # MIGRATION: This had a different default in CAF ES.
+  log_analytics_workspace_retention_in_days = 60 # MIGRATION: This had a different default in CAF ES.
   resource_group_name                       = "$${management_resource_group_name}"
   user_assigned_managed_identities = {
     ama = {
@@ -175,7 +175,7 @@ management_resource_settings = {
       name = "$${dcr_vm_insights_name}"
     }
   }
-  tags = {  # MIGRATION: This had a different default in CAF ES.
+  tags = { # MIGRATION: This had a different default in CAF ES.
     demo_type  = "Deploy management resources using multiple module declarations"
     deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
   }
@@ -210,19 +210,19 @@ management_group_settings = {
   subscription_placement = {
     identity = {
       subscription_id       = "$${subscription_id_identity}"
-      management_group_name = "alz-identity"  # MIGRATION: You may need to update this based on your management group IDs
+      management_group_name = "alz-identity" # MIGRATION: You may need to update this based on your management group IDs
     }
     connectivity = {
       subscription_id       = "$${subscription_id_connectivity}"
-      management_group_name = "alz-connectivity"  # MIGRATION: You may need to update this based on your management group IDs
+      management_group_name = "alz-connectivity" # MIGRATION: You may need to update this based on your management group IDs
     }
     management = {
       subscription_id       = "$${subscription_id_management}"
-      management_group_name = "alz-management"  # MIGRATION: You may need to update this based on your management group IDs
+      management_group_name = "alz-management" # MIGRATION: You may need to update this based on your management group IDs
     }
   }
   policy_assignments_to_modify = {
-    alz = {  # MIGRATION: You may need to update this based on your management group IDs
+    alz = { # MIGRATION: You may need to update this based on your management group IDs
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {
@@ -303,7 +303,7 @@ connectivity_resource_groups = {
 }
 
 virtual_wan_settings = {
-  name                = "alz-vwan-$${starter_location_01}"  # MIGRATION: This had a different default in CAF ES.
+  name                = "alz-vwan-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
   resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
   location            = "$${starter_location_01}"
   ddos_protection_plan = {
@@ -323,10 +323,10 @@ virtual_wan_virtual_hubs = {
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
       */
-      resource_group = "$${connectivity_hub_vwan_resource_group_name}"   # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
+      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
       location       = "$${starter_location_01}"
       address_prefix = "$${primary_hub_address_space}"
-      sku            = "Standard"  # MIGRATION: The CAF ES module supplied the SKU
+      sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
     }
     firewall = {
       enabled  = "$${primary_firewall_enabled}"
@@ -334,7 +334,7 @@ virtual_wan_virtual_hubs = {
       sku_name = "AZFW_Hub"
       sku_tier = "Standard"
       zones    = "$${starter_location_01_availability_zones}"
-      tags = {  # MIGRATION: This had a different default in CAF ES.
+      tags = { # MIGRATION: This had a different default in CAF ES.
         demo_type  = "Deploy connectivity resources using multiple module declarations"
         deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
       }
@@ -397,10 +397,10 @@ virtual_wan_virtual_hubs = {
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
       */
-      resource_group = "$${connectivity_hub_vwan_resource_group_name}"  # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
+      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
       location       = "$${starter_location_02}"
       address_prefix = "$${secondary_hub_address_space}"
-      sku            = "Standard"  # MIGRATION: The CAF ES module supplied the SKU
+      sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
     }
     firewall = {
       enabled  = "$${secondary_firewall_enabled}"
@@ -408,7 +408,7 @@ virtual_wan_virtual_hubs = {
       sku_name = "AZFW_Hub"
       sku_tier = "Standard"
       zones    = "$${starter_location_02_availability_zones}"
-      tags = {  # MIGRATION: This had a different default in CAF ES.
+      tags = { # MIGRATION: This had a different default in CAF ES.
         demo_type  = "Deploy connectivity resources using multiple module declarations"
         deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
       }
