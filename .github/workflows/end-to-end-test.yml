@@ -59,7 +59,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd
         with:
-          terraform_version: 1.9.7
+          terraform_version: latest
           terraform_wrapper: false
 
       - name: Setup Module Inputs
