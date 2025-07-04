@@ -71,8 +71,19 @@ jobs:
 
           $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
 
-          terraform -chdir="$subscriptionModulePath" init
-          terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
+          $lastExistCodeFromTerraform = 1
+          $attempt = 1
+          $maxAttempts = 10
+          while ($lastExistCodeFromTerraform -ne 0 -and $attempt -le $maxAttempts) {
+            terraform -chdir="$subscriptionModulePath" init
+            if($LASTEXITCODE -eq 0) {
+              terraform -chdir="$subscriptionModulePath" apply -auto-approve -input=false
+            }
+            $lastExistCodeFromTerraform = $LASTEXITCODE
+            Start-Sleep -Seconds 10
+            $attempt++
+          }
+            
           $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
           $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
           $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
