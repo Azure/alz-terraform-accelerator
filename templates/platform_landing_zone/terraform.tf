@@ -65,3 +65,9 @@ provider "azurerm" {
     }
   }
 }
+
+provider "azapi" {
+  alias                      = "connectivity"
+  skip_provider_registration = true
+  subscription_id            = var.subscription_id_connectivity
+}
