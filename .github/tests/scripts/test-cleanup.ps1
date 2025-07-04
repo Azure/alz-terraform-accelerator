@@ -1,10 +1,10 @@
 param (
     [string]$managementGroupsPrefix = "alz-acc-avm-test",
     [int]$managementGroupStartNumber = 1,
-    [int]$managementGroupCount = 9,
+    [int]$managementGroupCount = 11,
     [string]$subscriptionNamePrefix = "alz-acc-avm-test-",
     [int]$subscriptionStartNumber = 1,
-    [int]$subscriptionCount = 9,
+    [int]$subscriptionCount = 11,
     [string[]]$subscriptionPostfixes = @("-connectivity", "-management", "-identity")
 )
 function Get-ManagementGroupChildrenRecursive {
@@ -63,6 +63,15 @@ $managementGroupIndexes | ForEach-Object -Parallel {
         Write-Host "Deleting management groups at depth $depth"
 
         $managementGroups | ForEach-Object -Parallel {
+            $subscriptions = az account management-group subscription show-sub-under-mg --name $_ | ConvertFrom-Json
+            if ($subscriptions.Count -gt 0) {
+                Write-Host "Management group: $_ has subscriptions."
+                foreach ($subscription in $subscriptions) {
+                    Write-Host "Removing subscription: $($subscription.subscriptionId) from management group: $_"
+                    az account management-group subscription remove --name $_ --subscription $subscription.name
+                }
+            }
+
             Write-Host "Deleting management group: $_"
             az account management-group delete --name $_
         } -ThrottleLimit 10
