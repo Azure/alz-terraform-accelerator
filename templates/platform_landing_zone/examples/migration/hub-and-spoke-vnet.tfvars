@@ -48,24 +48,26 @@ custom_replacements = {
     ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
-    primary_firewall_enabled                              = true
-    primary_firewall_management_ip_enabled                = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
-    primary_virtual_network_gateway_express_route_enabled = true
-    primary_virtual_network_gateway_vpn_enabled           = true
-    primary_private_dns_zones_enabled                     = true
-    primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true
-    primary_bastion_enabled                               = true
+    primary_firewall_enabled                                             = true
+    primary_firewall_management_ip_enabled                               = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
+    primary_virtual_network_gateway_express_route_enabled                = true
+    primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false # MIGRATION: This is not supported in CAF ES and should only be set if the Gateway has been migration to Hosted On Behalf Of (HOBO) public IPs.
+    primary_virtual_network_gateway_vpn_enabled                          = true
+    primary_private_dns_zones_enabled                                    = true
+    primary_private_dns_auto_registration_zone_enabled                   = true
+    primary_private_dns_resolver_enabled                                 = true
+    primary_bastion_enabled                                              = true
 
     # Resource provisioning secondary connectivity
-    secondary_firewall_enabled                              = true
-    secondary_firewall_management_ip_enabled                = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
-    secondary_virtual_network_gateway_express_route_enabled = true
-    secondary_virtual_network_gateway_vpn_enabled           = true
-    secondary_private_dns_zones_enabled                     = true
-    secondary_private_dns_auto_registration_zone_enabled    = true
-    secondary_private_dns_resolver_enabled                  = true
-    secondary_bastion_enabled                               = true
+    secondary_firewall_enabled                                             = true
+    secondary_firewall_management_ip_enabled                               = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
+    secondary_virtual_network_gateway_express_route_enabled                = true
+    secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false # MIGRATION: This is not supported in CAF ES and should only be set if the Gateway has been migration to Hosted On Behalf Of (HOBO) public IPs.
+    secondary_virtual_network_gateway_vpn_enabled                          = true
+    secondary_private_dns_zones_enabled                                    = true
+    secondary_private_dns_auto_registration_zone_enabled                   = true
+    secondary_private_dns_resolver_enabled                                 = true
+    secondary_bastion_enabled                                              = true
 
     # Resource names primary connectivity
     primary_virtual_network_name                                 = "alz-hub-$${starter_location_01}"       # MIGRATION: This had a different default in CAF ES.
@@ -135,8 +137,10 @@ custom_replacements = {
   NOTE: You cannot refer to another custom resource group identifier in this variable.
   */
   resource_group_identifiers = {
-    management_resource_group_id           = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
-    ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    management_resource_group_id             = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
+    ddos_protection_plan_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    primary_connectivity_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_primary_resource_group_name}"
+    secondary_connectivity_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_secondary_resource_group_name}"
   }
 
   /*
@@ -367,10 +371,12 @@ hub_and_spoke_vnet_virtual_networks = {
       subnet_address_prefix                  = "$${primary_gateway_subnet_address_prefix}"
       subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
       express_route = {
-        enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_express_route_name}"
-        sku      = "ErGw2AZ" # MIGRATION: This had a different default in CAF ES.
+        enabled                               = "$${primary_virtual_network_gateway_express_route_enabled}"
+        location                              = "$${starter_location_01}"
+        name                                  = "$${primary_virtual_network_gateway_express_route_name}"
+        sku                                   = "ErGw2AZ" # MIGRATION: This had a different default in CAF ES.
+        hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
+        parent_id                             = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             name = "alz-ergw-uksouth-pip" # MIGRATION: This had a different default in CAF ES.
@@ -386,6 +392,7 @@ hub_and_spoke_vnet_virtual_networks = {
         location                  = "$${starter_location_01}"
         name                      = "$${primary_virtual_network_gateway_vpn_name}"
         sku                       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        parent_id                 = "$${primary_connectivity_resource_group_id}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
@@ -481,10 +488,12 @@ hub_and_spoke_vnet_virtual_networks = {
       subnet_address_prefix                  = "$${secondary_gateway_subnet_address_prefix}"
       subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
       express_route = {
-        enabled  = "$${secondary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_02}"
-        name     = "$${secondary_virtual_network_gateway_express_route_name}"
-        sku      = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
+        enabled                               = "$${secondary_virtual_network_gateway_express_route_enabled}"
+        location                              = "$${starter_location_02}"
+        name                                  = "$${secondary_virtual_network_gateway_express_route_name}"
+        sku                                   = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
+        hosted_on_behalf_of_public_ip_enabled = "$${secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
+        parent_id                             = "$${secondary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             name = "alz-ergw-ukwest-pip" # MIGRATION: This had a different default in CAF ES.
@@ -500,6 +509,7 @@ hub_and_spoke_vnet_virtual_networks = {
         location                  = "$${starter_location_02}"
         name                      = "$${secondary_virtual_network_gateway_vpn_name}"
         sku                       = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
+        parent_id                 = "$${secondary_connectivity_resource_group_id}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
