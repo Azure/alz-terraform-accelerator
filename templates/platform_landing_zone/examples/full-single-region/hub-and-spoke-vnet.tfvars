@@ -47,14 +47,15 @@ custom_replacements = {
     ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
-    primary_firewall_enabled                              = true
-    primary_firewall_management_ip_enabled                = true
-    primary_virtual_network_gateway_express_route_enabled = true
-    primary_virtual_network_gateway_vpn_enabled           = true
-    primary_private_dns_zones_enabled                     = true
-    primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true
-    primary_bastion_enabled                               = true
+    primary_firewall_enabled                                             = true
+    primary_firewall_management_ip_enabled                               = true
+    primary_virtual_network_gateway_express_route_enabled                = true
+    primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
+    primary_virtual_network_gateway_vpn_enabled                          = true
+    primary_private_dns_zones_enabled                                    = true
+    primary_private_dns_auto_registration_zone_enabled                   = true
+    primary_private_dns_resolver_enabled                                 = true
+    primary_bastion_enabled                                              = true
 
     # Resource names primary connectivity
     primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
@@ -96,6 +97,7 @@ custom_replacements = {
   resource_group_identifiers = {
     management_resource_group_id           = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
     ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    primary_connectivity_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_primary_resource_group_name}"
   }
 
   /*
@@ -308,10 +310,12 @@ hub_and_spoke_vnet_virtual_networks = {
     virtual_network_gateways = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
-        enabled  = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_express_route_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
+        enabled                               = "$${primary_virtual_network_gateway_express_route_enabled}"
+        location                              = "$${starter_location_01}"
+        name                                  = "$${primary_virtual_network_gateway_express_route_name}"
+        sku                                   = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
+        hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
+        parent_id                             = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             public_ip = {
@@ -322,10 +326,11 @@ hub_and_spoke_vnet_virtual_networks = {
         }
       }
       vpn = {
-        enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        enabled   = "$${primary_virtual_network_gateway_vpn_enabled}"
+        location  = "$${starter_location_01}"
+        name      = "$${primary_virtual_network_gateway_vpn_name}"
+        sku       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        parent_id = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           active_active_1 = {
             public_ip = {

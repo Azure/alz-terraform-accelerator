@@ -137,8 +137,10 @@ custom_replacements = {
   NOTE: You cannot refer to another custom resource group identifier in this variable.
   */
   resource_group_identifiers = {
-    management_resource_group_id           = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
-    ddos_protection_plan_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    management_resource_group_id             = "/subscriptions/$${subscription_id_management}/resourcegroups/$${management_resource_group_name}"
+    ddos_protection_plan_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
+    primary_connectivity_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_primary_resource_group_name}"
+    secondary_connectivity_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_secondary_resource_group_name}"
   }
 
   /*
@@ -363,6 +365,7 @@ hub_and_spoke_vnet_virtual_networks = {
         name                                  = "$${primary_virtual_network_gateway_express_route_name}"
         sku                                   = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
         hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
+        parent_id                             = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             public_ip = {
@@ -373,10 +376,11 @@ hub_and_spoke_vnet_virtual_networks = {
         }
       }
       vpn = {
-        enabled  = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_01}"
-        name     = "$${primary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        enabled   = "$${primary_virtual_network_gateway_vpn_enabled}"
+        location  = "$${starter_location_01}"
+        name      = "$${primary_virtual_network_gateway_vpn_name}"
+        sku       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
+        parent_id = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           active_active_1 = {
             public_ip = {
@@ -468,6 +472,7 @@ hub_and_spoke_vnet_virtual_networks = {
         name                                  = "$${secondary_virtual_network_gateway_express_route_name}"
         sku                                   = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
         hosted_on_behalf_of_public_ip_enabled = "$${secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
+        parent_id                             = "$${secondary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             public_ip = {
@@ -478,10 +483,11 @@ hub_and_spoke_vnet_virtual_networks = {
         }
       }
       vpn = {
-        enabled  = "$${secondary_virtual_network_gateway_vpn_enabled}"
-        location = "$${starter_location_02}"
-        name     = "$${secondary_virtual_network_gateway_vpn_name}"
-        sku      = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
+        enabled   = "$${secondary_virtual_network_gateway_vpn_enabled}"
+        location  = "$${starter_location_02}"
+        name      = "$${secondary_virtual_network_gateway_vpn_name}"
+        sku       = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
+        parent_id = "$${secondary_connectivity_resource_group_id}"
         ip_configurations = {
           active_active_1 = {
             public_ip = {
