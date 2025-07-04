@@ -66,7 +66,7 @@ $managementGroupIndexes | ForEach-Object -Parallel {
         Write-Host "Deleting management groups at depth $depth"
 
         $managementGroups | ForEach-Object -Parallel {
-            $subscriptions = az account management-group subscription show-sub-under-mg --name $_ | ConvertFrom-Json
+            $subscriptions = (az account management-group subscription show-sub-under-mg --name $_) | ConvertFrom-Json
             if ($subscriptions.Count -gt 0) {
                 Write-Host "Management group: $_ has subscriptions."
                 foreach ($subscription in $subscriptions) {
