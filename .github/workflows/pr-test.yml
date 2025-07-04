@@ -83,7 +83,7 @@ jobs:
             Start-Sleep -Seconds 10
             $attempt++
           }
-            
+
           $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
           $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
           $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
