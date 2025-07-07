@@ -152,7 +152,8 @@ jobs:
 
           if(Test-Path -Path $sourceLibFolderPath) {
             $targetLibFolderPath = "${{ matrix.rootModuleFolderPath }}/lib"
-            Copy-Item -Path $sourceLibFolderPath -Destination $targetLibFolderPath -Recurse -Force
+            Write-Host "Copying library files from $sourceLibFolderPath to $targetLibFolderPath"
+            Copy-Item -Path "$sourceLibFolderPath/*" -Destination $targetLibFolderPath -Recurse -Force
           }
 
           $architectureFilePath = "${{ matrix.rootModuleFolderPath }}/lib/architecture_definitions/alz_custom.alz_architecture_definition.yaml"
