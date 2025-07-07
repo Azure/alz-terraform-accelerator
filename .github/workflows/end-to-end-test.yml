@@ -209,7 +209,7 @@ jobs:
           ARM_USE_OIDC: true
 
       - name: Azure login
-        if: ${{ matrix.mode == 'apply' }} && always()
+        if: ${{ matrix.mode == 'apply' && always() }}
         uses: azure/login@a457da9ea143d694b1b9c7c869ebb04ebe844ef5 # v2.3.0
         with:
           client-id: ${{ vars.ARM_CLIENT_ID }}
@@ -217,7 +217,7 @@ jobs:
           subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
       - name: Clean Up Environment
-        if: ${{ matrix.mode == 'apply' }} && always()
+        if: ${{ matrix.mode == 'apply' && always() }}
         run: |
           $environmentNumber = ${{ matrix.environmentNumber }}
           .github/tests/scripts/test-cleanup.ps1 `
@@ -225,6 +225,7 @@ jobs:
             -managementGroupCount 1 `
             -subscriptionStartNumber $environmentNumber `
             -subscriptionCount 1
+        shell: pwsh
 
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: ${{ always() && matrix.mode == 'apply' }}
