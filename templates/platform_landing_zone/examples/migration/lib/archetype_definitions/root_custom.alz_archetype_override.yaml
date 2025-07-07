@@ -1,4 +1,3 @@
-$schema: https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/archetype_override.json
 name: root_custom
 base_archetype: root
 policy_assignments_to_add: []

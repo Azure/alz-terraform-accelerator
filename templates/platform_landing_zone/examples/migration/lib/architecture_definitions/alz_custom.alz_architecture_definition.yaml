@@ -1,4 +1,3 @@
-$schema: https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/architecture_definition.json
 name: alz_custom
 management_groups:
   - archetypes:
