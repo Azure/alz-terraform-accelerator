@@ -61,6 +61,7 @@ foreach($configFile in $configFiles) {
       subscriptionNameManagement = "$subscriptionName-management"
       subscriptionNameIdentity = "$subscriptionName-identity"
       managementGroupId = $managementGroupId
+      environmentNumber = $configFileNumber
     }
     $matrix += $matrixItem
   }
