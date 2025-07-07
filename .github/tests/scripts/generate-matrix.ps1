@@ -28,8 +28,10 @@ foreach($configFile in $configFiles) {
   $subscriptionName = $subscriptionNamePrefix + ("{0:D$subscriptionNameSuffixNumberLength}" -f $configFileNumber)
   $managementGroupId = $managementGroupIdPrefix + ("{0:D$managementGroupIdSuffixNumberLength}" -f $configFileNumber)
 
+  $environmentNumberFormatted = "{0:D2}" -f $configFileNumber
+
   $matrixItem = @{
-    name = $directory + "--" + $configFileName + "-" + $runNumber + "-a"
+    name = $directory + "($environmentNumberFormatted)--" + $configFileName + "-" + $runNumber + "-a"
     shortName = $shortDirectory + $shortFileName + "-" + $runNumber + "-a"
     configFilePath = $configFile.FullName
     rootModuleFolderPath = $rootModuleFolder
@@ -40,6 +42,7 @@ foreach($configFile in $configFiles) {
     subscriptionNameManagement = "$subscriptionName-management"
     subscriptionNameIdentity = "$subscriptionName-identity"
     managementGroupId = $managementGroupId
+    environmentNumber = $configFileNumber
   }
   $matrix += $matrixItem
 
