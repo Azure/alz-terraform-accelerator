@@ -13,6 +13,7 @@ param(
 )
 
 $configFiles = Get-ChildItem -Path $exampleFolders -Recurse -Filter "*.tfvars" -Force
+$configFiles = $configFiles | Sort-Object -Property Directory, Name
 
 $matrix = @()
 
@@ -31,7 +32,7 @@ foreach($configFile in $configFiles) {
   $environmentNumberFormatted = "{0:D2}" -f $configFileNumber
 
   $matrixItem = @{
-    name = $directory + "($environmentNumberFormatted)--" + $configFileName + "-" + $runNumber + "-a"
+    name = $directory + "-$environmentNumberFormatted--" + $configFileName + "-" + $runNumber + "-a"
     shortName = $shortDirectory + $shortFileName + "-" + $runNumber + "-a"
     configFilePath = $configFile.FullName
     rootModuleFolderPath = $rootModuleFolder

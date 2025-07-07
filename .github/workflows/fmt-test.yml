@@ -27,7 +27,7 @@ jobs:
 
       - name: Check fmt
         run: |
-          echo "==> Running make fmt & make docs"
+          echo "==> Running make fmt"
           make fmt
           echo "==> Testing for changes to tracked files"
           CHANGES=$(git status -suno)

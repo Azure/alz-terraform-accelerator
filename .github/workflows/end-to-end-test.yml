@@ -103,8 +103,8 @@ jobs:
           $tfvarsFile = @"
           starter_locations               = ["uksouth", "ukwest"]
           subscription_id_connectivity    = "$subscriptionIdConnectivity"
-          subscription_id_identity        = "$subscriptionIdManagement"
-          subscription_id_management      = "$subscriptionIdIdentity"
+          subscription_id_identity        = "$subscriptionIdIdentity"
+          subscription_id_management      = "$subscriptionIdManagement"
           root_parent_management_group_id = "${{ matrix.managementGroupId }}"
           "@
 
