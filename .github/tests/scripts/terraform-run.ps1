@@ -68,6 +68,7 @@ function Invoke-TerraformWithRetry {
           Write-Host "Retrying Terraform $commandName due to error:"
           Get-Content -Path $errorLog | Write-Host
           $retryCount++
+          break
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
           if($printOutputOnError) {
