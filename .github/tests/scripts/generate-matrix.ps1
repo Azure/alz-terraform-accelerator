@@ -2,7 +2,7 @@ param(
   [string]$runNumber = "999",
   [string]$rootModuleFolder = "./templates/platform_landing_zone",
   [string]$exampleFolders = "./templates/platform_landing_zone/examples",
-  [int]$splitCount = 10,
+  [int]$splitCount = 20,
   [string]$subscriptionNamePrefix = "alz-acc-avm-test-",
   [string]$managementGroupIdPrefix = "alz-acc-avm-test-",
   [string]$subscriptionNameSuffixNumberLength = 2,

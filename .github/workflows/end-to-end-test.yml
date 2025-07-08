@@ -33,7 +33,7 @@ jobs:
       - name: Generate Matrix
         id: matrix
         run: |
-          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 10 -includeSecondaryTests
+          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 20 -includeSecondaryTests
           $matrixJson = ConvertTo-Json $matrix -Depth 10 -Compress
           Write-Host (ConvertTo-Json $matrix -Depth 10)
           Write-Output "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
