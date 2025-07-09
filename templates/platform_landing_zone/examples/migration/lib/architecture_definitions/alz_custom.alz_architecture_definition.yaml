@@ -1,0 +1,62 @@
+name: alz_custom
+management_groups:
+  - archetypes:
+      - root_custom
+    display_name: Azure Landing Zones
+    exists: false
+    id: alz
+    parent_id: null
+  - archetypes:
+      - platform_custom
+    display_name: Platform
+    exists: false
+    id: alz-platform
+    parent_id: alz
+  - archetypes:
+      - landing_zones_custom
+    display_name: Landing Zones
+    exists: false
+    id: alz-landing-zones
+    parent_id: alz
+  - archetypes:
+      - online_custom
+    display_name: ALZ Online Example 1
+    exists: false
+    id: alz-online-example-1
+    parent_id: alz-landing-zones
+  - archetypes:
+      - online_custom
+    display_name: ALZ Online Example 2
+    exists: false
+    id: alz-online-example-2
+    parent_id: alz-landing-zones
+  - archetypes:
+      - sandbox_custom
+    display_name: Sandboxes
+    exists: false
+    id: alz-sandboxes
+    parent_id: alz
+  - archetypes:
+      - management_custom
+    display_name: Management
+    exists: false
+    id: alz-management
+    parent_id: alz-platform
+  - archetypes:
+      - connectivity_custom
+    display_name: Connectivity
+    exists: false
+    id: alz-connectivity
+    parent_id: alz-platform
+  - archetypes:
+      - identity_custom
+    display_name: Identity
+    exists: false
+    id: alz-identity
+    parent_id: alz-platform
+  - archetypes:
+      - decommissioned_custom
+    display_name: Decommissioned
+    exists: false
+    id: alz-decommissioned
+    parent_id: alz

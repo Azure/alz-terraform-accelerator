@@ -1,5 +1,5 @@
 terraform {
-  required_version = "~> 1.9"
+  required_version = "~> 1.12"
   required_providers {
     alz = {
       source  = "Azure/alz"
@@ -64,4 +64,10 @@ provider "azurerm" {
       prevent_deletion_if_contains_resources = false
     }
   }
+}
+
+provider "azapi" {
+  alias                      = "connectivity"
+  skip_provider_registration = true
+  subscription_id            = var.subscription_id_connectivity
 }

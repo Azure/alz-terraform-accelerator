@@ -15,6 +15,7 @@ function Invoke-TerraformWithRetry {
     [string]$outputLog = "output.log",
     [string]$errorLog = "error.log",
     [int]$maxRetries = 10,
+    [int]$retryDelayIncremental = 10,
     [string[]]$retryOn = @("429 Too Many Requests"),
     [switch]$printOutput,
     [switch]$printOutputOnError
@@ -68,6 +69,7 @@ function Invoke-TerraformWithRetry {
           Write-Host "Retrying Terraform $commandName due to error:"
           Get-Content -Path $errorLog | Write-Host
           $retryCount++
+          break
         } else {
           Write-Host "Terraform $commandName failed with exit code $($process.ExitCode). Check the logs for details."
           if($printOutputOnError) {
@@ -87,6 +89,9 @@ function Invoke-TerraformWithRetry {
     }
     if ($shouldRetry) {
       Write-Host "Retrying Terraform commands (attempt $retryCount of $maxRetries)..."
+      $retryDelay = $retryDelayIncremental * $retryCount
+      Write-Host "Waiting for $retryDelay seconds before retrying..."
+      Start-Sleep -Seconds $retryDelay
     }
   }
   return $true
