@@ -333,7 +333,11 @@ virtual_wan_virtual_hubs = {
           address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
         }
       }
-      # virtual_network_connection_name = "private_dns_vnet_primary"  # Backwards compatibility
+      /*
+      virtual_network_connection_settings = {
+        name = "private_dns_vnet_primary"  # Backwards compatibility
+      }
+      */
     }
   }
 }

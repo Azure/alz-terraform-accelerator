@@ -376,7 +376,11 @@ virtual_wan_virtual_hubs = {
       enabled       = "$${primary_sidecar_virtual_network_enabled}"
       name          = "$${primary_sidecar_virtual_network_name}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
-      # virtual_network_connection_name = "private_dns_vnet_primary"  # Backwards compatibility
+      /*
+      virtual_network_connection_settings = {
+        name = "private_dns_vnet_primary"  # Backwards compatibility
+      }
+      */
     }
   }
   secondary = {
@@ -445,7 +449,11 @@ virtual_wan_virtual_hubs = {
       enabled       = "$${secondary_sidecar_virtual_network_enabled}"
       name          = "$${secondary_sidecar_virtual_network_name}"
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
-      # virtual_network_connection_name = "private_dns_vnet_secondary"  # Backwards compatibility
+      /*
+      virtual_network_connection_settings = {
+        name = "private_dns_vnet_secondary"  # Backwards compatibility
+      }
+      */
     }
   }
 }
