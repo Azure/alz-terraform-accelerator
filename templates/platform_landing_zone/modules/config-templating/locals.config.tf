@@ -8,7 +8,7 @@ locals {
 
 locals {
   starter_locations                    = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}" => location }
-  starter_locations_availability_zones = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}_availability_zones" => local.regions[location].zones }
+  starter_locations_availability_zones = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}_availability_zones" => jsonencode(local.regions[location].zones) }
   starter_locations_er_vpn_sku         = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}_virtual_network_gateway_sku_express_route" => local.hub_and_spoke_vnet_gateway_default_skus[location].express_route }
   starter_locations_vpn_sku            = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}_virtual_network_gateway_sku_vpn" => local.hub_and_spoke_vnet_gateway_default_skus[location].vpn }
 
