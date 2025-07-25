@@ -3,10 +3,10 @@
 This file contains built-in replacements to avoid repeating the same hard-coded values.
 Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacements that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
-`starter_location_02` to `starter_location_10`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
-`starter_location_01_availability_zones` to `starter_location_10_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
-`starter_location_01_virtual_network_gateway_sku_express_route` to `starter_location_10_virtual_network_gateway_sku_express_route`: These are the default SKUs for the Express Route virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
-`starter_location_01_virtual_network_gateway_sku_vpn` to `starter_location_10_virtual_network_gateway_sku_vpn`: These are the default SKUs for the VPN virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
+`starter_location_02` to `starter_location_##`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
+`starter_location_01_availability_zones` to `starter_location_##_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
+`starter_location_01_virtual_network_gateway_sku_express_route` to `starter_location_##_virtual_network_gateway_sku_express_route`: These are the default SKUs for the Express Route virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
+`starter_location_01_virtual_network_gateway_sku_vpn` to `starter_location_##_virtual_network_gateway_sku_vpn`: These are the default SKUs for the VPN virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
 `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
@@ -386,7 +386,11 @@ virtual_wan_virtual_hubs = {
       enabled       = "$${primary_sidecar_virtual_network_enabled}"
       name          = "$${primary_sidecar_virtual_network_name}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
-      # virtual_network_connection_name = "private_dns_vnet_primary"  # Backwards compatibility
+      /*
+      virtual_network_connection_settings = {
+        name = "private_dns_vnet_primary"  # Backwards compatibility
+      }
+      */
     }
   }
   secondary = {
@@ -460,7 +464,11 @@ virtual_wan_virtual_hubs = {
       enabled       = "$${secondary_sidecar_virtual_network_enabled}"
       name          = "$${secondary_sidecar_virtual_network_name}"
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
-      # virtual_network_connection_name = "private_dns_vnet_secondary"  # Backwards compatibility
+      /*
+      virtual_network_connection_settings = {
+        name = "private_dns_vnet_secondary"  # Backwards compatibility
+      }
+      */
     }
   }
 }
