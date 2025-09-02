@@ -1,0 +1,12 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/library_metadata.json",
+  "name": "local",
+  "display_name": "ALZ Accelerator - Azure Verified Modules for ALZ Platform Landing Zone",
+  "description": "This library allows overriding policies, archetypes, and management group architecture in the ALZ Accelerator.",
+  "dependencies": [
+    {
+      "path": "platform/alz",
+      "ref": "2025.02.0"
+    }
+  ]
+}

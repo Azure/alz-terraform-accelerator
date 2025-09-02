@@ -1,0 +1,13 @@
+base_archetype: corp
+name: corp_custom
+policy_assignments_to_add: []
+policy_assignments_to_remove: [
+# To remove the private DNS zones policy for private endpoints
+  # Deploy-Private-DNS-Zones,
+]
+policy_definitions_to_add: []
+policy_definitions_to_remove: []
+policy_set_definitions_to_add: []
+policy_set_definitions_to_remove: []
+role_definitions_to_add: []
+role_definitions_to_remove: []
