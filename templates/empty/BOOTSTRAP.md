@@ -1,8 +1,6 @@
-# Quickstart steps
+# Bootstrap
 
-Quickstart of the bootstrap steps for Terraform and GitHub using the recommended defaults.
-
-Reference the [ALZ Accelerator documentation](https://aka.ms/alz/accelerator/docs) for more detail or for alternative approaches.
+Here are example bootstrap steps for Terraform and GitHub using the recommended defaults. Reference the [ALZ Accelerator documentation](https://aka.ms/alz/accelerator/docs) for more detail or for alternative approaches.
 
 
 ## Prereqs
@@ -14,6 +12,8 @@ Reference the [ALZ Accelerator documentation](https://aka.ms/alz/accelerator/doc
     - [PowerShell](https://learn.microsoft.com/powershell/scripting/install/installing-powershell) (7.4)
     - [Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli) (2.55.0)
     - [Git](https://git-scm.com/downloads)
+
+    It is also assumed that you are using [Visual Studio Code](https://aka.ms/vscode) with the [Hashicorp Terraform](https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform) extension.
 
 1. ALZ PowerShell modules
 
