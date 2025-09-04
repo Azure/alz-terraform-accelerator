@@ -50,25 +50,25 @@ Here are example bootstrap steps for Terraform and GitHub using the recommended 
 
     Create the two [personal access tokens](https://github.com/settings/tokens). Save the generated token for each.
 
-    #### Azure Landing Zone Terraform Accelerator
+    1. __Azure Landing Zone Terraform Accelerator__
 
-    - repo
-    - workflow
-    - admin:org
-    - user : read:user
-    - user : read:email
-    - delete_repo
+        - repo
+        - workflow
+        - admin:org
+        - user : read:user
+        - user : read:email
+        - delete_repo
 
-    Short expiry, e.g. tomorrow.
+        Short expiry, e.g. tomorrow.
 
-    #### Azure Landing Zone Private Runners
+    1. Azure Landing Zone Private Runners
 
-    - repo
-    - admin:org (for Enterprise organization only)
+        - repo
+        - admin:org (for Enterprise organization only)
 
-    Permanent.
+        Permanent.
 
-## Bootstrap
+## Bootstrap step
 
 1. Create a working area
 

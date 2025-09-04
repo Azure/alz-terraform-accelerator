@@ -306,9 +306,9 @@ Adding a custom library involves three steps.
 
     Run  commands in vscode's Integrated Terminal to create a lib folder in your repo.
 
-    ⚠️ Both PowerShell and Bash examples are shown. You only need to run one set.
+    ⚠️ Both PowerShell and Bash examples are shown. You only need to run one set of commands or the other.
 
-    #### PowerShell
+    __PowerShell__
 
     ```powershell
     $repoFolder = Get-Location
@@ -325,7 +325,7 @@ Adding a custom library involves three steps.
     Remove-Item -Path $tempFolder -Recurse -Force
     ```
 
-    #### Bash
+    __Bash__
 
     ```shell
     repoFolder="$(pwd)"
