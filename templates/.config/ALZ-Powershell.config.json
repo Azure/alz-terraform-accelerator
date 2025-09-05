@@ -36,6 +36,11 @@
             "additional_retained_folders": [
                 "modules"
             ]
+        },
+        "empty": {
+            "location": "empty",
+            "short_name": "Empty",
+            "description": "Empty starter module. Manually add Azure Verified Modules for ALZ."
         }
     }
 }
