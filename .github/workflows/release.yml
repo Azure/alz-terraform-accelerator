@@ -34,9 +34,10 @@ jobs:
             starter_modules.zip
 
       - name: Check for Valid Git Ref
+        if: github.event_name != 'pull_request'
         run: |
           $gitRef = "${{ github.ref }}"
-          if !$gitReg.StartsWith("refs/tags/") {
+          if (!$gitRef.StartsWith("refs/tags/")) {
             Write-Error "Invalid Git ref $gitRef"
             exit 1
           } else {
@@ -46,7 +47,7 @@ jobs:
 
       - name: Release
         uses: softprops/action-gh-release@da05d552573ad5aba039eaac05058a918a7bf631 # v2.2.2
-        if: startsWith(github.ref, 'refs/tags/')
+        if: github.event_name != 'pull_request' && startsWith(github.ref, 'refs/tags/')
         with:
           files: |
             ./starter_modules.tar.gz
