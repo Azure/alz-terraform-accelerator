@@ -14,7 +14,7 @@ variable "subscription_ids" {
     error_message = "All subscription IDs must be valid GUIDs"
   }
   validation {
-    condition     = length(var.subscription_ids) == 0 ||  alltrue([for id in keys(var.subscription_ids) : contains(["management", "connectivity", "identity", "security"], id)])
+    condition     = length(var.subscription_ids) == 0 || alltrue([for id in keys(var.subscription_ids) : contains(["management", "connectivity", "identity", "security"], id)])
     error_message = "The keys of the subscription_ids map must be one of 'management', 'connectivity', 'identity' or 'security'"
   }
 }

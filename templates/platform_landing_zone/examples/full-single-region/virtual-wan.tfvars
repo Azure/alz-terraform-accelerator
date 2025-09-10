@@ -11,6 +11,7 @@ Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starte
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_id_identity`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_id_connectivity`.
 `subscription_id_management`: The subscription ID of the subscription to deploy the management resources to, sourced from the variable `subscription_id_management`.
+`subscription_id_security`: The subscription ID of the subscription to deploy the security resources to, sourced from the variable `subscription_id_security`.
 */
 
 /*
@@ -182,6 +183,10 @@ management_group_settings = {
     management = {
       subscription_id       = "$${subscription_id_management}"
       management_group_name = "management"
+    }
+    security = {
+      subscription_id       = "$${subscription_id_security}"
+      management_group_name = "security"
     }
   }
   policy_assignments_to_modify = {
