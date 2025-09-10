@@ -68,7 +68,7 @@ jobs:
             subscription_display_name_connectivity = $subscriptionNameConnectivity
             subscription_display_name_management   = $subscriptionNameManagement
             subscription_display_name_identity     = $subscriptionNameIdentity
-            subscription_display_name_security     = "${{ matrix.subscriptionNameSecurity }}"
+            subscription_display_name_security     = $subscriptionNameSecurity
           }
 
           $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
