@@ -70,11 +70,13 @@ jobs:
           $subscriptionNameConnectivity = "${{ matrix.subscriptionNameConnectivity }}"
           $subscriptionNameManagement = "${{ matrix.subscriptionNameManagement }}"
           $subscriptionNameIdentity = "${{ matrix.subscriptionNameIdentity }}"
+          $subscriptionNameSecurity = "${{ matrix.subscriptionNameSecurity }}"
 
           $tfvars = @{
             subscription_display_name_connectivity = $subscriptionNameConnectivity
             subscription_display_name_management   = $subscriptionNameManagement
             subscription_display_name_identity     = $subscriptionNameIdentity
+            subscription_display_name_security     = "${{ matrix.subscriptionNameSecurity }}"
           }
 
           $tfvars | ConvertTo-Json -Depth 10 | Out-File -FilePath "$subscriptionModulePath/terraform.tfvars.json" -Encoding utf8 -Force
@@ -95,20 +97,25 @@ jobs:
           $subscriptionIdConnectivity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_connectivity)
           $subscriptionIdManagement = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_management)
           $subscriptionIdIdentity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_identity)
+          $subscriptionIdSecurity = (terraform -chdir="$subscriptionModulePath" output -raw subscription_id_security)
 
           Write-Host "Subscription ID Connectivity: $subscriptionIdConnectivity"
           Write-Host "Subscription ID Management: $subscriptionIdManagement"
           Write-Host "Subscription ID Identity: $subscriptionIdIdentity"
+          Write-Host "Subscription ID Security: $subscriptionIdSecurity"
 
-          $tfvarsFile = @"
-          starter_locations               = ["uksouth", "ukwest"]
-          subscription_id_connectivity    = "$subscriptionIdConnectivity"
-          subscription_id_identity        = "$subscriptionIdIdentity"
-          subscription_id_management      = "$subscriptionIdManagement"
-          root_parent_management_group_id = "${{ matrix.managementGroupId }}"
-          "@
+          $tfvarsFile = @{
+            starter_locations               = @("uksouth", "ukwest")
+            subscription_ids                = @{
+              connectivity = $subscriptionIdConnectivity
+              management   = $subscriptionIdManagement
+              identity     = $subscriptionIdIdentity
+              security     = $subscriptionIdSecurity
+            }
+            root_parent_management_group_id = "${{ matrix.managementGroupId }}"
+          }
 
-          $tfvarsFile | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars" -Encoding utf8 -Force
+          $tfvarsFile | ConvertTo-Json -Depth 10 | Out-File -FilePath "${{ matrix.rootModuleFolderPath }}/terraform.tfvars.json" -Encoding utf8 -Force
           Write-Debug $tfvarsFile
 
           if($mode -ne "apply") {
@@ -127,6 +134,10 @@ jobs:
             @{
               ID = $subscriptionIdIdentity
               Name = $subscriptionNameIdentity
+            },
+            @{
+              ID = $subscriptionIdSecurity
+              Name = $subscriptionNameSecurity
             }
           )
 

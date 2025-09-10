@@ -40,8 +40,14 @@ resource "azurerm_resource_group" "identity" {
   location = local.starter_location
 }
 
+resource "azurerm_resource_group" "security" {
+  provider = azurerm.security
+  name     = "e2e-test-security-azurerm-${random_string.example.result}"
+  location = local.starter_location
+}
+
 resource "azapi_resource" "resource_group_management" {
-  parent_id = "/subscriptions/${var.subscription_id_management}"
+  parent_id = "/subscriptions/${var.subscription_ids["management"]}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-management-azapi-${random_string.example.result}"
   location  = local.starter_location
@@ -52,7 +58,7 @@ resource "azapi_resource" "resource_group_management" {
 }
 
 resource "azapi_resource" "resource_group_connectivity" {
-  parent_id = "/subscriptions/${var.subscription_id_connectivity}"
+  parent_id = "/subscriptions/${var.subscription_ids["connectivity"]}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-connectivity-azapi-${random_string.example.result}"
   location  = local.starter_location
@@ -63,7 +69,7 @@ resource "azapi_resource" "resource_group_connectivity" {
 }
 
 resource "azapi_resource" "resource_group_identity" {
-  parent_id = "/subscriptions/${var.subscription_id_identity}"
+  parent_id = "/subscriptions/${var.subscription_ids["identity"]}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
   name      = "e2e-test-identity-azapi-${random_string.example.result}"
   location  = local.starter_location
@@ -73,7 +79,13 @@ resource "azapi_resource" "resource_group_identity" {
   schema_validation_enabled = false
 }
 
-module "subscription" {
-  source          = "../modules/test_module"
-  subscription_id = data.azurerm_subscription.current.id
+resource "azapi_resource" "resource_group_security" {
+  parent_id = "/subscriptions/${var.subscription_ids["security"]}"
+  type      = "Microsoft.Resources/resourceGroups@2021-04-01"
+  name      = "e2e-test-security-azapi-${random_string.example.result}"
+  location  = local.starter_location
+  body = {
+    properties = {}
+  }
+  schema_validation_enabled = false
 }

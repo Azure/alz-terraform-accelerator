@@ -7,15 +7,19 @@ output "subscription" {
 }
 
 output "subscription_id_connectivity" {
-  value = var.subscription_id_connectivity
+  value = var.subscription_ids["connectivity"]
 }
 
 output "subscription_id_identity" {
-  value = var.subscription_id_identity
+  value = var.subscription_ids["identity"]
 }
 
 output "subscription_id_management" {
-  value = var.subscription_id_management
+  value = var.subscription_ids["management"]
+}
+
+output "subscription_id_security" {
+  value = var.subscription_ids["security"]
 }
 
 output "parent_management_group_display_name" {
@@ -35,13 +39,10 @@ output "resource_group_names" {
     management   = azurerm_resource_group.management.name
     connectivity = azurerm_resource_group.connectivity.name
     identity     = azurerm_resource_group.identity.name
+    security     = azurerm_resource_group.security.name
   }
 }
 
 output "boolean_test" {
   value = var.boolean_test
-}
-
-output "subscription_name" {
-  value = module.subscription.subscription_name
 }

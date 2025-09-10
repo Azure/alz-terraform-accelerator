@@ -37,7 +37,7 @@ provider "azurerm" {
 provider "azurerm" {
   resource_provider_registrations = "none"
   alias                           = "management"
-  subscription_id                 = var.subscription_id_management
+  subscription_id                 = var.subscription_ids["management"]
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
@@ -48,7 +48,7 @@ provider "azurerm" {
 provider "azurerm" {
   resource_provider_registrations = "none"
   alias                           = "connectivity"
-  subscription_id                 = var.subscription_id_connectivity
+  subscription_id                 = var.subscription_ids["connectivity"]
   features {
     resource_group {
       prevent_deletion_if_contains_resources = false
@@ -59,7 +59,14 @@ provider "azurerm" {
 provider "azurerm" {
   resource_provider_registrations = "none"
   alias                           = "identity"
-  subscription_id                 = var.subscription_id_identity
+  subscription_id                 = var.subscription_ids["identity"]
+  features {}
+}
+
+provider "azurerm" {
+  resource_provider_registrations = "none"
+  alias                           = "security"
+  subscription_id                 = var.subscription_ids["security"]
   features {}
 }
 

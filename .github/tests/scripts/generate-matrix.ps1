@@ -42,6 +42,7 @@ foreach($configFile in $configFiles) {
     subscriptionNameConnectivity = "$subscriptionName-connectivity"
     subscriptionNameManagement = "$subscriptionName-management"
     subscriptionNameIdentity = "$subscriptionName-identity"
+    subscriptionNameSecurity = "$subscriptionName-security"
     managementGroupId = $managementGroupId
     environmentNumber = $configFileNumber
   }
@@ -64,6 +65,7 @@ foreach($configFile in $configFiles) {
       subscriptionNameConnectivity = "$subscriptionName-connectivity"
       subscriptionNameManagement = "$subscriptionName-management"
       subscriptionNameIdentity = "$subscriptionName-identity"
+      subscriptionNameSecurity = "$subscriptionName-security"
       managementGroupId = $managementGroupId
       environmentNumber = $configFileNumber
     }
