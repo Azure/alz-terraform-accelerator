@@ -42,6 +42,13 @@ management_groups:
     exists: false
     parent_id: alz
 
+  - id: security
+    display_name: Security
+    archetypes:
+      - security_custom
+    exists: false
+    parent_id: alz
+
   - id: management
     display_name: Management
     archetypes:
