@@ -5,7 +5,7 @@ param (
     [string]$subscriptionNamePrefix = "alz-acc-avm-test-",
     [int]$subscriptionStartNumber = 1,
     [int]$subscriptionCount = 11,
-    [string[]]$subscriptionPostfixes = @("-connectivity", "-management", "-identity")
+    [string[]]$subscriptionPostfixes = @("-connectivity", "-management", "-identity", "-security")
 )
 function Get-ManagementGroupChildrenRecursive {
     param (
