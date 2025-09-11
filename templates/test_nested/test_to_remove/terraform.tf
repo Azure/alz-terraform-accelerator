@@ -25,6 +25,7 @@ provider "azurerm" {
   skip_provider_registration = true
   alias                      = "management"
   subscription_id            = var.subscription_ids["management"]
+  features {}
 }
 
 provider "azurerm" {
