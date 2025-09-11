@@ -15,7 +15,7 @@ subscription_ids:
   management: "<management-subscription-id>"
   identity: "<identity-subscription-id>"
   connectivity: "<connectivity-subscription-id>"
-  security: "<security-subscription-id>""
+  security: "<security-subscription-id>"
 
 # Bootstrap Inputs
 github_personal_access_token: "<token-1>"
