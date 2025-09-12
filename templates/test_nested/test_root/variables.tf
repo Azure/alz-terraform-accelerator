@@ -4,19 +4,19 @@ variable "root_parent_management_group_id" {
   default     = ""
 }
 
-variable "subscription_id_connectivity" {
-  description = "The identifier of the Connectivity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|azure_subscription_id"
-  type        = string
-}
-
-variable "subscription_id_identity" {
-  description = "The identifier of the Identity Subscription. (e.g '00000000-0000-0000-0000-000000000000')|azure_subscription_id"
-  type        = string
-}
-
-variable "subscription_id_management" {
-  description = "The identifier of the Management Subscription. (e.g 00000000-0000-0000-0000-000000000000)|azure_subscription_id"
-  type        = string
+variable "subscription_ids" {
+  description = "The list of subscription IDs to deploy the Platform Landing Zones into"
+  type        = map(string)
+  default     = {}
+  nullable    = false
+  validation {
+    condition     = length(var.subscription_ids) == 0 || alltrue([for id in values(var.subscription_ids) : can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", id))])
+    error_message = "All subscription IDs must be valid GUIDs"
+  }
+  validation {
+    condition     = length(var.subscription_ids) == 0 || alltrue([for id in keys(var.subscription_ids) : contains(["management", "connectivity", "identity", "security"], id)])
+    error_message = "The keys of the subscription_ids map must be one of 'management', 'connectivity', 'identity' or 'security'"
+  }
 }
 
 variable "child_management_group_display_name" {

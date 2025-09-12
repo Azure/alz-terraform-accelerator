@@ -23,11 +23,16 @@ variable "subscription_display_name_identity" {
   type        = string
 }
 
+variable "subscription_display_name_security" {
+  type        = string
+}
+
 locals {
   subscription_display_names = {
     connectivity = var.subscription_display_name_connectivity
     management   = var.subscription_display_name_management
     identity     = var.subscription_display_name_identity
+    security     = var.subscription_display_name_security
   }
 }
 
@@ -46,4 +51,8 @@ output "subscription_id_management" {
 
 output "subscription_id_identity" {
   value       = data.azurerm_subscriptions.lookup["identity"].subscriptions[0].subscription_id
+}
+
+output "subscription_id_security" {
+  value       = data.azurerm_subscriptions.lookup["security"].subscriptions[0].subscription_id
 }

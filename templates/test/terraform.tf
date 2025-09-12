@@ -24,21 +24,28 @@ provider "azurerm" {
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "management"
-  subscription_id            = var.subscription_id_management
+  subscription_id            = var.subscription_ids["management"]
   features {}
 }
 
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "connectivity"
-  subscription_id            = var.subscription_id_connectivity
+  subscription_id            = var.subscription_ids["connectivity"]
   features {}
 }
 
 provider "azurerm" {
   skip_provider_registration = true
   alias                      = "identity"
-  subscription_id            = var.subscription_id_identity
+  subscription_id            = var.subscription_ids["identity"]
+  features {}
+}
+
+provider "azurerm" {
+  skip_provider_registration = true
+  alias                      = "security"
+  subscription_id            = var.subscription_ids["security"]
   features {}
 }
 

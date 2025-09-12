@@ -93,9 +93,11 @@ Here are example bootstrap steps for Terraform and GitHub using the recommended 
 
     # Shared Interface Inputs
     bootstrap_location: "change_me"                     # E.g. "uksouth"
-    subscription_id_management: "change_me"
-    subscription_id_identity: "change_me"
-    subscription_id_connectivity: "change_me"
+    subscription_ids:
+      management: "change_me"
+      identity: "change_me"
+      connectivity: "change_me"
+      security: "change_me"
 
     # Bootstrap Inputs
     github_personal_access_token: "change_me"           # PAT for Terraform accelerator
