@@ -37,6 +37,12 @@ management_groups:
     id: alz-sandboxes
     parent_id: alz
   - archetypes:
+      - security_custom
+    display_name: Security
+    exists: false
+    id: security
+    parent_id: alz
+  - archetypes:
       - management_custom
     display_name: Management
     exists: false
