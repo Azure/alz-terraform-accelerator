@@ -47,7 +47,7 @@ management_groups:
     archetypes:
       - security_custom
     exists: false
-    parent_id: alz
+    parent_id: platform
 
   - id: management
     display_name: Management
