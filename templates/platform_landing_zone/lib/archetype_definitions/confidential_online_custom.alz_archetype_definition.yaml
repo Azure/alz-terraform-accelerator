@@ -1,5 +1,5 @@
 base_archetype: online
-name: online_custom
+name: confidential_online_custom
 policy_assignments_to_add: []
 policy_assignments_to_remove: []
 policy_definitions_to_add: []

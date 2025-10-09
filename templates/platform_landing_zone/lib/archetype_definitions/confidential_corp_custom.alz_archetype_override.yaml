@@ -1,5 +1,5 @@
 base_archetype: corp
-name: corp_custom
+name: confidential_corp_custom
 policy_assignments_to_add: [
   "Enforce-Sovereign-Conf"
 ]
