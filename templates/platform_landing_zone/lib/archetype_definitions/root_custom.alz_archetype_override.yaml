@@ -1,6 +1,9 @@
 base_archetype: root
 name: root_custom
-policy_assignments_to_add: []
+policy_assignments_to_add: [
+# To enable Sovereign Landing Zone, uncomment the following line:
+  # "Enforce-Sovereign-Global"
+]
 policy_assignments_to_remove: []
 policy_definitions_to_add: []
 policy_definitions_to_remove: []

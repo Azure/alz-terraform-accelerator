@@ -28,12 +28,28 @@ management_groups:
     exists: false
     parent_id: landingzones
 
+# To enable Sovereign Landing Zone, uncomment the following lines:
+  # - id: confidential-corp
+  #   display_name: Confidential Corp
+  #   archetypes:
+  #     - confidential_corp_custom
+  #   exists: false
+  #   parent_id: landingzones
+
   - id: online
     display_name: Online
     archetypes:
       - online_custom
     exists: false
     parent_id: landingzones
+
+# To enable Sovereign Landing Zone, uncomment the following lines:
+  # - id: confidential-online
+  #   display_name: Confidential Online
+  #   archetypes:
+  #     - confidential_online_custom
+  #   exists: false
+  #   parent_id: landingzones
 
   - id: sandbox
     display_name: Sandbox
