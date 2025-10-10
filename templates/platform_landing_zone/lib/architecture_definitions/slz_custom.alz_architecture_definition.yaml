@@ -1,4 +1,4 @@
-name: sovereign_alz_custom
+name: slz_custom
 management_groups:
   - id: alz
     display_name: Azure Landing Zones
