@@ -180,6 +180,9 @@ management_group_settings = {
     private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
     private_dns_zone_region                     = "$${starter_location_01}"
     private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
+    allowed_locations                           = [
+      "$${starter_location_01}"
+    ]
   }
   subscription_placement = {
     identity = {
