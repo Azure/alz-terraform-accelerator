@@ -1,8 +1,6 @@
-base_archetype: corp
+base_archetype: confidential_corp
 name: confidential_corp_custom
-policy_assignments_to_add: [
-  "Enforce-Sovereign-Conf"
-]
+policy_assignments_to_add: []
 policy_assignments_to_remove: [
 # To remove the private DNS zones policy for private endpoints
   # Deploy-Private-DNS-Zones,

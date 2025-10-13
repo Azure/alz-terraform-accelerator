@@ -1,8 +1,6 @@
-base_archetype: online
+base_archetype: confidential_online
 name: confidential_online_custom
-policy_assignments_to_add: [
-  "Enforce-Sovereign-Conf"
-]
+policy_assignments_to_add: []
 policy_assignments_to_remove: []
 policy_definitions_to_add: []
 policy_definitions_to_remove: []

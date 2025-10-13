@@ -1,9 +1,10 @@
 name: alz_custom
 management_groups:
   - id: alz
-    display_name: Azure Landing Zones
+    display_name: Azure Sovereign Landing Zones
     archetypes:
       - root_custom
+      - sovereign_root_custom
     exists: false
     parent_id: null
 
@@ -21,6 +22,13 @@ management_groups:
     exists: false
     parent_id: alz
 
+  - id: public
+    display_name: Public
+    archetypes:
+      - public_custom
+    exists: false
+    parent_id: landingzones
+
   - id: corp
     display_name: Corp
     archetypes:
@@ -32,6 +40,20 @@ management_groups:
     display_name: Online
     archetypes:
       - online_custom
+    exists: false
+    parent_id: landingzones
+
+  - id: confidential-corp
+    display_name: Confidential Corp
+    archetypes:
+      - confidential_corp_custom
+    exists: false
+    parent_id: landingzones
+
+  - id: confidential-online
+    display_name: Confidential Online
+    archetypes:
+      - confidential_online_custom
     exists: false
     parent_id: landingzones
 
