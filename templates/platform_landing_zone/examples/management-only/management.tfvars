@@ -125,9 +125,12 @@ management_group_settings = {
     ama_user_assigned_managed_identity_id       = "$${ama_user_assigned_managed_identity_id}"
     ama_user_assigned_managed_identity_name     = "$${ama_user_assigned_managed_identity_name}"
     log_analytics_workspace_id                  = "$${log_analytics_workspace_id}"
+    /*
+    # Example of allowed locations for Sovereign Landing Zones policies
     allowed_locations = [
       "$${starter_location_01}"
     ]
+    */
   }
   subscription_placement = {
     identity = {
