@@ -1,7 +1,7 @@
 name: alz_custom
 management_groups:
   - id: alz
-    display_name: Azure Sovereign Landing Zones
+    display_name: Sovereign Landing Zone
     archetypes:
       - root_custom
       - sovereign_root_custom
