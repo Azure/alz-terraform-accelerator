@@ -5,24 +5,6 @@
             "short_name": "Azure Verified Modules for Platform Landing Zone (ALZ)",
             "description": "Complete Azure Platform Landing Zones Configurable Deployment with Multi-Region Support using Azure Verified Modules"
         },
-        "sovereign_landing_zone": {
-            "location": "microsoft_cloud_for_industry",
-            "short_name": "Sovereign Landing Zone",
-            "description": "Complete Sovereign Landing Zones Configurable Deployment (Warning: This is a work in progress)",
-            "root_module_folder": "sovereign_landing_zone",
-            "additional_retained_folders": [
-                "modules"
-            ]
-        },
-        "financial_services_landing_zone": {
-            "location": "microsoft_cloud_for_industry",
-            "short_name": "Financial Services Landing Zone",
-            "description": "Complete Financial Services Landing Zones Configurable Deployment (Warning: This is a work in progress)",
-            "root_module_folder": "financial_services_landing_zone",
-            "additional_retained_folders": [
-                "modules"
-            ]
-        },
         "test": {
             "location": "test",
             "short_name": "Test",
