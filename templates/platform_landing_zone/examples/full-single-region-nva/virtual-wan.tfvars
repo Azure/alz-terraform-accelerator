@@ -230,6 +230,7 @@ management_group_settings = {
     }
   }
   */
+  # role_assignment_name_use_random_uuid = false  # Uncomment this for backwards compatibility with previous naming convention
 }
 
 /*

@@ -1,6 +1,6 @@
 module "management_groups" {
   source                                                        = "Azure/avm-ptn-alz/azurerm"
-  version                                                       = "0.12.3"
+  version                                                       = "0.14.0"
   architecture_name                                             = try(var.management_group_settings.architecture_name, "alz")
   parent_resource_id                                            = var.management_group_settings.parent_resource_id
   location                                                      = var.management_group_settings.location
@@ -19,4 +19,5 @@ module "management_groups" {
   management_group_role_assignments                             = try(var.management_group_settings.management_group_role_assignments, null)
   role_assignment_definition_lookup_enabled                     = try(var.management_group_settings.role_assignment_definition_lookup_enabled, true)
   policy_assignment_non_compliance_message_settings             = try(var.management_group_settings.policy_assignment_non_compliance_message_settings, {})
+  role_assignment_name_use_random_uuid                          = try(var.management_group_settings.role_assignment_name_use_random_uuid, true)
 }
