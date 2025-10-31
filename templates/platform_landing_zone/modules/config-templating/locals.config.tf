@@ -1,12 +1,4 @@
 locals {
-  regions = { for region in module.regions.regions_by_name : region.name => {
-    display_name = region.display_name
-    zones        = region.zones == null ? [] : region.zones
-    }
-  }
-}
-
-locals {
   starter_locations = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}" => location }
   built_in_replacements = merge(
     local.starter_locations,
