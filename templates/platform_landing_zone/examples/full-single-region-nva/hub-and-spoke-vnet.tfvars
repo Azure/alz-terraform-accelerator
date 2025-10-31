@@ -45,12 +45,13 @@ custom_replacements = {
     ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
-    primary_virtual_network_gateway_express_route_enabled = true
-    primary_virtual_network_gateway_vpn_enabled           = true
-    primary_private_dns_zones_enabled                     = true
-    primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true
-    primary_bastion_enabled                               = true
+    primary_virtual_network_gateway_express_route_enabled                = true
+    primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
+    primary_virtual_network_gateway_vpn_enabled                          = true
+    primary_private_dns_zones_enabled                                    = true
+    primary_private_dns_auto_registration_zone_enabled                   = true
+    primary_private_dns_resolver_enabled                                 = true
+    primary_bastion_enabled                                              = true
 
     # Resource names primary connectivity
     primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
