@@ -50,6 +50,12 @@ variable "tags" {
   description = "(Optional) Tags of the resource."
 }
 
+variable "connectivity_tags" {
+  type        = map(string)
+  default     = null
+  description = "(Optional) Tags of the resource."
+}
+
 variable "connectivity_resource_groups" {
   type = map(object({
     name     = string
@@ -69,12 +75,12 @@ The following attributes are supported:
 DESCRIPTION
 }
 
-variable "hub_and_spoke_vnet_settings" {
+variable "hub_and_spoke_networks_settings" {
   type    = any
   default = {}
 }
 
-variable "hub_and_spoke_vnet_virtual_networks" {
+variable "hub_virtual_networks" {
   type    = any
   default = {}
 }
@@ -84,7 +90,7 @@ variable "virtual_wan_settings" {
   default = {}
 }
 
-variable "virtual_wan_virtual_hubs" {
+variable "virtual_hubs" {
   type    = any
   default = {}
 }

@@ -27,3 +27,9 @@ The following attributes are supported:
 
 DESCRIPTION
 }
+
+variable "connectivity_tags" {
+  type        = map(string)
+  default     = null
+  description = "(Optional) Tags of the connectivity resources."
+}

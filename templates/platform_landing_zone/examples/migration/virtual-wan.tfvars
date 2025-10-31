@@ -4,9 +4,6 @@ This file contains built-in replacements to avoid repeating the same hard-coded 
 Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacements that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_02` to `starter_location_##`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
-`starter_location_01_availability_zones` to `starter_location_##_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
-`starter_location_01_virtual_network_gateway_sku_express_route` to `starter_location_##_virtual_network_gateway_sku_express_route`: These are the default SKUs for the Express Route virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
-`starter_location_01_virtual_network_gateway_sku_vpn` to `starter_location_##_virtual_network_gateway_sku_vpn`: These are the default SKUs for the VPN virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
 `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_ids`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_ids`.
@@ -308,37 +305,47 @@ connectivity_resource_groups = {
 }
 
 virtual_wan_settings = {
-  name                = "alz-vwan-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
-  resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
-  location            = "$${starter_location_01}"
+  enabled_resources = {
+    ddos_protection_plan = "$${ddos_protection_plan_enabled}"
+  }
+  virtual_wan = {
+    name                = "alz-vwan-$${starter_location_01}" # MIGRATION: This had a different default in CAF ES.
+    resource_group_name = "$${connectivity_hub_vwan_resource_group_name}"
+    location            = "$${starter_location_01}"
+  }
   ddos_protection_plan = {
-    enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
   }
 }
 
-virtual_wan_virtual_hubs = {
+virtual_hubs = {
   primary = {
-    hub = {
-      name = "$${primary_hub_name}"
-      /*
+    location = "$${starter_location_01}"
+    /*
       NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
-      */
-      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
-      location       = "$${starter_location_01}"
+    */
+    default_parent_id = "$${connectivity_hub_primary_resource_group_id}"
+    enabled_resources = {
+      firewall                              = "$${primary_firewall_enabled}"
+      bastion                               = "$${primary_bastion_enabled}"
+      virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
+      virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
+      private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
+      private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
+      sidecar_virtual_network               = "$${primary_sidecar_virtual_network_enabled}"
+    }
+    hub = {
+      name           = "$${primary_hub_name}"
+      parent_id      = "$${connectivity_hub_vwan_resource_group_id}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
       address_prefix = "$${primary_hub_address_space}"
       sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
     }
     firewall = {
-      enabled  = "$${primary_firewall_enabled}"
-      name     = "$${primary_firewall_name}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_01_availability_zones}"
+      name = "$${primary_firewall_name}"
       tags = { # MIGRATION: This had a different default in CAF ES.
         demo_type  = "Deploy connectivity resources using multiple module declarations"
         deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
@@ -349,46 +356,33 @@ virtual_wan_virtual_hubs = {
     }
     virtual_network_gateways = {
       express_route = {
-        enabled = "$${primary_virtual_network_gateway_express_route_enabled}"
-        name    = "$${primary_virtual_network_gateway_express_route_name}"
+        name = "$${primary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled = "$${primary_virtual_network_gateway_vpn_enabled}"
-        name    = "$${primary_virtual_network_gateway_vpn_name}"
+        name = "$${primary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
-      enabled = "$${primary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = false
-        }
+      resource_group_name = "$${dns_resource_group_name}"
+      private_link_private_dns_zones_regex_filter = {
+        enabled = false
       }
       auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      enabled               = "$${primary_private_dns_resolver_enabled}"
       subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${primary_private_dns_resolver_name}"
-      }
+      name                  = "$${primary_private_dns_resolver_name}"
     }
     bastion = {
-      enabled               = "$${primary_bastion_enabled}"
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${primary_bastion_host_name}"
-        zones = "$${starter_location_01_availability_zones}"
-      }
+      name                  = "$${primary_bastion_host_name}"
       bastion_public_ip = {
         name  = "$${primary_bastion_host_public_ip_name}"
         zones = "$${starter_location_01_availability_zones}"
       }
     }
     side_car_virtual_network = {
-      enabled       = "$${primary_sidecar_virtual_network_enabled}"
       name          = "$${primary_sidecar_virtual_network_name}"
       address_space = ["$${primary_side_car_virtual_network_address_space}"]
       /*
@@ -399,6 +393,22 @@ virtual_wan_virtual_hubs = {
     }
   }
   secondary = {
+    location = "$${starter_location_02}"
+    /*
+      NOTE: We are defaulting to a separate resource group for the hub per best practice for resiliency
+      However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
+      If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
+    */
+    default_parent_id = "$${connectivity_hub_secondary_resource_group_id}"
+    enabled_resources = {
+      firewall                              = "$${secondary_firewall_enabled}"
+      bastion                               = "$${secondary_bastion_enabled}"
+      virtual_network_gateway_express_route = "$${secondary_virtual_network_gateway_express_route_enabled}"
+      virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled}"
+      private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
+      private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled]}"
+      sidecar_virtual_network               = "$${secondary_sidecar_virtual_network_enabled}"
+    }
     hub = {
       name = "$${secondary_hub_name}"
       /*
@@ -406,17 +416,12 @@ virtual_wan_virtual_hubs = {
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
       */
-      resource_group = "$${connectivity_hub_vwan_resource_group_name}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
-      location       = "$${starter_location_02}"
+      parent_id      = "$${connectivity_hub_vwan_resource_group_id}" # MIGRATION: The CAF ES module did not have a separate resource group for the hub by default.
       address_prefix = "$${secondary_hub_address_space}"
       sku            = "Standard" # MIGRATION: The CAF ES module supplied the SKU
     }
     firewall = {
-      enabled  = "$${secondary_firewall_enabled}"
-      name     = "$${secondary_firewall_name}"
-      sku_name = "AZFW_Hub"
-      sku_tier = "Standard"
-      zones    = "$${starter_location_02_availability_zones}"
+      name = "$${secondary_firewall_name}"
       tags = { # MIGRATION: This had a different default in CAF ES.
         demo_type  = "Deploy connectivity resources using multiple module declarations"
         deployedBy = "terraform/azure/caf-enterprise-scale/examples/l400-multi"
@@ -427,46 +432,33 @@ virtual_wan_virtual_hubs = {
     }
     virtual_network_gateways = {
       express_route = {
-        enabled = "$${secondary_virtual_network_gateway_express_route_enabled}"
-        name    = "$${secondary_virtual_network_gateway_express_route_name}"
+        name = "$${secondary_virtual_network_gateway_express_route_name}"
       }
       vpn = {
-        enabled = "$${secondary_virtual_network_gateway_vpn_enabled}"
-        name    = "$${secondary_virtual_network_gateway_vpn_name}"
+        name = "$${secondary_virtual_network_gateway_vpn_name}"
       }
     }
     private_dns_zones = {
-      enabled = "$${secondary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = true
-        }
+      resource_group_name = "$${dns_resource_group_name}"
+      private_link_private_dns_zones_regex_filter = {
+        enabled = true
       }
       auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      enabled               = "$${secondary_private_dns_resolver_enabled}"
       subnet_address_prefix = "$${secondary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${secondary_private_dns_resolver_name}"
-      }
+      name                  = "$${secondary_private_dns_resolver_name}"
     }
     bastion = {
-      enabled               = "$${secondary_bastion_enabled}"
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${secondary_bastion_host_name}"
-        zones = "$${starter_location_02_availability_zones}"
-      }
+      name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
         name  = "$${secondary_bastion_host_public_ip_name}"
         zones = "$${starter_location_02_availability_zones}"
       }
     }
     side_car_virtual_network = {
-      enabled       = "$${secondary_sidecar_virtual_network_enabled}"
       name          = "$${secondary_sidecar_virtual_network_name}"
       address_space = ["$${secondary_side_car_virtual_network_address_space}"]
       /*

@@ -4,9 +4,6 @@ This file contains built-in replacements to avoid repeating the same hard-coded 
 Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacemnets that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_02` to `starter_location_##`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
-`starter_location_01_availability_zones` to `starter_location_##_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
-`starter_location_01_virtual_network_gateway_sku_express_route` to `starter_location_##_virtual_network_gateway_sku_express_route`: These are the default SKUs for the Express Route virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
-`starter_location_01_virtual_network_gateway_sku_vpn` to `starter_location_##_virtual_network_gateway_sku_vpn`: These are the default SKUs for the VPN virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
 `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_ids`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_ids`.
@@ -267,100 +264,83 @@ connectivity_resource_groups = {
   }
 }
 
-hub_and_spoke_vnet_settings = {
+hub_and_spoke_networks_settings = {
+  enabled_resources = {
+    ddos_protection_plan = "$${ddos_protection_plan_enabled}"
+  }
   ddos_protection_plan = {
-    enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
   }
 }
 
-hub_and_spoke_vnet_virtual_networks = {
+hub_virtual_networks = {
   primary = {
+    location          = "$${starter_location_01}"
+    default_parent_id = "$${connectivity_hub_primary_resource_group_id}"
+    enabled_resources = {
+      firewall                              = false
+      bastion                               = "$${primary_bastion_enabled}"
+      virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
+      virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
+      private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
+      private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
+    }
     hub_virtual_network = {
       name                          = "$${primary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_primary_resource_group_name}"
-      location                      = "$${starter_location_01}"
       address_space                 = ["$${primary_hub_virtual_network_address_space}"]
       routing_address_space         = ["$${primary_hub_address_space}"]
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      hub_router_ip_address         = "$${primary_nva_ip_address}"
-      subnets = {
-        nva = {
-          name             = "$${primary_subnet_nva_name}"
-          address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
-        }
-      }
+      subnets                       = {}
     }
     virtual_network_gateways = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
       express_route = {
-        enabled   = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location  = "$${starter_location_01}"
-        name      = "$${primary_virtual_network_gateway_express_route_name}"
-        sku       = "$${starter_location_01_virtual_network_gateway_sku_express_route}"
-        parent_id = "$${primary_connectivity_resource_group_id}"
+        name                                  = "$${primary_virtual_network_gateway_express_route_name}"
+        hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
         ip_configurations = {
           default = {
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
-              zones = "$${starter_location_01_availability_zones}"
+              name = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
             }
           }
         }
       }
       vpn = {
-        enabled   = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location  = "$${starter_location_01}"
-        name      = "$${primary_virtual_network_gateway_vpn_name}"
-        sku       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
-        parent_id = "$${primary_connectivity_resource_group_id}"
+        name = "$${primary_virtual_network_gateway_vpn_name}"
         ip_configurations = {
           active_active_1 = {
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_01_availability_zones}"
+              name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
             }
           }
           active_active_2 = {
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_01_availability_zones}"
+              name = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
             }
           }
         }
       }
     }
     private_dns_zones = {
-      enabled = "$${primary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = false
-        }
+      resource_group_name = "$${dns_resource_group_name}"
+      private_link_private_dns_zones_regex_filter = {
+        enabled = false
       }
       auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      enabled               = "$${primary_private_dns_resolver_enabled}"
       subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${primary_private_dns_resolver_name}"
-      }
+      name                  = "$${primary_private_dns_resolver_name}"
     }
     bastion = {
-      enabled               = "$${primary_bastion_enabled}"
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${primary_bastion_host_name}"
-        zones = "$${starter_location_01_availability_zones}"
-      }
+      name                  = "$${primary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${primary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_01_availability_zones}"
+        name = "$${primary_bastion_host_public_ip_name}"
       }
     }
   }

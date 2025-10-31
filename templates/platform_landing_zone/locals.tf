@@ -24,10 +24,10 @@ locals {
   resource_groups = {
     resource_groups = module.resource_groups
   }
-  hub_and_spoke_vnet_settings         = merge(module.config.hub_and_spoke_vnet_settings, local.resource_groups)
-  hub_and_spoke_vnet_virtual_networks = (merge({ vnets = module.config.hub_and_spoke_vnet_virtual_networks }, local.resource_groups)).vnets
-  virtual_wan_settings                = merge(module.config.virtual_wan_settings, local.resource_groups)
-  virtual_wan_virtual_hubs            = (merge({ vhubs = module.config.virtual_wan_virtual_hubs }, local.resource_groups)).vhubs
+  hub_and_spoke_networks_settings = merge(module.config.hub_and_spoke_networks_settings, local.resource_groups)
+  hub_virtual_networks            = (merge({ vnets = module.config.hub_virtual_networks }, local.resource_groups)).vnets
+  virtual_wan_settings            = merge(module.config.virtual_wan_settings, local.resource_groups)
+  virtual_hubs                    = (merge({ vhubs = module.config.virtual_hubs }, local.resource_groups)).vhubs
 }
 
 # Build policy dependencies
