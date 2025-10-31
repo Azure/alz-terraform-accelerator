@@ -522,7 +522,7 @@ hub_virtual_networks = {
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${secondary_bastion_host_public_ip_name}"
+        name = "$${secondary_bastion_host_public_ip_name}"
       }
     }
   }

@@ -68,11 +68,11 @@ custom_replacements = {
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space = "10.0.0.0/22"
+    primary_hub_address_space = "10.0.0.0/16"
 
     # IP Ranges Secondary
     # Regional Address Space: 10.1.0.0/16
-    secondary_hub_address_space = "10.1.0.0/22"
+    secondary_hub_address_space = "10.1.0.0/16"
   }
 
   /*

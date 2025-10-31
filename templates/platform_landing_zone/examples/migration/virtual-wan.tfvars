@@ -380,7 +380,7 @@ virtual_hubs = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       name                  = "$${primary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${primary_bastion_host_public_ip_name}"
+        name = "$${primary_bastion_host_public_ip_name}"
       }
     }
     side_car_virtual_network = {
@@ -455,7 +455,7 @@ virtual_hubs = {
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
       name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${secondary_bastion_host_public_ip_name}"
+        name = "$${secondary_bastion_host_public_ip_name}"
       }
     }
     side_car_virtual_network = {
