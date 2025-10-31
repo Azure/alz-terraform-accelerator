@@ -392,7 +392,6 @@ hub_virtual_networks = {
       }
       vpn = {
         name                      = "$${primary_virtual_network_gateway_vpn_name}"
-        sku                       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
@@ -478,7 +477,6 @@ hub_virtual_networks = {
       subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
       express_route = {
         name                                  = "$${secondary_virtual_network_gateway_express_route_name}"
-        sku                                   = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
         hosted_on_behalf_of_public_ip_enabled = "$${secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
         ip_configurations = {
           default = {
@@ -491,7 +489,6 @@ hub_virtual_networks = {
       }
       vpn = {
         name                      = "$${secondary_virtual_network_gateway_vpn_name}"
-        sku                       = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
@@ -526,7 +523,6 @@ hub_virtual_networks = {
       name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
         name  = "$${secondary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_02_availability_zones}"
       }
     }
   }

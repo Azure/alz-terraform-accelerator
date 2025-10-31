@@ -381,7 +381,6 @@ virtual_hubs = {
       name                  = "$${primary_bastion_host_name}"
       bastion_public_ip = {
         name  = "$${primary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_01_availability_zones}"
       }
     }
     side_car_virtual_network = {
@@ -457,7 +456,6 @@ virtual_hubs = {
       name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
         name  = "$${secondary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_02_availability_zones}"
       }
     }
     side_car_virtual_network = {
