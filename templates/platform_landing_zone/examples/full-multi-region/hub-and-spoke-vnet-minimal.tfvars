@@ -304,7 +304,7 @@ hub_virtual_networks = {
       firewall                              = "$${secondary_firewall_enabled}"
       bastion                               = "$${secondary_bastion_enabled}"
       virtual_network_gateway_express_route = "$${secondary_virtual_network_gateway_express_route_enabled}"
-      virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled]}"
+      virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled}"
       private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
       private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled}"
     }

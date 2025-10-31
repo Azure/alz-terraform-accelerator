@@ -406,7 +406,7 @@ virtual_hubs = {
       virtual_network_gateway_express_route = "$${secondary_virtual_network_gateway_express_route_enabled}"
       virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled}"
       private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
-      private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled]}"
+      private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled}"
       sidecar_virtual_network               = "$${secondary_sidecar_virtual_network_enabled}"
     }
     hub = {
