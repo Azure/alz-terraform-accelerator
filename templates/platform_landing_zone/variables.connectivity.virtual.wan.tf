@@ -1,14 +1,14 @@
 variable "virtual_hubs" {
   type = map(object({
     enabled_resources = optional(object({
-      firewall                              = optional(bool, true)
-      firewall_policy                       = optional(bool, true)
-      bastion                               = optional(bool, true)
-      virtual_network_gateway_express_route = optional(bool, true)
-      virtual_network_gateway_vpn           = optional(bool, true)
-      private_dns_zones                     = optional(bool, true)
-      private_dns_resolver                  = optional(bool, true)
-      sidecar_virtual_network               = optional(bool, true)
+      firewall                              = optional(any, true)
+      firewall_policy                       = optional(any, true)
+      bastion                               = optional(any, true)
+      virtual_network_gateway_express_route = optional(any, true)
+      virtual_network_gateway_vpn           = optional(any, true)
+      private_dns_zones                     = optional(any, true)
+      private_dns_resolver                  = optional(any, true)
+      sidecar_virtual_network               = optional(any, true)
     }), {})
 
     default_hub_address_space = optional(string)
@@ -377,7 +377,7 @@ variable "virtual_hubs" {
 
     private_dns_zones = optional(object({
       resource_group_name                         = optional(string, null)
-      auto_registration_zone_enabled              = optional(bool, true)
+      auto_registration_zone_enabled              = optional(any, true)
       auto_registration_zone_name                 = optional(string, null)
       auto_registration_zone_resource_group_name  = optional(string, null)
       private_dns_zone_network_link_name_template = optional(string, null)
@@ -859,7 +859,7 @@ DESCRIPTION
 variable "virtual_wan_settings" {
   type = object({
     enabled_resources = optional(object({
-      ddos_protection_plan = optional(bool, true)
+      ddos_protection_plan = optional(any, true)
     }), {})
     virtual_wan = optional(object({
       name                              = optional(string)

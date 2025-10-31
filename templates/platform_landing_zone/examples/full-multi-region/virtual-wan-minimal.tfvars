@@ -297,7 +297,7 @@ virtual_hubs = {
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
     */
-    default_parent_id         = "$${connectivity_hub_primary_resource_group_id}"
+    default_parent_id         = "$${primary_connectivity_resource_group_id}"
     default_hub_address_space = "$${primary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${primary_firewall_enabled}"
@@ -319,7 +319,7 @@ virtual_hubs = {
       However, there is a known limitation with the portal experience: https://learn.microsoft.com/en-us/azure/virtual-wan/virtual-wan-faq#can-hubs-be-created-in-different-resource-groups-in-virtual-wan
       If you prefer to use the same resource group as the vwan, then set this to `$${connectivity_hub_vwan_resource_group_name}`
     */
-    default_parent_id         = "$${connectivity_hub_secondary_resource_group_id}"
+    default_parent_id         = "$${secondary_connectivity_resource_group_id}"
     default_hub_address_space = "$${secondary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${secondary_firewall_enabled}"

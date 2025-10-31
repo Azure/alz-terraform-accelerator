@@ -282,7 +282,7 @@ hub_and_spoke_networks_settings = {
 hub_virtual_networks = {
   primary = {
     location                  = "$${starter_location_01}"
-    default_parent_id         = "$${connectivity_hub_primary_resource_group_id}"
+    default_parent_id         = "$${primary_connectivity_resource_group_id}"
     default_hub_address_space = "$${primary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${primary_firewall_enabled}"
@@ -298,7 +298,7 @@ hub_virtual_networks = {
   }
   secondary = {
     location                  = "$${starter_location_02}"
-    default_parent_id         = "$${connectivity_hub_secondary_resource_group_id}"
+    default_parent_id         = "$${secondary_connectivity_resource_group_id}"
     default_hub_address_space = "$${secondary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${secondary_firewall_enabled}"

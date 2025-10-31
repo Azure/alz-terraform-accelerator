@@ -1,7 +1,7 @@
 variable "hub_and_spoke_networks_settings" {
   type = object({
     enabled_resources = optional(object({
-      ddos_protection_plan = optional(bool, true)
+      ddos_protection_plan = optional(any, true)
     }), {})
     ddos_protection_plan = optional(object({
       name                = optional(string)
@@ -31,13 +31,13 @@ DESCRIPTION
 variable "hub_virtual_networks" {
   type = map(object({
     enabled_resources = optional(object({
-      firewall                              = optional(bool, true)
-      firewall_policy                       = optional(bool, true)
-      bastion                               = optional(bool, true)
-      virtual_network_gateway_express_route = optional(bool, true)
-      virtual_network_gateway_vpn           = optional(bool, true)
-      private_dns_zones                     = optional(bool, true)
-      private_dns_resolver                  = optional(bool, true)
+      firewall                              = optional(any, true)
+      firewall_policy                       = optional(any, true)
+      bastion                               = optional(any, true)
+      virtual_network_gateway_express_route = optional(any, true)
+      virtual_network_gateway_vpn           = optional(any, true)
+      private_dns_zones                     = optional(any, true)
+      private_dns_resolver                  = optional(any, true)
     }), {})
 
     default_hub_address_space = optional(string)
@@ -118,7 +118,7 @@ variable "hub_virtual_networks" {
       subnet_address_prefix                             = optional(string)
       subnet_default_outbound_access_enabled            = optional(bool, false)
       firewall_policy_id                                = optional(string, null)
-      management_ip_enabled                             = optional(bool, true)
+      management_ip_enabled                             = optional(any, true)
       management_subnet_address_prefix                  = optional(string, null)
       management_subnet_default_outbound_access_enabled = optional(bool, false)
       private_ip_ranges                                 = optional(list(string))
@@ -301,7 +301,7 @@ variable "hub_virtual_networks" {
           }), null)
         })))
         express_route_remote_vnet_traffic_enabled = optional(bool, false)
-        hosted_on_behalf_of_public_ip_enabled     = optional(bool, true)
+        hosted_on_behalf_of_public_ip_enabled     = optional(any, true)
         ip_configurations = optional(map(object({
           name                          = optional(string, null)
           apipa_addresses               = optional(list(string), null)
@@ -536,7 +536,7 @@ variable "hub_virtual_networks" {
 
     private_dns_zones = optional(object({
       resource_group_name                         = optional(string, null)
-      auto_registration_zone_enabled              = optional(bool, true)
+      auto_registration_zone_enabled              = optional(any, true)
       auto_registration_zone_name                 = optional(string, null)
       auto_registration_zone_resource_group_name  = optional(string, null)
       private_dns_zone_network_link_name_template = optional(string, null)
