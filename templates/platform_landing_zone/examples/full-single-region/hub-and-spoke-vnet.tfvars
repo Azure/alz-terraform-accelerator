@@ -327,6 +327,7 @@ hub_virtual_networks = {
         hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
         ip_configurations = {
           default = {
+            # name = "vnetGatewayConfigdefault"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
             }
@@ -337,11 +338,13 @@ hub_virtual_networks = {
         name = "$${primary_virtual_network_gateway_vpn_name}"
         ip_configurations = {
           active_active_1 = {
+            # name = "vnetGatewayConfigactive_active_1"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
             }
           }
           active_active_2 = {
+            # name = "vnetGatewayConfigactive_active_2"  # For backwards compatibility with previous naming, uncomment this line
             public_ip = {
               name = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
             }
