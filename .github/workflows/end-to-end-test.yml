@@ -154,6 +154,17 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
+      - name: Pre Test Clean Environment
+        if: ${{ matrix.mode == 'apply' && always() }}
+        run: |
+          $environmentNumber = ${{ matrix.environmentNumber }}
+          .github/tests/scripts/test-cleanup.ps1 `
+            -managementGroupStartNumber $environmentNumber `
+            -managementGroupCount 1 `
+            -subscriptionStartNumber $environmentNumber `
+            -subscriptionCount 1
+        shell: pwsh
+
       - name: Setup Terraform Lib Folder
         if: ${{ matrix.mode == 'apply' }}
         run: |
@@ -227,7 +238,7 @@ jobs:
           tenant-id: ${{ vars.ARM_TENANT_ID }}
           subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
 
-      - name: Clean Up Environment
+      - name: Post Test Clean Environment
         if: ${{ matrix.mode == 'apply' && always() }}
         run: |
           $environmentNumber = ${{ matrix.environmentNumber }}
