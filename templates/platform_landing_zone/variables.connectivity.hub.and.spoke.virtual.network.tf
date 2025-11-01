@@ -92,7 +92,10 @@ variable "hub_virtual_networks" {
             id                           = optional(string)
             assign_generated_route_table = optional(bool, true)
           }))
-          service_endpoints           = optional(set(string))
+          service_endpoints_with_location = optional(list(object({
+            service   = string
+            locations = optional(list(string))
+          })))
           service_endpoint_policy_ids = optional(set(string))
           delegations = optional(list(
             object(
