@@ -72,7 +72,7 @@ custom_replacements = {
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
     primary_hub_address_space                          = "10.0.0.0/22"
-    primary_side_car_virtual_network_address_space     = "10.0.4.0/22"
+    primary_sidecar_virtual_network_address_space      = "10.0.4.0/22"
     primary_bastion_subnet_address_prefix              = "10.0.4.0/26"
     primary_private_dns_resolver_subnet_address_prefix = "10.0.4.64/28"
   }
@@ -339,9 +339,9 @@ virtual_hubs = {
         name = "$${primary_bastion_host_public_ip_name}"
       }
     }
-    side_car_virtual_network = {
+    sidecar_virtual_network = {
       name          = "$${primary_sidecar_virtual_network_name}"
-      address_space = ["$${primary_side_car_virtual_network_address_space}"]
+      address_space = ["$${primary_sidecar_virtual_network_address_space}"]
       /*
       virtual_network_connection_settings = {
         name = "private_dns_vnet_primary"  # Backwards compatibility

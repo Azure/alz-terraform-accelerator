@@ -97,14 +97,14 @@ custom_replacements = {
     # IP Ranges Primary
     # Regional Address Space: 10.100.0.0/16
     primary_hub_address_space                          = "10.100.0.0/22"  # MIGRATION: This had a different default in CAF ES.
-    primary_side_car_virtual_network_address_space     = "10.100.4.0/22"  # MIGRATION: This had a different default in CAF ES.
+    primary_sidecar_virtual_network_address_space      = "10.100.4.0/22"  # MIGRATION: This had a different default in CAF ES.
     primary_bastion_subnet_address_prefix              = "10.100.4.0/26"  # MIGRATION: This had a different default in CAF ES.
     primary_private_dns_resolver_subnet_address_prefix = "10.100.4.64/28" # MIGRATION: This had a different default in CAF ES.
 
     # IP Ranges Secondary
     # Regional Address Space: 10.101.0.0/16
     secondary_hub_address_space                          = "10.101.0.0/22"  # MIGRATION: This had a different default in CAF ES.
-    secondary_side_car_virtual_network_address_space     = "10.101.4.0/22"  # MIGRATION: This had a different default in CAF ES.
+    secondary_sidecar_virtual_network_address_space      = "10.101.4.0/22"  # MIGRATION: This had a different default in CAF ES.
     secondary_bastion_subnet_address_prefix              = "10.101.4.0/26"  # MIGRATION: This had a different default in CAF ES.
     secondary_private_dns_resolver_subnet_address_prefix = "10.101.4.64/28" # MIGRATION: This had a different default in CAF ES.
   }
@@ -384,9 +384,9 @@ virtual_hubs = {
         name = "$${primary_bastion_host_public_ip_name}"
       }
     }
-    side_car_virtual_network = {
+    sidecar_virtual_network = {
       name          = "$${primary_sidecar_virtual_network_name}"
-      address_space = ["$${primary_side_car_virtual_network_address_space}"]
+      address_space = ["$${primary_sidecar_virtual_network_address_space}"]
       /*
       virtual_network_connection_settings = {
         name = "private_dns_vnet_primary"  # Backwards compatibility
@@ -459,9 +459,9 @@ virtual_hubs = {
         name = "$${secondary_bastion_host_public_ip_name}"
       }
     }
-    side_car_virtual_network = {
+    sidecar_virtual_network = {
       name          = "$${secondary_sidecar_virtual_network_name}"
-      address_space = ["$${secondary_side_car_virtual_network_address_space}"]
+      address_space = ["$${secondary_sidecar_virtual_network_address_space}"]
       /*
       virtual_network_connection_settings = {
         name = "private_dns_vnet_secondary"  # Backwards compatibility

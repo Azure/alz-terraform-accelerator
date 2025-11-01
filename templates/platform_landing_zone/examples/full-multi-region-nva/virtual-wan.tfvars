@@ -93,7 +93,7 @@ custom_replacements = {
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
     primary_hub_address_space                          = "10.0.0.0/22"
-    primary_side_car_virtual_network_address_space     = "10.0.4.0/22"
+    primary_sidecar_virtual_network_address_space      = "10.0.4.0/22"
     primary_bastion_subnet_address_prefix              = "10.0.4.0/26"
     primary_nva_subnet_address_prefix                  = "10.0.4.64/26"
     primary_nva_ip_address                             = "10.0.4.68"
@@ -103,7 +103,7 @@ custom_replacements = {
     # IP Ranges Secondary
     # Regional Address Space: 10.1.0.0/16
     secondary_hub_address_space                          = "10.1.0.0/22"
-    secondary_side_car_virtual_network_address_space     = "10.1.4.0/22"
+    secondary_sidecar_virtual_network_address_space      = "10.1.4.0/22"
     secondary_bastion_subnet_address_prefix              = "10.1.4.0/26"
     secondary_nva_subnet_address_prefix                  = "10.1.4.64/26"
     secondary_nva_ip_address                             = "10.1.4.68"
@@ -377,9 +377,9 @@ virtual_hubs = {
         name = "$${primary_bastion_host_public_ip_name}"
       }
     }
-    side_car_virtual_network = {
+    sidecar_virtual_network = {
       name          = "$${primary_sidecar_virtual_network_name}"
-      address_space = ["$${primary_side_car_virtual_network_address_space}"]
+      address_space = ["$${primary_sidecar_virtual_network_address_space}"]
       /*
       virtual_network_connection_settings = {
         name = "private_dns_vnet_primary"  # Backwards compatibility
@@ -435,9 +435,9 @@ virtual_hubs = {
         name = "$${secondary_bastion_host_public_ip_name}"
       }
     }
-    side_car_virtual_network = {
+    sidecar_virtual_network = {
       name          = "$${secondary_sidecar_virtual_network_name}"
-      address_space = ["$${secondary_side_car_virtual_network_address_space}"]
+      address_space = ["$${secondary_sidecar_virtual_network_address_space}"]
       /*
       virtual_network_connection_settings = {
         name = "private_dns_vnet_secondary"  # Backwards compatibility
