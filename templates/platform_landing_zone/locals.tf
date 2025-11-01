@@ -14,11 +14,6 @@ locals {
   connectivity_hub_and_spoke_vnet_enabled = var.connectivity_type == local.const.connectivity.hub_and_spoke_vnet
 }
 
-locals {
-  management_groups_enabled    = try(var.management_group_settings.enabled, true)
-  management_resources_enabled = try(var.management_resource_settings.enabled, true)
-}
-
 # Build an implicit dependency on the resource groups
 locals {
   resource_groups = {
@@ -44,4 +39,19 @@ locals {
       module.virtual_wan
     ]
   }
+}
+
+locals {
+  management_group_settings = merge(
+    module.config.management_group_settings,
+    {
+      dependencies = local.management_group_dependencies
+    }
+  )
+  management_resource_settings = merge(
+    module.config.management_resource_settings,
+    {
+      tags = coalesce(module.config.management_resource_settings.tags, module.config.tags)
+    }
+  )
 }
