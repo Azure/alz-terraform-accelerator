@@ -29,12 +29,6 @@ variable "root_parent_management_group_id" {
   description = "This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group"
 }
 
-variable "enable_telemetry" {
-  type        = bool
-  default     = true
-  description = "Flag to enable/disable telemetry"
-}
-
 variable "custom_replacements" {
   type = object({
     names                      = optional(map(string), {})

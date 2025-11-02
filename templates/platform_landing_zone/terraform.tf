@@ -31,8 +31,8 @@ provider "alz" {
 }
 
 provider "azapi" {
-  skip_provider_registration = true
-  subscription_id            = try(var.subscription_ids["management"], var.subscription_id_management)
+  resource_provider_registrations = "none"
+  subscription_id                 = try(var.subscription_ids["management"], var.subscription_id_management)
 }
 
 provider "azurerm" {
@@ -67,7 +67,7 @@ provider "azurerm" {
 }
 
 provider "azapi" {
-  alias                      = "connectivity"
-  skip_provider_registration = true
-  subscription_id            = try(var.subscription_ids["connectivity"], var.subscription_id_connectivity)
+  alias                           = "connectivity"
+  resource_provider_registrations = "none"
+  subscription_id                 = try(var.subscription_ids["connectivity"], var.subscription_id_connectivity)
 }

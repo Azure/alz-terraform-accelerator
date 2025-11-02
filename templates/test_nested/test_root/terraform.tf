@@ -1,4 +1,5 @@
 terraform {
+  required_version = "~> 1.12"
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -17,38 +18,38 @@ terraform {
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
   features {}
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "management"
-  subscription_id            = var.subscription_ids["management"]
+  resource_provider_registrations = "none"
+  alias                           = "management"
+  subscription_id                 = var.subscription_ids["management"]
   features {}
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "connectivity"
-  subscription_id            = var.subscription_ids["connectivity"]
+  resource_provider_registrations = "none"
+  alias                           = "connectivity"
+  subscription_id                 = var.subscription_ids["connectivity"]
   features {}
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "identity"
-  subscription_id            = var.subscription_ids["identity"]
+  resource_provider_registrations = "none"
+  alias                           = "identity"
+  subscription_id                 = var.subscription_ids["identity"]
   features {}
 }
 
 provider "azurerm" {
-  skip_provider_registration = true
-  alias                      = "security"
-  subscription_id            = var.subscription_ids["security"]
+  resource_provider_registrations = "none"
+  alias                           = "security"
+  subscription_id                 = var.subscription_ids["security"]
   features {}
 }
 
 provider "azapi" {
-  skip_provider_registration = true
+  resource_provider_registrations = "none"
 }

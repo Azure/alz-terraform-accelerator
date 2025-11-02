@@ -1,8 +1,6 @@
 module "config" {
   source = "./modules/config-templating"
 
-  enable_telemetry = var.enable_telemetry
-
   starter_locations               = var.starter_locations
   subscription_id_connectivity    = try(var.subscription_ids["connectivity"], var.subscription_id_connectivity)
   subscription_id_identity        = try(var.subscription_ids["identity"], var.subscription_id_identity)
