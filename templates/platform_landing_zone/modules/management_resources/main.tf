@@ -1,7 +1,6 @@
 module "management_resources" {
-  source  = "Azure/avm-ptn-alz-management/azurerm"
-  version = "0.9.0"
-
+  source                                                     = "Azure/avm-ptn-alz-management/azurerm"
+  version                                                    = "0.9.0"
   automation_account_name                                    = null
   location                                                   = var.management_resource_settings.location
   log_analytics_workspace_name                               = coalesce(var.management_resource_settings.log_analytics_workspace_name, "law-management-${var.management_resource_settings.location}")
