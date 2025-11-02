@@ -22,7 +22,7 @@ jobs:
           terraform_version: latest
           terraform_wrapper: false
       - name: Run github/super-linter/slim
-        uses: github/super-linter/slim@45fc0d88288beee4701c62761281edfee85655d7 # v5.0.0
+        uses: github/super-linter/slim@b807e99ddd37e444d189cfd2c2ca1274d8ae8ef1 # v7.0.0
         env:
           # Lint all code
           VALIDATE_ALL_CODEBASE: true
