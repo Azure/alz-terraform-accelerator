@@ -132,39 +132,11 @@ DESCRIPTION
 
 variable "management_group_settings" {
   type = object({
-    architecture_name     = optional(string, "alz_custom")
-    parent_resource_id    = string
-    location              = string
-    policy_default_values = optional(map(string))
-    policy_assignments_to_modify = optional(map(object({
-      policy_assignments = map(object({
-        enforcement_mode = optional(string)
-        identity         = optional(string)
-        identity_ids     = optional(list(string))
-        parameters       = optional(map(string))
-        non_compliance_messages = optional(set(object({
-          message                        = string
-          policy_definition_reference_id = optional(string)
-        })))
-        resource_selectors = optional(list(object({
-          name = string
-          resource_selector_selectors = optional(list(object({
-            kind   = string
-            in     = optional(set(string))
-            not_in = optional(set(string))
-          })))
-        })))
-        overrides = optional(list(object({
-          kind  = string
-          value = string
-          override_selectors = optional(list(object({
-            kind   = string
-            in     = optional(set(string))
-            not_in = optional(set(string))
-          })))
-        })))
-      }))
-    })))
+    architecture_name            = optional(string, "alz_custom")
+    parent_resource_id           = string
+    location                     = string
+    policy_default_values        = optional(any)
+    policy_assignments_to_modify = optional(any)
     management_group_hierarchy_settings = optional(object({
       default_management_group_name            = string
       require_authorization_for_group_creation = optional(bool, true)
