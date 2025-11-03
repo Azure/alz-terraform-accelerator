@@ -29,12 +29,6 @@ variable "root_parent_management_group_id" {
   description = "This is the id of the management group that the ALZ hierarchy will be nested under, will default to the Tenant Root Group"
 }
 
-variable "enable_telemetry" {
-  type        = bool
-  default     = true
-  description = "Flag to enable/disable telemetry"
-}
-
 variable "custom_replacements" {
   type = object({
     names                      = optional(map(string), {})
@@ -45,6 +39,12 @@ variable "custom_replacements" {
 }
 
 variable "tags" {
+  type        = map(string)
+  default     = null
+  description = "(Optional) Tags of the resource."
+}
+
+variable "connectivity_tags" {
   type        = map(string)
   default     = null
   description = "(Optional) Tags of the resource."
@@ -69,12 +69,12 @@ The following attributes are supported:
 DESCRIPTION
 }
 
-variable "hub_and_spoke_vnet_settings" {
+variable "hub_and_spoke_networks_settings" {
   type    = any
   default = {}
 }
 
-variable "hub_and_spoke_vnet_virtual_networks" {
+variable "hub_virtual_networks" {
   type    = any
   default = {}
 }
@@ -84,7 +84,7 @@ variable "virtual_wan_settings" {
   default = {}
 }
 
-variable "virtual_wan_virtual_hubs" {
+variable "virtual_hubs" {
   type    = any
   default = {}
 }

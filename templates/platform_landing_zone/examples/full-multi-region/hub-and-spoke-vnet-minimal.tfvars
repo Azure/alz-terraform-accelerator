@@ -42,7 +42,6 @@ custom_replacements = {
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
-    # Resource provisioning global connectivity
     ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
@@ -67,65 +66,13 @@ custom_replacements = {
     secondary_private_dns_resolver_enabled                                 = true
     secondary_bastion_enabled                                              = true
 
-    # Resource names primary connectivity
-    primary_virtual_network_name                                 = "vnet-hub-$${starter_location_01}"
-    primary_firewall_name                                        = "fw-hub-$${starter_location_01}"
-    primary_firewall_policy_name                                 = "fwp-hub-$${starter_location_01}"
-    primary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_01}"
-    primary_firewall_management_public_ip_name                   = "pip-fw-hub-mgmt-$${starter_location_01}"
-    primary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_01}"
-    primary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_01}"
-    primary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_01}"
-    primary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_01}"
-    primary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_01}"
-    primary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_01}-001"
-    primary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_01}-002"
-    primary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_01}"
-    primary_bastion_host_name                                    = "bas-hub-$${starter_location_01}"
-    primary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_01}"
-
-    # Resource names secondary connectivity
-    secondary_virtual_network_name                                 = "vnet-hub-$${starter_location_02}"
-    secondary_firewall_name                                        = "fw-hub-$${starter_location_02}"
-    secondary_firewall_policy_name                                 = "fwp-hub-$${starter_location_02}"
-    secondary_firewall_public_ip_name                              = "pip-fw-hub-$${starter_location_02}"
-    secondary_firewall_management_public_ip_name                   = "pip-fw-hub-mgmt-$${starter_location_02}"
-    secondary_route_table_firewall_name                            = "rt-hub-fw-$${starter_location_02}"
-    secondary_route_table_user_subnets_name                        = "rt-hub-std-$${starter_location_02}"
-    secondary_virtual_network_gateway_express_route_name           = "vgw-hub-er-$${starter_location_02}"
-    secondary_virtual_network_gateway_express_route_public_ip_name = "pip-vgw-hub-er-$${starter_location_02}"
-    secondary_virtual_network_gateway_vpn_name                     = "vgw-hub-vpn-$${starter_location_02}"
-    secondary_virtual_network_gateway_vpn_public_ip_name_1         = "pip-vgw-hub-vpn-$${starter_location_02}-001"
-    secondary_virtual_network_gateway_vpn_public_ip_name_2         = "pip-vgw-hub-vpn-$${starter_location_02}-002"
-    secondary_private_dns_resolver_name                            = "pdr-hub-dns-$${starter_location_02}"
-    secondary_bastion_host_name                                    = "bas-hub-$${starter_location_02}"
-    secondary_bastion_host_public_ip_name                          = "pip-bastion-hub-$${starter_location_02}"
-
-    # Private DNS Zones primary
-    primary_auto_registration_zone_name = "$${starter_location_01}.azure.local"
-
-    # Private DNS Zones secondary
-    secondary_auto_registration_zone_name = "$${starter_location_02}.azure.local"
-
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space                          = "10.0.0.0/16"
-    primary_hub_virtual_network_address_space          = "10.0.0.0/22"
-    primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
-    primary_firewall_management_subnet_address_prefix  = "10.0.0.192/26"
-    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
-    primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
-    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
+    primary_hub_address_space = "10.0.0.0/16"
 
     # IP Ranges Secondary
     # Regional Address Space: 10.1.0.0/16
-    secondary_hub_address_space                          = "10.1.0.0/16"
-    secondary_hub_virtual_network_address_space          = "10.1.0.0/22"
-    secondary_firewall_subnet_address_prefix             = "10.1.0.0/26"
-    secondary_firewall_management_subnet_address_prefix  = "10.1.0.192/26"
-    secondary_bastion_subnet_address_prefix              = "10.1.0.64/26"
-    secondary_gateway_subnet_address_prefix              = "10.1.0.128/27"
-    secondary_private_dns_resolver_subnet_address_prefix = "10.1.0.160/28"
+    secondary_hub_address_space = "10.1.0.0/16"
   }
 
   /*
@@ -334,8 +281,9 @@ hub_and_spoke_networks_settings = {
 
 hub_virtual_networks = {
   primary = {
-    location          = "$${starter_location_01}"
-    default_parent_id = "$${primary_connectivity_resource_group_id}"
+    location                  = "$${starter_location_01}"
+    default_parent_id         = "$${primary_connectivity_resource_group_id}"
+    default_hub_address_space = "$${primary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${primary_firewall_enabled}"
       bastion                               = "$${primary_bastion_enabled}"
@@ -344,88 +292,14 @@ hub_virtual_networks = {
       private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
       private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
     }
-    hub_virtual_network = {
-      name                          = "$${primary_virtual_network_name}"
-      address_space                 = ["$${primary_hub_virtual_network_address_space}"]
-      routing_address_space         = ["$${primary_hub_address_space}"]
-      route_table_name_firewall     = "$${primary_route_table_firewall_name}"
-      route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      subnets                       = {}
-    }
-    firewall = {
-      subnet_address_prefix            = "$${primary_firewall_subnet_address_prefix}"
-      management_subnet_address_prefix = "$${primary_firewall_management_subnet_address_prefix}"
-      name                             = "$${primary_firewall_name}"
-      default_ip_configuration = {
-        public_ip_config = {
-          name = "$${primary_firewall_public_ip_name}"
-        }
-      }
-      management_ip_enabled = "$${primary_firewall_management_ip_enabled}"
-      management_ip_configuration = {
-        public_ip_config = {
-          name = "$${primary_firewall_management_public_ip_name}"
-        }
-      }
-    }
-    firewall_policy = {
-      name = "$${primary_firewall_policy_name}"
-    }
-    virtual_network_gateways = {
-      subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"
-      express_route = {
-        name                                  = "$${primary_virtual_network_gateway_express_route_name}"
-        hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
-        ip_configurations = {
-          default = {
-            # name = "vnetGatewayConfigdefault"  # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
-            }
-          }
-        }
-      }
-      vpn = {
-        name = "$${primary_virtual_network_gateway_vpn_name}"
-        ip_configurations = {
-          active_active_1 = {
-            # name = "vnetGatewayConfigactive_active_1" # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-            }
-          }
-          active_active_2 = {
-            # name = "vnetGatewayConfigactive_active_2"  # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-            }
-          }
-        }
-      }
-    }
     private_dns_zones = {
       resource_group_name = "$${dns_resource_group_name}"
-      private_link_private_dns_zones_regex_filter = {
-        enabled = false
-      }
-      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
-    }
-    private_dns_resolver = {
-      subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      name                  = "$${primary_private_dns_resolver_name}"
-    }
-    bastion = {
-      subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
-      name                  = "$${primary_bastion_host_name}"
-      bastion_public_ip = {
-        name = "$${primary_bastion_host_public_ip_name}"
-      }
     }
   }
   secondary = {
-    location          = "$${starter_location_02}"
-    default_parent_id = "$${secondary_connectivity_resource_group_id}"
+    location                  = "$${starter_location_02}"
+    default_parent_id         = "$${secondary_connectivity_resource_group_id}"
+    default_hub_address_space = "$${secondary_hub_address_space}"
     enabled_resources = {
       firewall                              = "$${secondary_firewall_enabled}"
       bastion                               = "$${secondary_bastion_enabled}"
@@ -434,83 +308,8 @@ hub_virtual_networks = {
       private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
       private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled}"
     }
-    hub_virtual_network = {
-      name                          = "$${secondary_virtual_network_name}"
-      address_space                 = ["$${secondary_hub_virtual_network_address_space}"]
-      routing_address_space         = ["$${secondary_hub_address_space}"]
-      route_table_name_firewall     = "$${secondary_route_table_firewall_name}"
-      route_table_name_user_subnets = "$${secondary_route_table_user_subnets_name}"
-      subnets                       = {}
-    }
-    firewall = {
-      subnet_address_prefix            = "$${secondary_firewall_subnet_address_prefix}"
-      management_subnet_address_prefix = "$${secondary_firewall_management_subnet_address_prefix}"
-      name                             = "$${secondary_firewall_name}"
-      default_ip_configuration = {
-        public_ip_config = {
-          name = "$${secondary_firewall_public_ip_name}"
-        }
-      }
-      management_ip_enabled = "$${secondary_firewall_management_ip_enabled}"
-      management_ip_configuration = {
-        public_ip_config = {
-          name = "$${secondary_firewall_management_public_ip_name}"
-        }
-      }
-    }
-    firewall_policy = {
-      name = "$${secondary_firewall_policy_name}"
-    }
-    virtual_network_gateways = {
-      subnet_address_prefix = "$${secondary_gateway_subnet_address_prefix}"
-      express_route = {
-        name                                  = "$${secondary_virtual_network_gateway_express_route_name}"
-        hosted_on_behalf_of_public_ip_enabled = "$${secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
-        ip_configurations = {
-          default = {
-            # name = "vnetGatewayConfigdefault"  # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${secondary_virtual_network_gateway_express_route_public_ip_name}"
-            }
-          }
-        }
-      }
-      vpn = {
-        name = "$${secondary_virtual_network_gateway_vpn_name}"
-        ip_configurations = {
-          active_active_1 = {
-            # name = "vnetGatewayConfigactive_active_1"  # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
-            }
-          }
-          active_active_2 = {
-            # name = "vnetGatewayConfigactive_active_2"  # For backwards compatibility with previous naming, uncomment this line
-            public_ip = {
-              name = "$${secondary_virtual_network_gateway_vpn_public_ip_name_2}"
-            }
-          }
-        }
-      }
-    }
     private_dns_zones = {
       resource_group_name = "$${dns_resource_group_name}"
-      private_link_private_dns_zones_regex_filter = {
-        enabled = true
-      }
-      auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
-    }
-    private_dns_resolver = {
-      subnet_address_prefix = "$${secondary_private_dns_resolver_subnet_address_prefix}"
-      name                  = "$${secondary_private_dns_resolver_name}"
-    }
-    bastion = {
-      subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
-      name                  = "$${secondary_bastion_host_name}"
-      bastion_public_ip = {
-        name = "$${secondary_bastion_host_public_ip_name}"
-      }
     }
   }
 }

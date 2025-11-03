@@ -4,9 +4,6 @@ This file contains built-in replacements to avoid repeating the same hard-coded 
 Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacements that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_02` to `starter_location_##`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
-`starter_location_01_availability_zones` to `starter_location_##_availability_zones`: These are the availability zones for the Azure locations sourced from the `starter_locations` variable. This can be used to set the availability zones of resources.
-`starter_location_01_virtual_network_gateway_sku_express_route` to `starter_location_##_virtual_network_gateway_sku_express_route`: These are the default SKUs for the Express Route virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
-`starter_location_01_virtual_network_gateway_sku_vpn` to `starter_location_##_virtual_network_gateway_sku_vpn`: These are the default SKUs for the VPN virtual network gateways based on the Azure locations sourced from the `starter_locations` variable. This can be used to set the SKU of the virtual network gateways.
 `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_ids`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_ids`.
@@ -321,20 +318,31 @@ connectivity_resource_groups = {
   }
 }
 
-hub_and_spoke_vnet_settings = {
+hub_and_spoke_networks_settings = {
+  enabled_resources = {
+    ddos_protection_plan = "$${ddos_protection_plan_enabled}"
+  }
   ddos_protection_plan = {
-    enabled             = "$${ddos_protection_plan_enabled}"
     name                = "$${ddos_protection_plan_name}"
     resource_group_name = "$${ddos_resource_group_name}"
     location            = "$${starter_location_01}"
   }
 }
 
-hub_and_spoke_vnet_virtual_networks = {
+hub_virtual_networks = {
   primary = {
+    location          = "$${starter_location_01}"
+    default_parent_id = "$${primary_connectivity_resource_group_id}"
+    enabled_resources = {
+      firewall                              = "$${primary_firewall_enabled}"
+      bastion                               = "$${primary_bastion_enabled}"
+      virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
+      virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
+      private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
+      private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
+    }
     hub_virtual_network = {
       name                          = "$${primary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_primary_resource_group_name}"
       location                      = "$${starter_location_01}"
       address_space                 = ["$${primary_hub_virtual_network_address_space}"]
       routing_address_space         = ["$${primary_hub_address_space}"]
@@ -344,115 +352,96 @@ hub_and_spoke_vnet_virtual_networks = {
         secondary = "peering-d34ee379-bfcf-5718-a489-c24d2a32fe90" # MIGRATION: This setting allows you to override the virtual network peering names to match the CAF ES naming.
       }
       subnets = {}
-      firewall = {
-        enabled                                = "$${primary_firewall_enabled}"
-        subnet_address_prefix                  = "$${primary_firewall_subnet_address_prefix}"
-        management_subnet_address_prefix       = "$${primary_firewall_management_subnet_address_prefix}"
-        subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
-        name                                   = "$${primary_firewall_name}"
-        sku_name                               = "AZFW_VNet"
-        sku_tier                               = "Standard"
-        zones                                  = "$${starter_location_01_availability_zones}"
-        default_ip_configuration = {
-          name = "alz-fw-uksouth-pip" # MIGRATION: This had a different default in CAF ES.
-          public_ip_config = {
-            name  = "$${primary_firewall_public_ip_name}"
-            zones = "$${starter_location_01_availability_zones}"
-          }
-        }
-        management_ip_enabled = "$${primary_firewall_management_ip_enabled}"
-        management_ip_configuration = {
-          public_ip_config = {
-            name  = "$${primary_firewall_management_public_ip_name}"
-            zones = "$${starter_location_01_availability_zones}"
-          }
-        }
-        firewall_policy = {
-          name = "$${primary_firewall_policy_name}"
+    }
+    firewall = {
+      subnet_address_prefix                  = "$${primary_firewall_subnet_address_prefix}"
+      management_subnet_address_prefix       = "$${primary_firewall_management_subnet_address_prefix}"
+      subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
+      name                                   = "$${primary_firewall_name}"
+      default_ip_configuration = {
+        name = "alz-fw-uksouth-pip" # MIGRATION: This had a different default in CAF ES.
+        public_ip_config = {
+          name = "$${primary_firewall_public_ip_name}"
         }
       }
+      management_ip_enabled = "$${primary_firewall_management_ip_enabled}"
+      management_ip_configuration = {
+        public_ip_config = {
+          name = "$${primary_firewall_management_public_ip_name}"
+        }
+      }
+    }
+    firewall_policy = {
+      name = "$${primary_firewall_policy_name}"
     }
     virtual_network_gateways = {
       subnet_address_prefix                  = "$${primary_gateway_subnet_address_prefix}"
       subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
       express_route = {
-        enabled                               = "$${primary_virtual_network_gateway_express_route_enabled}"
-        location                              = "$${starter_location_01}"
         name                                  = "$${primary_virtual_network_gateway_express_route_name}"
         sku                                   = "ErGw2AZ" # MIGRATION: This had a different default in CAF ES.
         hosted_on_behalf_of_public_ip_enabled = "$${primary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
-        parent_id                             = "$${primary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             name = "alz-ergw-uksouth-pip" # MIGRATION: This had a different default in CAF ES.
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
-              zones = "$${starter_location_01_availability_zones}"
+              name = "$${primary_virtual_network_gateway_express_route_public_ip_name}"
             }
           }
         }
       }
       vpn = {
-        enabled                   = "$${primary_virtual_network_gateway_vpn_enabled}"
-        location                  = "$${starter_location_01}"
         name                      = "$${primary_virtual_network_gateway_vpn_name}"
-        sku                       = "$${starter_location_01_virtual_network_gateway_sku_vpn}"
-        parent_id                 = "$${primary_connectivity_resource_group_id}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
             name = "alz-vpngw-uksouth-pip" # MIGRATION: This had a different default in CAF ES.
             public_ip = {
-              name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_01_availability_zones}"
+              name = "$${primary_virtual_network_gateway_vpn_public_ip_name_1}"
             }
           }
           /* active_active_2 = {
             public_ip = {
               name  = "$${primary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_01_availability_zones}"
             }
           } */
         }
       }
     }
     private_dns_zones = {
-      enabled = "$${primary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = false
-        }
-        private_dns_zone_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-7bd2265d-49b8-5a49-bdc7-d60c6c199e94" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      resource_group_name = "$${dns_resource_group_name}"
+      private_link_private_dns_zones_regex_filter = {
+        enabled = false
       }
-      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
+      private_dns_zone_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-7bd2265d-49b8-5a49-bdc7-d60c6c199e94" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      auto_registration_zone_enabled              = "$${primary_private_dns_auto_registration_zone_enabled}"
+      auto_registration_zone_name                 = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      enabled               = "$${primary_private_dns_resolver_enabled}"
       subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${primary_private_dns_resolver_name}"
-      }
+      name                  = "$${primary_private_dns_resolver_name}"
     }
     bastion = {
-      enabled               = "$${primary_bastion_enabled}"
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${primary_bastion_host_name}"
-        zones = "$${starter_location_01_availability_zones}"
-      }
+      name                  = "$${primary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${primary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_01_availability_zones}"
+        name = "$${primary_bastion_host_public_ip_name}"
       }
     }
   }
   secondary = {
+    location          = "$${starter_location_02}"
+    default_parent_id = "$${secondary_connectivity_resource_group_id}"
+    enabled_resources = {
+      firewall                              = "$${secondary_firewall_enabled}"
+      bastion                               = "$${secondary_bastion_enabled}"
+      virtual_network_gateway_express_route = "$${secondary_virtual_network_gateway_express_route_enabled}"
+      virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled}"
+      private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
+      private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled}"
+    }
     hub_virtual_network = {
       name                          = "$${secondary_virtual_network_name}"
-      resource_group_name           = "$${connectivity_hub_secondary_resource_group_name}"
-      location                      = "$${starter_location_02}"
       address_space                 = ["$${secondary_hub_virtual_network_address_space}"]
       routing_address_space         = ["$${secondary_hub_address_space}"]
       route_table_name_firewall     = "$${secondary_route_table_firewall_name}"
@@ -461,107 +450,79 @@ hub_and_spoke_vnet_virtual_networks = {
         primary = "peering-7bd2265d-49b8-5a49-bdc7-d60c6c199e94"
       }
       subnets = {}
-      firewall = {
-        enabled                                = "$${secondary_firewall_enabled}"
-        subnet_address_prefix                  = "$${secondary_firewall_subnet_address_prefix}"
-        management_subnet_address_prefix       = "$${secondary_firewall_management_subnet_address_prefix}"
-        subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
-        name                                   = "$${secondary_firewall_name}"
-        sku_name                               = "AZFW_VNet"
-        sku_tier                               = "Standard"
-        zones                                  = "$${starter_location_02_availability_zones}"
-        default_ip_configuration = {
-          name = "alz-fw-ukwest-pip" # MIGRATION: This had a different default in CAF ES.
-          public_ip_config = {
-            name  = "$${secondary_firewall_public_ip_name}"
-            zones = "$${starter_location_02_availability_zones}"
-          }
-        }
-        management_ip_enabled = "$${secondary_firewall_management_ip_enabled}"
-        management_ip_configuration = {
-          public_ip_config = {
-            name  = "$${secondary_firewall_management_public_ip_name}"
-            zones = "$${starter_location_02_availability_zones}"
-          }
-        }
-        firewall_policy = {
-          name = "$${secondary_firewall_policy_name}"
+    }
+    firewall = {
+      subnet_address_prefix                  = "$${secondary_firewall_subnet_address_prefix}"
+      management_subnet_address_prefix       = "$${secondary_firewall_management_subnet_address_prefix}"
+      subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
+      name                                   = "$${secondary_firewall_name}"
+      default_ip_configuration = {
+        name = "alz-fw-ukwest-pip" # MIGRATION: This had a different default in CAF ES.
+        public_ip_config = {
+          name = "$${secondary_firewall_public_ip_name}"
         }
       }
+      management_ip_enabled = "$${secondary_firewall_management_ip_enabled}"
+      management_ip_configuration = {
+        public_ip_config = {
+          name = "$${secondary_firewall_management_public_ip_name}"
+        }
+      }
+    }
+    firewall_policy = {
+      name = "$${secondary_firewall_policy_name}"
     }
     virtual_network_gateways = {
       subnet_address_prefix                  = "$${secondary_gateway_subnet_address_prefix}"
       subnet_default_outbound_access_enabled = true # MIGRATION: The CAF ES module does not support private subnets
       express_route = {
-        enabled                               = "$${secondary_virtual_network_gateway_express_route_enabled}"
-        location                              = "$${starter_location_02}"
         name                                  = "$${secondary_virtual_network_gateway_express_route_name}"
-        sku                                   = "$${starter_location_02_virtual_network_gateway_sku_express_route}"
         hosted_on_behalf_of_public_ip_enabled = "$${secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled}"
-        parent_id                             = "$${secondary_connectivity_resource_group_id}"
         ip_configurations = {
           default = {
             name = "alz-ergw-ukwest-pip" # MIGRATION: This had a different default in CAF ES.
             public_ip = {
-              name  = "$${secondary_virtual_network_gateway_express_route_public_ip_name}"
-              zones = "$${starter_location_02_availability_zones}"
+              name = "$${secondary_virtual_network_gateway_express_route_public_ip_name}"
             }
           }
         }
       }
       vpn = {
-        enabled                   = "$${secondary_virtual_network_gateway_vpn_enabled}"
-        location                  = "$${starter_location_02}"
         name                      = "$${secondary_virtual_network_gateway_vpn_name}"
-        sku                       = "$${starter_location_02_virtual_network_gateway_sku_vpn}"
-        parent_id                 = "$${secondary_connectivity_resource_group_id}"
         vpn_active_active_enabled = false # MIGRATION: The CAF ES module did not have active-active VPN gateways by default
         ip_configurations = {
           active_active_1 = {
             name = "alz-vpngw-ukwest-pip" # MIGRATION: This had a different default in CAF ES.
             public_ip = {
-              name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
-              zones = "$${starter_location_02_availability_zones}"
+              name = "$${secondary_virtual_network_gateway_vpn_public_ip_name_1}"
             }
           }
           /* active_active_2 = {
             public_ip = {
               name  = "$${secondary_virtual_network_gateway_vpn_public_ip_name_2}"
-              zones = "$${starter_location_02_availability_zones}"
             }
           } */
         }
       }
     }
     private_dns_zones = {
-      enabled = "$${secondary_private_dns_zones_enabled}"
-      dns_zones = {
-        resource_group_name = "$${dns_resource_group_name}"
-        private_link_private_dns_zones_regex_filter = {
-          enabled = true
-        }
-        private_dns_zone_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-d34ee379-bfcf-5718-a489-c24d2a32fe90" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      resource_group_name = "$${dns_resource_group_name}"
+      private_link_private_dns_zones_regex_filter = {
+        enabled = true
       }
-      auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
+      private_dns_zone_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-d34ee379-bfcf-5718-a489-c24d2a32fe90" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      auto_registration_zone_enabled              = "$${secondary_private_dns_auto_registration_zone_enabled}"
+      auto_registration_zone_name                 = "$${secondary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
-      enabled               = "$${secondary_private_dns_resolver_enabled}"
       subnet_address_prefix = "$${secondary_private_dns_resolver_subnet_address_prefix}"
-      dns_resolver = {
-        name = "$${secondary_private_dns_resolver_name}"
-      }
+      name                  = "$${secondary_private_dns_resolver_name}"
     }
     bastion = {
-      enabled               = "$${secondary_bastion_enabled}"
       subnet_address_prefix = "$${secondary_bastion_subnet_address_prefix}"
-      bastion_host = {
-        name  = "$${secondary_bastion_host_name}"
-        zones = "$${starter_location_02_availability_zones}"
-      }
+      name                  = "$${secondary_bastion_host_name}"
       bastion_public_ip = {
-        name  = "$${secondary_bastion_host_public_ip_name}"
-        zones = "$${starter_location_02_availability_zones}"
+        name = "$${secondary_bastion_host_public_ip_name}"
       }
     }
   }

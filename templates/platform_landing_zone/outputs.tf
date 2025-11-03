@@ -10,6 +10,18 @@ output "hub_and_spoke_vnet_virtual_network_resource_names" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].virtual_network_resource_names : null
 }
 
+output "hub_and_spoke_vnet_bastion_host_public_ip_address" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].bastion_host_public_ip_address : null
+}
+
+output "hub_and_spoke_vnet_bastion_host_resource_ids" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].bastion_host_resource_ids : null
+}
+
+output "hub_and_spoke_vnet_bastion_host_dns_names" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].bastion_host_dns_names : null
+}
+
 output "hub_and_spoke_vnet_firewall_resource_ids" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_resource_ids : null
 }
@@ -26,8 +38,8 @@ output "hub_and_spoke_vnet_firewall_public_ip_addresses" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_public_ip_addresses : null
 }
 
-output "hub_and_spoke_vnet_firewall_policy_ids" {
-  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_policy_ids : null
+output "hub_and_spoke_vnet_firewall_policies" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_policies : null
 }
 
 output "hub_and_spoke_vnet_route_tables_firewall" {
@@ -90,8 +102,8 @@ output "virtual_wan_bastion_host_resource_ids" {
   value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_resource_ids : null
 }
 
-output "virtual_wan_bastion_host_resources" {
-  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_resources : null
+output "virtual_wan_bastion_host_dns_names" {
+  value = local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].bastion_host_dns_names : null
 }
 
 output "virtual_wan_private_dns_resolver_resource_ids" {

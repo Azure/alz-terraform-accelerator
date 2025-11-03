@@ -14,20 +14,15 @@ locals {
   connectivity_hub_and_spoke_vnet_enabled = var.connectivity_type == local.const.connectivity.hub_and_spoke_vnet
 }
 
-locals {
-  management_groups_enabled    = try(var.management_group_settings.enabled, true)
-  management_resources_enabled = try(var.management_resource_settings.enabled, true)
-}
-
 # Build an implicit dependency on the resource groups
 locals {
   resource_groups = {
     resource_groups = module.resource_groups
   }
-  hub_and_spoke_vnet_settings         = merge(module.config.hub_and_spoke_vnet_settings, local.resource_groups)
-  hub_and_spoke_vnet_virtual_networks = (merge({ vnets = module.config.hub_and_spoke_vnet_virtual_networks }, local.resource_groups)).vnets
-  virtual_wan_settings                = merge(module.config.virtual_wan_settings, local.resource_groups)
-  virtual_wan_virtual_hubs            = (merge({ vhubs = module.config.virtual_wan_virtual_hubs }, local.resource_groups)).vhubs
+  hub_and_spoke_networks_settings = merge(module.config.hub_and_spoke_networks_settings, local.resource_groups)
+  hub_virtual_networks            = (merge({ vnets = module.config.hub_virtual_networks }, local.resource_groups)).vnets
+  virtual_wan_settings            = merge(module.config.virtual_wan_settings, local.resource_groups)
+  virtual_hubs                    = (merge({ vhubs = module.config.virtual_hubs }, local.resource_groups)).vhubs
 }
 
 # Build policy dependencies
@@ -44,4 +39,19 @@ locals {
       module.virtual_wan
     ]
   }
+}
+
+locals {
+  management_group_settings = merge(
+    module.config.management_group_settings,
+    {
+      dependencies = local.management_group_dependencies
+    }
+  )
+  management_resource_settings = merge(
+    module.config.management_resource_settings,
+    {
+      tags = coalesce(module.config.management_resource_settings.tags, module.config.tags)
+    }
+  )
 }

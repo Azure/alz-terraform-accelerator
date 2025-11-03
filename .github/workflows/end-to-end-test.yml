@@ -33,7 +33,7 @@ jobs:
       - name: Generate Matrix
         id: matrix
         run: |
-          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 20 -includeSecondaryTests
+          $matrix = .github/tests/scripts/generate-matrix.ps1 -runNumber "${{ github.run_number }}" -splitCount 15 -includeSecondaryTests
           $matrixJson = ConvertTo-Json $matrix -Depth 10 -Compress
           Write-Host (ConvertTo-Json $matrix -Depth 10)
           Write-Output "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
@@ -154,6 +154,25 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
+      - name: Azure login
+        if: ${{ matrix.mode == 'apply' && always() }}
+        uses: azure/login@a457da9ea143d694b1b9c7c869ebb04ebe844ef5 # v2.3.0
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+
+      - name: Pre Test Clean Environment
+        if: ${{ matrix.mode == 'apply' && always() }}
+        run: |
+          $environmentNumber = ${{ matrix.environmentNumber }}
+          .github/tests/scripts/test-cleanup.ps1 `
+            -managementGroupStartNumber $environmentNumber `
+            -managementGroupCount 1 `
+            -subscriptionStartNumber $environmentNumber `
+            -subscriptionCount 1
+        shell: pwsh
+
       - name: Setup Terraform Lib Folder
         if: ${{ matrix.mode == 'apply' }}
         run: |
@@ -219,15 +238,7 @@ jobs:
           ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
           ARM_USE_OIDC: true
 
-      - name: Azure login
-        if: ${{ matrix.mode == 'apply' && always() }}
-        uses: azure/login@a457da9ea143d694b1b9c7c869ebb04ebe844ef5 # v2.3.0
-        with:
-          client-id: ${{ vars.ARM_CLIENT_ID }}
-          tenant-id: ${{ vars.ARM_TENANT_ID }}
-          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
-
-      - name: Clean Up Environment
+      - name: Post Test Clean Environment
         if: ${{ matrix.mode == 'apply' && always() }}
         run: |
           $environmentNumber = ${{ matrix.environmentNumber }}

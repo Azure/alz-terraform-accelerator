@@ -1,13 +1,13 @@
 module "hub_and_spoke_vnet" {
   source  = "Azure/avm-ptn-alz-connectivity-hub-and-spoke-vnet/azurerm"
-  version = "0.12.0"
+  version = "0.14.6"
 
   count = local.connectivity_hub_and_spoke_vnet_enabled ? 1 : 0
 
-  hub_and_spoke_networks_settings = local.hub_and_spoke_vnet_settings
-  hub_virtual_networks            = local.hub_and_spoke_vnet_virtual_networks
+  hub_and_spoke_networks_settings = local.hub_and_spoke_networks_settings
+  hub_virtual_networks            = local.hub_virtual_networks
   enable_telemetry                = var.enable_telemetry
-  tags                            = try(local.hub_and_spoke_vnet_settings.tags, module.config.tags)
+  tags                            = coalesce(module.config.connectivity_tags, module.config.tags)
 
   providers = {
     azurerm = azurerm.connectivity
