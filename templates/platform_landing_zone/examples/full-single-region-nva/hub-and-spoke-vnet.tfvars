@@ -294,7 +294,12 @@ hub_virtual_networks = {
       routing_address_space         = ["$${primary_hub_address_space}"]
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
-      subnets                       = {}
+      subnets = {
+        nva = {
+          name             = "$${primary_subnet_nva_name}"
+          address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
+        }
+      }
     }
     virtual_network_gateways = {
       subnet_address_prefix = "$${primary_gateway_subnet_address_prefix}"

@@ -341,6 +341,12 @@ virtual_hubs = {
         name = "private_dns_vnet_primary"  # Backwards compatibility
       }
       */
+      subnets = {
+        nva = {
+          name             = "$${primary_subnet_nva_name}"
+          address_prefixes = ["$${primary_nva_subnet_address_prefix}"]
+        }
+      }
     }
   }
 }
