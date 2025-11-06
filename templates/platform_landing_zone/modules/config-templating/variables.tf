@@ -38,63 +38,7 @@ variable "custom_replacements" {
   description = "Custom replacements"
 }
 
-variable "tags" {
-  type        = map(string)
-  default     = null
-  description = "(Optional) Tags of the resource."
-}
-
-variable "connectivity_tags" {
-  type        = map(string)
-  default     = null
-  description = "(Optional) Tags of the resource."
-}
-
-variable "connectivity_resource_groups" {
-  type = map(object({
-    name     = string
-    location = string
-    settings = optional(any)
-  }))
-  default     = {}
-  description = <<DESCRIPTION
-A map of resource groups to create. These must be created before the connectivity module is applied.
-
-The following attributes are supported:
-
-  - name: The name of the resource group
-  - location: The location of the resource group
-  - settings: (Optional) An object, which can include an `enabled` setting value that indicates whether the resource group should be created.
-
-DESCRIPTION
-}
-
-variable "hub_and_spoke_networks_settings" {
-  type    = any
-  default = {}
-}
-
-variable "hub_virtual_networks" {
-  type    = any
-  default = {}
-}
-
-variable "virtual_wan_settings" {
-  type    = any
-  default = {}
-}
-
-variable "virtual_hubs" {
-  type    = any
-  default = {}
-}
-
-variable "management_resource_settings" {
-  type    = any
-  default = {}
-}
-
-variable "management_group_settings" {
-  type    = any
-  default = {}
+variable "inputs" {
+  type        = any
+  description = "A map of input variables to be used in the configuration templating module."
 }

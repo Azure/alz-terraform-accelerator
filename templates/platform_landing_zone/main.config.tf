@@ -10,13 +10,15 @@ module "config" {
 
   custom_replacements = var.custom_replacements
 
-  connectivity_resource_groups    = var.connectivity_resource_groups
-  hub_and_spoke_networks_settings = var.hub_and_spoke_networks_settings
-  hub_virtual_networks            = var.hub_virtual_networks
-  virtual_wan_settings            = var.virtual_wan_settings
-  virtual_hubs                    = var.virtual_hubs
-  management_resource_settings    = var.management_resource_settings
-  management_group_settings       = var.management_group_settings
-  tags                            = var.tags
-  connectivity_tags               = var.connectivity_tags
+  inputs = {
+    connectivity_resource_groups    = var.connectivity_resource_groups
+    hub_and_spoke_networks_settings = var.hub_and_spoke_networks_settings
+    hub_virtual_networks            = var.hub_virtual_networks
+    virtual_wan_settings            = var.virtual_wan_settings
+    virtual_hubs                    = var.virtual_hubs
+    management_resource_settings    = var.management_resource_settings
+    management_group_settings       = var.management_group_settings
+    tags                            = var.tags
+    connectivity_tags               = var.connectivity_tags
+  }
 }

@@ -13,9 +13,9 @@ locals {
 
 # Custom name replacements
 locals {
-  custom_names_json           = tostring(jsonencode(var.custom_replacements.names))
+  custom_names_json           = replace(replace(tostring(jsonencode(var.custom_replacements.names)), "\"true\"", "{{string_true}}"), "\"false\"", "{{string_false}}")
   custom_names_json_templated = templatestring(local.custom_names_json, local.built_in_replacements)
-  custom_names_json_final     = replace(replace(replace(replace(local.custom_names_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
+  custom_names_json_final     = replace(replace(replace(replace(replace(replace(local.custom_names_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false"), "{{string_true}}", "\"true\""), "{{string_false}}", "\"false\"")
   custom_names                = jsondecode(local.custom_names_json_final)
 }
 
@@ -25,9 +25,9 @@ locals {
 
 # Custom resource group identifiers
 locals {
-  custom_resource_group_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_group_identifiers))
+  custom_resource_group_identifiers_json           = replace(replace(tostring(jsonencode(var.custom_replacements.resource_group_identifiers)), "\"true\"", "{{string_true}}"), "\"false\"", "{{string_false}}")
   custom_resource_group_identifiers_json_templated = templatestring(local.custom_resource_group_identifiers_json, local.custom_name_replacements)
-  custom_resource_group_identifiers_json_final     = replace(replace(replace(replace(local.custom_resource_group_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
+  custom_resource_group_identifiers_json_final     = replace(replace(replace(replace(replace(replace(local.custom_resource_group_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false"), "{{string_true}}", "\"true\""), "{{string_false}}", "\"false\"")
   custom_resource_group_identifiers                = jsondecode(local.custom_resource_group_identifiers_json_final)
 }
 
@@ -37,12 +37,19 @@ locals {
 
 # Custom resource identifiers
 locals {
-  custom_resource_identifiers_json           = tostring(jsonencode(var.custom_replacements.resource_identifiers))
+  custom_resource_identifiers_json           = replace(replace(tostring(jsonencode(var.custom_replacements.resource_identifiers)), "\"true\"", "{{string_true}}"), "\"false\"", "{{string_false}}")
   custom_resource_identifiers_json_templated = templatestring(local.custom_resource_identifiers_json, local.custom_resource_group_replacements)
-  custom_resource_identifiers_json_final     = replace(replace(replace(replace(local.custom_resource_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false")
+  custom_resource_identifiers_json_final     = replace(replace(replace(replace(replace(replace(local.custom_resource_identifiers_json_templated, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false"), "{{string_true}}", "\"true\""), "{{string_false}}", "\"false\"")
   custom_resource_identifiers                = jsondecode(local.custom_resource_identifiers_json_final)
 }
 
 locals {
   final_replacements = merge(local.custom_resource_group_replacements, local.custom_resource_identifiers)
+}
+
+locals {
+  outputs_json           = { for key, value in var.inputs : key => replace(replace(tostring(jsonencode(value)), "\"true\"", "{{string_true}}"), "\"false\"", "{{string_false}}") }
+  outputs_json_templated = { for key, value in local.outputs_json : key => templatestring(value, local.final_replacements) }
+  outputs_json_final     = { for key, value in local.outputs_json_templated : key => replace(replace(replace(replace(replace(replace(value, "\"[", "["), "]\"", "]"), "\"true\"", "true"), "\"false\"", "false"), "{{string_true}}", "\"true\""), "{{string_false}}", "\"false\"") }
+  outputs                = { for key, value in local.outputs_json_final : key => jsondecode(value) }
 }

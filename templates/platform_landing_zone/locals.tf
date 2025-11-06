@@ -19,10 +19,10 @@ locals {
   resource_groups = {
     resource_groups = module.resource_groups
   }
-  hub_and_spoke_networks_settings = merge(module.config.hub_and_spoke_networks_settings, local.resource_groups)
-  hub_virtual_networks            = (merge({ vnets = module.config.hub_virtual_networks }, local.resource_groups)).vnets
-  virtual_wan_settings            = merge(module.config.virtual_wan_settings, local.resource_groups)
-  virtual_hubs                    = (merge({ vhubs = module.config.virtual_hubs }, local.resource_groups)).vhubs
+  hub_and_spoke_networks_settings = merge(module.config.outputs.hub_and_spoke_networks_settings, local.resource_groups)
+  hub_virtual_networks            = (merge({ vnets = module.config.outputs.hub_virtual_networks }, local.resource_groups)).vnets
+  virtual_wan_settings            = merge(module.config.outputs.virtual_wan_settings, local.resource_groups)
+  virtual_hubs                    = (merge({ vhubs = module.config.outputs.virtual_hubs }, local.resource_groups)).vhubs
 }
 
 # Build policy dependencies
@@ -43,15 +43,15 @@ locals {
 
 locals {
   management_group_settings = merge(
-    module.config.management_group_settings,
+    module.config.outputs.management_group_settings,
     {
       dependencies = local.management_group_dependencies
     }
   )
   management_resource_settings = merge(
-    module.config.management_resource_settings,
+    module.config.outputs.management_resource_settings,
     {
-      tags = coalesce(module.config.management_resource_settings.tags, module.config.tags)
+      tags = coalesce(module.config.outputs.management_resource_settings.tags, module.config.outputs.tags)
     }
   )
 }
