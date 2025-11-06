@@ -7,7 +7,7 @@ module "virtual_wan" {
   virtual_wan_settings = local.virtual_wan_settings
   virtual_hubs         = local.virtual_hubs
   enable_telemetry     = var.enable_telemetry
-  tags                 = coalesce(module.config.connectivity_tags, module.config.tags)
+  tags                 = coalesce(module.config.outputs.connectivity_tags, module.config.outputs.tags)
 
   providers = {
     azurerm = azurerm.connectivity

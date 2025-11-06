@@ -127,5 +127,5 @@ output "virtual_wan_full_output" {
 }
 
 output "templated_inputs" {
-  value = module.config
+  value = module.config.outputs
 }

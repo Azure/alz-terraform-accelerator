@@ -7,7 +7,7 @@ module "hub_and_spoke_vnet" {
   hub_and_spoke_networks_settings = local.hub_and_spoke_networks_settings
   hub_virtual_networks            = local.hub_virtual_networks
   enable_telemetry                = var.enable_telemetry
-  tags                            = coalesce(module.config.connectivity_tags, module.config.tags)
+  tags                            = coalesce(module.config.outputs.connectivity_tags, module.config.outputs.tags)
 
   providers = {
     azurerm = azurerm.connectivity
