@@ -4,6 +4,8 @@ This file contains built-in replacements to avoid repeating the same hard-coded 
 Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starter_location_01}). The following details each built-in replacemnets that you can use:
 `starter_location_01`: This the primary an Azure location sourced from the `starter_locations` variable. This can be used to set the location of resources.
 `starter_location_02` to `starter_location_##`: These are the secondary Azure locations sourced from the `starter_locations` variable. This can be used to set the location of resources.
+`starter_location_01_short`: Short code for the primary Azure location (for example `uks` for `uksouth`). When a short code is not available for a region, this falls back to the full `starter_location_01` value.
+`starter_location_02_short` to `starter_location_##_short`: Short codes for the secondary Azure locations. Each falls back to the corresponding `starter_location_##` value when a short code is not available.
 `root_parent_management_group_id`: This is the id of the management group that the ALZ hierarchy will be nested under.
 `subscription_id_identity`: The subscription ID of the subscription to deploy the identity resources to, sourced from the variable `subscription_ids`.
 `subscription_id_connectivity`: The subscription ID of the subscription to deploy the connectivity resources to, sourced from the variable `subscription_ids`.
