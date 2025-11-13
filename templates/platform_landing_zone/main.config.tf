@@ -21,4 +21,6 @@ module "config" {
     tags                            = var.tags
     connectivity_tags               = var.connectivity_tags
   }
+
+  enable_telemetry = var.enable_telemetry
 }
