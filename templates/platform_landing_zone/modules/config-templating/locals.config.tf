@@ -2,7 +2,10 @@ locals {
   starter_locations = { for i, location in var.starter_locations : "starter_location_${format("%02d", i + 1)}" => location }
   starter_locations_short = {
     for i, location in var.starter_locations :
-    "starter_location_${format("%02d", i + 1)}_short" => try(module.regions.regions_by_name[location].geo_code, null)
+    "starter_location_${format("%02d", i + 1)}_short" => coalesce(
+      try(module.regions.regions_by_name[location].geo_code, null),
+      location
+    )
   }
   built_in_replacements = merge(
     local.starter_locations,
