@@ -2,6 +2,7 @@ module "config" {
   source = "./modules/config-templating"
 
   starter_locations               = var.starter_locations
+  starter_locations_short         = var.starter_locations_short
   subscription_id_connectivity    = try(var.subscription_ids["connectivity"], var.subscription_id_connectivity)
   subscription_id_identity        = try(var.subscription_ids["identity"], var.subscription_id_identity)
   subscription_id_management      = try(var.subscription_ids["management"], var.subscription_id_management)

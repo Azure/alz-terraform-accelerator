@@ -3,7 +3,13 @@ locals {
   starter_locations_short = {
     for i, location in var.starter_locations :
     "starter_location_${format("%02d", i + 1)}_short" => coalesce(
+      # 1. User override (if provided)
+      try(var.starter_locations_short["starter_location_${format("%02d", i + 1)}_short"], null),
+      # 2. Official geo_code from regions module
       try(module.regions.regions_by_name[location].geo_code, null),
+      # 3. Calculated short_name from regions module
+      try(module.regions.regions_by_name[location].short_name, null),
+      # 4. Last resort: full region name
       location
     )
   }
