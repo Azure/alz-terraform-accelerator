@@ -35,4 +35,4 @@ Remove-PlatformLandingZone `
     -ManagementGroups $managementGroupNames `
     -Subscriptions $subscriptions `
     -BypassConfirmation `
-    -BypassConfirmationTimeoutSeconds 3
+    -BypassConfirmationTimeoutSeconds 0
