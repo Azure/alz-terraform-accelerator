@@ -11,6 +11,20 @@ variable "starter_locations" {
   }
 }
 
+variable "starter_locations_short" {
+  type        = map(string)
+  default     = {}
+  description = <<DESCRIPTION
+Optional overrides for the starter location short codes.
+
+Keys should match the built-in replacement names used in the examples, for example:
+- starter_location_01_short
+- starter_location_02_short
+
+If not provided, short codes are derived from the regions module using geo_code when available, falling back to short_name when no geo_code is published.
+DESCRIPTION
+}
+
 variable "subscription_ids" {
   description = "The list of subscription IDs to deploy the Platform Landing Zones into"
   type        = map(string)
