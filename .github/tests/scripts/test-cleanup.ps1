@@ -13,26 +13,26 @@ Install-Module -Name ALZ -Force -AllowClobber -Scope CurrentUser
 $managementGroups = @()
 $managementGroupIndexes = $managementGroupStartNumber..($managementGroupStartNumber + $managementGroupCount - 1)
 foreach ($i in $managementGroupIndexes) {
-    $i = $_
-    $managementGroupsPrefix = $using:managementGroupsPrefix
-    $managementGroupId = "{0}-{1:D2}" -f $managementGroupsPrefix, $i
-    $managementGroups += $managementGroupId
+    $managementGroupsPrefix = $managementGroupsPrefix
+    $managementGroupName = "{0}-{1:D2}" -f $managementGroupsPrefix, $i
+    $managementGroups += $managementGroupName
 }
 
 $subscriptions = @()
 $subscriptionIndexes = $subscriptionStartNumber..($subscriptionStartNumber + $subscriptionCount - 1)
 
 foreach ($i in $subscriptionIndexes) {
-    $i = $_
-    $subscriptionNamePrefix = $using:subscriptionNamePrefix
-    $subscriptionPostfixes = $using:subscriptionPostfixes
+    $subscriptionNamePrefix = $subscriptionNamePrefix
+    $subscriptionPostfixes = $subscriptionPostfixes
     foreach ($postfix in $subscriptionPostfixes) {
-        $postfix = $_
-        $i = $using:i
-        $subscriptionNamePrefix = $using:subscriptionNamePrefix
+        $subscriptionNamePrefix = $subscriptionNamePrefix
         $subscriptionName = "{0}{1:D2}{2}" -f $subscriptionNamePrefix, $i, $postfix
         $subscriptions += $subscriptionName
     }
 }
 
-Remove-PlatformLandingZone -ManagementGroups $managementGroupNames -Subscriptions $subscriptions -Force
+Remove-PlatformLandingZone `
+    -ManagementGroups $managementGroupNames `
+    -Subscriptions $subscriptions `
+    -BypassConfirmation `
+    -BypassConfirmationTimeoutSeconds 3
