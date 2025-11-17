@@ -32,7 +32,7 @@ foreach ($i in $subscriptionIndexes) {
 }
 
 Remove-PlatformLandingZone `
-    -ManagementGroups $managementGroupNames `
+    -ManagementGroups $managementGroups `
     -Subscriptions $subscriptions `
     -BypassConfirmation `
     -BypassConfirmationTimeoutSeconds 0
