@@ -12,8 +12,8 @@ variable "starter_locations" {
 }
 
 variable "starter_locations_short" {
-  type = map(string)
-  default = {}
+  type        = map(string)
+  default     = {}
   description = <<DESCRIPTION
 Optional overrides for the starter location short codes.
 
