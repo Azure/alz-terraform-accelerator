@@ -574,6 +574,11 @@ variable "hub_virtual_networks" {
         virtual_network_link_name_template_override = optional(string)
         resolution_policy                           = optional(string)
       })))
+      virtual_network_link_additional_virtual_networks = optional(map(object({
+        virtual_network_resource_id                 = optional(string)
+        virtual_network_link_name_template_override = optional(string)
+        resolution_policy                           = optional(string)
+      })))
       virtual_network_link_by_zone_and_virtual_network = optional(map(map(object({
         virtual_network_resource_id = optional(string, null)
         name                        = optional(string, null)
@@ -1052,6 +1057,10 @@ The following top level attributes are supported:
     - `enabled` - (Optional) Should regex filtering be enabled? Default `false`.
     - `regex_filter` - (Optional) The regex filter pattern. Default `{regionName}|{regionCode}`.
   - `virtual_network_link_default_virtual_networks` - (Optional) A map of default virtual network links. Each link is an object with:
+    - `virtual_network_resource_id` - (Optional) The resource ID of the virtual network.
+    - `virtual_network_link_name_template_override` - (Optional) Override the default name template for the virtual network link.
+    - `resolution_policy` - (Optional) The resolution policy for the virtual network link. Possible values are `Default` and `NxDomainRedirect`.
+  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links to create for all private DNS zones. Each link is an object with:
     - `virtual_network_resource_id` - (Optional) The resource ID of the virtual network.
     - `virtual_network_link_name_template_override` - (Optional) Override the default name template for the virtual network link.
     - `resolution_policy` - (Optional) The resolution policy for the virtual network link. Possible values are `Default` and `NxDomainRedirect`.
