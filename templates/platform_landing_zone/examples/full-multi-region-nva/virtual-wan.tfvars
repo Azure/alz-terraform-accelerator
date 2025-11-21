@@ -460,3 +460,5 @@ virtual_hubs = {
     }
   }
 }
+
+# private_link_private_dns_zone_virtual_network_link_moved_blocks_enabled = true
