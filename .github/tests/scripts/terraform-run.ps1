@@ -109,7 +109,7 @@ Write-Host "Processing config file: $sourceVarFilePath"
 
 $booleanConfigs = @()
 foreach($line in $fileContent) {
-  if($line -match "^.+_enabled\s+=\strue$") {
+  if($line -match "^.+_enabled\s+=\strue$" -and -not $line.TrimStart().StartsWith("#")) {
     Write-Host "Found boolean config: $($line)"
     $booleanConfigs += $line
   }
