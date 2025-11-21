@@ -376,15 +376,16 @@ variable "virtual_hubs" {
     }), {})
 
     private_dns_zones = optional(object({
-      resource_group_name                         = optional(string, null)
-      auto_registration_zone_enabled              = optional(any, true)
-      auto_registration_zone_name                 = optional(string, null)
-      auto_registration_zone_resource_group_name  = optional(string, null)
-      private_dns_zone_network_link_name_template = optional(string, null)
-      private_link_excluded_zones                 = optional(set(string), [])
+      parent_id                        = optional(string)
+      auto_registration_zone_enabled   = optional(any, true)
+      auto_registration_zone_name      = optional(string, null)
+      auto_registration_zone_parent_id = optional(string, null)
+
+      private_link_excluded_zones = optional(set(string), [])
       private_link_private_dns_zones = optional(map(object({
         zone_name                              = optional(string, null)
         private_dns_zone_supports_private_link = optional(bool, true)
+        resolution_policy                      = optional(string)
         custom_iterator = optional(object({
           replacement_placeholder = string
           replacement_values      = map(string)
@@ -393,6 +394,7 @@ variable "virtual_hubs" {
       private_link_private_dns_zones_additional = optional(map(object({
         zone_name                              = optional(string, null)
         private_dns_zone_supports_private_link = optional(bool, true)
+        resolution_policy                      = optional(string)
         custom_iterator = optional(object({
           replacement_placeholder = string
           replacement_values      = map(string)
@@ -402,7 +404,34 @@ variable "virtual_hubs" {
         enabled      = optional(bool, false)
         regex_filter = optional(string, "{regionName}|{regionCode}")
       }))
-      tags = optional(map(string), null)
+      virtual_network_link_default_virtual_networks = optional(map(object({
+        virtual_network_resource_id                 = optional(string)
+        virtual_network_link_name_template_override = optional(string)
+        resolution_policy                           = optional(string)
+      })))
+      virtual_network_link_by_zone_and_virtual_network = optional(map(map(object({
+        virtual_network_resource_id = optional(string, null)
+        name                        = optional(string, null)
+        resolution_policy           = optional(string)
+      }))))
+      virtual_network_link_overrides_by_zone = optional(map(object({
+        virtual_network_link_name_template_override = optional(string)
+        resolution_policy                           = optional(string)
+        enabled                                     = optional(bool, true)
+      })))
+      virtual_network_link_overrides_by_virtual_network = optional(map(object({
+        virtual_network_link_name_template_override = optional(string)
+        resolution_policy                           = optional(string)
+        enabled                                     = optional(bool, true)
+      })))
+      virtual_network_link_overrides_by_zone_and_virtual_network = optional(map(map(object({
+        name              = optional(string)
+        resolution_policy = optional(string)
+        enabled           = optional(bool, true)
+      }))))
+      virtual_network_link_name_template             = optional(string, null)
+      virtual_network_link_resolution_policy_default = optional(string)
+      tags                                           = optional(map(string), null)
     }), {})
 
     private_dns_resolver = optional(object({
@@ -791,16 +820,18 @@ The following top level attributes are supported:
   - `scale_unit` - (Optional) The number of scale units for the VPN gateway.
   - `tags` - (Optional) A map of tags to apply to the VPN gateway.
 
-## Private DNS Zones- `private_dns_zones` - (Optional) An object with the following fields:
-  - `resource_group_name` - (Optional) The resource group name for the private DNS zones. If not specified, uses the hub virtual network's parent resource group.
+## Private DNS Zones
+
+- `private_dns_zones` - (Optional) An object with the following fields:
+  - `parent_id` - (Optional) The ID of the parent resource group where the private DNS zones should be created. If not specified, uses the hub virtual network's parent resource group.
   - `auto_registration_zone_enabled` - (Optional) Should an auto-registration zone be created? Default `true`.
   - `auto_registration_zone_name` - (Optional) The name of the auto-registration zone.
-  - `auto_registration_zone_resource_group_name` - (Optional) The resource group name for the auto-registration zone.
-  - `private_dns_zone_network_link_name_template` - (Optional) The template for naming private DNS zone virtual network links.
+  - `auto_registration_zone_parent_id` - (Optional) The resource group ID for the auto-registration zone.
   - `private_link_excluded_zones` - (Optional) A set of private link zones to exclude from creation. Default `[]`.
   - `private_link_private_dns_zones` - (Optional) A map of private link DNS zones. Each zone is an object with:
     - `zone_name` - (Optional) The DNS zone name.
     - `private_dns_zone_supports_private_link` - (Optional) Does this zone support private link? Default `true`.
+    - `resolution_policy` - (Optional) The resolution policy for the DNS zone.
     - `custom_iterator` - (Optional) An object with the following fields:
       - `replacement_placeholder` - The placeholder string to replace (required).
       - `replacement_values` - A map of replacement values (required).
@@ -808,6 +839,28 @@ The following top level attributes are supported:
   - `private_link_private_dns_zones_regex_filter` - (Optional) An object with the following fields:
     - `enabled` - (Optional) Should regex filtering be enabled? Default `false`.
     - `regex_filter` - (Optional) The regex filter pattern. Default `{regionName}|{regionCode}`.
+  - `virtual_network_link_default_virtual_networks` - (Optional) A map of default virtual network links. Each link is an object with:
+    - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
+    - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
+    - `resolution_policy` - (Optional) The resolution policy for the link.
+  - `virtual_network_link_by_zone_and_virtual_network` - (Optional) A map of virtual network links by zone and virtual network. Each link is an object with:
+    - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
+    - `name` - (Optional) The link name.
+    - `resolution_policy` - (Optional) The resolution policy for the link.
+  - `virtual_network_link_overrides_by_zone` - (Optional) A map of virtual network link overrides by zone. Each override is an object with:
+    - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
+    - `resolution_policy` - (Optional) The resolution policy.
+    - `enabled` - (Optional) Should the link be enabled? Default `true`.
+  - `virtual_network_link_overrides_by_virtual_network` - (Optional) A map of virtual network link overrides by virtual network. Each override is an object with:
+    - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
+    - `resolution_policy` - (Optional) The resolution policy.
+    - `enabled` - (Optional) Should the link be enabled? Default `true`.
+  - `virtual_network_link_overrides_by_zone_and_virtual_network` - (Optional) A map of virtual network link overrides by zone and virtual network. Each override is an object with:
+    - `name` - (Optional) The link name.
+    - `resolution_policy` - (Optional) The resolution policy.
+    - `enabled` - (Optional) Should the link be enabled? Default `true`.
+  - `virtual_network_link_name_template` - (Optional) The template for naming private DNS zone virtual network links.
+  - `virtual_network_link_resolution_policy_default` - (Optional) The default resolution policy for virtual network links.
   - `tags` - (Optional) A map of tags to apply to the private DNS zones.
 
 ## Private DNS Resolver
@@ -815,12 +868,10 @@ The following top level attributes are supported:
 - `private_dns_resolver` - (Optional) An object with the following fields:
   - `name` - (Optional) The name of the DNS resolver.
   - `resource_group_name` - (Optional) The name of the resource group where the DNS resolver should be created. If not specified, uses the hub virtual network's parent resource group.
-  - `enabled` - (Optional) Should the private DNS resolver be created? Default `false`.
   - `subnet_address_prefix` - (Optional) The IPv4 address prefix to use for the DNS resolver subnet in CIDR format. Must be a part of the virtual network's address space.
   - `subnet_name` - (Optional) The name of the DNS resolver subnet. Default `dns-resolver`.
   - `subnet_default_outbound_access_enabled` - (Optional) Should the default outbound access be enabled for the DNS resolver subnet? Default `false`.
   - `default_inbound_endpoint_enabled` - (Optional) Should a default inbound endpoint be created? Default `true`.
-  - `ip_address` - (Optional) The IP address for the default inbound endpoint.
   - `inbound_endpoints` - (Optional) A map of additional inbound endpoints. Each endpoint is an object with:
     - `name` - (Optional) The endpoint name.
     - `subnet_name` - The subnet name for the endpoint (required).
