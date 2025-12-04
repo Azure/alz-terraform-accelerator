@@ -122,6 +122,7 @@ custom_replacements = {
     ddos_protection_plan_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourcegroups/$${ddos_resource_group_name}"
     primary_connectivity_resource_group_id   = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_primary_resource_group_name}"
     secondary_connectivity_resource_group_id = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_secondary_resource_group_name}"
+    dns_resource_group_id                    = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${dns_resource_group_name}"
     connectivity_hub_vwan_resource_group_id  = "/subscriptions/$${subscription_id_connectivity}/resourceGroups/$${connectivity_hub_vwan_resource_group_name}"
   }
 
@@ -368,12 +369,13 @@ virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "$${dns_resource_group_name}"
+      parent_id = "$${dns_resource_group_id}"
       private_link_private_dns_zones_regex_filter = {
         enabled = false
       }
-      auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
+      virtual_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-7bd2265d-49b8-5a49-bdc7-d60c6c199e94" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      auto_registration_zone_enabled     = "$${primary_private_dns_auto_registration_zone_enabled}"
+      auto_registration_zone_name        = "$${primary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
       subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
@@ -443,12 +445,13 @@ virtual_hubs = {
       }
     }
     private_dns_zones = {
-      resource_group_name = "$${dns_resource_group_name}"
+      parent_id = "$${dns_resource_group_id}"
       private_link_private_dns_zones_regex_filter = {
         enabled = true
       }
-      auto_registration_zone_enabled = "$${secondary_private_dns_auto_registration_zone_enabled}"
-      auto_registration_zone_name    = "$${secondary_auto_registration_zone_name}"
+      virtual_network_link_name_template = "a4225384-b567-4381-9ca4-13f5e2e5ab6c-d34ee379-bfcf-5718-a489-c24d2a32fe90" # MIGRATION: This setting allows you to override the virtual network connection names to match the CAF ES naming. You must set this if you don't want to destroy and recreate the private DNS zone virtual network connections.
+      auto_registration_zone_enabled     = "$${secondary_private_dns_auto_registration_zone_enabled}"
+      auto_registration_zone_name        = "$${secondary_auto_registration_zone_name}"
     }
     private_dns_resolver = {
       subnet_address_prefix = "$${secondary_private_dns_resolver_subnet_address_prefix}"
@@ -472,3 +475,5 @@ virtual_hubs = {
     }
   }
 }
+
+# private_link_private_dns_zone_virtual_network_link_moved_blocks_enabled = true
