@@ -1,5 +1,4 @@
 terraform {
-  required_version = "~> 1.12"
   required_providers {
     alz = {
       source  = "Azure/alz"
@@ -73,4 +72,14 @@ provider "azurerm" {
 
 provider "azapi" {
   skip_provider_registration = true
+}
+
+provider "alz" {
+  library_overwrite_enabled = true
+  library_references = [
+    {
+      path = "platform/slz"
+      ref  = "2025.09.3"
+    }
+  ]
 }
