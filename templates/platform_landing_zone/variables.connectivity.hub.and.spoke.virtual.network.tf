@@ -138,6 +138,7 @@ variable "hub_virtual_networks" {
           resource_group_name = optional(string)
           sku_tier            = optional(string, "Regional")
           zones               = optional(set(string))
+          public_ip_prefix_id = optional(string)
         }), {})
       }), {})
 
@@ -150,6 +151,7 @@ variable "hub_virtual_networks" {
           resource_group_name = optional(string)
           sku_tier            = optional(string, "Regional")
           zones               = optional(set(string))
+          public_ip_prefix_id = optional(string)
         }), {})
       })), {})
 
@@ -161,6 +163,7 @@ variable "hub_virtual_networks" {
           resource_group_name = optional(string)
           sku_tier            = optional(string, "Regional")
           zones               = optional(set(string))
+          public_ip_prefix_id = optional(string)
         }), {})
       }), {})
     }), {})
