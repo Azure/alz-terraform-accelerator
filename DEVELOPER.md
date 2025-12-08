@@ -41,7 +41,8 @@ export PATH=$PATH:$GOPATH/bin
 
 1. Clone the repository
 2. Navigate to the root of the repository
-3. Run `make tools`
+3. Run `make fmt`
+4. Run `make tfclean`
 
 ## PR Naming
 
