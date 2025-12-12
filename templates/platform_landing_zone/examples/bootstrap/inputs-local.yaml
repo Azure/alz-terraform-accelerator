@@ -1,32 +1,50 @@
 ---
-# For detailed instructions on using this file, visit:
-# https://aka.ms/alz/accelerator/docs
+# Required Inputs
 
-# Basic Inputs
-iac_type: "terraform"
-bootstrap_module_name: "alz_local"
-starter_module_name: "platform_landing_zone"
+# This section contains the required inputs to bootstrap the Platform Landing Zone
+# For more detail on these inputs, visit: https://aka.ms/alz/acc/phase0
 
-# Shared Interface Inputs
+# For advanced configuration options, any variable available in the bootstrap module can be set in this file
+# You can find them here: https://aka.ms/alz/acc/bootstrap/local/variables
+
+## Decision 4: Bootstrap Resource Azure Region
 bootstrap_location: "<region-1>"
-starter_locations: ["<region-1>", "<region-2>"]
-root_parent_management_group_id: ""
+
+## Decision 6: Parent Management Group
+root_parent_management_group_id: ""  # Leave empty to use Tenant Root Group
+
+## Decision 7: Platform Subscriptions
 subscription_ids:
   management: "<management-subscription-id>"
   identity: "<identity-subscription-id>"
   connectivity: "<connectivity-subscription-id>"
   security: "<security-subscription-id>"
 
-# Bootstrap Inputs
-target_directory: ""
-create_bootstrap_resources_in_azure: true
-bootstrap_subscription_id: ""
+## Decision 8: Bootstrap Resource Subscription
+bootstrap_subscription_id: ""  # Leave empty to use the subscription connected to Azure CLI
+
+## Decision 9: Bootstrap Resource Naming.
+# Default names can be found here: https://aka.ms/alz/acc/bootstrap/local/resourcenames
+# For fully custom naming see the FAQ here: https://aka.ms/alz/acc/faq/bootstrap
 service_name: "alz"
 environment_name: "mgmt"
 postfix_number: 1
+
+# Local Specific Inputs
+
+## Whether to create bootstrap resource in Azure
+# This is not required if you plan to setup you own Identities, etc.
+create_bootstrap_resources_in_azure: true
+
+## Whether to grant permissions for the current Azure CLI user to be able to deploy the Platform Landing Zones
+# This is not required if you plan to configure a third-party Version Control System
 grant_permissions_to_current_user: true
 
-# Advanced Inputs
-bootstrap_module_version: "latest"
-starter_module_version: "latest"
-#output_folder_path: "/accelerator/output"
+## Target Directory for generated files
+# Leave empty to use the standard output directory
+target_directory: ""
+
+# Basic Inputs (Do not modify)
+iac_type: "terraform"
+bootstrap_module_name: "alz_local"
+starter_module_name: "platform_landing_zone"

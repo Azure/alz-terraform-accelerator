@@ -1,41 +1,47 @@
 ---
-# For detailed instructions on using this file, visit:
-# https://aka.ms/alz/accelerator/docs
+# Required Inputs
 
-# Basic Inputs
-iac_type: "terraform"
-bootstrap_module_name: "alz_azuredevops"
-starter_module_name: "platform_landing_zone"
+# This section contains the required inputs to bootstrap the Platform Landing Zone
+# For more detail on these inputs, visit: https://aka.ms/alz/acc/phase0
 
-# Shared Interface Inputs
+# For advanced configuration options, any variable available in the bootstrap module can be set in this file
+# You can find them here: https://aka.ms/alz/acc/bootstrap/azuredevops/variables
+
+## Decision 4: Bootstrap Resource Azure Region
 bootstrap_location: "<region-1>"
-starter_locations: ["<region-1>", "<region-2>"]
-root_parent_management_group_id: ""
+
+## Decision 6: Parent Management Group
+root_parent_management_group_id: ""  # Leave empty to use Tenant Root Group
+
+## Decision 7: Platform Subscriptions
 subscription_ids:
   management: "<management-subscription-id>"
   identity: "<identity-subscription-id>"
   connectivity: "<connectivity-subscription-id>"
   security: "<security-subscription-id>"
 
-# Bootstrap Inputs
-azure_devops_personal_access_token: "<token-1>"
-azure_devops_agents_personal_access_token: "<token-2>"
-azure_devops_organization_name: "<azure-devops-organization>"
-use_separate_repository_for_templates: true
-bootstrap_subscription_id: ""
+## Decision 8: Bootstrap Resource Subscription
+bootstrap_subscription_id: ""  # Leave empty to use the subscription connected to Azure CLI
+
+## Decision 9: Bootstrap Resource Naming.
+# Default names can be found here: https://aka.ms/alz/acc/bootstrap/azuredevops/resourcenames
+# For fully custom naming see the FAQ here: https://aka.ms/alz/acc/faq/bootstrap
 service_name: "alz"
 environment_name: "mgmt"
 postfix_number: 1
-azure_devops_use_organisation_legacy_url: false
-azure_devops_create_project: true
-azure_devops_project_name: "<azure-devops-project-name>"
+
+## Decision 10: Bootstrap Networking and Agents
 use_self_hosted_agents: true
 use_private_networking: true
-allow_storage_access_from_my_ip: false
-apply_approvers: ["<email-address>"]
-create_branch_policies: true
 
-# Advanced Inputs
-bootstrap_module_version: "latest"
-starter_module_version: "latest"
-#output_folder_path: "/accelerator/output"
+## Decision 11: Version Control System Settings
+azure_devops_personal_access_token: "<token-1>"
+azure_devops_agents_personal_access_token: "<token-2>"
+azure_devops_organization_name: "<azure-devops-organization>"
+azure_devops_project_name: "<azure-devops-project-name>"
+apply_approvers: ["<email-address>"]
+
+# Basic Inputs (Do not modify)
+iac_type: "terraform"
+bootstrap_module_name: "alz_azuredevops"
+starter_module_name: "platform_landing_zone"
