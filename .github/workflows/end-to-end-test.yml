@@ -104,8 +104,12 @@ jobs:
           Write-Host "Subscription ID Identity: $subscriptionIdIdentity"
           Write-Host "Subscription ID Security: $subscriptionIdSecurity"
 
+          $sourceVarFilePath = "${{ matrix.configFilePath }}"
+          $sourceVarFileContent = Get-Content -Path $sourceVarFilePath -Raw
+          $sourceVarFileContent = $sourceVarFileContent.Replace()"<region-1>", "uksouth").Replace("<region-2>", "ukwest")
+          $sourceVarFileContent | Out-File -FilePath sourceVarFilePath -Encoding utf8 -Force
+
           $tfvarsFile = @{
-            starter_locations               = @("uksouth", "ukwest")
             subscription_ids                = @{
               connectivity = $subscriptionIdConnectivity
               management   = $subscriptionIdManagement
