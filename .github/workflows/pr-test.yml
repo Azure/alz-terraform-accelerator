@@ -99,7 +99,7 @@ jobs:
           $sourceVarFilePath = "${{ matrix.configFilePath }}"
           $sourceVarFileContent = Get-Content -Path $sourceVarFilePath -Raw
           $sourceVarFileContent = $sourceVarFileContent.Replace("<region-1>", "uksouth").Replace("<region-2>", "ukwest")
-          $sourceVarFileContent | Out-File -FilePath sourceVarFilePath -Encoding utf8 -Force
+          $sourceVarFileContent | Out-File -FilePath $sourceVarFilePath -Encoding utf8 -Force
 
           $tfvarsFile = @{
             subscription_ids                = @{
