@@ -35,8 +35,8 @@ use_self_hosted_agents: true
 use_private_networking: true
 
 ## Decision 11: Version Control System Settings
-azure_devops_personal_access_token: "<token-1>"
-azure_devops_agents_personal_access_token: "<token-2>"
+azure_devops_personal_access_token: "<token-1>"  # Can also be supplied via environment variable TF_VAR_azure_devops_personal_access_token
+azure_devops_agents_personal_access_token: "<token-2>"  # Can also be supplied via environment variable TF_VAR_azure_devops_agents_personal_access_token
 azure_devops_organization_name: "<azure-devops-organization>"
 azure_devops_project_name: "<azure-devops-project-name>"
 apply_approvers: ["<email-address>"]
