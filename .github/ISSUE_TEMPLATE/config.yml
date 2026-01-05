@@ -1,6 +1,5 @@
----
 blank_issues_enabled: false
 contact_links:
-  - name: Azure Landing Zones Accelerator Issues
-    url: https://github.com/Azure/ALZ-PowerShell-Module/issues/new/choose
-    about: Please raise all issues for the Accelerators over at the Azure/ALZ-PowerShell-Module repository.
+  - name: ALZ bugs / features / questions (everything goes here)
+    url: https://github.com/Azure/Azure-Landing-Zones/issues/new/choose
+    about: Centralized repo for all Azure landing zone (ALZ) bugs, features, and questions (new for 2026)
