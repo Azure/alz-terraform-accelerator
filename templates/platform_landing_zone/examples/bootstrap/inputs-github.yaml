@@ -31,7 +31,7 @@ environment_name: "mgmt"
 postfix_number: 1
 
 ## Decision 10: Bootstrap Networking and Agents
-use_self_hosted_agents: true
+use_self_hosted_runners: true
 use_private_networking: true
 
 ## Decision 11: Version Control System Settings
