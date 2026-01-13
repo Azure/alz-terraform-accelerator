@@ -322,6 +322,7 @@ variable "virtual_hubs" {
       tags                                   = optional(map(string), null)
       tunneling_enabled                      = optional(bool, false)
       zones                                  = optional(set(string), null)
+      resource_group_name                    = optional(string)
 
       bastion_public_ip = optional(object({
         name                    = optional(string)
@@ -339,6 +340,7 @@ variable "virtual_hubs" {
         edge_zone               = optional(string, null)
         ddos_protection_mode    = optional(string, "VirtualNetworkInherited")
         ddos_protection_plan_id = optional(string, null)
+        resource_group_name     = optional(string)
       }), {})
     }), {})
 
@@ -775,6 +777,7 @@ The following top level attributes are supported:
   - `tags` - (Optional) A map of tags to apply to Azure Bastion.
   - `tunneling_enabled` - (Optional) Should tunneling be enabled for Azure Bastion? Requires `Standard` SKU. Default `false`.
   - `zones` - (Optional) A set of availability zones for Azure Bastion.
+  - `resource_group_name` - (Optional) The name of the resource group where the Azure Bastion should be created. If not specified, uses the sidecar virtual network's parent resource group.
   - `bastion_public_ip` - (Optional) An object with the following fields:
     - `name` - (Optional) The name of the public IP for Azure Bastion.
     - `allocation_method` - (Optional) The allocation method for the public IP. Possible values are `Static`, `Dynamic`. Default `Static`.
@@ -791,6 +794,7 @@ The following top level attributes are supported:
     - `edge_zone` - (Optional) The edge zone for the public IP.
     - `ddos_protection_mode` - (Optional) The DDoS protection mode. Possible values are `Disabled`, `Enabled`, `VirtualNetworkInherited`. Default `VirtualNetworkInherited`.
     - `ddos_protection_plan_id` - (Optional) The ID of the DDoS protection plan.
+    - `resource_group_name` - (Optional) The name of the resource group where the Bastion public IP should be created. If not specified, uses the sidecar virtual network's parent resource group.
 
 ## Virtual Network Gateways
 
@@ -848,13 +852,11 @@ The following top level attributes are supported:
     - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
     - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
     - `resolution_policy` - (Optional) The resolution policy for the link.
-  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links to create for all private DNS zones. Each link is an object with:
+  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links. Each link is an object with:
     - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
     - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
-    - `resolution_policy` - (Optional) The resolution policy for the link.  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links to create for all private DNS zones. Each link is an object with:
-    - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
-    - `virtual_network_link_name_template_override` - (Optional) Override template for the virtual network link name.
-    - `resolution_policy` - (Optional) The resolution policy for the link.  - `virtual_network_link_by_zone_and_virtual_network` - (Optional) A map of virtual network links by zone and virtual network. Each link is an object with:
+    - `resolution_policy` - (Optional) The resolution policy for the link.
+  - `virtual_network_link_by_zone_and_virtual_network` - (Optional) A map of virtual network links by zone and virtual network. Each link is an object with:
     - `virtual_network_resource_id` - (Optional) The virtual network resource ID.
     - `name` - (Optional) The link name.
     - `resolution_policy` - (Optional) The resolution policy for the link.

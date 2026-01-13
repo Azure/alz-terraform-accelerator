@@ -45,20 +45,22 @@ variable "hub_virtual_networks" {
     location                  = string
 
     hub_virtual_network = optional(object({
-      name                          = optional(string)
-      address_space                 = optional(list(string))
-      parent_id                     = optional(string)
-      route_table_name_firewall     = optional(string)
-      route_table_name_user_subnets = optional(string)
-      bgp_community                 = optional(string)
-      ddos_protection_plan_id       = optional(string)
-      dns_servers                   = optional(list(string))
-      flow_timeout_in_minutes       = optional(number, 4)
-      mesh_peering_enabled          = optional(bool, true)
-      peering_names                 = optional(map(string))
-      routing_address_space         = optional(list(string), [])
-      hub_router_ip_address         = optional(string)
-      tags                          = optional(map(string))
+      name                             = optional(string)
+      address_space                    = optional(list(string))
+      parent_id                        = optional(string)
+      route_table_firewall_enabled     = optional(bool, true)
+      route_table_user_subnets_enabled = optional(bool, true)
+      route_table_name_firewall        = optional(string)
+      route_table_name_user_subnets    = optional(string)
+      bgp_community                    = optional(string)
+      ddos_protection_plan_id          = optional(string)
+      dns_servers                      = optional(list(string))
+      flow_timeout_in_minutes          = optional(number, 4)
+      mesh_peering_enabled             = optional(bool, true)
+      peering_names                    = optional(map(string))
+      routing_address_space            = optional(list(string), [])
+      hub_router_ip_address            = optional(string)
+      tags                             = optional(map(string))
 
       route_table_entries_firewall = optional(set(object({
         name                = string
@@ -245,6 +247,7 @@ variable "hub_virtual_networks" {
       tags                                   = optional(map(string), null)
       tunneling_enabled                      = optional(bool, false)
       zones                                  = optional(set(string), null)
+      resource_group_name                    = optional(string)
 
       bastion_public_ip = optional(object({
         name                    = optional(string)
@@ -262,6 +265,7 @@ variable "hub_virtual_networks" {
         edge_zone               = optional(string, null)
         ddos_protection_mode    = optional(string, "VirtualNetworkInherited")
         ddos_protection_plan_id = optional(string, null)
+        resource_group_name     = optional(string)
       }), {})
     }), {})
 
@@ -336,7 +340,6 @@ variable "hub_virtual_networks" {
           }), {})
         })), {})
         local_network_gateways = optional(map(object({
-          id                  = optional(string, null)
           name                = optional(string, null)
           resource_group_name = optional(string, null)
           address_space       = optional(list(string), null)
@@ -425,7 +428,6 @@ variable "hub_virtual_networks" {
           active_active_2 = {}
         })
         local_network_gateways = optional(map(object({
-          id                  = optional(string, null)
           name                = optional(string, null)
           resource_group_name = optional(string, null)
           address_space       = optional(list(string), null)
@@ -685,6 +687,8 @@ The following top level attributes are supported:
   - `name` - (Optional) The name of the Virtual Network.
   - `address_space` - (Optional) A list of IPv4 address spaces that are used by this virtual network in CIDR format, e.g. `["192.168.0.0/24"]`.
   - `parent_id` - (Optional) The ID of the parent resource group where the virtual network should be created.
+  - `route_table_firewall_enabled` - (Optional) Should the firewall route table be created? Default `true`.
+  - `route_table_user_subnets_enabled` - (Optional) Should the user subnets route table be created? Default `true`.
   - `bgp_community` - The BGP community associated with the virtual network.
   - `ddos_protection_plan_id` - The ID of the DDoS protection plan associated with the virtual network.
   - `dns_servers` - A list of DNS servers IP addresses for the virtual network.
@@ -755,6 +759,7 @@ The following top level attributes are supported:
       - `zones` - (Optional) A list of availability zones to use for the public IP configuration. If not specified will be `null`.
       - `ip_version` - (Optional) The IP version to use for the public IP configuration. Possible values include `IPv4`, `IPv6`. If not specified will be `IPv4`.
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
+      - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
   - `ip_configurations` - (Optional) A map of the default IP configuration for the Azure Firewall. If not specified the defaults below will be used:
     - `name` - (Optional) The name of the default IP configuration. If not specified will use `default`.
     - `is_default` - (Optional) Indicates this is the default IP configuration, which will be linked to the Firewall subnet. If not specified will be `false`. At least one and only one IP configuration must have this set to `true`.
@@ -764,6 +769,7 @@ The following top level attributes are supported:
       - `zones` - (Optional) A list of availability zones to use for the public IP configuration. If not specified will be `null`.
       - `ip_version` - (Optional) The IP version to use for the public IP configuration. Possible values include `IPv4`, `IPv6`. If not specified will be `IPv4`.
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
+      - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
   - `management_ip_configuration` - (Optional) An object with the following fields. If not specified the defaults below will be used:
     - `name` - (Optional) The name of the management IP configuration. If not specified will use `defaultMgmt`.
     - `public_ip_config` - (Optional) An object with the following fields:
@@ -772,6 +778,7 @@ The following top level attributes are supported:
       - `zones` - (Optional) A list of availability zones to use for the public IP configuration. If not specified will be `null`.
       - `ip_version` - (Optional) The IP version to use for the public IP configuration. Possible values include `IPv4`, `IPv6`. If not specified will be `IPv4`.
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
+      - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
 
 ## Azure Firewall Policy
 
@@ -843,6 +850,7 @@ The following top level attributes are supported:
   - `tags` - (Optional) A map of tags to apply to the Azure Bastion.
   - `tunneling_enabled` - (Optional) Should tunneling be enabled for the Azure Bastion? Requires `Standard` SKU. Default `false`.
   - `zones` - (Optional) A set of availability zones for the Azure Bastion.
+  - `resource_group_name` - (Optional) The name of the resource group where the Azure Bastion should be created. If not specified will use the parent resource group of the virtual network.
   - `bastion_public_ip` - (Optional) An object with the following fields:
     - `name` - (Optional) The name of the public IP for the Azure Bastion. If not specified will use `pip-bastion-{vnetname}`.
     - `allocation_method` - (Optional) The allocation method for the public IP. Possible values are `Static`, `Dynamic`. Default `Static`.
@@ -859,6 +867,7 @@ The following top level attributes are supported:
     - `edge_zone` - (Optional) The edge zone for the public IP.
     - `ddos_protection_mode` - (Optional) The DDoS protection mode. Possible values are `Disabled`, `Enabled`, `VirtualNetworkInherited`. Default `VirtualNetworkInherited`.
     - `ddos_protection_plan_id` - (Optional) The ID of the DDoS protection plan.
+    - `resource_group_name` - (Optional) The name of the resource group where the public IP should be created. If not specified will use the bastion resource group name or the parent resource group of the virtual network.
 
 ## Virtual Network Gateways
 
@@ -929,7 +938,6 @@ The following top level attributes are supported:
       - `reverse_fqdn` - (Optional) The reverse FQDN.
       - `sku_tier` - (Optional) The SKU tier. Default `Regional`.
   - `local_network_gateways` - (Optional) A map of local network gateways. Each gateway is an object with:
-    - `id` - (Optional) The ID of an existing local network gateway.
     - `name` - (Optional) The name of the local network gateway.
     - `resource_group_name` - (Optional) The resource group name.
     - `address_space` - (Optional) A list of address spaces.
@@ -982,8 +990,71 @@ The following top level attributes are supported:
   - `sku` - (Optional) The SKU of the VPN gateway. Possible values include `Basic`, `VpnGw1`, `VpnGw2`, `VpnGw3`, `VpnGw4`, `VpnGw5`, `VpnGw1AZ`, `VpnGw2AZ`, `VpnGw3AZ`, `VpnGw4AZ`, `VpnGw5AZ`. Default `VpnGw1AZ`.
   - `edge_zone` - (Optional) The edge zone for the VPN gateway.
   - `hosted_on_behalf_of_public_ip_enabled` - (Optional) Should hosted on behalf of public IP be enabled? Default `false`.
-  - `ip_configurations` - (Optional) A map of IP configurations. Same structure as ExpressRoute gateway IP configurations.
-  - `local_network_gateways` - (Optional) A map of local network gateways. Same structure as ExpressRoute gateway local network gateways.
+  - `ip_configurations` - (Optional) A map of IP configurations. Each configuration is an object with:
+    - `name` - (Optional) The name of the IP configuration.
+    - `apipa_addresses` - (Optional) A list of APIPA addresses.
+    - `private_ip_address_allocation` - (Optional) The private IP address allocation method. Possible values are `Dynamic`, `Static`. Default `Dynamic`.
+    - `public_ip` - (Optional) An object with the following fields:
+      - `creation_enabled` - (Optional) Should the public IP be created? Default `true`.
+      - `id` - (Optional) The ID of an existing public IP.
+      - `name` - (Optional) The name of the public IP.
+      - `resource_group_name` - (Optional) The resource group name for the public IP.
+      - `allocation_method` - (Optional) The allocation method. Possible values are `Static`, `Dynamic`. Default `Static`.
+      - `sku` - (Optional) The SKU. Possible values are `Basic`, `Standard`. Default `Standard`.
+      - `tags` - (Optional) A map of tags.
+      - `zones` - (Optional) A list of availability zones.
+      - `edge_zone` - (Optional) The edge zone.
+      - `ddos_protection_mode` - (Optional) The DDoS protection mode. Default `VirtualNetworkInherited`.
+      - `ddos_protection_plan_id` - (Optional) The DDoS protection plan ID.
+      - `domain_name_label` - (Optional) The domain name label.
+      - `idle_timeout_in_minutes` - (Optional) The idle timeout in minutes.
+      - `ip_tags` - (Optional) A map of IP tags.
+      - `ip_version` - (Optional) The IP version. Default `IPv4`.
+      - `public_ip_prefix_id` - (Optional) The public IP prefix ID.
+      - `reverse_fqdn` - (Optional) The reverse FQDN.
+      - `sku_tier` - (Optional) The SKU tier. Default `Regional`.
+  - `local_network_gateways` - (Optional) A map of local network gateways. Each gateway is an object with:
+    - `name` - (Optional) The name of the local network gateway.
+    - `resource_group_name` - (Optional) The resource group name.
+    - `address_space` - (Optional) A list of address spaces.
+    - `gateway_fqdn` - (Optional) The gateway FQDN.
+    - `gateway_address` - (Optional) The gateway IP address.
+    - `tags` - (Optional) A map of tags.
+    - `bgp_settings` - (Optional) An object with the following fields:
+      - `asn` - The ASN (required).
+      - `bgp_peering_address` - The BGP peering address (required).
+      - `peer_weight` - (Optional) The peer weight.
+    - `connection` - (Optional) An object with the following fields:
+      - `name` - (Optional) The connection name.
+      - `resource_group_name` - (Optional) The resource group name.
+      - `type` - The connection type (required). Possible values are `IPsec`, `Vnet2Vnet`, `ExpressRoute`.
+      - `connection_mode` - (Optional) The connection mode.
+      - `connection_protocol` - (Optional) The connection protocol.
+      - `dpd_timeout_seconds` - (Optional) The DPD timeout in seconds.
+      - `egress_nat_rule_ids` - (Optional) A list of egress NAT rule IDs.
+      - `enable_bgp` - (Optional) Should BGP be enabled?
+      - `ingress_nat_rule_ids` - (Optional) A list of ingress NAT rule IDs.
+      - `local_azure_ip_address_enabled` - (Optional) Should local Azure IP address be enabled?
+      - `peer_virtual_network_gateway_id` - (Optional) The peer virtual network gateway ID.
+      - `routing_weight` - (Optional) The routing weight.
+      - `shared_key` - (Optional) The shared key.
+      - `tags` - (Optional) A map of tags.
+      - `use_policy_based_traffic_selectors` - (Optional) Should policy-based traffic selectors be used?
+      - `custom_bgp_addresses` - (Optional) An object with the following fields:
+        - `primary` - The primary BGP address (required).
+        - `secondary` - The secondary BGP address (required).
+      - `ipsec_policy` - (Optional) An object with the following fields:
+        - `dh_group` - The DH group (required).
+        - `ike_encryption` - The IKE encryption (required).
+        - `ike_integrity` - The IKE integrity (required).
+        - `ipsec_encryption` - The IPsec encryption (required).
+        - `ipsec_integrity` - The IPsec integrity (required).
+        - `pfs_group` - The PFS group (required).
+        - `sa_datasize` - (Optional) The SA data size.
+        - `sa_lifetime` - (Optional) The SA lifetime.
+      - `traffic_selector_policy` - (Optional) A list of objects with the following fields:
+        - `local_address_prefixes` - A list of local address prefixes (required).
+        - `remote_address_prefixes` - A list of remote address prefixes (required).
   - `tags` - (Optional) A map of tags to apply to the VPN gateway.
   - `vpn_active_active_enabled` - (Optional) Should active-active mode be enabled? Default `true`.
   - `vpn_bgp_enabled` - (Optional) Should BGP be enabled? Default `false`.
@@ -1063,7 +1134,7 @@ The following top level attributes are supported:
     - `virtual_network_resource_id` - (Optional) The resource ID of the virtual network.
     - `virtual_network_link_name_template_override` - (Optional) Override the default name template for the virtual network link.
     - `resolution_policy` - (Optional) The resolution policy for the virtual network link. Possible values are `Default` and `NxDomainRedirect`.
-  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links to create for all private DNS zones. Each link is an object with:
+  - `virtual_network_link_additional_virtual_networks` - (Optional) A map of additional virtual network links to create beyond the default virtual networks. Each link is an object with:
     - `virtual_network_resource_id` - (Optional) The resource ID of the virtual network.
     - `virtual_network_link_name_template_override` - (Optional) Override the default name template for the virtual network link.
     - `resolution_policy` - (Optional) The resolution policy for the virtual network link. Possible values are `Default` and `NxDomainRedirect`.
