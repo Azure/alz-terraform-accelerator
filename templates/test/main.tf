@@ -10,11 +10,11 @@ locals {
 }
 
 module "management_groups" {
-  source                                                        = "Azure/avm-ptn-alz/azurerm"
-  version                                                       = "0.14.1"
-  architecture_name                                             = "alz_custom"
-  parent_resource_id                                            = data.azurerm_management_group.example_parent.name
-  location                                                      = local.starter_location
+  source             = "Azure/avm-ptn-alz/azurerm"
+  version            = "0.14.1"
+  architecture_name  = "alz_custom"
+  parent_resource_id = data.azurerm_management_group.example_parent.name
+  location           = local.starter_location
 }
 
 resource "azurerm_resource_group" "management" {
