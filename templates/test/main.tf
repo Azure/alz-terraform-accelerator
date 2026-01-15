@@ -12,7 +12,7 @@ locals {
 module "management_groups" {
   source = "./modules/management_groups"
 
-  enable_telemetry          = var.enable_telemetry
+  enable_telemetry = var.enable_telemetry
   management_group_settings = {
     architecture_name  = "alz_custom"
     parent_resource_id = data.azurerm_management_group.example_parent.name
