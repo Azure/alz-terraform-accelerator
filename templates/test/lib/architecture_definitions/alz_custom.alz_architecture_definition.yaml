@@ -1,0 +1,8 @@
+name: alz_custom
+management_groups:
+  - id: test
+    display_name: Test
+    archetypes:
+      - test
+    exists: false
+    parent_id: null

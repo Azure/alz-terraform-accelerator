@@ -25,6 +25,12 @@ variable "child_management_group_display_name" {
   default     = "E2E Test"
 }
 
+variable "resource_name_suffix" {
+  type        = string
+  description = "This is the third test variable"
+  default     = "e2e"
+}
+
 variable "starter_locations" {
   type        = list(string)
   description = "This is the fourth test variable|azure_location"
