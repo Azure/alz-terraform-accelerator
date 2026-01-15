@@ -149,6 +149,7 @@ management_resource_settings = {
       name = "$${ama_user_assigned_managed_identity_name}"
     }
   }
+  /*
   data_collection_rules = {
     change_tracking = {
       name = "$${dcr_change_tracking_name}"
@@ -160,6 +161,7 @@ management_resource_settings = {
       name = "$${dcr_vm_insights_name}"
     }
   }
+  */
 }
 
 /*
@@ -216,6 +218,7 @@ management_group_settings = {
     alz = {
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
+          /*
           parameters = {
             ascExportResourceGroupName                  = "$${asc_export_resource_group_name}"
             ascExportResourceGroupLocation              = "$${starter_location_01}"
@@ -233,6 +236,7 @@ management_group_settings = {
             enableAscForCosmosDbs                       = "DeployIfNotExists"
             enableAscForCspm                            = "DeployIfNotExists"
           }
+          */
         }
       }
     }
@@ -301,7 +305,7 @@ hub_virtual_networks = {
       virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
       virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
       private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
-      private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
+      /* private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}" */
     }
     hub_virtual_network = {
       name                          = "$${primary_virtual_network_name}"
@@ -370,10 +374,13 @@ hub_virtual_networks = {
       auto_registration_zone_enabled = "$${primary_private_dns_auto_registration_zone_enabled}"
       auto_registration_zone_name    = "$${primary_auto_registration_zone_name}"
     }
+    /*
     private_dns_resolver = {
       subnet_address_prefix = "$${primary_private_dns_resolver_subnet_address_prefix}"
       name                  = "$${primary_private_dns_resolver_name}"
     }
+    */
+    /*
     bastion = {
       subnet_address_prefix = "$${primary_bastion_subnet_address_prefix}"
       name                  = "$${primary_bastion_host_name}"
@@ -381,6 +388,7 @@ hub_virtual_networks = {
         name = "$${primary_bastion_host_public_ip_name}"
       }
     }
+    */
   }
 }
 

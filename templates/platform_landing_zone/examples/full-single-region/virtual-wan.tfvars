@@ -1,3 +1,4 @@
+
 /*
 --- Built-in Replacements ---
 This file contains built-in replacements to avoid repeating the same hard-coded values.
@@ -52,7 +53,7 @@ custom_replacements = {
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
     # Resource provisioning global connectivity
-    ddos_protection_plan_enabled = false
+    ddos_protection_plan_enabled = true
 
     # Resource provisioning primary connectivity
     primary_firewall_enabled                              = true
@@ -60,8 +61,8 @@ custom_replacements = {
     primary_virtual_network_gateway_vpn_enabled           = true
     primary_private_dns_zones_enabled                     = true
     primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = false
-    primary_bastion_enabled                               = false
+    primary_private_dns_resolver_enabled                  = true
+    primary_bastion_enabled                               = true
     primary_sidecar_virtual_network_enabled               = true
 
     # Resource names primary connectivity
