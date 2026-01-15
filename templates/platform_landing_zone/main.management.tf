@@ -19,13 +19,3 @@ module "management_groups" {
   enable_telemetry          = var.enable_telemetry
   management_group_settings = local.management_group_settings
 }
-
-moved {
-  from = module.management_groups
-  to   = module.management_groups[0]
-}
-
-moved {
-  from = module.management_resources
-  to   = module.management_resources[0]
-}
