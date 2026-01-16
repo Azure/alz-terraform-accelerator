@@ -26,12 +26,8 @@ output "parent_management_group_display_name" {
   value = data.azurerm_management_group.example_parent.display_name
 }
 
-output "child_management_group_name" {
-  value = azurerm_management_group.example_child.name
-}
-
-output "child_management_group_display_name" {
-  value = azurerm_management_group.example_child.display_name
+output "management_groups" {
+  value = module.management_groups
 }
 
 output "resource_group_names" {
