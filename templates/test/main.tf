@@ -9,7 +9,6 @@ locals {
   starter_location = var.starter_locations[0]
 }
 
-
 module "management_groups" {
   source                                  = "Azure/avm-ptn-alz/azurerm"
   version                                 = "0.18.0"
