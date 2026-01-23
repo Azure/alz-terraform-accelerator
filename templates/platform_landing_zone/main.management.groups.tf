@@ -1,21 +1,8 @@
-module "management_resources" {
-  source = "./modules/management_resources"
-
-  count = var.management_resources_enabled ? 1 : 0
-
-  enable_telemetry             = var.enable_telemetry
-  management_resource_settings = local.management_resource_settings
-
-  providers = {
-    azurerm = azurerm.management
-  }
-}
-
 module "management_groups" {
   source  = "Azure/avm-ptn-alz/azurerm"
-  version = "0.17.0"
+  version = "0.18.0"
+  count   = var.management_groups_enabled ? 1 : 0
 
-  count                                                            = var.management_groups_enabled ? 1 : 0
   architecture_name                                                = module.config.outputs.management_group_settings.architecture_name
   parent_resource_id                                               = module.config.outputs.management_group_settings.parent_resource_id
   location                                                         = module.config.outputs.management_group_settings.location
@@ -35,18 +22,8 @@ module "management_groups" {
   role_assignment_name_use_random_uuid                             = module.config.outputs.management_group_settings.role_assignment_name_use_random_uuid
   subscription_placement_destroy_behavior                          = module.config.outputs.management_group_settings.subscription_placement_destroy_behavior
   subscription_placement_destroy_custom_target_management_group_id = module.config.outputs.management_group_settings.subscription_placement_destroy_custom_target_management_group_id
-  dependencies = {
-    policy_assignments = [
-      module.management_resources,
-      module.hub_and_spoke_vnet,
-      module.virtual_wan
-    ]
-    policy_role_assignments = [
-      module.management_resources,
-      module.hub_and_spoke_vnet,
-      module.virtual_wan
-    ]
-  }
+  policy_assignments_dependencies                                  = local.management_group_dependencies
+  policy_role_assignments_dependencies                             = local.management_group_dependencies
 }
 
 moved {
