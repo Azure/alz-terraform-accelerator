@@ -37,8 +37,9 @@ use_private_networking: true
 ## Decision 11: Version Control System Settings
 github_personal_access_token: "<token-1>"  # Can also be supplied via environment variable TF_VAR_github_personal_access_token
 github_runners_personal_access_token: "<token-2>"  # Can also be supplied via environment variable TF_VAR_github_runners_personal_access_token
-github_organization_name: "<github-organization>"
-apply_approvers: ["<email-address>"]
+github_organization_name: "<github-organization>" # This is the section of the URL after 'github.com'. Example: enter 'my-org' for 'https://github.com/my-org'
+# github_organization_domain_name: "<enterprise name>.ghe.com" # Uncomment for GitHub Enterprise Cloud with data residency
+apply_approvers: ["github_user1"] # list of approvers for the "apply" stage in GitHub Actions workflows. A list (array) of GitHub usernames or team slugs. For teams, use the format: "org/team-name", For individual users, use their GitHub username. EXAMPLE: apply_approvers: ["user1", "user2", "org/team-name"]
 
 # Basic Inputs (Do not modify)
 iac_type: "terraform"
