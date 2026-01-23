@@ -9,15 +9,14 @@ locals {
   starter_location = var.starter_locations[0]
 }
 
-module "management_groups" {
-  source = "./modules/management_groups"
 
-  enable_telemetry = var.enable_telemetry
-  management_group_settings = {
-    architecture_name  = "alz_custom"
-    parent_resource_id = data.azurerm_management_group.example_parent.name
-    location           = local.starter_location
-  }
+module "management_groups" {
+  source                                  = "Azure/avm-ptn-alz/azurerm"
+  version                                 = "0.18.0"
+  architecture_name                       = "alz_custom"
+  parent_resource_id                      = data.azurerm_management_group.example_parent.name
+  location                                = local.starter_location
+  subscription_placement_destroy_behavior = "intermediate_root"
 }
 
 resource "azurerm_resource_group" "management" {
