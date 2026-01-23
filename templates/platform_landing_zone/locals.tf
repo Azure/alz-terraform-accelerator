@@ -42,8 +42,8 @@ locals {
 
 locals {
   management_group_dependencies = [
-    var.management_resources_enabled ? module.management_resources[0].log_analytics_workspace.id : null,
-    local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].firewall_resource_ids : null,
-    local.connectivity_virtual_wan_enabled ? module.virtual_wan[0].firewall_resource_ids : null
+    var.management_resources_enabled ? module.management_resources : null,
+    local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet : null,
+    local.connectivity_virtual_wan_enabled ? module.virtual_wan : null
   ]
 }
