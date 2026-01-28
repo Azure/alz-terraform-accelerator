@@ -78,7 +78,7 @@ resource "azapi_resource" "resource_group_identity" {
 resource "azapi_resource" "resource_group_security" {
   parent_id = "/subscriptions/${var.subscription_ids["security"]}"
   type      = "Microsoft.Resources/resourceGroups@2021-04-01"
-  name      = "e2e-test-security-azapi-${rvar.resource_name_suffix}"
+  name      = "e2e-test-security-azapi-${var.resource_name_suffix}"
   location  = local.starter_location
   body = {
     properties = {}
