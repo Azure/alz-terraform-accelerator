@@ -6,7 +6,7 @@
   "dependencies": [
     {
       "path": "platform/slz",
-      "ref": "2025.10.1"
+      "ref": "2026.01.0"
     }
   ]
 }
