@@ -36,10 +36,6 @@ postfix_number: 1
 # This is not required if you plan to setup you own Identities, etc.
 create_bootstrap_resources_in_azure: true
 
-## Whether to grant permissions for the current Azure CLI user to be able to deploy the Platform Landing Zones
-# This is not required if you plan to configure a third-party Version Control System
-grant_permissions_to_current_user: true
-
 ## Target Directory for generated files
 # Leave empty to use the standard output directory
 target_directory: ""
