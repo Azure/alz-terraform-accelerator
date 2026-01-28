@@ -1,6 +1,10 @@
 terraform {
   required_version = "~> 1.12"
   required_providers {
+    alz = {
+      source  = "Azure/alz"
+      version = "0.20.0"
+    }
     azurerm = {
       source  = "hashicorp/azurerm"
       version = "~> 4.0"
@@ -15,6 +19,14 @@ terraform {
     }
   }
   # backend "azurerm" {}
+}
+
+provider "alz" {
+  library_references = [
+    {
+      custom_url = "${path.root}/lib"
+    }
+  ]
 }
 
 provider "azurerm" {
