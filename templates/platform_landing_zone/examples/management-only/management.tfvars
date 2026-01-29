@@ -72,8 +72,6 @@ custom_replacements = {
   }
 }
 
-enable_telemetry = true
-
 /*
 --- Tags ---
 This variable can be used to apply tags to all resources that support it. Some resources allow overriding these tags.
@@ -216,3 +214,9 @@ management_group_settings = {
 }
 
 connectivity_type = "none"
+
+enable_telemetry = true
+telemetry_additional_content = {
+  deployed_by    = "alz-terraform-accelerator"
+  correlation_id = "00000000-0000-0000-0000-000000000000"
+}
