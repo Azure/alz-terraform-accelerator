@@ -100,7 +100,7 @@ Properties:
 - `log_analytics_workspace_daily_quota_gb` - (Optional) The daily ingestion quota in GB for the workspace.
 - `log_analytics_workspace_internet_ingestion_enabled` - (Optional) Enable internet ingestion for the workspace. Defaults to true.
 - `log_analytics_workspace_internet_query_enabled` - (Optional) Enable internet queries for the workspace. Defaults to true.
-- `log_analytics_workspace_local_authentication_disabled` - (Optional) Disable local authentication for the workspace. Defaults to false.
+- `log_analytics_workspace_local_authentication_enabled` - (Optional) Enable local authentication for the workspace. Defaults to true.
 - `log_analytics_workspace_reservation_capacity_in_gb_per_day` - (Optional) The reservation capacity in GB per day for the workspace.
 - `log_analytics_workspace_retention_in_days` - (Optional) The data retention period in days for the workspace.
 - `log_analytics_workspace_sku` - (Optional) The SKU of the Log Analytics Workspace.
@@ -142,7 +142,6 @@ variable "management_group_settings" {
       require_authorization_for_group_creation = optional(bool, true)
       update_existing                          = optional(bool, false)
     }))
-    partner_id = optional(string)
     retries = optional(object({
       management_groups = optional(object({
         error_message_regex  = optional(list(string))
@@ -288,7 +287,9 @@ variable "management_group_settings" {
       enforced_replacement                     = optional(string)
       not_enforced_replacement                 = optional(string)
     }))
-    role_assignment_name_use_random_uuid = optional(bool, true)
+    role_assignment_name_use_random_uuid                             = optional(bool, true)
+    subscription_placement_destroy_behavior                          = optional(string, "intermediate_root")
+    subscription_placement_destroy_custom_target_management_group_id = optional(string)
   })
   default     = null
   description = <<DESCRIPTION
@@ -325,7 +326,6 @@ Properties:
   - `default_management_group_name` - (Required) The name of the default management group.
   - `require_authorization_for_group_creation` - (Optional) Require authorization for management group creation. Defaults to true.
   - `update_existing` - (Optional) Update existing management groups. Defaults to false.
-- `partner_id` - (Optional) The partner ID for Azure partner attribution.
 - `retries` - (Optional) Retry configurations for various resource types:
   - `management_groups`, `role_definitions`, `role_assignments`, `policy_definitions`, `policy_set_definitions`, `policy_assignments`, `policy_role_assignments`, `hierarchy_settings`, `subscription_placement` - Each has the following retry settings:
     - `error_message_regex` - (Optional) List of regex patterns to match error messages for retry.
@@ -370,6 +370,8 @@ Properties:
   - `enforced_replacement` - (Optional) Replacement text for enforced mode.
   - `not_enforced_replacement` - (Optional) Replacement text for not enforced mode.
 - `role_assignment_name_use_random_uuid` - (Optional) Use random UUID for role assignment names. Defaults to true.
+- `subscription_placement_destroy_behavior` - (Optional) The behavior for subscription placement on destroy. Defaults to "intermediate_root" for ALZ.
+- `subscription_placement_destroy_custom_target_management_group_id` - (Optional) The target management group ID for subscription placement destroy operations.
 
 Details of the settings can be found in the module documentation at https://registry.terraform.io/modules/Azure/avm-ptn-alz
 DESCRIPTION

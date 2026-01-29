@@ -33,7 +33,7 @@ custom_replacements = {
   */
   names = {
     # Defender email security contact
-    defender_email_security_contact = "[Testing123]replace_me@replace_me.com"
+    defender_email_security_contact = "replace_me@replace_me.com"
 
     # Resource group names
     management_resource_group_name                 = "rg-management-$${starter_location_01}"
@@ -166,8 +166,6 @@ custom_replacements = {
     ddos_protection_plan_id                     = "$${ddos_protection_plan_resource_group_id}/providers/Microsoft.Network/ddosProtectionPlans/$${ddos_protection_plan_name}"
   }
 }
-
-enable_telemetry = true
 
 /*
 --- Tags ---
@@ -526,3 +524,9 @@ hub_virtual_networks = {
 }
 
 # private_link_private_dns_zone_virtual_network_link_moved_blocks_enabled = true
+
+enable_telemetry = true
+telemetry_additional_content = {
+  deployed_by    = "alz-terraform-accelerator"
+  correlation_id = "00000000-0000-0000-0000-000000000000"
+}

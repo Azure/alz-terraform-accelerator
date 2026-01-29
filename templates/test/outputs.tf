@@ -2,10 +2,6 @@ output "connection" {
   value = data.azurerm_client_config.current
 }
 
-output "subscription" {
-  value = data.azurerm_subscription.current
-}
-
 output "subscription_id_connectivity" {
   value = var.subscription_ids["connectivity"]
 }
@@ -22,24 +18,24 @@ output "subscription_id_security" {
   value = var.subscription_ids["security"]
 }
 
-output "parent_management_group_display_name" {
-  value = data.azurerm_management_group.example_parent.display_name
+output "management_groups" {
+  value = module.management_groups
 }
 
-output "child_management_group_name" {
-  value = azurerm_management_group.example_child.name
-}
-
-output "child_management_group_display_name" {
-  value = azurerm_management_group.example_child.display_name
-}
-
-output "resource_group_names" {
+output "resource_group_ids" {
   value = {
-    management   = azurerm_resource_group.management.name
-    connectivity = azurerm_resource_group.connectivity.name
-    identity     = azurerm_resource_group.identity.name
-    security     = azurerm_resource_group.security.name
+    azure_rm = {
+      management   = azurerm_resource_group.management.id
+      connectivity = azurerm_resource_group.connectivity.id
+      identity     = azurerm_resource_group.identity.id
+      security     = azurerm_resource_group.security.id
+    }
+    azapi = {
+      management   = azapi_resource.resource_group_management.id
+      connectivity = azapi_resource.resource_group_connectivity.id
+      identity     = azapi_resource.resource_group_identity.id
+      security     = azapi_resource.resource_group_security.id
+    }
   }
 }
 
