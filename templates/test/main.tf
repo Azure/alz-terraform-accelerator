@@ -1,9 +1,4 @@
 data "azurerm_client_config" "current" {}
-data "azurerm_subscription" "current" {}
-
-data "azurerm_management_group" "example_parent" {
-  name = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
-}
 
 locals {
   starter_location = var.starter_locations[0]
@@ -13,7 +8,7 @@ module "management_groups" {
   source                                  = "Azure/avm-ptn-alz/azurerm"
   version                                 = "0.18.0"
   architecture_name                       = "alz_custom"
-  parent_resource_id                      = data.azurerm_management_group.example_parent.name
+  parent_resource_id                      = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
   location                                = local.starter_location
   subscription_placement_destroy_behavior = "intermediate_root"
 }
