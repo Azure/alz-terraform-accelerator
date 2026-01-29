@@ -25,27 +25,21 @@ locals {
   virtual_hubs                    = (merge({ vhubs = module.config.outputs.virtual_hubs }, local.resource_groups)).vhubs
 }
 
-# Build policy dependencies
-locals {
-  management_group_dependencies = {
-    policy_assignments = [
-      module.management_resources,
-      module.hub_and_spoke_vnet,
-      module.virtual_wan
-    ]
-    policy_role_assignments = [
-      module.management_resources,
-      module.hub_and_spoke_vnet,
-      module.virtual_wan
-    ]
-  }
-}
-
+# Build dependencies
 locals {
   management_group_settings = merge(
     module.config.outputs.management_group_settings,
     {
-      dependencies = local.management_group_dependencies
+      policy_assignments_dependencies = [
+        module.management_resources,
+        module.hub_and_spoke_vnet,
+        module.virtual_wan
+      ],
+      policy_role_assignments_dependencies = [
+        module.management_resources,
+        module.hub_and_spoke_vnet,
+        module.virtual_wan
+      ]
     }
   )
   management_resource_settings = merge(
