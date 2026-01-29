@@ -101,3 +101,23 @@ variable "tags" {
   default     = null
   description = "(Optional) Tags of the resource."
 }
+
+variable "telemetry_additional_content" {
+  type        = map(string)
+  default     = null
+  description = <<DESCRIPTION
+Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
+To add array / object values, serialize them as JSON strings using `jsonencode()`.
+
+Any information entered here will be sent to Microsoft as part of the telemetry data collected. Do not include any personal or sensitive information.
+
+e.g.
+
+```hcl
+telemetry_additional_content = {
+  custom_tag_1 = "value1"
+  custom_tag_2 = "value2"
+  custom_array_tag = jsonencode(["value1", "value2"])
+}
+DESCRIPTION
+}
