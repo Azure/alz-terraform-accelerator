@@ -10,7 +10,6 @@ module "management_groups" {
   policy_assignments_to_modify                                     = local.policy_assignments_to_modify
   enable_telemetry                                                 = var.enable_telemetry
   management_group_hierarchy_settings                              = module.config.outputs.management_group_settings.management_group_hierarchy_settings
-  partner_id                                                       = module.config.outputs.management_group_settings.partner_id
   retries                                                          = module.config.outputs.management_group_settings.retries
   subscription_placement                                           = module.config.outputs.management_group_settings.subscription_placement
   timeouts                                                         = module.config.outputs.management_group_settings.timeouts
