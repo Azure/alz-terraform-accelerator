@@ -19,12 +19,6 @@ variable "subscription_ids" {
   }
 }
 
-variable "child_management_group_display_name" {
-  description = "The child management group for testing display name"
-  type        = string
-  default     = "E2E Test"
-}
-
 variable "resource_name_suffix" {
   type        = string
   description = "This is the third test variable"
