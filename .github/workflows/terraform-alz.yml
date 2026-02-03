@@ -6,11 +6,12 @@ permissions:
 
 # yamllint disable-line rule:truthy
 on:
+  workflow_dispatch:
   push:
     branches:
       - avi-dev
-  workflow_dispatch:
   
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
