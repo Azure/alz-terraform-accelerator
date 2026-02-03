@@ -1,10 +1,10 @@
 name: Terraform ALZ Plan
 
 on:
-  workflow_dispatch:
   push:
     branches:
       - avi-dev
+  workflow_dispatch:
 
 jobs:
   terraform:
