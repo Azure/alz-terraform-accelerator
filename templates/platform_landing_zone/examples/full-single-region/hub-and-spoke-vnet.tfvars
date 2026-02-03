@@ -18,7 +18,7 @@ Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starte
 You can define the Azure regions to use throughout the configuration.
 The first location will be used as the primary location, the second as the secondary location, and so on.
 */
-starter_locations = ["<region-1>"]
+starter_locations = ["uksouth"]
 
 /*
 --- Custom Replacements ---
@@ -86,13 +86,13 @@ custom_replacements = {
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
-    primary_hub_address_space                          = "10.0.0.0/16"
-    primary_hub_virtual_network_address_space          = "10.0.0.0/22"
-    primary_firewall_subnet_address_prefix             = "10.0.0.0/26"
-    primary_firewall_management_subnet_address_prefix  = "10.0.0.192/26"
-    primary_bastion_subnet_address_prefix              = "10.0.0.64/26"
-    primary_gateway_subnet_address_prefix              = "10.0.0.128/27"
-    primary_private_dns_resolver_subnet_address_prefix = "10.0.0.160/28"
+    primary_hub_address_space                 = "10.2.0.0/16"
+    primary_hub_virtual_network_address_space = "10.2.0.0/16"
+    primary_firewall_subnet_address_prefix              = "10.2.0.0/26"
+    primary_bastion_subnet_address_prefix               = "10.2.0.64/26"
+    primary_gateway_subnet_address_prefix               = "10.2.0.128/27"
+    primary_private_dns_resolver_subnet_address_prefix  = "10.2.0.160/28"
+    primary_firewall_management_subnet_address_prefix   = "10.2.0.192/26"
   }
 
   /*
@@ -135,6 +135,29 @@ tags = {
   source      = "Azure Landing Zones Accelerator"
 }
 
+subscription_ids = {
+  connectivity = "0ef65ea8-4efb-4e0a-b7b2-b621310187c4"
+  identity     = "0ef65ea8-4efb-4e0a-b7b2-b621310187c4"
+  management   = "0ef65ea8-4efb-4e0a-b7b2-b621310187c4"
+  security     = "0ef65ea8-4efb-4e0a-b7b2-b621310187c4"
+}
+
+
+data_collection_rules = {
+  change_tracking = {
+    enabled = false
+  }
+
+  defender_sql = {
+    enabled = false
+  }
+
+  vm_insights = {
+    enabled = false
+  }
+}
+
+
 /*
 --- Management Resources ---
 You can use this section to customize the management resources that will be deployed.
@@ -149,7 +172,7 @@ management_resource_settings = {
       name = "$${ama_user_assigned_managed_identity_name}"
     }
   }
-  /*
+
   data_collection_rules = {
     change_tracking = {
       name = "$${dcr_change_tracking_name}"
@@ -161,7 +184,6 @@ management_resource_settings = {
       name = "$${dcr_vm_insights_name}"
     }
   }
-  */
 }
 
 /*
@@ -300,13 +322,13 @@ hub_virtual_networks = {
     location          = "$${starter_location_01}"
     default_parent_id = "$${primary_connectivity_resource_group_id}"
     enabled_resources = {
-      firewall                              = "$${primary_firewall_enabled}"
-      bastion                               = "$${primary_bastion_enabled}"
-      virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
-      virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
-      private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
-      /* private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}" */
-    }
+    firewall                              = "$${primary_firewall_enabled}"
+    bastion                               = "$${primary_bastion_enabled}"
+    virtual_network_gateway_express_route = "$${primary_virtual_network_gateway_express_route_enabled}"
+    virtual_network_gateway_vpn           = "$${primary_virtual_network_gateway_vpn_enabled}"
+    private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
+    private_dns_resolver                  = false
+  }
     hub_virtual_network = {
       name                          = "$${primary_virtual_network_name}"
       address_space                 = ["$${primary_hub_virtual_network_address_space}"]
