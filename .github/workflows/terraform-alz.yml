@@ -1,0 +1,32 @@
+name: Terraform ALZ Plan
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - avi-dev
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.6.6
+
+      - name: Terraform Init
+        working-directory: templates/platform_landing_zone
+        run: terraform init
+
+      - name: Terraform Plan
+        working-directory: templates/platform_landing_zone
+        env:
+          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+        run: terraform plan -var-file=examples/full-single-region/hub-and-spoke-vnet.tfvars -no-color
