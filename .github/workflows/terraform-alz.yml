@@ -1,11 +1,16 @@
 name: Terraform ALZ Plan
 
+
+permissions:
+  contents: write
+
+# yamllint disable-line rule:truthy
 on:
   push:
     branches:
       - avi-dev
   workflow_dispatch:
-
+  
 jobs:
   terraform:
     runs-on: ubuntu-latest
