@@ -18,7 +18,7 @@ Replacements are denoted by the dollar-dollar curly braces token (e.g. $${starte
 You can define the Azure regions to use throughout the configuration.
 The first location will be used as the primary location, the second as the secondary location, and so on.
 */
-starter_locations = ["uksouth"]
+starter_locations = ["centralindia"]
 
 /*
 --- Custom Replacements ---
@@ -59,8 +59,8 @@ custom_replacements = {
     primary_virtual_network_gateway_express_route_enabled                = false
     primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false
     primary_virtual_network_gateway_vpn_enabled                          = true
-    primary_private_dns_zones_enabled                                    = true
-    primary_private_dns_auto_registration_zone_enabled                   = true
+    primary_private_dns_zones_enabled                                    = false
+    primary_private_dns_auto_registration_zone_enabled                   = false
     primary_private_dns_resolver_enabled                                 = false
     primary_bastion_enabled                                              = false
 
