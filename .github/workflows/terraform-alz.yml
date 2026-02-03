@@ -19,7 +19,7 @@ jobs:
 
       - uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.6.6
+          terraform_version: 1.9.5
 
       - name: Terraform Init
         working-directory: templates/platform_landing_zone
