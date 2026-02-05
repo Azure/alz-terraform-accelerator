@@ -46,6 +46,7 @@ management_groups:
   - id: confidential-corp
     display_name: Confidential Corp
     archetypes:
+      - corp_custom
       - confidential_corp_custom
     exists: false
     parent_id: landingzones
@@ -53,6 +54,7 @@ management_groups:
   - id: confidential-online
     display_name: Confidential Online
     archetypes:
+      - online_custom
       - confidential_online_custom
     exists: false
     parent_id: landingzones
