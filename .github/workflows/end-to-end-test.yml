@@ -12,8 +12,8 @@ on:
         description: 'Whether to run the apply and destroy steps'
         default: false
         type: boolean
-  schedule:
-    - cron: '0 3 * * 1-5' # Runs at 3:00 AM UTC on weekdays
+  #schedule:
+  #  - cron: '0 3 * * 1-5' # Runs at 3:00 AM UTC on weekdays
 
 permissions:
   id-token: write
