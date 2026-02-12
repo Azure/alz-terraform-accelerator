@@ -74,3 +74,13 @@ provider "azurerm" {
 provider "azapi" {
   skip_provider_registration = true
 }
+
+provider "alz" {
+  library_overwrite_enabled = true
+  library_references = [
+    {
+      path = "platform/slz"
+      ref  = "2025.09.3"
+    }
+  ]
+}
