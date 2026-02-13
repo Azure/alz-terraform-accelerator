@@ -6,7 +6,7 @@
   "dependencies": [
     {
       "path": "platform/alz",
-      "ref": "2026.01.1"
+      "ref": "2026.01.2"
     }
   ]
 }
