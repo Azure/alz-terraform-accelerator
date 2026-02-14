@@ -25,6 +25,10 @@ module "management_resources" {
   tags                                                       = coalesce(module.config.outputs.management_resource_settings.tags, module.config.outputs.tags)
   timeouts                                                   = module.config.outputs.management_resource_settings.timeouts
   user_assigned_managed_identities                           = module.config.outputs.management_resource_settings.user_assigned_managed_identities
+
+  providers = {
+      azurerm = azurerm.connectivity
+  }
 }
 
 moved {
