@@ -300,6 +300,7 @@ hub_virtual_networks = {
       name                          = "$${primary_virtual_network_name}"
       address_space                 = ["$${primary_hub_virtual_network_address_space}"]
       routing_address_space         = ["$${primary_hub_address_space}"]
+      hub_router_ip_address         = "$${primary_nva_ip_address}"
       route_table_name_firewall     = "$${primary_route_table_firewall_name}"
       route_table_name_user_subnets = "$${primary_route_table_user_subnets_name}"
       subnets = {
