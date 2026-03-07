@@ -350,6 +350,7 @@ variable "hub_virtual_networks" {
           }), {})
         })), {})
         local_network_gateways = optional(map(object({
+          id                  = optional(string, null)
           name                = optional(string, null)
           resource_group_name = optional(string, null)
           address_space       = optional(list(string), null)
@@ -438,6 +439,7 @@ variable "hub_virtual_networks" {
           active_active_2 = {}
         })
         local_network_gateways = optional(map(object({
+          id                  = optional(string, null)
           name                = optional(string, null)
           resource_group_name = optional(string, null)
           address_space       = optional(list(string), null)
@@ -958,6 +960,7 @@ The following top level attributes are supported:
       - `reverse_fqdn` - (Optional) The reverse FQDN.
       - `sku_tier` - (Optional) The SKU tier. Default `Regional`.
   - `local_network_gateways` - (Optional) A map of local network gateways. Each gateway is an object with:
+    - `id` - (Optional) The resource ID of an existing Local Network Gateway to use instead of creating a new one. When specified, the other gateway properties (`name`, `address_space`, `gateway_fqdn`, `gateway_address`, `bgp_settings`, `tags`) are ignored.
     - `name` - (Optional) The name of the local network gateway.
     - `resource_group_name` - (Optional) The resource group name.
     - `address_space` - (Optional) A list of address spaces.
@@ -1034,6 +1037,7 @@ The following top level attributes are supported:
       - `reverse_fqdn` - (Optional) The reverse FQDN.
       - `sku_tier` - (Optional) The SKU tier. Default `Regional`.
   - `local_network_gateways` - (Optional) A map of local network gateways. Each gateway is an object with:
+    - `id` - (Optional) The resource ID of an existing Local Network Gateway to use instead of creating a new one. When specified, the other gateway properties (`name`, `address_space`, `gateway_fqdn`, `gateway_address`, `bgp_settings`, `tags`) are ignored.
     - `name` - (Optional) The name of the local network gateway.
     - `resource_group_name` - (Optional) The resource group name.
     - `address_space` - (Optional) A list of address spaces.
