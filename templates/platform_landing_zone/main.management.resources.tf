@@ -2,6 +2,9 @@ module "management_resources" {
   source  = "Azure/avm-ptn-alz-management/azurerm"
   version = "0.9.0"
   count   = var.management_resources_enabled ? 1 : 0
+  providers = {
+    azurerm = azurerm.management
+  }
 
   automation_account_name                                    = null
   location                                                   = module.config.outputs.management_resource_settings.location
@@ -31,3 +34,4 @@ moved {
   from = module.management_resources[0].module.management_resources
   to   = module.management_resources[0]
 }
+
