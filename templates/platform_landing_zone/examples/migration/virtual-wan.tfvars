@@ -43,6 +43,7 @@ custom_replacements = {
     dns_resource_group_name                        = "alz-dns"  # MIGRATION: This had a different default in CAF ES.
     ddos_resource_group_name                       = "alz-ddos" # MIGRATION: This had a different default in CAF ES.
     asc_export_resource_group_name                 = "rg-asc-export-$${starter_location_01}"
+    service_health_alerts_resource_group_name      = "rg-service-health-alerts-$${starter_location_01}"
 
     # Resource names
     log_analytics_workspace_name            = "alz-la"                      # MIGRATION: This had a different default in CAF ES.
@@ -215,6 +216,10 @@ management_group_settings = {
     private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
     private_dns_zone_region                     = "$${starter_location_01}"
     private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
+    resource_group_name_service_health_alerts   = "$${service_health_alerts_resource_group_name}"
+    resource_group_name_mdfc                    = "$${asc_export_resource_group_name}"
+    resource_group_location                     = "$${starter_location_01}"
+    email_security_contact                      = "$${defender_email_security_contact}"
   }
   subscription_placement = {
     identity = {
@@ -239,9 +244,6 @@ management_group_settings = {
       policy_assignments = {
         Deploy-MDFC-Config-H224 = {
           parameters = {
-            ascExportResourceGroupName                  = "$${asc_export_resource_group_name}"
-            ascExportResourceGroupLocation              = "$${starter_location_01}"
-            emailSecurityContact                        = "$${defender_email_security_contact}"
             enableAscForServers                         = "DeployIfNotExists"
             enableAscForServersVulnerabilityAssessments = "DeployIfNotExists"
             enableAscForSql                             = "DeployIfNotExists"
