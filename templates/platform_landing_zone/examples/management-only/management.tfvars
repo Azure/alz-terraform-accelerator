@@ -131,7 +131,7 @@ management_group_settings = {
     ama_user_assigned_managed_identity_name     = "$${ama_user_assigned_managed_identity_name}"
     log_analytics_workspace_id                  = "$${log_analytics_workspace_id}"
     resource_group_name_service_health_alerts   = "$${service_health_alerts_resource_group_name}"
-    resource_group_name_mdfc_export             = "$${asc_export_resource_group_name}"
+    resource_group_name_mdfc                    = "$${asc_export_resource_group_name}"
     resource_group_location                     = "$${starter_location_01}"
     email_security_contact                      = "$${defender_email_security_contact}"
     /*

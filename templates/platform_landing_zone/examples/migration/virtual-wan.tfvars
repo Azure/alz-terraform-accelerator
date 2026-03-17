@@ -217,7 +217,7 @@ management_group_settings = {
     private_dns_zone_region                     = "$${starter_location_01}"
     private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
     resource_group_name_service_health_alerts   = "$${service_health_alerts_resource_group_name}"
-    resource_group_name_mdfc_export             = "$${asc_export_resource_group_name}"
+    resource_group_name_mdfc                    = "$${asc_export_resource_group_name}"
     resource_group_location                     = "$${starter_location_01}"
     email_security_contact                      = "$${defender_email_security_contact}"
   }
