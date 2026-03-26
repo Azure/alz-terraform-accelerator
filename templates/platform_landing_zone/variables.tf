@@ -40,36 +40,6 @@ variable "subscription_ids" {
   }
 }
 
-variable "subscription_id_connectivity" {
-  description = "DEPRECATED (use subscription_ids instead): The identifier of the Connectivity Subscription"
-  type        = string
-  default     = null
-  validation {
-    condition     = var.subscription_id_connectivity == null || can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", var.subscription_id_connectivity))
-    error_message = "The subscription ID must be a valid GUID"
-  }
-}
-
-variable "subscription_id_identity" {
-  description = "DEPRECATED (use subscription_ids instead): The identifier of the Identity Subscription"
-  type        = string
-  default     = null
-  validation {
-    condition     = var.subscription_id_identity == null || can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", var.subscription_id_identity))
-    error_message = "The subscription ID must be a valid GUID"
-  }
-}
-
-variable "subscription_id_management" {
-  description = "DEPRECATED (use subscription_ids instead): The identifier of the Management Subscription"
-  type        = string
-  default     = null
-  validation {
-    condition     = var.subscription_id_management == null || can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", var.subscription_id_management))
-    error_message = "The subscription ID must be a valid GUID"
-  }
-}
-
 variable "root_parent_management_group_id" {
   type        = string
   default     = ""
