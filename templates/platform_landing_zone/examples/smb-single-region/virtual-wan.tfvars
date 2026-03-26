@@ -51,6 +51,13 @@ custom_replacements = {
     dcr_vm_insights_name                    = "dcr-vm-insights"
 
     # Resource provisioning global connectivity
+    #
+    # WARNING: Disabling the DDoS Protection Plan removes network-level DDoS
+    # protection from all virtual networks. To maintain security, you MUST enable
+    # DDoS IP Protection on each public IP address individually. Failure to do so
+    # leaves your workloads exposed to DDoS attacks.
+    # See: https://learn.microsoft.com/azure/ddos-protection/ddos-protection-sku-comparison
+    #
     ddos_protection_plan_enabled = false
 
     # Firewall SKU
