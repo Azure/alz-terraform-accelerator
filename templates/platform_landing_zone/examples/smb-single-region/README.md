@@ -16,7 +16,7 @@ The following resources are **disabled** to reduce cost:
 - ExpressRoute Gateway
 - Azure Bastion
 
-> **WARNING — DDoS Protection:**  
+> **WARNING — DDoS Protection:**
 > This example disables the DDoS Protection Plan to reduce cost. This removes network-level DDoS protection from all virtual networks. To maintain security, you **MUST** enable [DDoS IP Protection](https://learn.microsoft.com/azure/ddos-protection/ddos-protection-sku-comparison) on each public IP address individually. Failure to do so leaves your workloads exposed to DDoS attacks.
 
 Subscription placement for **identity** and **security** subscriptions is commented out but retained in the configuration for when you are ready to add dedicated subscriptions for those workloads.

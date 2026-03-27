@@ -25,18 +25,29 @@ If not provided, short codes are derived from the regions module using geo_code 
 DESCRIPTION
 }
 
+variable "required_subscription_keys" {
+  description = "The list of subscription keys that are required to have valid GUIDs. Keys not in this list may be null or empty."
+  type        = list(string)
+  default     = ["connectivity", "management"]
+  nullable    = false
+}
+
 variable "subscription_ids" {
   description = "The list of subscription IDs to deploy the Platform Landing Zones into"
   type        = map(string)
   default     = {}
   nullable    = false
   validation {
-    condition     = length(var.subscription_ids) == 0 || alltrue([for id in values(var.subscription_ids) : can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", id))])
-    error_message = "All subscription IDs must be valid GUIDs"
+    condition     = length(var.subscription_ids) == 0 || alltrue([for key, id in var.subscription_ids : contains(var.required_subscription_keys, key) ? can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", id)) : (id == null || id == "" || can(regex("^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$", id)))])
+    error_message = "Required subscription IDs must be valid GUIDs. Optional subscription IDs must be valid GUIDs, null, or empty."
   }
   validation {
     condition     = length(var.subscription_ids) == 0 || alltrue([for id in keys(var.subscription_ids) : contains(["management", "connectivity", "identity", "security"], id)])
     error_message = "The keys of the subscription_ids map must be one of 'management', 'connectivity', 'identity' or 'security'"
+  }
+  validation {
+    condition     = alltrue([for key in var.required_subscription_keys : contains(keys(var.subscription_ids), key)])
+    error_message = "All required subscription keys must be present in subscription_ids."
   }
 }
 
