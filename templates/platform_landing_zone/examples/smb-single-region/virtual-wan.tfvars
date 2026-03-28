@@ -303,7 +303,7 @@ virtual_hubs = {
       sku_tier = "$${firewall_sku_tier}"
     }
     firewall_policy = {
-      sku_tier = "$${firewall_sku_tier}"
+      sku = "$${firewall_sku_tier}"
     }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"
