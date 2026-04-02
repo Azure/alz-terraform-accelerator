@@ -40,7 +40,7 @@ custom_replacements = {
 
     # Resource provisioning primary connectivity
     primary_firewall_enabled                                             = true
-    primary_firewall_sku_tier                                            = "Standard"
+    primary_firewall_sku_tier                                            = "Premium"
     primary_firewall_management_ip_enabled                               = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
     primary_virtual_network_gateway_express_route_enabled                = true
     primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false # MIGRATION: This is not supported in CAF ES and should only be set if the Gateway has been migration to Hosted On Behalf Of (HOBO) public IPs.
@@ -52,7 +52,7 @@ custom_replacements = {
 
     # Resource provisioning secondary connectivity
     secondary_firewall_enabled                                             = true
-    secondary_firewall_sku_tier                                            = "Standard"
+    secondary_firewall_sku_tier                                            = "Premium"
     secondary_firewall_management_ip_enabled                               = false # MIGRATION: This is not supported in CAF ES and it is not possible to update a firewall to add one.
     secondary_virtual_network_gateway_express_route_enabled                = true
     secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled = false # MIGRATION: This is not supported in CAF ES and should only be set if the Gateway has been migration to Hosted On Behalf Of (HOBO) public IPs.

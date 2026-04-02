@@ -39,7 +39,7 @@ custom_replacements = {
 
     # Resource provisioning primary connectivity
     primary_firewall_enabled                                             = true
-    primary_firewall_sku_tier                                            = "Standard"
+    primary_firewall_sku_tier                                            = "Premium"
     primary_firewall_management_ip_enabled                               = true
     primary_virtual_network_gateway_express_route_enabled                = true
     primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
@@ -51,7 +51,7 @@ custom_replacements = {
 
     # Resource provisioning secondary connectivity
     secondary_firewall_enabled                                             = true
-    secondary_firewall_sku_tier                                            = "Standard"
+    secondary_firewall_sku_tier                                            = "Premium"
     secondary_firewall_management_ip_enabled                               = true
     secondary_virtual_network_gateway_express_route_enabled                = true
     secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
