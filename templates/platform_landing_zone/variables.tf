@@ -6,6 +6,10 @@ variable "starter_locations" {
     error_message = "You must provide at least one starter location region."
   }
   validation {
+    condition     = alltrue([for location in var.starter_locations : can(regex("^[a-z][a-z0-9]+$", location))])
+    error_message = "All starter locations must be valid Azure region names (lowercase letters and numbers only, e.g. 'uksouth', 'eastus2'). Check for typos, spaces, or uppercase characters."
+  }
+  validation {
     condition     = var.connectivity_type == "none" || ((length(var.virtual_hubs) <= length(var.starter_locations)) || (length(var.hub_virtual_networks) <= length(var.starter_locations)))
     error_message = "The number of regions supplied in `starter_locations` must match the number of regions specified for connectivity."
   }
