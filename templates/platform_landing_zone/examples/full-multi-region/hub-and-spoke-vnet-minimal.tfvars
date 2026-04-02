@@ -35,6 +35,32 @@ custom_replacements = {
     # Defender email security contact
     defender_email_security_contact = "replace_me@replace_me.com"
 
+    ddos_protection_plan_enabled = true
+
+    # Resource provisioning primary connectivity
+    primary_firewall_enabled                                             = true
+    primary_firewall_sku_tier                                            = "Standard"
+    primary_firewall_management_ip_enabled                               = true
+    primary_virtual_network_gateway_express_route_enabled                = true
+    primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
+    primary_virtual_network_gateway_vpn_enabled                          = true
+    primary_private_dns_zones_enabled                                    = true
+    primary_private_dns_auto_registration_zone_enabled                   = true
+    primary_private_dns_resolver_enabled                                 = true
+    primary_bastion_enabled                                              = true
+
+    # Resource provisioning secondary connectivity
+    secondary_firewall_enabled                                             = true
+    secondary_firewall_sku_tier                                            = "Standard"
+    secondary_firewall_management_ip_enabled                               = true
+    secondary_virtual_network_gateway_express_route_enabled                = true
+    secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
+    secondary_virtual_network_gateway_vpn_enabled                          = true
+    secondary_private_dns_zones_enabled                                    = true
+    secondary_private_dns_auto_registration_zone_enabled                   = true
+    secondary_private_dns_resolver_enabled                                 = true
+    secondary_bastion_enabled                                              = true
+
     # Resource group names
     management_resource_group_name                 = "rg-management-$${starter_location_01}"
     connectivity_hub_primary_resource_group_name   = "rg-hub-$${starter_location_01}"
@@ -51,30 +77,6 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
-
-    ddos_protection_plan_enabled = true
-
-    # Resource provisioning primary connectivity
-    primary_firewall_enabled                                             = true
-    primary_firewall_management_ip_enabled                               = true
-    primary_virtual_network_gateway_express_route_enabled                = true
-    primary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
-    primary_virtual_network_gateway_vpn_enabled                          = true
-    primary_private_dns_zones_enabled                                    = true
-    primary_private_dns_auto_registration_zone_enabled                   = true
-    primary_private_dns_resolver_enabled                                 = true
-    primary_bastion_enabled                                              = true
-
-    # Resource provisioning secondary connectivity
-    secondary_firewall_enabled                                             = true
-    secondary_firewall_management_ip_enabled                               = true
-    secondary_virtual_network_gateway_express_route_enabled                = true
-    secondary_virtual_network_gateway_express_route_hobo_public_ip_enabled = true
-    secondary_virtual_network_gateway_vpn_enabled                          = true
-    secondary_private_dns_zones_enabled                                    = true
-    secondary_private_dns_auto_registration_zone_enabled                   = true
-    secondary_private_dns_resolver_enabled                                 = true
-    secondary_bastion_enabled                                              = true
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
@@ -302,6 +304,12 @@ hub_virtual_networks = {
       private_dns_zones                     = "$${primary_private_dns_zones_enabled}"
       private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
     }
+    firewall = {
+      sku_tier = "$${primary_firewall_sku_tier}"
+    }
+    firewall_policy = {
+      sku = "$${primary_firewall_sku_tier}"
+    }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"
     }
@@ -317,6 +325,12 @@ hub_virtual_networks = {
       virtual_network_gateway_vpn           = "$${secondary_virtual_network_gateway_vpn_enabled}"
       private_dns_zones                     = "$${secondary_private_dns_zones_enabled}"
       private_dns_resolver                  = "$${secondary_private_dns_resolver_enabled}"
+    }
+    firewall = {
+      sku_tier = "$${secondary_firewall_sku_tier}"
+    }
+    firewall_policy = {
+      sku = "$${secondary_firewall_sku_tier}"
     }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"

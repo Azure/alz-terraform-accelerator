@@ -35,6 +35,29 @@ custom_replacements = {
     # Defender email security contact
     defender_email_security_contact = "replace_me@replace_me.com"
 
+    # Resource provisioning global connectivity
+    #
+    # SECURITY RISK: A DDoS Network Protection Plan is a recommended security
+    # control for public-facing services. Disabling it without an alternative may
+    # leave your applications and workloads vulnerable to DDoS attacks. You should
+    # weigh up the pros and cons before deciding to disable the DDoS Network
+    # Protection Plan and also consider how you will protect your applications and
+    # services without it. You may decide the DDoS IP Protection offering
+    # per-Public IP is a suitable option, or an alternative solution.
+    # See: https://learn.microsoft.com/azure/ddos-protection/ddos-protection-sku-comparison
+    #
+    ddos_protection_plan_enabled = false
+
+    # Resource provisioning primary connectivity
+    primary_firewall_enabled                              = true
+    primary_firewall_sku_tier                             = "Basic"
+    primary_virtual_network_gateway_express_route_enabled = false
+    primary_virtual_network_gateway_vpn_enabled           = true
+    primary_private_dns_zones_enabled                     = false
+    primary_private_dns_auto_registration_zone_enabled    = false
+    primary_private_dns_resolver_enabled                  = false
+    primary_bastion_enabled                               = false
+
     # Resource group names
     management_resource_group_name               = "rg-management-$${starter_location_01}"
     connectivity_hub_primary_resource_group_name = "rg-hub-$${starter_location_01}"
@@ -48,28 +71,6 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
-
-    # Resource provisioning global connectivity
-    #
-    # WARNING: Disabling the DDoS Protection Plan removes network-level DDoS
-    # protection from all virtual networks. To maintain security, you MUST enable
-    # DDoS IP Protection on each public IP address individually. Failure to do so
-    # leaves your workloads exposed to DDoS attacks.
-    # See: https://learn.microsoft.com/azure/ddos-protection/ddos-protection-sku-comparison
-    #
-    ddos_protection_plan_enabled = false
-
-    # Firewall SKU
-    firewall_sku_tier = "Basic"
-
-    # Resource provisioning primary connectivity
-    primary_firewall_enabled                              = true
-    primary_virtual_network_gateway_express_route_enabled = false
-    primary_virtual_network_gateway_vpn_enabled           = true
-    primary_private_dns_zones_enabled                     = true
-    primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true
-    primary_bastion_enabled                               = false
 
     # IP Ranges Primary
     # Regional Address Space: 10.0.0.0/16
@@ -223,6 +224,13 @@ management_group_settings = {
         }
       }
     }
+    corp = {
+      policy_assignments = {
+        Deploy-Private-DNS-Zones = {
+          enforcement_mode = "DoNotEnforce"
+        }
+      }
+    }
   }
   /*
   # Example of how to add management group role assignments
@@ -280,10 +288,10 @@ hub_virtual_networks = {
       private_dns_resolver                  = "$${primary_private_dns_resolver_enabled}"
     }
     firewall = {
-      sku_tier = "$${firewall_sku_tier}"
+      sku_tier = "$${primary_firewall_sku_tier}"
     }
     firewall_policy = {
-      sku = "$${firewall_sku_tier}"
+      sku = "$${primary_firewall_sku_tier}"
     }
     private_dns_zones = {
       parent_id = "$${dns_resource_group_id}"

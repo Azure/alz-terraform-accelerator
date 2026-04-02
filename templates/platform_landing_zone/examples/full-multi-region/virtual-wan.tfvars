@@ -35,6 +35,31 @@ custom_replacements = {
     # Defender email security contact
     defender_email_security_contact = "replace_me@replace_me.com"
 
+    # Resource provisioning global connectivity
+    ddos_protection_plan_enabled = true
+
+    # Resource provisioning primary connectivity
+    primary_firewall_enabled                              = true
+    primary_firewall_sku_tier                             = "Standard"
+    primary_virtual_network_gateway_express_route_enabled = true
+    primary_virtual_network_gateway_vpn_enabled           = true
+    primary_private_dns_zones_enabled                     = true
+    primary_private_dns_auto_registration_zone_enabled    = true
+    primary_private_dns_resolver_enabled                  = true
+    primary_bastion_enabled                               = true
+    primary_sidecar_virtual_network_enabled               = true
+
+    # Resource provisioning secondary connectivity
+    secondary_firewall_enabled                              = true
+    secondary_firewall_sku_tier                             = "Standard"
+    secondary_virtual_network_gateway_express_route_enabled = true
+    secondary_virtual_network_gateway_vpn_enabled           = true
+    secondary_private_dns_zones_enabled                     = true
+    secondary_private_dns_auto_registration_zone_enabled    = true
+    secondary_private_dns_resolver_enabled                  = true
+    secondary_bastion_enabled                               = true
+    secondary_sidecar_virtual_network_enabled               = true
+
     # Resource group names
     management_resource_group_name                 = "rg-management-$${starter_location_01}"
     connectivity_hub_vwan_resource_group_name      = "rg-hub-vwan-$${starter_location_01}"
@@ -52,29 +77,6 @@ custom_replacements = {
     dcr_change_tracking_name                = "dcr-change-tracking"
     dcr_defender_sql_name                   = "dcr-defender-sql"
     dcr_vm_insights_name                    = "dcr-vm-insights"
-
-    # Resource provisioning global connectivity
-    ddos_protection_plan_enabled = true
-
-    # Resource provisioning primary connectivity
-    primary_firewall_enabled                              = true
-    primary_virtual_network_gateway_express_route_enabled = true
-    primary_virtual_network_gateway_vpn_enabled           = true
-    primary_private_dns_zones_enabled                     = true
-    primary_private_dns_auto_registration_zone_enabled    = true
-    primary_private_dns_resolver_enabled                  = true
-    primary_bastion_enabled                               = true
-    primary_sidecar_virtual_network_enabled               = true
-
-    # Resource provisioning secondary connectivity
-    secondary_firewall_enabled                              = true
-    secondary_virtual_network_gateway_express_route_enabled = true
-    secondary_virtual_network_gateway_vpn_enabled           = true
-    secondary_private_dns_zones_enabled                     = true
-    secondary_private_dns_auto_registration_zone_enabled    = true
-    secondary_private_dns_resolver_enabled                  = true
-    secondary_bastion_enabled                               = true
-    secondary_sidecar_virtual_network_enabled               = true
 
     # Resource names primary connectivity
     primary_hub_name                                   = "vwan-hub-$${starter_location_01}"
@@ -358,10 +360,12 @@ virtual_hubs = {
       address_prefix = "$${primary_hub_address_space}"
     }
     firewall = {
-      name = "$${primary_firewall_name}"
+      name     = "$${primary_firewall_name}"
+      sku_tier = "$${primary_firewall_sku_tier}"
     }
     firewall_policy = {
       name = "$${primary_firewall_policy_name}"
+      sku  = "$${primary_firewall_sku_tier}"
     }
     virtual_network_gateways = {
       express_route = {
@@ -422,10 +426,12 @@ virtual_hubs = {
       address_prefix = "$${secondary_hub_address_space}"
     }
     firewall = {
-      name = "$${secondary_firewall_name}"
+      name     = "$${secondary_firewall_name}"
+      sku_tier = "$${secondary_firewall_sku_tier}"
     }
     firewall_policy = {
       name = "$${secondary_firewall_policy_name}"
+      sku  = "$${secondary_firewall_sku_tier}"
     }
     virtual_network_gateways = {
       express_route = {
