@@ -163,9 +163,6 @@ management_group_settings = {
     ama_user_assigned_managed_identity_id       = "$${ama_user_assigned_managed_identity_id}"
     ama_user_assigned_managed_identity_name     = "$${ama_user_assigned_managed_identity_name}"
     log_analytics_workspace_id                  = "$${log_analytics_workspace_id}"
-    private_dns_zone_subscription_id            = "$${subscription_id_connectivity}"
-    private_dns_zone_region                     = "$${starter_location_01}"
-    private_dns_zone_resource_group_name        = "$${dns_resource_group_name}"
     resource_group_name_service_health_alerts   = "$${service_health_alerts_resource_group_name}"
     resource_group_name_mdfc                    = "$${asc_export_resource_group_name}"
     resource_group_location                     = "$${starter_location_01}"
@@ -222,13 +219,6 @@ management_group_settings = {
     landingzones = {
       policy_assignments = {
         Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
-        }
-      }
-    }
-    corp = {
-      policy_assignments = {
-        Deploy-Private-DNS-Zones = {
           enforcement_mode = "DoNotEnforce"
         }
       }
