@@ -1,6 +1,6 @@
 module "regions" {
   source           = "Azure/avm-utl-regions/azurerm"
-  version          = "0.9.2"
+  version          = "0.12.0"
   use_cached_data  = false
   enable_telemetry = var.enable_telemetry
 }

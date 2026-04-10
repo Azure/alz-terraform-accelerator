@@ -926,6 +926,7 @@ variable "virtual_wan_settings" {
       ddos_protection_plan = optional(any, true)
     }), {})
     virtual_wan = optional(object({
+      id                                = optional(string)
       name                              = optional(string)
       location                          = optional(string)
       resource_group_name               = optional(string)
@@ -952,6 +953,7 @@ The shared settings for the hub and spoke networks. This is where global resourc
 ## Virtual WAN
 
 - `virtual_wan` - (Optional) An object defining the Virtual WAN settings. The object has the following fields:
+  - `id` - (Optional) Resource ID of an existing Virtual WAN. If provided, the module will attach hubs/gateways to this vWAN and will not create a new vWAN.
   - `name` - (Optional) The name of the Virtual WAN resource.
   - `location` - (Optional) The Azure location where the Virtual WAN should be created.
   - `resource_group_name` - (Optional) The name of the resource group where the Virtual WAN should be created.

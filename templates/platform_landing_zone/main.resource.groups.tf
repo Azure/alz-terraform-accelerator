@@ -1,6 +1,6 @@
 module "resource_groups" {
   source  = "Azure/avm-res-resources-resourcegroup/azurerm"
-  version = "0.2.1"
+  version = "0.2.2"
 
   for_each = { for key, value in module.config.outputs.connectivity_resource_groups : key => value if try(value.settings.enabled, true) }
 

@@ -175,6 +175,12 @@ management_group_settings = {
     resource_group_name_mdfc                  = "$${asc_export_resource_group_name}"
     resource_group_location                   = "$${starter_location_01}"
     email_security_contact                    = "$${defender_email_security_contact}"
+    /*
+    # Example of allowed locations for Sovereign Landing Zones policies
+    allowed_locations = [
+      "$${starter_location_01}"
+    ]
+    */
   }
   subscription_placement = {
     # Uncomment the identity block below when you have a dedicated identity subscription
@@ -220,21 +226,21 @@ management_group_settings = {
     connectivity = {
       policy_assignments = {
         Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
+          creation_enabled = false
         }
       }
     }
     landingzones = {
       policy_assignments = {
         Enable-DDoS-VNET = {
-          enforcement_mode = "DoNotEnforce"
+          creation_enabled = false
         }
       }
     }
     corp = {
       policy_assignments = {
         Deploy-Private-DNS-Zones = {
-          enforcement_mode = "DoNotEnforce"
+          creation_enabled = false
         }
       }
     }

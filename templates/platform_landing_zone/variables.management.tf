@@ -322,6 +322,7 @@ Properties:
         - `kind` - (Required) The kind of selector.
         - `in` - (Optional) Set of values to include.
         - `not_in` - (Optional) Set of values to exclude.
+    - `creation_enabled` - (Optional) Whether the policy assignment is created or not. Defaults to `true`. This is a convenience property for very small scale deployments; the recommended approach is to update your custom library to exclude the policy assignment.
 - `management_group_hierarchy_settings` - (Optional) Settings for the management group hierarchy:
   - `default_management_group_name` - (Required) The name of the default management group.
   - `require_authorization_for_group_creation` - (Optional) Require authorization for management group creation. Defaults to true.
