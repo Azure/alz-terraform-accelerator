@@ -36,6 +36,7 @@ locals {
       non_compliance_messages = try(policy_assignment_value.non_compliance_messages, null)
       resource_selectors      = try(policy_assignment_value.resource_selectors, null)
       overrides               = try(policy_assignment_value.overrides, null)
+      creation_enabled        = try(policy_assignment_value.creation_enabled, true)
     } }
   } }
 }

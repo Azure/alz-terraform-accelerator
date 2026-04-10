@@ -6,7 +6,7 @@ locals {
 
 module "management_groups" {
   source                                  = "Azure/avm-ptn-alz/azurerm"
-  version                                 = "0.18.0"
+  version                                 = "0.19.1"
   architecture_name                       = "alz_custom"
   parent_resource_id                      = var.root_parent_management_group_id == "" ? data.azurerm_client_config.current.tenant_id : var.root_parent_management_group_id
   location                                = local.starter_location

@@ -135,13 +135,15 @@ variable "hub_virtual_networks" {
         is_default = optional(bool, true)
         name       = optional(string)
         public_ip_config = optional(object({
-          ip_version          = optional(string, "IPv4")
-          name                = optional(string)
-          resource_group_name = optional(string)
-          sku_tier            = optional(string, "Regional")
-          zones               = optional(set(string))
-          public_ip_prefix_id = optional(string)
-          domain_name_label   = optional(string)
+          ip_version              = optional(string, "IPv4")
+          name                    = optional(string)
+          resource_group_name     = optional(string)
+          sku_tier                = optional(string, "Regional")
+          zones                   = optional(set(string))
+          public_ip_prefix_id     = optional(string)
+          domain_name_label       = optional(string)
+          ddos_protection_mode    = optional(string, "VirtualNetworkInherited")
+          ddos_protection_plan_id = optional(string, null)
         }), {})
       }), {})
 
@@ -149,26 +151,30 @@ variable "hub_virtual_networks" {
         is_default = optional(bool, false)
         name       = optional(string)
         public_ip_config = optional(object({
-          ip_version          = optional(string, "IPv4")
-          name                = optional(string)
-          resource_group_name = optional(string)
-          sku_tier            = optional(string, "Regional")
-          zones               = optional(set(string))
-          public_ip_prefix_id = optional(string)
-          domain_name_label   = optional(string)
+          ip_version              = optional(string, "IPv4")
+          name                    = optional(string)
+          resource_group_name     = optional(string)
+          sku_tier                = optional(string, "Regional")
+          zones                   = optional(set(string))
+          public_ip_prefix_id     = optional(string)
+          domain_name_label       = optional(string)
+          ddos_protection_mode    = optional(string, "VirtualNetworkInherited")
+          ddos_protection_plan_id = optional(string, null)
         }), {})
       })), {})
 
       management_ip_configuration = optional(object({
         name = optional(string)
         public_ip_config = optional(object({
-          ip_version          = optional(string, "IPv4")
-          name                = optional(string)
-          resource_group_name = optional(string)
-          sku_tier            = optional(string, "Regional")
-          zones               = optional(set(string))
-          public_ip_prefix_id = optional(string)
-          domain_name_label   = optional(string)
+          ip_version              = optional(string, "IPv4")
+          name                    = optional(string)
+          resource_group_name     = optional(string)
+          sku_tier                = optional(string, "Regional")
+          zones                   = optional(set(string))
+          public_ip_prefix_id     = optional(string)
+          domain_name_label       = optional(string)
+          ddos_protection_mode    = optional(string, "VirtualNetworkInherited")
+          ddos_protection_plan_id = optional(string, null)
         }), {})
       }), {})
     }), {})
@@ -773,6 +779,8 @@ The following top level attributes are supported:
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
       - `domain_name_label` - (Optional) The domain name label for the public IP configuration.
       - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
+      - `ddos_protection_mode` - (Optional) The DDoS protection mode. Default `VirtualNetworkInherited`. Possible values are `Disabled`, `Enabled`, `VirtualNetworkInherited`.
+      - `ddos_protection_plan_id` - (Optional) The DDoS protection plan ID.
   - `ip_configurations` - (Optional) A map of the default IP configuration for the Azure Firewall. If not specified the defaults below will be used:
     - `name` - (Optional) The name of the default IP configuration. If not specified will use `default`.
     - `is_default` - (Optional) Indicates this is the default IP configuration, which will be linked to the Firewall subnet. If not specified will be `false`. At least one and only one IP configuration must have this set to `true`.
@@ -784,6 +792,8 @@ The following top level attributes are supported:
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
       - `domain_name_label` - (Optional) The domain name label for the public IP configuration.
       - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
+      - `ddos_protection_mode` - (Optional) The DDoS protection mode. Default `VirtualNetworkInherited`. Possible values are `Disabled`, `Enabled`, `VirtualNetworkInherited`.
+      - `ddos_protection_plan_id` - (Optional) The DDoS protection plan ID.
   - `management_ip_configuration` - (Optional) An object with the following fields. If not specified the defaults below will be used:
     - `name` - (Optional) The name of the management IP configuration. If not specified will use `defaultMgmt`.
     - `public_ip_config` - (Optional) An object with the following fields:
@@ -794,6 +804,8 @@ The following top level attributes are supported:
       - `sku_tier` - (Optional) The SKU tier to use for the public IP configuration. Possible values include `Regional`, `Global`. If not specified will be `Regional`.
       - `domain_name_label` - (Optional) The domain name label for the public IP configuration.
       - `public_ip_prefix_id` - (Optional) The ID of the public IP prefix.
+      - `ddos_protection_mode` - (Optional) The DDoS protection mode. Default `VirtualNetworkInherited`. Possible values are `Disabled`, `Enabled`, `VirtualNetworkInherited`.
+      - `ddos_protection_plan_id` - (Optional) The DDoS protection plan ID.
 
 ## Azure Firewall Policy
 
