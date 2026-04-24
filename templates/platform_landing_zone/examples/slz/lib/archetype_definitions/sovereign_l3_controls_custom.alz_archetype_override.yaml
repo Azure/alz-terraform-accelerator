@@ -1,5 +1,5 @@
-base_archetype: confidential_online
-name: confidential_online_custom
+base_archetype: sovereign_l3_controls
+name: sovereign_l3_controls_custom
 policy_assignments_to_add: []
 policy_assignments_to_remove: []
 policy_definitions_to_add: []

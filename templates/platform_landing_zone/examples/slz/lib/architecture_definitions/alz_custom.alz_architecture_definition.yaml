@@ -4,7 +4,7 @@ management_groups:
     display_name: Sovereign Landing Zone
     archetypes:
       - root_custom
-      - sovereign_root_custom
+      - sovereign_l1_controls_custom
     exists: false
     parent_id: null
 
@@ -33,6 +33,7 @@ management_groups:
     display_name: Corp
     archetypes:
       - corp_custom
+      - sovereign_l2_controls_custom
     exists: false
     parent_id: landingzones
 
@@ -40,6 +41,14 @@ management_groups:
     display_name: Online
     archetypes:
       - online_custom
+      - sovereign_l2_controls_custom
+    exists: false
+    parent_id: landingzones
+
+  - id: local
+    display_name: Local
+    archetypes:
+      - local_custom
     exists: false
     parent_id: landingzones
 
@@ -47,7 +56,8 @@ management_groups:
     display_name: Confidential Corp
     archetypes:
       - corp_custom
-      - confidential_corp_custom
+      - sovereign_l2_controls_custom
+      - sovereign_l3_controls_custom
     exists: false
     parent_id: landingzones
 
@@ -55,7 +65,8 @@ management_groups:
     display_name: Confidential Online
     archetypes:
       - online_custom
-      - confidential_online_custom
+      - sovereign_l2_controls_custom
+      - sovereign_l3_controls_custom
     exists: false
     parent_id: landingzones
 
@@ -70,6 +81,7 @@ management_groups:
     display_name: Security
     archetypes:
       - security_custom
+      - sovereign_l2_controls_custom
     exists: false
     parent_id: platform
 
@@ -77,6 +89,7 @@ management_groups:
     display_name: Management
     archetypes:
       - management_custom
+      - sovereign_l2_controls_custom
     exists: false
     parent_id: platform
 
@@ -84,6 +97,7 @@ management_groups:
     display_name: Connectivity
     archetypes:
       - connectivity_custom
+      - sovereign_l2_controls_custom
     exists: false
     parent_id: platform
 
@@ -91,6 +105,7 @@ management_groups:
     display_name: Identity
     archetypes:
       - identity_custom
+      - sovereign_l2_controls_custom
     exists: false
     parent_id: platform
 
