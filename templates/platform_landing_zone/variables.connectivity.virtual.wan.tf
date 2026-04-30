@@ -62,6 +62,13 @@ variable "virtual_hubs" {
       routing_weight = optional(number)
     })), {})
 
+    bgp_connections = optional(map(object({
+      name                          = string
+      peer_asn                      = number
+      peer_ip                       = string
+      virtual_network_connection_id = optional(string)
+    })), {})
+
     p2s_gateway_vpn_server_configurations = optional(map(object({
       name                     = string
       vpn_authentication_types = list(string)
@@ -508,6 +515,7 @@ The following top level attributes are supported:
 - `hub` - (Optional) An object defining the Virtual WAN hub settings.
 - `virtual_network_connections` - (Optional) A map of Virtual Network connections to create.
 - `express_route_circuit_connections` - (Optional) A map of ExpressRoute circuit connections
+- `bgp_connections` - (Optional) A map of BGP connections to create on the Virtual Hub router (for direct NVA peering).
 - `p2s_gateway_vpn_server_configurations` - (Optional) A map of Point-to-Site VPN server configurations.
 - `p2s_gateways` - (Optional) A map of Point-to-Site
 - `routing_intents` - (Optional) A map of routing intents to create.
@@ -558,6 +566,14 @@ The following top level attributes are supported:
   - `express_route_gateway_bypass_enabled` - (Optional) Should ExpressRoute gateway bypass be enabled?
   - `routing` - (Optional) An object with the same fields as virtual_network_connections routing.
   - `routing_weight` - (Optional) The routing weight for the connection.
+
+## BGP Connections
+
+- `bgp_connections` - (Optional) A map of BGP connections to create on the Virtual Hub's built-in router. This is the documented Microsoft pattern for peering Network Virtual Appliances (NVAs) such as Palo Alto, FortiGate or Cisco SD-WAN deployed in spoke virtual networks directly with the Virtual Hub. Each connection is an object with the following fields:
+  - `name` - (Required) The name of the BGP connection.
+  - `peer_asn` - (Required) The peer ASN of the NVA. Must not be `65515` (the Azure-assigned vHub ASN) or any other reserved value documented for Virtual WAN.
+  - `peer_ip` - (Required) The peer IP address of the NVA.
+  - `virtual_network_connection_id` - (Optional) The resource ID of the Virtual Network Connection (`azurerm_virtual_hub_connection`) for the spoke virtual network hosting the NVA. This is recommended when the NVA is reachable through a hub virtual network connection.
 
 ## Point-to-Site Gateway VPN Server Configurations
 
@@ -972,4 +988,14 @@ The shared settings for the hub and spoke networks. This is where global resourc
   - `tags` - (Optional) A map of tags to apply to the DDoS protection plan resource.
 
 DESCRIPTION
+
+  validation {
+    condition = (
+      var.virtual_wan_settings == null
+      || var.virtual_wan_settings.virtual_wan == null
+      || var.virtual_wan_settings.virtual_wan.id == null
+      || can(provider::azapi::parse_resource_id("Microsoft.Network/virtualWans", var.virtual_wan_settings.virtual_wan.id).name)
+    )
+    error_message = "If provided, virtual_wan_settings.virtual_wan.id must be a valid Virtual WAN resource ID of the form /subscriptions/<sub>/resourceGroups/<rg>/providers/Microsoft.Network/virtualWans/<name>."
+  }
 }
