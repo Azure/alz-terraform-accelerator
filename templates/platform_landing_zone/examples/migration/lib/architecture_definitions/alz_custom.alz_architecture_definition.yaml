@@ -31,6 +31,12 @@ management_groups:
     id: alz-online-example-2
     parent_id: alz-landing-zones
   - archetypes:
+      - local_custom
+    display_name: ALZ Local
+    exists: false
+    id: alz-local
+    parent_id: alz-landing-zones
+  - archetypes:
       - sandbox_custom
     display_name: Sandboxes
     exists: false
