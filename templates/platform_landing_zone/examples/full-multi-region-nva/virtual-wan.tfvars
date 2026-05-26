@@ -163,8 +163,9 @@ tags = {
 --- Management Resources ---
 You can use this section to customize the management resources that will be deployed.
 */
+management_resources_enabled = true
+
 management_resource_settings = {
-  enabled                      = true
   location                     = "$${starter_location_01}"
   log_analytics_workspace_name = "$${log_analytics_workspace_name}"
   resource_group_name          = "$${management_resource_group_name}"
@@ -191,13 +192,14 @@ management_resource_settings = {
 You can use this section to customize the management groups and policies that will be deployed.
 You can further configure management groups and policy by supplying a `lib` folder. This is detailed in the Accelerator documentation.
 */
+management_groups_enabled = true
+
 management_group_settings = {
   # This is the name of the architecture that will be used to deploy the management resources.
   # It refers to the alz_custom.alz_architecture_definition.yaml file in the lib folder.
   # Do not change this value unless you have created another architecture definition
   # with the name value specified below.
   architecture_name  = "alz_custom"
-  enabled            = true
   location           = "$${starter_location_01}"
   parent_resource_id = "$${root_parent_management_group_id}"
   policy_default_values = {
