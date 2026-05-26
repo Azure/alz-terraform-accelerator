@@ -32,9 +32,9 @@ management_groups:
     parent_id: alz-landing-zones
   - archetypes:
       - local_custom
-    display_name: ALZ Local
+    display_name: Local
     exists: false
-    id: alz-local
+    id: local
     parent_id: alz-landing-zones
   - archetypes:
       - sandbox_custom
