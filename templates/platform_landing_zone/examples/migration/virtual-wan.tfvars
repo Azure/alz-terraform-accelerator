@@ -275,6 +275,27 @@ management_group_settings = {
     }
   }
   */
+
+  # MIGRATION: Override the `role_definition` resource type to use the `RoleDefinitions` (capital `R`) casing.
+  # This works around the AzAPI casing inconsistency reported in
+  # https://github.com/Azure/Azure-Landing-Zones/issues/4165, which causes
+  # `Provider produced inconsistent result after apply` and `Unexpected Identity Change`
+  # errors on custom role definitions in migrated environments.
+  # If you do not have pre-existing custom role definitions you can remove this block.
+  resource_types = {
+    role_definition = "Microsoft.Authorization/RoleDefinitions@2022-04-01"
+
+    # Other keys you can override (defaults shown). Useful for sovereign clouds
+    # (e.g. US Government) that require different API versions:
+    # management_group              = "Microsoft.Management/managementGroups@2023-04-01"
+    # management_group_settings     = "Microsoft.Management/managementGroups/settings@2023-04-01"
+    # management_group_subscription = "Microsoft.Management/managementGroups/subscriptions@2023-04-01"
+    # policy_assignment             = "Microsoft.Authorization/policyAssignments@2024-04-01"
+    # policy_definition             = "Microsoft.Authorization/policyDefinitions@2023-04-01"
+    # policy_set_definition         = "Microsoft.Authorization/policySetDefinitions@2023-04-01"
+    # role_assignment               = "Microsoft.Authorization/roleAssignments@2022-04-01"
+    # user_assigned_identity        = "Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31"
+  }
 }
 
 /*

@@ -280,16 +280,23 @@ variable "management_group_settings" {
     })))
     role_assignment_definition_lookup_enabled = optional(bool, true)
     policy_assignment_non_compliance_message_settings = optional(object({
-      fallback_message_enabled                 = optional(bool)
-      fallback_message                         = optional(string)
-      fallback_message_unsupported_assignments = optional(list(string))
-      enforcement_mode_placeholder             = optional(string)
-      enforced_replacement                     = optional(string)
-      not_enforced_replacement                 = optional(string)
+      default_message = optional(string)
+      merge_mode      = optional(string)
     }))
     role_assignment_name_use_random_uuid                             = optional(bool, true)
     subscription_placement_destroy_behavior                          = optional(string, "intermediate_root")
     subscription_placement_destroy_custom_target_management_group_id = optional(string)
+    resource_types = optional(object({
+      management_group              = optional(string)
+      management_group_settings     = optional(string)
+      management_group_subscription = optional(string)
+      policy_assignment             = optional(string)
+      policy_definition             = optional(string)
+      policy_set_definition         = optional(string)
+      role_assignment               = optional(string)
+      role_definition               = optional(string)
+      user_assigned_identity        = optional(string)
+    }))
   })
   default     = null
   description = <<DESCRIPTION
@@ -306,6 +313,7 @@ Properties:
     - `identity` - (Optional) The type of managed identity for the policy assignment.
     - `identity_ids` - (Optional) List of user-assigned identity resource IDs.
     - `parameters` - (Optional) Map of parameter values for the policy assignment.
+    - `not_scopes` - (Optional) List of resource IDs to exclude from the policy assignment scope.
     - `non_compliance_messages` - (Optional) Set of non-compliance messages:
       - `message` - (Required) The non-compliance message.
       - `policy_definition_reference_id` - (Optional) The policy definition reference ID.
@@ -363,16 +371,22 @@ Properties:
   - `delegated_managed_identity_resource_id` - (Optional) The delegated managed identity resource ID.
   - `principal_type` - (Optional) The type of principal.
 - `role_assignment_definition_lookup_enabled` - (Optional) Enable role definition lookup for assignments. Defaults to true.
-- `policy_assignment_non_compliance_message_settings` - (Optional) Settings for policy non-compliance messages:
-  - `fallback_message_enabled` - (Optional) Enable fallback messages.
-  - `fallback_message` - (Optional) The fallback message text.
-  - `fallback_message_unsupported_assignments` - (Optional) List of unsupported assignment names.
-  - `enforcement_mode_placeholder` - (Optional) Placeholder for enforcement mode.
-  - `enforced_replacement` - (Optional) Replacement text for enforced mode.
-  - `not_enforced_replacement` - (Optional) Replacement text for not enforced mode.
+- `policy_assignment_non_compliance_message_settings` - (Optional) Settings for the default non-compliance messages applied to policy assignments by the `alz` provider:
+  - `default_message` - (Optional) The default non-compliance message to apply to policy assignments. Supports placeholder substitution configured in the provider's `non_compliance_message_substitution_settings` block.
+  - `merge_mode` - (Optional) Controls behavior when a policy assignment already has a default non-compliance message. Allowed values are `replace` (default) and `prefer_existing`.
 - `role_assignment_name_use_random_uuid` - (Optional) Use random UUID for role assignment names. Defaults to true.
 - `subscription_placement_destroy_behavior` - (Optional) The behavior for subscription placement on destroy. Defaults to "intermediate_root" for ALZ.
 - `subscription_placement_destroy_custom_target_management_group_id` - (Optional) The target management group ID for subscription placement destroy operations.
+- `resource_types` - (Optional) A map of full AzAPI resource type strings (`<provider>/<resource>@<api-version>`) used by the module. Override an entry to change the casing or API version of the corresponding resource type. Useful for sovereign clouds (e.g. US Government) or to work around AzAPI casing inconsistencies. Keys:
+  - `management_group`
+  - `management_group_settings`
+  - `management_group_subscription`
+  - `policy_assignment`
+  - `policy_definition`
+  - `policy_set_definition`
+  - `role_assignment`
+  - `role_definition`
+  - `user_assigned_identity`
 
 Details of the settings can be found in the module documentation at https://registry.terraform.io/modules/Azure/avm-ptn-alz
 DESCRIPTION

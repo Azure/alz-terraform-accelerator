@@ -33,6 +33,7 @@ locals {
       identity                = try(policy_assignment_value.identity, null)
       identity_ids            = try(policy_assignment_value.identity_ids, null)
       parameters              = try({ for parameter_key, parameter_value in try(policy_assignment_value.parameters, {}) : parameter_key => jsonencode({ value = parameter_value }) }, null)
+      not_scopes              = try(policy_assignment_value.not_scopes, null)
       non_compliance_messages = try(policy_assignment_value.non_compliance_messages, null)
       resource_selectors      = try(policy_assignment_value.resource_selectors, null)
       overrides               = try(policy_assignment_value.overrides, null)
