@@ -17,7 +17,6 @@ module "config" {
     hub_virtual_networks            = var.hub_virtual_networks
     virtual_wan_settings            = var.virtual_wan_settings
     virtual_hubs                    = var.virtual_hubs
-    route_maps                      = var.route_maps
     management_resource_settings    = var.management_resource_settings
     management_group_settings       = var.management_group_settings
     tags                            = var.tags
