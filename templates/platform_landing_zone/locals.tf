@@ -23,6 +23,7 @@ locals {
   hub_virtual_networks            = (merge({ vnets = module.config.outputs.hub_virtual_networks }, local.resource_groups)).vnets
   virtual_wan_settings            = merge(module.config.outputs.virtual_wan_settings, local.resource_groups)
   virtual_hubs                    = (merge({ vhubs = module.config.outputs.virtual_hubs }, local.resource_groups)).vhubs
+  route_maps                      = module.config.outputs.route_maps
 }
 
 locals {
