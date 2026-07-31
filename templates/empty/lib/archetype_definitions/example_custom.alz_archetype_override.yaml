@@ -1,9 +1,10 @@
+---
 base_archetype: root
 name: example_custom
 policy_assignments_to_add: []
-policy_assignments_to_remove: [
-  # Example: Deny-Public-IP,
-]
+policy_assignments_to_remove: []
+# policy_assignments_to_remove:
+#   - Short-Policy-Name,
 policy_definitions_to_add: []
 policy_definitions_to_remove: []
 policy_set_definitions_to_add: []

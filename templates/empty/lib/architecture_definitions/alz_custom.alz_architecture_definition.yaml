@@ -1,11 +1,9 @@
+---
 name: alz_custom
 management_groups:
   - id: alz
     display_name: Azure Landing Zones
     archetypes: []
-    # To apply the example archetype override defined in
-    # ../archetype_definitions/example_custom.alz_archetype_override.yaml,
-    # replace the line above with:
     # archetypes:
     #   - example_custom
     exists: false
