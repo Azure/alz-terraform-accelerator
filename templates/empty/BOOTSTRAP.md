@@ -93,6 +93,7 @@ Here are example bootstrap steps for Terraform and GitHub using the recommended 
 
     # Shared Interface Inputs
     bootstrap_location: "change_me"                     # E.g. "uksouth"
+    required_subscription_keys: ["management"]
     subscription_ids:
       management: "change_me"
       identity: "change_me"
