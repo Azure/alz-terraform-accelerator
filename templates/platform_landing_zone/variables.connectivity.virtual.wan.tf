@@ -772,10 +772,10 @@ The following top level attributes are supported:
 - `firewall_policy` - (Optional) An object with the following fields:
   - `name` - (Optional) The name of the firewall policy. If not specified will use `afw-policy-{vnetname}`.
   - `resource_group_name` - (Optional) The name of the resource group where the firewall policy should be created. If not specified will use the parent resource group of the virtual network.
-  - `location` - (Optional) The Azure region for the firewall policy. Defaults to the hub's location when omitted, `null`, or an empty string. Use this to place the policy in the same region as a shared `base_policy_id`, since a parent and child firewall policy must reside in the same region even though the associated firewall can remain in its own hub region. Changing the location of an existing firewall policy replaces it.
+  - `location` - (Optional) The Azure region for the firewall policy. Defaults to the hub's location when omitted, `null`, or an empty string, including when `base_policy_id` is set. The module does not infer the region from `base_policy_id`. If the base policy is in a different region from the hub, explicitly set this field to the base policy's region. The associated firewall remains in its hub region. Changing the location of an existing firewall policy replaces it.
   - `sku` - (Optional) The SKU to use for the firewall policy. Possible values include `Standard`, `Premium`. Default `Standard`.
   - `auto_learn_private_ranges_enabled` - (Optional) Should the firewall policy automatically learn private ranges? Default `false`.
-  - `base_policy_id` - (Optional) The resource id of the base policy to use for the firewall policy.
+  - `base_policy_id` - (Optional) The resource ID of the base policy to use for the firewall policy. Azure requires both policies to reside in the same region; see `location` above.
   - `dns` - (Optional) An object with the following fields:
     - `proxy_enabled` - (Optional) Should the DNS proxy be enabled for the firewall policy? Default `false`.
     - `servers` - (Optional) A list of DNS server IP addresses for the firewall policy.
