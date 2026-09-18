@@ -42,6 +42,23 @@ variable "virtual_hubs" {
       }))
     })), {})
 
+    route_tables = optional(map(object({
+      name   = string
+      labels = optional(list(string))
+      # `{}` default required: this attribute is forwarded to the pattern module's `route_tables.*.routes`,
+      # which is consumed directly by a submodule `dynamic` block's for_each. Terraform cannot iterate `null`,
+      # and an explicit default here (not just on the pattern module) is required because a caller-omitted
+      # attribute becomes an explicit `null` once it passes through this variable's own type conversion.
+      routes = optional(map(object({
+        name                = string
+        destinations        = list(string)
+        destinations_type   = string
+        next_hop            = optional(string)
+        vnet_connection_key = optional(string)
+        next_hop_type       = optional(string, "ResourceId")
+      })), {})
+    })), {})
+
     express_route_circuit_connections = optional(map(object({
       name                                 = string
       express_route_circuit_peering_id     = string

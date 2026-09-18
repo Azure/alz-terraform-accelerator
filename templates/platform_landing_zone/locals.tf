@@ -55,3 +55,11 @@ locals {
     local.connectivity_virtual_wan_enabled ? module.virtual_wan : null
   ]
 }
+
+locals {
+  # Remove keys if subscription_id is not a valid GUID, i.e. null or empty string
+  subscription_placement_filtered = {
+    for k, v in module.config.outputs.management_group_settings.subscription_placement : k => v
+    if can(regex("^[a-f\\d]{4}(?:[a-f\\d]{4}-){4}[a-f\\d]{12}$", v.subscription_id))
+  }
+}
