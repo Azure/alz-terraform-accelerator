@@ -41,8 +41,3 @@ jobs:
           VALIDATE_NATURAL_LANGUAGE: false
           VALIDATE_TERRAFORM_TERRASCAN: false
           VALIDATE_YAML_PRETTIER: false
-          # The computed-firewall-ip fixture sources ./.terraform/starter, which
-          # Invoke-Tests.ps1 generates at run time. tflint cannot resolve that
-          # module while linting, so the fixture is excluded rather than
-          # relaxing a rule for the whole repository.
-          FILTER_REGEX_EXCLUDE: .*/tests/fixtures/computed-firewall-ip/.*

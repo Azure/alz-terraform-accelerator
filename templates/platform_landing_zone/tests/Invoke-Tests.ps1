@@ -30,6 +30,12 @@ function Invoke-Terraform {
   }
 }
 
+# The fixture's root configuration sources ./.terraform/starter, which only
+# exists once the links below are made. Keeping it out of the committed tree as
+# a template stops linters resolving a module source that is generated here.
+Copy-Item -LiteralPath (Join-Path $fixtureRoot "main.tf.template") `
+  -Destination (Join-Path $fixtureRoot "main.tf") -Force
+
 # Child-owned provider configurations cannot be mocked by a Terraform test wrapper.
 # Link the real starter files, replacing only provider declarations for this fixture.
 New-Item -ItemType Directory -Path $linkedStarter -Force | Out-Null
