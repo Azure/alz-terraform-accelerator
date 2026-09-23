@@ -317,9 +317,8 @@ run "virtual_wan_receives_connectivity_providers" {
 # Azure) resolves per-configuration attributes such as a private IP address
 # from a live, heterogeneous ipConfigurations response after apply - that is
 # real-ARM-shaped, ordering-dependent behavior a mock would have to author
-# itself to represent, which would prove nothing. That class of defect
-# belongs to, and is being investigated by, the pattern qualifier session,
-# against real response shapes, not here.
+# itself to represent, which would prove nothing. That behaviour is covered by
+# the pattern module's own tests against real response shapes, not here.
 run "multi_element_ip_configurations_survive_copied_schema_and_provider_mapping" {
   command = plan
 

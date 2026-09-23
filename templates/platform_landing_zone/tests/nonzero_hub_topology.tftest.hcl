@@ -377,12 +377,11 @@ run "virtual_wan_enabled_nonzero_mixed_default_on_topology" {
   # This asserts that every default-on resource flag resolves to true in
   # var.virtual_hubs (i.e. this test does not disable any sibling resource -
   # the defaults are left in effect). It proves the *input* is genuinely
-  # default-on, not switched off to obtain a green result; it is not, by
-  # itself, evidence that the underlying AVM submodules were created - that
-  # is established instead by this run succeeding at all: with defaults on,
-  # a real crash in any default-on submodule (e.g. the VPN gateway's
-  # bgp_settings[0] indexing bug this suite root-caused) would fail the
-  # `plan` outright, since disabling isn't used to route around it here.
+  # default-on; it is not, by itself, evidence that the underlying AVM
+  # submodules were created - that is established instead by this run
+  # succeeding at all: with defaults on, a real crash in any default-on
+  # submodule would fail the `plan` outright, since disabling isn't used to
+  # route around it here.
   assert {
     condition = alltrue([
       for hub in var.virtual_hubs : (
