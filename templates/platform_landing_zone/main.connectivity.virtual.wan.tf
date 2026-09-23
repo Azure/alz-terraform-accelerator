@@ -1,5 +1,7 @@
 module "virtual_wan" {
-  source  = "Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm"
+  source = "Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm"
+  # TODO: bump once the customer public IP change releases (PR Azure/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan#155).
+  # 0.17.2 does not carry the firewall `ip_configurations` field.
   version = "0.17.2"
 
   count = local.connectivity_virtual_wan_enabled ? 1 : 0
@@ -12,5 +14,6 @@ module "virtual_wan" {
 
   providers = {
     azurerm = azurerm.connectivity
+    azapi   = azapi.connectivity
   }
 }
