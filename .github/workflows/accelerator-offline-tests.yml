@@ -31,6 +31,25 @@ jobs:
           terraform_version: 1.14.9
           terraform_wrapper: false
 
+      # Terraform silently discards object attributes a module does not declare,
+      # so a starter pinned to a pattern module without `ip_configurations` would
+      # plan cleanly while dropping the caller's public IP and deploying a managed
+      # one instead. No Terraform assertion can observe that, so the pinned module
+      # is checked directly.
+      - name: Verify the pinned pattern module supports customer public IPs
+        working-directory: templates/platform_landing_zone
+        shell: pwsh
+        run: |
+          terraform init -backend=false -input=false -no-color | Out-Null
+          $dir = (Get-Content .terraform/modules/modules.json | ConvertFrom-Json).Modules |
+            Where-Object { $_.Key -eq 'virtual_wan' } | Select-Object -ExpandProperty Dir
+          $schema = Get-Content (Join-Path $dir 'variables.tf') -Raw
+          if ($schema -notmatch '(?s)firewall\s*=\s*optional\(object\(\{.*?ip_configurations.*?\}\)') {
+            Write-Host "::error::The pinned pattern module does not declare 'virtual_hubs[*].firewall.ip_configurations'. Bump the version in main.connectivity.virtual.wan.tf to a release that carries the field before merging."
+            exit 1
+          }
+          Write-Host "Pinned pattern module declares firewall.ip_configurations."
+
       - name: Run offline consumer tests (mocked providers, no Azure credentials)
         run: ./templates/platform_landing_zone/tests/Invoke-Tests.ps1
         shell: pwsh

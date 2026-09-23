@@ -75,7 +75,11 @@ try {
     )
     foreach ($invalidCase in $invalidCases) {
       $diagnostics = & terraform "-chdir=$moduleRoot" test "-test-directory=tests/schema" "-var-file=tests/fixtures/invalid-ip-configurations/$($invalidCase.File)" "-no-color" 2>&1 | Out-String
-      if ($LASTEXITCODE -eq 0 -or $diagnostics -notmatch "var\.virtual_hubs" -or $diagnostics -notmatch "attribute\s+`"$($invalidCase.Attribute)`"\s+is\s+required") {
+      # Terraform hard-wraps diagnostics at the terminal width and interleaves test
+      # progress lines into them, so match a flattened copy with the progress lines
+      # removed rather than the raw output.
+      $flattened = (($diagnostics -split "\r?\n" | Where-Object { $_ -notmatch "\.\.\.\s*(in progress|tearing down|pass|fail)\s*$" }) -join " ") -replace "\s+", " "
+      if ($LASTEXITCODE -eq 0 -or $flattened -notmatch "var\.virtual_hubs" -or $flattened -notmatch "attribute `"$($invalidCase.Attribute)`" is required") {
         Write-Host $diagnostics
         throw "Expected the actual starter schema to reject $($invalidCase.File) for its missing required field."
       }
