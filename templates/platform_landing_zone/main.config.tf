@@ -16,11 +16,22 @@ module "config" {
     hub_and_spoke_networks_settings = var.hub_and_spoke_networks_settings
     hub_virtual_networks            = var.hub_virtual_networks
     virtual_wan_settings            = var.virtual_wan_settings
-    virtual_hubs                    = var.virtual_hubs
-    management_resource_settings    = var.management_resource_settings
-    management_group_settings       = var.management_group_settings
-    tags                            = var.tags
-    connectivity_tags               = var.connectivity_tags
+    # An apply-time IP ID must not make the whole JSON-templated hub map unknown.
+    # Restore these leaves with the helper's replacements in local.virtual_hubs_templated.
+    virtual_hubs = var.virtual_hubs == null ? null : {
+      for hub_key, hub in var.virtual_hubs : hub_key => merge(hub, {
+        firewall = merge(hub.firewall, {
+          ip_configurations = {
+            for configuration_key, configuration in hub.firewall.ip_configurations :
+            configuration_key => merge(configuration, { public_ip_address_id = null })
+          }
+        })
+      })
+    }
+    management_resource_settings = var.management_resource_settings
+    management_group_settings    = var.management_group_settings
+    tags                         = var.tags
+    connectivity_tags            = var.connectivity_tags
   }
 
   enable_telemetry = var.enable_telemetry

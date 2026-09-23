@@ -267,6 +267,10 @@ variable "virtual_hubs" {
       firewall_policy_id   = optional(string)
       vhub_public_ip_count = optional(string)
       tags                 = optional(map(string))
+      ip_configurations = optional(map(object({
+        name                 = string
+        public_ip_address_id = string
+      })), {})
     }), {})
 
     firewall_policy = optional(object({
@@ -763,8 +767,13 @@ The following top level attributes are supported:
   - `sku_tier` - (Optional) The SKU tier for the Azure Firewall. Possible values are `Basic`, `Standard`, `Premium`. Default `Standard`.
   - `zones` - (Optional) A list of availability zones for the Azure Firewall.
   - `firewall_policy_id` - (Optional) The resource ID of the Azure Firewall Policy to associate with the firewall.
-  - `vhub_public_ip_count` - (Optional) The number of public IP addresses to assign to the Virtual Hub firewall.
+  - `vhub_public_ip_count` - (Optional) The managed public IP count, expressed as a string. With an empty `ip_configurations` map, omission or `null` preserves the managed-IP default. With customer IPs, omit this value or use `null` or `"0"`; a positive managed count conflicts with customer-only mode.
   - `tags` - (Optional) A map of tags to apply to the Azure Firewall.
+  - `ip_configurations` - (Optional) A map of caller-owned public IP configurations, default `{}`. Keys must be stable and known at plan time; resource IDs may be computed. Requires a Virtual WAN pattern version that implements customer IPs, and the `Standard` or `Premium` SKU tier.
+    - `name` - (Required) The IP configuration name.
+    - `public_ip_address_id` - (Required) The resource ID of a Standard, Regional, static IPv4 public IP in the hub's region and subscription, with availability zones matching the firewall's.
+
+Use customer IPs on new firewalls, and add, remove or replace IPs on a firewall already in customer mode. Converting an existing firewall between managed and customer IPs, including by removing its last customer IP, is not supported and is blocked by the supporting pattern.
 
 ## Azure Firewall Policy
 
