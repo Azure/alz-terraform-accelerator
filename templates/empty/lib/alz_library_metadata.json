@@ -1,0 +1,7 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/Azure-Landing-Zones-Library/main/schemas/library_metadata.json",
+  "name": "empty",
+  "display_name": "ALZ Accelerator - Empty starter custom library",
+  "description": "Custom library for the empty starter module. Add archetype, architecture, or policy overrides here.",
+  "dependencies": []
+}
