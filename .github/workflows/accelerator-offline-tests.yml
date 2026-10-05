@@ -40,7 +40,7 @@ jobs:
 
           $moduleDirectory = $module.Dir
           if (-not [System.IO.Path]::IsPathRooted($moduleDirectory)) {
-            $moduleDirectory = Join-Path (Split-Path $manifestPath) $moduleDirectory
+            $moduleDirectory = Join-Path "templates/platform_landing_zone" $moduleDirectory
           }
           $schemaFiles = Get-ChildItem -Path $moduleDirectory -Filter "variables*.tf" -File
           if (-not $schemaFiles) {
