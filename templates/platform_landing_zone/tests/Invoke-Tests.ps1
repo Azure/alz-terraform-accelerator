@@ -14,7 +14,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 $repositoryRoot = (Resolve-Path $repositoryRoot).Path
 $fixtureRoot = Join-Path $PSScriptRoot "fixtures\computed-firewall-ip"
-$dataRoot = Join-Path $env:TEMP "alz-accelerator-terraform"
+$dataRoot = Join-Path ([System.IO.Path]::GetTempPath()) "alz-accelerator-terraform"
 $starterDataRoot = Join-Path $dataRoot "starter"
 $computedDataRoot = Join-Path $dataRoot "computed"
 $linkedStarter = Join-Path $fixtureRoot ".terraform\starter"
