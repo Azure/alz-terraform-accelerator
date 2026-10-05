@@ -11,6 +11,7 @@ variable "virtual_hubs" {
       sidecar_virtual_network               = optional(any, true)
     }), {})
 
+    is_primary                = optional(bool, false)
     default_hub_address_space = optional(string)
     default_parent_id         = optional(string)
     location                  = string
@@ -136,6 +137,7 @@ variable "virtual_hubs" {
         bandwidth_mbps       = optional(number)
         bgp_enabled          = optional(bool)
         connection_mode      = optional(string, "Default")
+        dpd_timeout_seconds  = optional(number)
 
         ipsec_policy = optional(object({
           dh_group                 = string
@@ -255,6 +257,7 @@ variable "virtual_hubs" {
             )
           ))
           default_outbound_access_enabled = optional(bool, false)
+          ignore_body_changes             = optional(list(string), [])
         }
       )), {})
     }), {})
@@ -266,7 +269,11 @@ variable "virtual_hubs" {
       zones                = optional(list(number))
       firewall_policy_id   = optional(string)
       vhub_public_ip_count = optional(string)
-      tags                 = optional(map(string))
+      ip_configurations = optional(map(object({
+        name                 = string
+        public_ip_address_id = string
+      })), {})
+      tags = optional(map(string))
     }), {})
 
     firewall_policy = optional(object({
@@ -551,9 +558,10 @@ The following top level attributes are supported:
   - `private_dns_zones` - (Optional) Should private DNS zones be created? Default `true`.
   - `private_dns_resolver` - (Optional) Should the private DNS resolver be created? Default `true`.
   - `sidecar_virtual_network` - (Optional) Should the sidecar virtual network be created? Default `true`.
-- `default_hub_address_space` - (Optional) The default address space to use if not specified in the hub. This defaults to `10.0.0.0/16` and increments to the next /16 for each region if not supplied.
+  - `default_hub_address_space` - (Optional) The default address space to use if not specified in the hub. This defaults to `10.0.0.0/16` and increments to the next /16 for each region if not supplied.
 - `default_parent_id` - (Optional) The default parent resource group ID to use if not specified in hub or individual sections.
 - `location` - (Required) The Azure location where the Virtual WAN hub resources should be created.
+- `is_primary` - (Optional) Marks this hub as the primary region for default Virtual WAN, DDoS Protection Plan, and private DNS zone locations. At most one hub may be primary. If omitted on all hubs, the first hub key in alphabetical order is selected. Default `false`.
 - `hub` - (Optional) An object defining the Virtual WAN hub settings.
 - `virtual_network_connections` - (Optional) A map of Virtual Network connections to create.
 - `express_route_circuit_connections` - (Optional) A map of ExpressRoute circuit connections
@@ -668,6 +676,7 @@ The following top level attributes are supported:
     - `bandwidth_mbps` - (Optional) The bandwidth in Mbps.
     - `bgp_enabled` - (Optional) Should BGP be enabled?
     - `connection_mode` - (Optional) The connection mode. Possible values are `Default`, `InitiatorOnly`, `ResponderOnly`. Default `Default`.
+    - `dpd_timeout_seconds` - (Optional) The dead peer detection timeout in seconds. Possible values are between `9` and `3600`.
     - `ipsec_policy` - (Optional) An object with the following fields:
       - `dh_group` - (Required) The Diffie-Hellman group.
       - `ike_encryption_algorithm` - (Required) The IKE encryption algorithm.
@@ -755,6 +764,7 @@ The following top level attributes are supported:
         - `name` - (Required) The name of the service delegation.
         - `actions` - (Optional) A list of actions for the delegation.
     - `default_outbound_access_enabled` - (Optional) Should default outbound access be enabled? Default `false`.
+    - `ignore_body_changes` - (Optional) A list of subnet body property paths in dot notation that the `azapi` provider stops reconciling after creation, so an out-of-band controller can own them without producing perpetual drift. Leave the matching dedicated input unset for any ignored path. Paths are write-only provider state and take effect after `apply`; non-empty lists require Terraform 1.11 or later. Default `[]`.
 
 ## Azure Firewall
 
@@ -765,6 +775,7 @@ The following top level attributes are supported:
   - `zones` - (Optional) A list of availability zones for the Azure Firewall.
   - `firewall_policy_id` - (Optional) The resource ID of the Azure Firewall Policy to associate with the firewall.
   - `vhub_public_ip_count` - (Optional) The number of public IP addresses to assign to the Virtual Hub firewall.
+  - `ip_configurations` - (Optional) A map of caller-owned public IP configurations. Each entry has a required `name` and `public_ip_address_id`. An empty map preserves managed public IP behavior; a nonempty map selects customer-owned IP mode. With customer IPs, `vhub_public_ip_count` must be omitted, `null`, or `"0"`. The firewall SKU tier must be `Standard` or `Premium`; public IPs must meet the [secured hub prerequisites](https://learn.microsoft.com/azure/firewall/secured-hub-customer-public-ip). They must not already be associated with another resource. Changing the IPs of an existing customer-mode firewall requires maintenance and may cause an outage; converting between managed and customer-owned modes is unsupported.
   - `tags` - (Optional) A map of tags to apply to the Azure Firewall.
 
 ## Azure Firewall Policy
@@ -999,6 +1010,50 @@ The following top level attributes are supported:
       - `route_prefix` - (Optional) List of route prefixes to match.
 
 DESCRIPTION
+}
+
+variable "ignore_body_changes" {
+  type = object({
+    virtual_hubs_firewalls                     = optional(list(string), [])
+    virtual_hubs_firewalls_diagnostic_settings = optional(list(string), [])
+    virtual_hubs_route_maps = optional(object({
+      virtual_hubs_route_maps = optional(list(string), [])
+    }), {})
+    virtual_networks = optional(list(string), [])
+    virtual_networks_subnets = optional(object({
+      virtual_networks_subnets = optional(list(string), [])
+    }), {})
+  })
+  default     = {}
+  description = <<DESCRIPTION
+(Optional) Body property paths on the resources this module creates through the `azapi` provider that the provider stops reconciling after creation, so an out-of-band controller such as Azure Virtual Network Manager or an Azure Policy `DeployIfNotExists` assignment can own them without producing perpetual drift. Paths use dot notation.
+
+- `virtual_hubs_firewalls` - (Optional) Ignored body paths for the firewall of every secured hub. The paths that carry the firewall's IP configuration and its hub association cannot be ignored, because the module reconciles them. Default `[]`.
+- `virtual_hubs_firewalls_diagnostic_settings` - (Optional) Ignored body paths for the diagnostic settings of every secured hub firewall. Default `[]`.
+- `virtual_hubs_route_maps` - (Optional) An object with the following field:
+  - `virtual_hubs_route_maps` - (Optional) Ignored body paths applied to every route map in `route_maps`. Default `[]`.
+- `virtual_networks` - (Optional) Ignored body paths for the sidecar virtual network of every hub, for example `["tags"]` when Azure Policy applies tags out-of-band. Default `[]`.
+- `virtual_networks_subnets` - (Optional) An object with the following field:
+  - `virtual_networks_subnets` - (Optional) Ignored body paths applied to every sidecar subnet. A per-subnet `ignore_body_changes` entry in `virtual_hubs.<key>.sidecar_virtual_network.subnets` takes precedence. Default `[]`.
+
+Leave the matching dedicated input unset for any path you ignore, because while a path is ignored, configuration changes at that path are no longer sent to Azure. The value is write-only provider state, so a change only takes effect after an `apply`, and supplying a non-empty list requires Terraform 1.11 or later.
+
+Virtual network peerings are deliberately not exposed here, because this module connects the sidecar virtual network through the Virtual WAN hub rather than through peerings it manages itself.
+DESCRIPTION
+  nullable    = false
+
+  validation {
+    condition = alltrue([
+      for path in concat(
+        var.ignore_body_changes.virtual_hubs_firewalls,
+        var.ignore_body_changes.virtual_hubs_firewalls_diagnostic_settings,
+        var.ignore_body_changes.virtual_hubs_route_maps.virtual_hubs_route_maps,
+        var.ignore_body_changes.virtual_networks,
+        var.ignore_body_changes.virtual_networks_subnets.virtual_networks_subnets
+      ) : length(trimspace(path)) > 0
+    ])
+    error_message = "Every ignore_body_changes entry must be a non-empty body path in dot notation, for example \"properties.routeTable\" or \"tags\"."
+  }
 }
 
 variable "virtual_wan_settings" {

@@ -1,0 +1,67 @@
+name: Accelerator offline tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  virtual-wan-inputs:
+    name: Virtual WAN v0.18.0 inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+        with:
+          terraform_version: 1.14.9
+          terraform_wrapper: false
+
+      - name: Check pinned Virtual WAN module schema
+        shell: pwsh
+        run: |
+          terraform -chdir=templates/platform_landing_zone init -backend=false -input=false -no-color
+          if ($LASTEXITCODE -ne 0) {
+            throw "Terraform init failed."
+          }
+
+          $manifestPath = "templates/platform_landing_zone/.terraform/modules/modules.json"
+          $modules = Get-Content $manifestPath -Raw | ConvertFrom-Json
+          $module = $modules.Modules | Where-Object Key -EQ "virtual_wan"
+          if (-not $module -or $module.Source -notin @("Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm", "registry.terraform.io/Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm") -or $module.Version -ne "0.18.0") {
+            throw "The initialized virtual_wan module is not the expected Azure Virtual WAN pattern v0.18.0."
+          }
+
+          $moduleDirectory = $module.Dir
+          if (-not [System.IO.Path]::IsPathRooted($moduleDirectory)) {
+            $moduleDirectory = Join-Path (Split-Path $manifestPath) $moduleDirectory
+          }
+          $schemaFiles = Get-ChildItem -Path $moduleDirectory -Filter "variables*.tf" -File
+          if (-not $schemaFiles) {
+            throw "Could not find the initialized Virtual WAN module's variable declarations."
+          }
+          $schema = ($schemaFiles | ForEach-Object { Get-Content $_.FullName -Raw }) -join "`n"
+          $requiredInputs = @(
+            @{ Name = "is_primary"; Pattern = 'is_primary\s*=\s*optional\s*\(\s*bool\s*,\s*false\s*\)' },
+            @{ Name = "dpd_timeout_seconds"; Pattern = 'dpd_timeout_seconds\s*=\s*optional\s*\(\s*number\s*\)' },
+            @{ Name = "per-subnet ignore_body_changes"; Pattern = 'ignore_body_changes\s*=\s*optional\s*\(\s*list\s*\(\s*string\s*\)\s*,\s*\[\s*\]\s*\)' },
+            @{ Name = "ip_configurations"; Pattern = 'ip_configurations\s*=\s*optional\s*\(\s*map\s*\(\s*object\s*\(\s*\{\s*name\s*=\s*string\s+public_ip_address_id\s*=\s*string\s*\}\s*\)\s*\)\s*,\s*\{\s*\}\s*\)' },
+            @{ Name = "ignore_body_changes"; Pattern = 'variable\s+"ignore_body_changes"' },
+            @{ Name = "ignore_body_changes categories"; Pattern = 'virtual_hubs_firewalls\s*=\s*optional\s*\(\s*list\s*\(\s*string\s*\)\s*,\s*\[\s*\]\s*\)[\s\S]*virtual_hubs_firewalls_diagnostic_settings\s*=\s*optional\s*\(\s*list\s*\(\s*string\s*\)\s*,\s*\[\s*\]\s*\)[\s\S]*virtual_hubs_route_maps[\s\S]*virtual_networks\s*=\s*optional\s*\(\s*list\s*\(\s*string\s*\)\s*,\s*\[\s*\]\s*\)[\s\S]*virtual_networks_subnets' },
+            @{ Name = "firewall_policy.location"; Pattern = 'firewall_policy\s*=\s*optional\s*\(\s*object\s*\(\s*\{[\s\S]{0,300}?location\s*=\s*optional\s*\(\s*string\s*\)' }
+          )
+          foreach ($input in $requiredInputs) {
+            if ($schema -notmatch $input.Pattern) {
+              throw "Pinned Virtual WAN v0.18.0 schema does not declare $($input.Name)."
+            }
+          }
+
+      - name: Run offline consumer tests
+        shell: pwsh
+        run: .\templates\platform_landing_zone\tests\Invoke-Tests.ps1
