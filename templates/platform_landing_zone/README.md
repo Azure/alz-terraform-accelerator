@@ -51,9 +51,17 @@ terraform apply -var-file ./examples/full-multi-region/virtual-wan.tfvars
 
 The template pins the Virtual WAN pattern to `0.18.0` and exposes its newer inputs:
 
-- `virtual_hubs[hub_key].is_primary` selects the primary region used for default Virtual WAN, DDoS Protection Plan, and private DNS zone locations. Only one hub may be primary. If none is marked, the first hub key alphabetically is selected; the default is `false`.
+- `virtual_hubs[hub_key].is_primary` selects the primary region used for default
+  Virtual WAN, DDoS Protection Plan, and private DNS zone locations. Only one
+  hub may be primary. If none is marked, the first hub key alphabetically is
+  selected; the default is `false`.
 - `virtual_hubs[hub_key].vpn_site_connections[connection_key].vpn_links[*].dpd_timeout_seconds` sets the VPN link's dead peer detection timeout in seconds (9–3600).
-- `ignore_body_changes` configures shared ignored body paths for secured hub firewalls, firewall diagnostic settings, route maps, sidecar virtual networks, and sidecar subnets. Per-subnet `ignore_body_changes` takes precedence over the shared subnet paths. Leave the matching dedicated input unset for ignored paths. These paths are write-only provider state, take effect after `apply`, and non-empty lists require Terraform 1.11 or later.
+- `ignore_body_changes` configures shared ignored body paths for secured hub
+  firewalls, firewall diagnostic settings, route maps, sidecar virtual networks,
+  and sidecar subnets. Per-subnet `ignore_body_changes` takes precedence over
+  the shared subnet paths. Leave the matching dedicated input unset for ignored
+  paths. These paths are write-only provider state, take effect after `apply`,
+  and non-empty lists require Terraform 1.11 or later.
 
 ### Customer-owned public IPs for secured Virtual WAN hubs
 
@@ -66,8 +74,23 @@ Configure `virtual_hubs[hub_key].firewall.ip_configurations[stable_key]` to atta
 | Nonempty | Omitted, `null`, or `"0"` | Customer-owned IPs only |
 | Nonempty | Positive count | Invalid; customer and managed IPs cannot be combined |
 
-The public IPs must meet the [secured hub prerequisites](https://learn.microsoft.com/azure/firewall/secured-hub-customer-public-ip): Standard SKU, Regional tier, static IPv4, the same subscription as the firewall, and the hub's region. They must be unassociated or already attached to this firewall. Configuration names and public IP IDs must be unique ignoring case. The firewall must use the `Standard` or `Premium` SKU tier. The firewall attaches these IPs but does not create or own their lifecycle.
+The public IPs must meet the [secured hub prerequisites](https://learn.microsoft.com/azure/firewall/secured-hub-customer-public-ip):
+Standard SKU, Regional tier, static IPv4, the same subscription as the firewall,
+and the hub's region. They must be unassociated or already attached to this
+firewall. Configuration names and public IP IDs must be unique ignoring case.
+The firewall must use the `Standard` or `Premium` SKU tier. The firewall
+attaches these IPs but does not create or own their lifecycle.
 
-Literal IDs and the Accelerator's built-in/custom replacements are supported. Resource expressions cannot be used in `.tfvars`; for an IP created in the same apply, pass its ID directly in an HCL module call. The template preserves apply-time IDs separately from whole-hub JSON templating so unknown IDs do not make hub or configuration keys unknown. `templated_inputs` includes the resolved IDs.
+Literal IDs and the Accelerator's built-in/custom replacements are supported.
+Resource expressions cannot be used in `.tfvars`; for an IP created in the same
+apply, pass its ID directly in an HCL module call. The template preserves
+apply-time IDs separately from whole-hub JSON templating so unknown IDs do not
+make hub or configuration keys unknown. `templated_inputs` includes the
+resolved IDs.
 
-Customer IPs can be used when creating a firewall and can be added, removed, or replaced on a firewall already in customer mode. Plan such changes as maintenance; they are not guaranteed to be outage-free. Converting an existing firewall between managed and customer IP modes, including removing its last customer IP, is not supported. Keep an existing managed firewall in managed mode when upgrading.
+Customer IPs can be used when creating a firewall and can be added, removed, or
+replaced on a firewall already in customer mode. Plan such changes as
+maintenance; they are not guaranteed to be outage-free. Converting an existing
+firewall between managed and customer IP modes, including removing its last
+customer IP, is not supported. Keep an existing managed firewall in managed
+mode when upgrading.
