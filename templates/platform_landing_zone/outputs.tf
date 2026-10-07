@@ -207,5 +207,5 @@ output "virtual_wan_full_output" {
 }
 
 output "templated_inputs" {
-  value = module.config.outputs
+  value = merge(module.config.outputs, { virtual_hubs = local.virtual_hubs_templated })
 }

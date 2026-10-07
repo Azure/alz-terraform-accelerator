@@ -14,6 +14,31 @@ locals {
   connectivity_hub_and_spoke_vnet_enabled = var.connectivity_type == local.const.connectivity.hub_and_spoke_vnet
 }
 
+locals {
+  virtual_hub_firewall_public_ip_ids = var.virtual_hubs == null ? null : {
+    for hub_key, hub in var.virtual_hubs :
+    templatestring(hub_key, module.config.custom_replacements) => {
+      for configuration_key, configuration in hub.firewall.ip_configurations :
+      templatestring(configuration_key, module.config.custom_replacements) => (
+        configuration.public_ip_address_id == null ? null :
+        templatestring(configuration.public_ip_address_id, module.config.custom_replacements)
+      )
+    }
+  }
+  virtual_hubs_templated = module.config.outputs.virtual_hubs == null ? null : {
+    for hub_key, hub in module.config.outputs.virtual_hubs : hub_key => merge(hub, {
+      firewall = merge(hub.firewall, {
+        ip_configurations = {
+          for configuration_key, configuration in hub.firewall.ip_configurations :
+          configuration_key => merge(configuration, {
+            public_ip_address_id = local.virtual_hub_firewall_public_ip_ids[hub_key][configuration_key]
+          })
+        }
+      })
+    })
+  }
+}
+
 # Build an implicit dependency on the resource groups
 locals {
   resource_groups = {
@@ -22,7 +47,7 @@ locals {
   hub_and_spoke_networks_settings = merge(module.config.outputs.hub_and_spoke_networks_settings, local.resource_groups)
   hub_virtual_networks            = (merge({ vnets = module.config.outputs.hub_virtual_networks }, local.resource_groups)).vnets
   virtual_wan_settings            = merge(module.config.outputs.virtual_wan_settings, local.resource_groups)
-  virtual_hubs                    = (merge({ vhubs = module.config.outputs.virtual_hubs }, local.resource_groups)).vhubs
+  virtual_hubs                    = (merge({ vhubs = local.virtual_hubs_templated }, local.resource_groups)).vhubs
   route_maps = merge([
     for virtual_hub_key, virtual_hub in local.virtual_hubs : {
       for route_map_key, route_map in try(virtual_hub.route_maps, {}) :

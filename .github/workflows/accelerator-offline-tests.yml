@@ -1,0 +1,55 @@
+---
+# Offline consumer tests for the platform_landing_zone starter. Providers are
+# mocked, so this runs without Azure credentials and complements the
+# credentialed E2E workflows rather than replacing them.
+name: accelerator offline tests
+
+on:
+  pull_request:
+    types: ['opened', 'reopened', 'synchronize']
+  merge_group:
+  workflow_dispatch:
+
+concurrency:
+  group: acceleratorofflinetests-${{ github.event.pull_request.head.repo.full_name }}/${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  platform-landing-zone-tests:
+    name: platform_landing_zone consumer tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3.1.2
+        with:
+          terraform_version: 1.14.9
+          terraform_wrapper: false
+
+      # Terraform silently discards object attributes a module does not declare,
+      # so a starter pinned to a pattern module without `ip_configurations` would
+      # plan cleanly while dropping the caller's public IP and deploying a managed
+      # one instead. No Terraform assertion can observe that, so the pinned module
+      # is checked directly.
+      - name: Verify the pinned pattern module supports customer public IPs
+        working-directory: templates/platform_landing_zone
+        shell: pwsh
+        run: |
+          terraform init -backend=false -input=false -no-color | Out-Null
+          $dir = (Get-Content .terraform/modules/modules.json | ConvertFrom-Json).Modules |
+            Where-Object { $_.Key -eq 'virtual_wan' } | Select-Object -ExpandProperty Dir
+          $schema = Get-Content (Join-Path $dir 'variables.tf') -Raw
+          if ($schema -notmatch '(?s)firewall\s*=\s*optional\(object\(\{.*?ip_configurations.*?\}\)') {
+            Write-Host "::error::The pinned pattern module does not declare 'virtual_hubs[*].firewall.ip_configurations'. Bump the version in main.connectivity.virtual.wan.tf to a release that carries the field before merging."
+            exit 1
+          }
+          Write-Host "Pinned pattern module declares firewall.ip_configurations."
+
+      - name: Run offline consumer tests (mocked providers, no Azure credentials)
+        run: ./templates/platform_landing_zone/tests/Invoke-Tests.ps1
+        shell: pwsh
