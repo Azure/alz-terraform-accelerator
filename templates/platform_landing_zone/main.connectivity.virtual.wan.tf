@@ -1,7 +1,7 @@
 module "virtual_wan" {
   # Temporary pre-release pin for Azure/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan#159.
   # Restore the registry source and released version before merging.
-  source = "git::https://github.com/Git-PrinceNagar/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan.git?ref=fed7fc720c717376138d57e8663c21e7290e65f3"
+  source = "git::https://github.com/Git-PrinceNagar/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan.git?ref=ccb8095d6da9e3882208b95057fc9da9c8c11a43"
 
   count = local.connectivity_virtual_wan_enabled ? 1 : 0
 
