@@ -1,6 +1,7 @@
 module "virtual_wan" {
-  source  = "Azure/avm-ptn-alz-connectivity-virtual-wan/azurerm"
-  version = "0.17.2"
+  # Temporary pre-release pin for Azure/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan#159.
+  # Restore the registry source and released version before merging.
+  source = "git::https://github.com/Git-PrinceNagar/terraform-azurerm-avm-ptn-alz-connectivity-virtual-wan.git?ref=ccb8095d6da9e3882208b95057fc9da9c8c11a43"
 
   count = local.connectivity_virtual_wan_enabled ? 1 : 0
 
@@ -11,6 +12,6 @@ module "virtual_wan" {
   tags                 = coalesce(module.config.outputs.connectivity_tags, module.config.outputs.tags)
 
   providers = {
-    azurerm = azurerm.connectivity
+    azapi = azapi.connectivity
   }
 }
