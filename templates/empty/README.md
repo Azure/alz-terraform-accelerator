@@ -51,4 +51,4 @@ This will pull the alz library from <https://github.com/Azure/Azure-Landing-Zone
 
 The alz provider and library format are designed to allow customization and extensibility. You can override the Microsoft libraries, modify assignments, create your own library of assets, extend or replace, and more.
 
-Refer to the <https://azure.github.io/Azure-Landing-Zones-Library> documentation.
+Refer to the <https://azure.github.io/Azure-Landing-Zones-Library> documentation. A starter custom library has been included. See the QUICKSTART.md for commands to pull in the default custom library for Azure landing zones.
