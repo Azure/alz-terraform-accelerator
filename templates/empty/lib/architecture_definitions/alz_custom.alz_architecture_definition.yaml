@@ -1,0 +1,10 @@
+---
+name: alz_custom
+management_groups:
+  - id: alz
+    display_name: Azure Landing Zones
+    archetypes: []
+    # archetypes:
+    #   - example_custom
+    exists: false
+    parent_id: null
