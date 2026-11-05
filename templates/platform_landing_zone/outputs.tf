@@ -102,6 +102,22 @@ output "hub_and_spoke_vnet_dns_resolver_inbound_endpoint_ip_addresses" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_resolver_inbound_endpoint_ip_addresses : null
 }
 
+output "hub_and_spoke_vnet_dns_resolver_policy_resource_ids" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_resolver_policy_resource_ids : null
+}
+
+output "hub_and_spoke_vnet_dns_resolver_policy_domain_list_resource_ids" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_resolver_policy_domain_list_resource_ids : null
+}
+
+output "hub_and_spoke_vnet_dns_resolver_policy_security_rule_resource_ids" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_resolver_policy_security_rule_resource_ids : null
+}
+
+output "hub_and_spoke_vnet_dns_resolver_policy_virtual_network_link_resource_ids" {
+  value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].dns_resolver_policy_virtual_network_link_resource_ids : null
+}
+
 output "hub_and_spoke_vnet_private_dns_zone_resource_ids" {
   value = local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet[0].private_dns_zone_resource_ids : null
 }
