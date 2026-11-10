@@ -93,7 +93,55 @@ upgrading. The template exposes the module's newer inputs:
 When upgrading an existing deployment, expect in-place updates to hub virtual
 networks, subnets, peerings, and virtual network gateways from the module's new
 retry defaults and explicit empty subnet service endpoint lists. No resource
-should be replaced.
+should be replaced. If the plan replaces a resource because its `zones` change,
+see [Availability zones when upgrading](#availability-zones-when-upgrading).
+
+### Availability zones when upgrading
+
+Up to version `0.17.3`, the hub and spoke virtual network module read the
+availability zones of each hub's region from your subscription. From `0.17.4`,
+it uses the region data cached in the `Azure/avm-utl-regions` module instead.
+Logical zones are assigned per subscription, so the two can differ. For
+example, a subscription can report four zones in `eastus2` while the cached
+data lists three.
+
+Where they differ, upgrading from `0.17.3` or earlier changes the default zones
+of the hub's zonal resources, which Azure can't change in place. The plan shows
+`# forces replacement` for Azure Firewall and for the public IP addresses of the
+firewall, Bastion host, and virtual network gateways. Replacing Azure Firewall
+deletes it and its public IP addresses, which interrupts traffic and changes
+the addresses. A public IP address that is still attached to a Bastion host or
+virtual network gateway can't be deleted, so the apply fails part-way.
+
+Before you apply the upgrade, check the plan for changes to `zones`. If there
+are any, set the zones of the affected hub to the zones that are deployed, then
+plan again. These settings default to the region's zones:
+
+- `firewall.zones`, and `public_ip_config.zones` in
+  `firewall.default_ip_configuration`, `firewall.ip_configurations[<key>]`,
+  and `firewall.management_ip_configuration`
+- `bastion.zones` and `bastion.bastion_public_ip.zones`
+- `public_ip.zones` in
+  `virtual_network_gateways.express_route.ip_configurations[<key>]` and
+  `virtual_network_gateways.vpn.ip_configurations[<key>]`
+- `nat_gateway.zones` and
+  `nat_gateway.ip_configurations[<key>].public_ip_configuration.zones`
+
+For example, for a Bastion host and its public IP address deployed in four
+zones:
+
+```terraform
+bastion = {
+  zones = ["1", "2", "3", "4"]
+  bastion_public_ip = {
+    zones = ["1", "2", "3", "4"]
+  }
+}
+```
+
+Each resource's `zones` property in Azure shows the deployed zones, for example
+`az network public-ip show --ids <public_ip_id> --query zones`. Explicit zones
+also stay the same if a later module version updates the cached region data.
 
 ### Upgrading Azure Bastion
 
@@ -119,10 +167,11 @@ moved {
 ```
 
 Review the plan before applying. Each Bastion host must show as moved, possibly
-with an in-place update. Stop if a Bastion host will be created, destroyed,
-replaced, or no longer managed by Terraform. Apply the upgrade on its own
-before removing a hub or disabling its Bastion host, because Terraform does not
-delete a Bastion host that it forgets.
+with an in-place update that keeps the same `zones` (their order can differ).
+Stop if a Bastion host will be created, destroyed, replaced, or no longer
+managed by Terraform. Apply the upgrade on its own before removing a hub or
+disabling its Bastion host, because Terraform does not delete a Bastion host
+that it forgets.
 
 If a Bastion host has already been forgotten, the apply fails with `Resource
 already exists` and the host keeps running. Import it into its new address,
