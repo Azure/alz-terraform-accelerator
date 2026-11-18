@@ -63,12 +63,12 @@ when upgrading from `0.21.0`.
   Setting it to `false` skips the policy assignment's RBAC grants but retains the
   policy assignment and its managed identity. On an existing deployment, this can
   remove grants, so review the plan before changing it.
-- ALZ telemetry no longer sends the custom ModTM payload. With telemetry enabled,
-  `telemetry_additional_content` contributes sorted key-value pairs to an empty
-  subscription deployment's name. Only letters, numbers, periods, underscores,
-  hyphens, and parentheses are allowed, and the complete generated name must fit
-  64 characters. Replace JSON-encoded values with short strings. `null` and `{}`
-  add no suffix; `enable_telemetry = false` still opts out.
+- ALZ telemetry no longer sends the custom ModTM payload. Its replacement telemetry
+  deployment name has a 64-character limit, so the starter no longer forwards
+  `telemetry_additional_content` to the ALZ module. Existing `deployed_by` and
+  `correlation_id` metadata would exceed that limit. Other child modules still
+  receive this map unchanged. Normal ALZ telemetry remains enabled by default;
+  `enable_telemetry = false` still opts out for all child modules.
 - The Interfaces dependency moves from `0.5.0` to `0.9.0`. The starter's
   `role_assignment_name_use_random_uuid` default stays `true`, but switching from
   random to deterministic naming and back now reuses the retained UUID rather

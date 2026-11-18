@@ -93,11 +93,10 @@ variable "telemetry_additional_content" {
   description = <<DESCRIPTION
 Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
 
-With management groups enabled, ALZ module v0.23.0 appends sorted key-value pairs to its telemetry deployment name.
-Keys and values may contain only letters, numbers, periods, underscores, hyphens, and parentheses.
-The complete deployment name, including the module's generated prefix, must not exceed 64 characters.
-Do not pass JSON-encoded arrays or objects. A null or empty map adds no suffix.
-The ALZ module ignores this content when enable_telemetry is false.
+ALZ module v0.23.0 no longer receives this custom metadata from the starter.
+Its telemetry deployment name has a 64-character limit that cannot accommodate the existing deployed_by and correlation_id metadata.
+Other child modules continue to receive this map unchanged.
+Use enable_telemetry to control telemetry for all child modules, including ALZ.
 
 Any information entered here will be sent to Microsoft as part of the telemetry data collected. Do not include any personal or sensitive information.
 
