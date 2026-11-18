@@ -92,7 +92,12 @@ variable "telemetry_additional_content" {
   default     = null
   description = <<DESCRIPTION
 Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
-To add array / object values, serialize them as JSON strings using `jsonencode()`.
+
+With management groups enabled, ALZ module v0.23.0 appends sorted key-value pairs to its telemetry deployment name.
+Keys and values may contain only letters, numbers, periods, underscores, hyphens, and parentheses.
+The complete deployment name, including the module's generated prefix, must not exceed 64 characters.
+Do not pass JSON-encoded arrays or objects. A null or empty map adds no suffix.
+The ALZ module ignores this content when enable_telemetry is false.
 
 Any information entered here will be sent to Microsoft as part of the telemetry data collected. Do not include any personal or sensitive information.
 
@@ -100,9 +105,7 @@ e.g.
 
 ```hcl
 telemetry_additional_content = {
-  custom_tag_1 = "value1"
-  custom_tag_2 = "value2"
-  custom_array_tag = jsonencode(["value1", "value2"])
+  env = "dev"
 }
 DESCRIPTION
 }

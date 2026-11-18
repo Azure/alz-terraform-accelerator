@@ -47,6 +47,39 @@ terraform init
 terraform apply -var-file ./examples/full-multi-region/virtual-wan.tfvars
 ```
 
+### Upgrading to ALZ module v0.23.0
+
+The platform and test starters pin the management groups and policy module to
+`0.23.0`. Review both the [v0.22.0 release notes](https://github.com/Azure/terraform-azurerm-avm-ptn-alz/releases/tag/v0.22.0)
+and [v0.23.0 release notes](https://github.com/Azure/terraform-azurerm-avm-ptn-alz/releases/tag/v0.23.0)
+when upgrading from `0.21.0`.
+
+- `management_group_settings.policy_assignments_to_modify[management_group].policy_assignments[assignment].policy_definition_id`
+  can reference an externally managed definition. It defaults to `null`, retaining
+  the library definition. The external definition must exist at or above the
+  assignment scope.
+- The same assignment object accepts `role_assignments_enabled`, default `true`.
+  Setting it to `false` skips the policy assignment's RBAC grants but retains the
+  policy assignment and its managed identity. On an existing deployment, this can
+  remove grants, so review the plan before changing it.
+- ALZ telemetry no longer sends the custom ModTM payload. With telemetry enabled,
+  `telemetry_additional_content` contributes sorted key-value pairs to an empty
+  subscription deployment's name. Only letters, numbers, periods, underscores,
+  hyphens, and parentheses are allowed, and the complete generated name must fit
+  64 characters. Replace JSON-encoded values with short strings. `null` and `{}`
+  add no suffix; `enable_telemetry = false` still opts out.
+- The Interfaces dependency moves from `0.5.0` to `0.9.0`. The starter's
+  `role_assignment_name_use_random_uuid` default stays `true`, but switching from
+  random to deterministic naming and back now reuses the retained UUID rather
+  than generating another one.
+
+The ALZ module now requires AzAPI `~> 2.12`, which the starter's existing
+`~> 2.0` constraint permits. Reinitialize after updating the starter files; if
+your provider lock selects an older AzAPI version, run `terraform init -upgrade`
+and review the updated dependency selections. Review the saved upgrade plan,
+including telemetry state changes and any role assignment replacements, before
+applying it. No manual state edits are required by this starter change.
+
 ### Virtual WAN module v0.18.0 inputs
 
 The template pins the Virtual WAN pattern to `0.18.0` and exposes its newer inputs:
