@@ -93,9 +93,9 @@ variable "telemetry_additional_content" {
   description = <<DESCRIPTION
 Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
 
-ALZ module v0.23.0 no longer receives this custom metadata from the starter.
-Its telemetry deployment name has a 64-character limit that cannot accommodate the existing deployed_by and correlation_id metadata.
-Other child modules continue to receive this map unchanged.
+ALZ module v0.23.0 puts this content into its telemetry deployment name, which is limited to 64 characters.
+The existing deployed_by and correlation_id metadata does not fit, so the starter does not pass this map to the ALZ module.
+No other module in the starter uses it, so it currently has no effect. This is a stopgap while upstream reconciles custom telemetry (Azure/Azure-Verified-Modules#3112).
 Use enable_telemetry to control telemetry for all child modules, including ALZ.
 
 Any information entered here will be sent to Microsoft as part of the telemetry data collected. Do not include any personal or sensitive information.

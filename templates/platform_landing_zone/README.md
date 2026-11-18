@@ -64,11 +64,14 @@ when upgrading from `0.21.0`.
   policy assignment and its managed identity. On an existing deployment, this can
   remove grants, so review the plan before changing it.
 - ALZ telemetry no longer sends the custom ModTM payload. Its replacement telemetry
-  deployment name has a 64-character limit, so the starter no longer forwards
-  `telemetry_additional_content` to the ALZ module. Existing `deployed_by` and
-  `correlation_id` metadata would exceed that limit. Other child modules still
-  receive this map unchanged. Normal ALZ telemetry remains enabled by default;
-  `enable_telemetry = false` still opts out for all child modules.
+  deployment name has a 64-character limit, and the existing `deployed_by` and
+  `correlation_id` metadata would exceed it. This branch therefore does not pass
+  `telemetry_additional_content` to the ALZ module. No other module in the starter
+  consumes it, so the input currently has no effect. This is a stopgap while upstream
+  reconciles custom telemetry
+  ([Azure-Verified-Modules#3112](https://github.com/Azure/Azure-Verified-Modules/issues/3112)).
+  Normal ALZ telemetry remains enabled by default; `enable_telemetry = false` still
+  opts out for all child modules.
 - The Interfaces dependency moves from `0.5.0` to `0.9.0`. The starter's
   `role_assignment_name_use_random_uuid` default stays `true`, but switching from
   random to deterministic naming and back now reuses the retained UUID rather
