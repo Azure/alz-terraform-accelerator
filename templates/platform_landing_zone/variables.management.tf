@@ -309,7 +309,7 @@ Properties:
 - `policy_default_values` - (Optional) A map of default values for policy parameters.
 - `policy_assignments_to_modify` - (Optional) Map of policy assignments to modify:
   - `policy_assignments` - Map of policy assignment modifications:
-    - `policy_definition_id` - (Optional) Resource ID of an externally managed policy definition to assign instead of the library definition. The definition must exist at or above the assignment scope.
+    - `policy_definition_id` - (Optional) Resource ID of an externally managed policy definition to assign instead of the library definition. The definition must exist at or above the assignment scope. Changing this ID replaces the assignment and its system-assigned identity.
     - `enforcement_mode` - (Optional) The enforcement mode for the policy assignment.
     - `identity` - (Optional) The type of managed identity for the policy assignment.
     - `identity_ids` - (Optional) List of user-assigned identity resource IDs.

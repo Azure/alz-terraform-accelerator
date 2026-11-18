@@ -57,7 +57,8 @@ when upgrading from `0.21.0`.
 - `management_group_settings.policy_assignments_to_modify[management_group].policy_assignments[assignment].policy_definition_id`
   can reference an externally managed definition. It defaults to `null`, retaining
   the library definition. The external definition must exist at or above the
-  assignment scope.
+  assignment scope. Changing the definition ID of an existing assignment forces
+  replacement of that assignment and recreates its system-assigned identity.
 - The same assignment object accepts `role_assignments_enabled`, default `true`.
   Setting it to `false` skips the policy assignment's RBAC grants but retains the
   policy assignment and its managed identity. On an existing deployment, this can
