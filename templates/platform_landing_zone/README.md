@@ -73,6 +73,14 @@ when upgrading from `0.21.0`.
   `role_assignment_name_use_random_uuid` default stays `true`, but switching from
   random to deterministic naming and back now reuses the retained UUID rather
   than generating another one.
+- With `enable_telemetry = true`, the default, the saved upgrade plan shows more than
+  telemetry state changes. The module manages resources through AzAPI, and the
+  telemetry request headers set by `0.21.0` are removed, so those resources update
+  in place. A role assignment given by role name can show `roleDefinitionId` as known
+  after apply while the role lookup is deferred. In an isolated upgrade test the
+  assignment ID and role were unchanged after apply. The new telemetry deployments
+  also show an in-place update on later plans because their `apply_id` output holds
+  a timestamp. Confirm that no role assignment is replaced before you apply.
 
 The ALZ module now requires AzAPI `~> 2.12`, which the starter's existing
 `~> 2.0` constraint permits. Reinitialize after updating the starter files; if
