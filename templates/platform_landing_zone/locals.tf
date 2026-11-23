@@ -57,7 +57,7 @@ locals {
   policy_default_values = { for k, v in try(module.config.outputs.management_group_settings.policy_default_values, {}) : k => jsonencode({ value = v }) }
   policy_assignments_to_modify = { for management_group_key, management_group_value in try(module.config.outputs.management_group_settings.policy_assignments_to_modify, {}) : management_group_key => {
     policy_assignments = { for policy_assignment_key, policy_assignment_value in try(management_group_value.policy_assignments, {}) : policy_assignment_key => {
-      policy_definition_id     = try(policy_assignment_value.policy_definition_id, null)
+      policy_definition_id     = try(coalesce(policy_assignment_value.policy_definition_id), null)
       enforcement_mode         = try(policy_assignment_value.enforcement_mode, null)
       identity                 = try(policy_assignment_value.identity, null)
       identity_ids             = try(policy_assignment_value.identity_ids, null)

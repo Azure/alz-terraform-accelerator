@@ -119,3 +119,30 @@ run "omitted_policy_overrides_preserve_upstream_defaults" {
     error_message = "Existing enforcement mode overrides must remain unchanged."
   }
 }
+
+run "empty_policy_definition_id_retains_library_definition" {
+  command = plan
+
+  variables {
+    management_group_settings = {
+      parent_resource_id    = "$${root_parent_management_group_id}"
+      location              = "$${starter_location_01}"
+      policy_default_values = {}
+      policy_assignments_to_modify = {
+        root = {
+          policy_assignments = {
+            existing = {
+              policy_definition_id = ""
+            }
+          }
+        }
+      }
+      subscription_placement = {}
+    }
+  }
+
+  assert {
+    condition     = try(local.policy_assignments_to_modify.root.policy_assignments.existing.policy_definition_id == null, false)
+    error_message = "An empty policy definition override must retain the library definition."
+  }
+}
