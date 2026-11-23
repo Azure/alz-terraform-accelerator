@@ -56,7 +56,8 @@ when upgrading from `0.21.0`.
 
 - `management_group_settings.policy_assignments_to_modify[management_group].policy_assignments[assignment].policy_definition_id`
   can reference an externally managed definition. It defaults to `null`, retaining
-  the library definition; an empty or whitespace-only string is treated the same way.
+  the library definition; an empty or whitespace-only string is treated the same way,
+  and surrounding whitespace is trimmed from other values.
   The external definition must exist at or above the assignment scope and accept the
   library assignment's parameters. Changing the definition ID of an existing
   assignment forces replacement: Terraform deletes the assignment and its policy role
@@ -72,7 +73,7 @@ when upgrading from `0.21.0`.
 - ALZ telemetry no longer sends the custom ModTM payload. Its replacement telemetry
   deployment name has a 64-character limit, and the existing `deployed_by` and
   `correlation_id` metadata would exceed it. As an interim, the starter sends the
-  ALZ module only `s = "alz"` and, when set, the last 12 letters and digits of
+  ALZ module only `s = "alz"` and, when set, the last 12 ASCII letters and digits of
   `correlation_id` (the last segment of a GUID). Other keys in
   `telemetry_additional_content` are not sent to the ALZ module, and no other module
   in the starter uses the map. Setting it to `null` sends no custom content. A
