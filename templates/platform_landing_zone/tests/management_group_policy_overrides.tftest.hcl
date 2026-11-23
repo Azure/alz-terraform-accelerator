@@ -134,6 +134,9 @@ run "empty_policy_definition_id_retains_library_definition" {
             existing = {
               policy_definition_id = ""
             }
+            blank = {
+              policy_definition_id = " "
+            }
           }
         }
       }
@@ -144,5 +147,10 @@ run "empty_policy_definition_id_retains_library_definition" {
   assert {
     condition     = try(local.policy_assignments_to_modify.root.policy_assignments.existing.policy_definition_id == null, false)
     error_message = "An empty policy definition override must retain the library definition."
+  }
+
+  assert {
+    condition     = try(local.policy_assignments_to_modify.root.policy_assignments.blank.policy_definition_id == null, false)
+    error_message = "A whitespace-only policy definition override must retain the library definition."
   }
 }

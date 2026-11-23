@@ -91,10 +91,10 @@ variable "telemetry_additional_content" {
   type        = map(string)
   default     = null
   description = <<DESCRIPTION
-Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
+Additional telemetry content, such as deployed_by and correlation_id.
 
 ALZ module v0.23.0 puts this content into its telemetry deployment name, which is limited to 64 characters.
-The existing deployed_by and correlation_id metadata does not fit. As an interim, the starter sends the ALZ module only s = "alz" and, when set, the last hyphen-separated segment of correlation_id.
+The existing deployed_by and correlation_id metadata does not fit. As an interim, the starter sends the ALZ module only s = "alz" and, when set, the last 12 letters and digits of correlation_id.
 Other keys are not sent to the ALZ module, and no other module in the starter uses this map. Set it to null to send no custom content.
 Use enable_telemetry to control telemetry for all child modules, including ALZ.
 

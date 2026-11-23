@@ -82,3 +82,48 @@ run "omitted_telemetry_content_stays_null" {
     error_message = "Omitted telemetry content must not add custom content to the ALZ deployment name."
   }
 }
+
+run "braced_correlation_id_fits_alz_deployment_name" {
+  command = plan
+
+  variables {
+    telemetry_additional_content = {
+      correlation_id = "{123E4567-E89B-12D3-A456-426614174000} "
+    }
+  }
+
+  assert {
+    condition     = local.management_group_telemetry_additional_content.c == "426614174000"
+    error_message = "Only the last 12 letters and digits of the correlation ID may be sent to ALZ."
+  }
+}
+
+run "unhyphenated_correlation_id_fits_alz_deployment_name" {
+  command = plan
+
+  variables {
+    telemetry_additional_content = {
+      correlation_id = "123e4567e89b12d3a456426614174000"
+    }
+  }
+
+  assert {
+    condition     = local.management_group_telemetry_additional_content.c == "426614174000"
+    error_message = "Only the last 12 letters and digits of the correlation ID may be sent to ALZ."
+  }
+}
+
+run "empty_correlation_id_sends_source_only" {
+  command = plan
+
+  variables {
+    telemetry_additional_content = {
+      correlation_id = ""
+    }
+  }
+
+  assert {
+    condition     = length(local.management_group_telemetry_additional_content) == 1 && local.management_group_telemetry_additional_content.s == "alz"
+    error_message = "An empty correlation ID must send only s = alz."
+  }
+}

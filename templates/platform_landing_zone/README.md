@@ -56,12 +56,15 @@ when upgrading from `0.21.0`.
 
 - `management_group_settings.policy_assignments_to_modify[management_group].policy_assignments[assignment].policy_definition_id`
   can reference an externally managed definition. It defaults to `null`, retaining
-  the library definition; an empty string is treated the same way. The external
-  definition must exist at or above the assignment scope. Changing the definition ID
-  of an existing assignment forces replacement of that assignment and recreates its
-  system-assigned identity, so its policy role assignments are also replaced. Those
-  role assignments still come from the library definition, not the external one;
-  grant any extra roles the external definition needs yourself.
+  the library definition; an empty or whitespace-only string is treated the same way.
+  The external definition must exist at or above the assignment scope and accept the
+  library assignment's parameters. Changing the definition ID of an existing
+  assignment forces replacement: Terraform deletes the assignment and its policy role
+  assignments before creating the new one, so an invalid ID leaves the management
+  group without that assignment until the plan is corrected. The new assignment gets
+  a new system-assigned identity. Its role assignments still come from the library
+  definition, not the external one; grant any extra roles the external definition
+  needs yourself.
 - The same assignment object accepts `role_assignments_enabled`, default `true`.
   Setting it to `false` skips the policy assignment's RBAC grants but retains the
   policy assignment and its managed identity. On an existing deployment, this can
@@ -69,15 +72,17 @@ when upgrading from `0.21.0`.
 - ALZ telemetry no longer sends the custom ModTM payload. Its replacement telemetry
   deployment name has a 64-character limit, and the existing `deployed_by` and
   `correlation_id` metadata would exceed it. As an interim, the starter sends the
-  ALZ module only `s = "alz"` and, when set, the last hyphen-separated segment of
-  `correlation_id`. Other keys in `telemetry_additional_content` are not sent to the
-  ALZ module, and no other module in the starter uses the map. Setting it to `null`
-  sends no custom content. A replacement telemetry approach is in progress upstream
+  ALZ module only `s = "alz"` and, when set, the last 12 letters and digits of
+  `correlation_id` (the last segment of a GUID). Other keys in
+  `telemetry_additional_content` are not sent to the ALZ module, and no other module
+  in the starter uses the map. Setting it to `null` sends no custom content. A
+  replacement telemetry approach is in progress upstream
   ([Azure-Verified-Modules#3112](https://github.com/Azure/Azure-Verified-Modules/issues/3112)).
   Normal ALZ telemetry remains enabled by default; `enable_telemetry = false` still
   opts out for all child modules. With telemetry enabled, ALZ creates a
-  subscription-scope deployment in the management subscription, so the identity
-  running Terraform needs `Microsoft.Resources/deployments/write` there.
+  subscription-scope deployment in the management subscription, plus one for each
+  entry in `management_group_role_assignments`, so the identity running Terraform
+  needs `Microsoft.Resources/deployments/write` there.
 - The Interfaces dependency moves from `0.5.0` to `0.9.0`. The starter's
   `role_assignment_name_use_random_uuid` default stays `true`, but switching from
   random to deterministic naming and back now reuses the retained UUID rather
@@ -88,8 +93,10 @@ when upgrading from `0.21.0`.
   in place. A role assignment given by role name can show `roleDefinitionId` as known
   after apply while the role lookup is deferred. In an isolated upgrade test the
   assignment ID and role were unchanged after apply. The new telemetry deployments
-  also show an in-place update on later plans because their `apply_id` output holds
-  a timestamp. Confirm that no role assignment is replaced before you apply.
+  also show an in-place update on every later plan because their `apply_id` output
+  holds a timestamp, so `terraform plan -detailed-exitcode` and change-triggered
+  approval gates always report changes. Confirm that no role assignment is replaced
+  before you apply.
 
 The ALZ module now requires AzAPI `~> 2.12`, which the starter's existing
 `~> 2.0` constraint permits. Reinitialize after updating the starter files; if
