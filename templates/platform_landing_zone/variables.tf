@@ -91,8 +91,12 @@ variable "telemetry_additional_content" {
   type        = map(string)
   default     = null
   description = <<DESCRIPTION
-Additional content to add to the telemetry tags. This can be used to add custom tags to the telemetry data.
-To add array / object values, serialize them as JSON strings using `jsonencode()`.
+Additional telemetry content, such as deployed_by and correlation_id.
+
+ALZ module v0.23.0 puts this content into its telemetry deployment name, which is limited to 64 characters.
+The existing deployed_by and correlation_id metadata does not fit. As an interim, the starter sends the ALZ module only s = "alz" and, when set, the last 12 ASCII letters and digits of correlation_id.
+Other keys are not sent to the ALZ module, and no other module in the starter uses this map. Set it to null to send no custom content.
+Use enable_telemetry to control telemetry for all child modules, including ALZ.
 
 Any information entered here will be sent to Microsoft as part of the telemetry data collected. Do not include any personal or sensitive information.
 
@@ -100,9 +104,8 @@ e.g.
 
 ```hcl
 telemetry_additional_content = {
-  custom_tag_1 = "value1"
-  custom_tag_2 = "value2"
-  custom_array_tag = jsonencode(["value1", "value2"])
+  deployed_by    = "alz-terraform-accelerator"
+  correlation_id = "00000000-0000-0000-0000-000000000000"
 }
 DESCRIPTION
 }

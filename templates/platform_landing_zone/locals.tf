@@ -57,17 +57,29 @@ locals {
   policy_default_values = { for k, v in try(module.config.outputs.management_group_settings.policy_default_values, {}) : k => jsonencode({ value = v }) }
   policy_assignments_to_modify = { for management_group_key, management_group_value in try(module.config.outputs.management_group_settings.policy_assignments_to_modify, {}) : management_group_key => {
     policy_assignments = { for policy_assignment_key, policy_assignment_value in try(management_group_value.policy_assignments, {}) : policy_assignment_key => {
-      enforcement_mode        = try(policy_assignment_value.enforcement_mode, null)
-      identity                = try(policy_assignment_value.identity, null)
-      identity_ids            = try(policy_assignment_value.identity_ids, null)
-      parameters              = try({ for parameter_key, parameter_value in try(policy_assignment_value.parameters, {}) : parameter_key => jsonencode({ value = parameter_value }) }, null)
-      not_scopes              = try(policy_assignment_value.not_scopes, null)
-      non_compliance_messages = try(policy_assignment_value.non_compliance_messages, null)
-      resource_selectors      = try(policy_assignment_value.resource_selectors, null)
-      overrides               = try(policy_assignment_value.overrides, null)
-      creation_enabled        = try(policy_assignment_value.creation_enabled, true)
+      policy_definition_id     = try(coalesce(trimspace(policy_assignment_value.policy_definition_id)), null)
+      enforcement_mode         = try(policy_assignment_value.enforcement_mode, null)
+      identity                 = try(policy_assignment_value.identity, null)
+      identity_ids             = try(policy_assignment_value.identity_ids, null)
+      parameters               = try({ for parameter_key, parameter_value in try(policy_assignment_value.parameters, {}) : parameter_key => jsonencode({ value = parameter_value }) }, null)
+      not_scopes               = try(policy_assignment_value.not_scopes, null)
+      non_compliance_messages  = try(policy_assignment_value.non_compliance_messages, null)
+      resource_selectors       = try(policy_assignment_value.resource_selectors, null)
+      overrides                = try(policy_assignment_value.overrides, null)
+      creation_enabled         = try(policy_assignment_value.creation_enabled, true)
+      role_assignments_enabled = try(policy_assignment_value.role_assignments_enabled, true)
     } }
   } }
+}
+
+locals {
+  management_group_telemetry_correlation_id = replace(try(coalesce(var.telemetry_additional_content["correlation_id"]), ""), "/[^A-Za-z0-9]/", "")
+  management_group_telemetry_additional_content = var.telemetry_additional_content == null ? null : merge(
+    { s = "alz" },
+    local.management_group_telemetry_correlation_id == "" ? {} : {
+      c = substr(local.management_group_telemetry_correlation_id, max(length(local.management_group_telemetry_correlation_id) - 12, 0), 12)
+    }
+  )
 }
 
 locals {

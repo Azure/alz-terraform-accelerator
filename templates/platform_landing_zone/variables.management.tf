@@ -309,6 +309,7 @@ Properties:
 - `policy_default_values` - (Optional) A map of default values for policy parameters.
 - `policy_assignments_to_modify` - (Optional) Map of policy assignments to modify:
   - `policy_assignments` - Map of policy assignment modifications:
+    - `policy_definition_id` - (Optional) Resource ID of an externally managed policy definition to assign instead of the library definition. An empty or whitespace-only string retains the library definition. The definition must exist at or above the assignment scope and accept the library assignment's parameters. Changing this ID deletes the assignment, its system-assigned identity and its policy role assignments before creating the new assignment. Those role assignments still come from the library definition.
     - `enforcement_mode` - (Optional) The enforcement mode for the policy assignment.
     - `identity` - (Optional) The type of managed identity for the policy assignment.
     - `identity_ids` - (Optional) List of user-assigned identity resource IDs.
@@ -331,6 +332,7 @@ Properties:
         - `in` - (Optional) Set of values to include.
         - `not_in` - (Optional) Set of values to exclude.
     - `creation_enabled` - (Optional) Whether the policy assignment is created or not. Defaults to `true`. This is a convenience property for very small scale deployments; the recommended approach is to update your custom library to exclude the policy assignment.
+    - `role_assignments_enabled` - (Optional) Whether to create the policy assignment's RBAC grants. Defaults to `true`. Set to `false` to retain the policy assignment and its managed identity without the associated role assignments.
 - `management_group_hierarchy_settings` - (Optional) Settings for the management group hierarchy:
   - `default_management_group_name` - (Required) The name of the default management group.
   - `require_authorization_for_group_creation` - (Optional) Require authorization for management group creation. Defaults to true.
@@ -374,7 +376,7 @@ Properties:
 - `policy_assignment_non_compliance_message_settings` - (Optional) Settings for the default non-compliance messages applied to policy assignments by the `alz` provider:
   - `default_message` - (Optional) The default non-compliance message to apply to policy assignments. Supports placeholder substitution configured in the provider's `non_compliance_message_substitution_settings` block.
   - `merge_mode` - (Optional) Controls behavior when a policy assignment already has a default non-compliance message. Allowed values are `replace` (default) and `prefer_existing`.
-- `role_assignment_name_use_random_uuid` - (Optional) Use random UUID for role assignment names. Defaults to true.
+- `role_assignment_name_use_random_uuid` - (Optional) Use random UUID for role assignment names. Defaults to true. ALZ module v0.23.0 retains the generated UUID when switching to deterministic naming, so switching back to random naming reuses it.
 - `subscription_placement_destroy_behavior` - (Optional) The behavior for subscription placement on destroy. Defaults to "intermediate_root" for ALZ.
 - `subscription_placement_destroy_custom_target_management_group_id` - (Optional) The target management group ID for subscription placement destroy operations.
 - `resource_types` - (Optional) A map of full AzAPI resource type strings (`<provider>/<resource>@<api-version>`) used by the module. Override an entry to change the casing or API version of the corresponding resource type. Useful for sovereign clouds (e.g. US Government) or to work around AzAPI casing inconsistencies. Keys:
