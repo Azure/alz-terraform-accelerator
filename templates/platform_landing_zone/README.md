@@ -65,10 +65,11 @@ when upgrading from `0.21.0`.
   remove grants, so review the plan before changing it.
 - ALZ telemetry no longer sends the custom ModTM payload. Its replacement telemetry
   deployment name has a 64-character limit, and the existing `deployed_by` and
-  `correlation_id` metadata would exceed it. This branch therefore does not pass
-  `telemetry_additional_content` to the ALZ module. No other module in the starter
-  consumes it, so the input currently has no effect. This is a stopgap while upstream
-  reconciles custom telemetry
+  `correlation_id` metadata would exceed it. As an interim, the starter sends the
+  ALZ module only `s = "alz"` and, when set, the last hyphen-separated segment of
+  `correlation_id`. Other keys in `telemetry_additional_content` are not sent to the
+  ALZ module, and no other module in the starter uses the map. Setting it to `null`
+  sends no custom content. A replacement telemetry approach is in progress upstream
   ([Azure-Verified-Modules#3112](https://github.com/Azure/Azure-Verified-Modules/issues/3112)).
   Normal ALZ telemetry remains enabled by default; `enable_telemetry = false` still
   opts out for all child modules.

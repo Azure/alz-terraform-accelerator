@@ -73,6 +73,16 @@ locals {
 }
 
 locals {
+  management_group_telemetry_correlation_id = try(var.telemetry_additional_content["correlation_id"], null)
+  management_group_telemetry_additional_content = var.telemetry_additional_content == null ? null : merge(
+    { s = "alz" },
+    local.management_group_telemetry_correlation_id == null || local.management_group_telemetry_correlation_id == "" ? {} : {
+      c = reverse(split("-", local.management_group_telemetry_correlation_id))[0]
+    }
+  )
+}
+
+locals {
   management_group_dependencies = [
     var.management_resources_enabled ? module.management_resources : null,
     local.connectivity_hub_and_spoke_vnet_enabled ? module.hub_and_spoke_vnet : null,
